@@ -1,5 +1,7 @@
-package edu.brown.cs32.bweedon.gameobjects.creatures;
+package edu.brown.cs32.goingrogue.gameobjects.items;
 
+import edu.brown.cs32.goingrogue.gameobjects.creatures.Attribute;
+import edu.brown.cs32.goingrogue.gameobjects.creatures.Creature;
 import java.awt.geom.Point2D;
 import java.util.List;
 

@@ -1,4 +1,6 @@
-package edu.brown.cs32.bweedon.gameobjects.creatures;
+package edu.brown.cs32.goingrogue.gameobjects.actions;
+
+import edu.brown.cs32.goingrogue.gameobjects.creatures.Creature;
 
 /**
  *
@@ -15,9 +17,13 @@ public abstract class Action {
     }
 
     public Creature actOnClone(Creature creature) throws CloneNotSupportedException {
-        Creature clone = creature.clone();
+        Creature clone = creature.createNewInstance();
         act(clone);
         return clone;
+    }
+    
+    public int getTimer() {
+        return _timer;
     }
 
     public void decrementTimer() {

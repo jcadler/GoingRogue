@@ -1,5 +1,7 @@
-package edu.brown.cs32.bweedon.gameobjects.creatures;
+package edu.brown.cs32.goingrogue.gameobjects.creatures;
 
+import edu.brown.cs32.goingrogue.gameobjects.creatures.Attribute;
+import edu.brown.cs32.goingrogue.gameobjects.items.Item;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
@@ -44,9 +46,8 @@ public abstract class Creature {
         _items.add(item);
     }
 
-    @Override
-    protected Creature clone() throws CloneNotSupportedException {
-        return (Creature) super.clone(); // TODO is call to super OK?
+    protected Creature createNewInstance() throws CloneNotSupportedException {
+        return (Creature) super.clone(); // TODO is call to super.clone() OK?
     }
 
     public abstract void incurDamage(int damage);

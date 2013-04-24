@@ -1,3 +1,5 @@
+package edu.brown.cs32.goingrogue.gameobjects.creatures;
+
 
 /**
  *

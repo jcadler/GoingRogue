@@ -1,4 +1,6 @@
-package edu.brown.cs32.bweedon.gameobjects.creatures;
+package edu.brown.cs32.goingrogue.gameobjects.actions;
+
+import edu.brown.cs32.goingrogue.gameobjects.creatures.Creature;
 
 /**
  *

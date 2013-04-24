@@ -1,5 +1,7 @@
-package edu.brown.cs32.bweedon.gameobjects.creatures;
+package edu.brown.cs32.goingrogue.gameobjects.actions;
 
+import edu.brown.cs32.goingrogue.gameobjects.actions.Action;
+import edu.brown.cs32.goingrogue.gameobjects.creatures.Creature;
 import java.awt.geom.Point2D;
 import static java.lang.Math.sin;
 import static java.lang.Math.cos;

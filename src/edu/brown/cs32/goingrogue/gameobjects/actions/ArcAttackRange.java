@@ -1,5 +1,6 @@
-package edu.brown.cs32.bweedon.gameobjects.creatures;
+package edu.brown.cs32.goingrogue.gameobjects.actions;
 
+import edu.brown.cs32.goingrogue.gameobjects.creatures.Creature;
 import java.awt.geom.Arc2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
