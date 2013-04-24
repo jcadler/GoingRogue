@@ -1,5 +1,9 @@
 package edu.brown.cs32.bweedon.gameobjects.creatures;
 
+/**
+ *
+ * @author Ben Weedon (bweedon)
+ */
 public enum Attribute {
     // to distinguish items from other creatures
 

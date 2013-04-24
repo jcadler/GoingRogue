@@ -4,6 +4,10 @@ import java.awt.geom.Point2D;
 import static java.lang.Math.sin;
 import static java.lang.Math.cos;
 
+/**
+ *
+ * @author Ben Weedon (bweedon)
+ */
 public class MoveAction extends Action {
 
     private double _direction; // angle of motion in radians, with East being 0 rad

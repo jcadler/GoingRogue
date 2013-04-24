@@ -6,6 +6,10 @@ import java.awt.geom.Rectangle2D;
 import static java.lang.Math.PI;
 import static java.lang.Math.toDegrees;
 
+/**
+ *
+ * @author Ben Weedon (bweedon)
+ */
 public class ArcAttackRange implements Range {
 
     private double _direction; // in radians
