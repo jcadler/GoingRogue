@@ -1,4 +1,4 @@
-public interface Range
-{
-    public boolean inRange(Creature c);
-}
+//public interface Range
+//{
+//    public boolean inRange(Creature c);
+//}

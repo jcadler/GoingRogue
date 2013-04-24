@@ -1,2 +1,2 @@
-public enum Attributes
-{}
+//public enum Attributes
+//{}
