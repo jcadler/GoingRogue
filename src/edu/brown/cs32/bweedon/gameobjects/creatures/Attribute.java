@@ -1,0 +1,21 @@
+package edu.brown.cs32.bweedon.gameobjects.creatures;
+
+public enum Attribute {
+    // to distinguish items from other creatures
+
+    ITEM,
+    // types of items
+    SWORD,
+    AXE,
+    WAR_HAMMER,
+    SPEAR,
+    // materials of items
+    STEEL,
+    IRON,
+    BRONZE,
+    WOOD,
+    MITHRIL,
+    // types of monsters
+    DRAGON,
+    EMU
+}
