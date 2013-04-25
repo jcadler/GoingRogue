@@ -46,7 +46,7 @@ public abstract class Creature {
         _items.add(item);
     }
 
-    protected Creature createNewInstance() throws CloneNotSupportedException {
+    public Creature createNewInstance() throws CloneNotSupportedException {
         return (Creature) super.clone(); // TODO is call to super.clone() OK?
     }
 
