@@ -9,20 +9,13 @@ import java.util.List;
  */
 public class Player extends Creature {
 
-    private int _health;
-
-    public Player(Point2D pos, int health, List<Attribute> attributes, int pxPerMove, String sprite) {
-        super(pos, health, attributes, pxPerMove, sprite);
-        _health = health;
+    public Player(Point2D pos, String name, List<Attribute> attributes, CreatureStats stats, String sprite) {
+        super(pos, name, attributes, stats, sprite);
     }
 
     @Override
     public void incurDamage(int damage) {
-    }
-
-    @Override
-    public int getHealth() {
-        return _health;
+        
     }
 
     @Override

@@ -1,9 +1,7 @@
 package edu.brown.cs32.goingrogue.gameobjects.creatures;
 
-import edu.brown.cs32.goingrogue.gameobjects.creatures.Attribute;
 import edu.brown.cs32.goingrogue.gameobjects.items.Item;
 import java.awt.geom.Point2D;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -13,17 +11,19 @@ import java.util.List;
 public abstract class Creature {
 
     private Point2D _pos;
+    private String _name;
     private List<Attribute> _attributes;
-    private int _pxPerMove;
+    private CreatureStats _stats;
     private String _spritePath;
-    private List<Item> _items;
+    private Inventory _inventory;
 
-    public Creature(Point2D pos, int health, List<Attribute> attributes, int pxPerMove, String spritePath) {
+    public Creature(Point2D pos, String name, List<Attribute> attributes, CreatureStats stats, String spritePath) {
         _pos = pos;
+        _name = name;
         _attributes = attributes;
-        _pxPerMove = pxPerMove;
+        _stats = stats;
         _spritePath = spritePath;
-        _items = new ArrayList<>();
+        _inventory = new Inventory();
     }
 
     public List<Attribute> getAttributes() {
@@ -37,22 +37,38 @@ public abstract class Creature {
     public void setPosition(Point2D pos) {
         _pos = pos;
     }
-
-    public int getPxPerMove() {
-        return _pxPerMove;
+    
+    public String getName() {
+        return _name;
     }
     
+    public void setName(String name) {
+        _name = name;
+    }
+    
+    CreatureStats getStats() {
+        return _stats;
+    }
+    
+    public int getPxPerMove() {
+        return (int) _stats.getSpeed();
+    }
+
     public void addItem(Item item) {
-        _items.add(item);
+        _inventory.add(item);
     }
 
     public Creature createNewInstance() throws CloneNotSupportedException {
         return (Creature) super.clone(); // TODO is call to super.clone() OK?
     }
 
-    public abstract void incurDamage(int damage);
-
-    public abstract int getHealth();
+    public int getHealth() {
+        return (int) _stats.getHealth();
+    }
     
+    public void incurDamage(int damage) {
+        CombatUtil.incurDamage(_stats, damage);
+    }
+
     public abstract boolean isItem();
 }

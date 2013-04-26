@@ -7,4 +7,5 @@ package edu.brown.cs32.goingrogue.constants;
 public class Constants {
     // TODO Nico, fill these in when you have the paths
     public static final String PLAYER_SPRITE = "";
+    public static final String SWORD_SPRITE = "";
 }
