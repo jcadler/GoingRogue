@@ -1,5 +1,7 @@
 package edu.brown.cs32.goingrogue.gameobjects.items;
 
+import edu.brown.cs32.goingrogue.gameobjects.creatures.Attribute;
+
 /**
  *
  * @author Ben Weedon (bweedon)
@@ -9,5 +11,9 @@ public class Item {
     
     public Item(GridItem gridItem) {
         _gridItem = gridItem;
+    }
+    
+    public boolean containsAttribute(Attribute attribute) {
+        return _gridItem.containsAttribute(attribute);
     }
 }

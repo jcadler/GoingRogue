@@ -1,4 +1,4 @@
-package edu.brown.cs32.goingrogue.gameobjects.actions;
+package edu.brown.cs32.goingrogue.gameobjects.actions.util;
 
 /**
  *

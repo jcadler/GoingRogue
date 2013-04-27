@@ -8,7 +8,7 @@ public class CreatureStats extends Stats {
 
     private double _speed; // in pixels-per-movement
     
-    public CreatureStats(double attack, double defense, double health, double accuracy, double speed) {
+    public CreatureStats(double attack, double defense, int health, double accuracy, double speed) {
         super(attack, defense, health, accuracy);
         _speed = speed;
     }

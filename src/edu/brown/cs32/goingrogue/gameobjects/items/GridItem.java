@@ -10,7 +10,7 @@ import java.util.List;
  *
  * @author Ben Weedon (bweedon)
  */
-public abstract class GridItem extends Creature {
+public class GridItem extends Creature {
 
     private boolean _pickedUp = false;
     private ItemStats _stats;

@@ -1,5 +1,6 @@
 package edu.brown.cs32.goingrogue.gameobjects.creatures;
 
+import edu.brown.cs32.goingrogue.gameobjects.creatures.util.CombatUtil;
 import edu.brown.cs32.goingrogue.gameobjects.items.Item;
 import java.awt.geom.Point2D;
 import java.util.List;
@@ -67,7 +68,11 @@ public abstract class Creature {
     }
     
     public void incurDamage(int damage) {
-        CombatUtil.incurDamage(_stats, damage);
+        CombatUtil.incurDamage(_stats, _inventory, damage);
+    }
+    
+    public boolean containsAttribute(Attribute attribute) {
+        return _attributes.contains(attribute);
     }
 
     public abstract boolean isItem();

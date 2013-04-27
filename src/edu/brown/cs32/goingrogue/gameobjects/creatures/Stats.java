@@ -8,10 +8,10 @@ public abstract class Stats {
 
     private double _attack;
     private double _defense;
-    private double _health;
+    private int _health;
     private double _accuracy;
     
-    public Stats(double attack, double defense, double health, double accuracy) {
+    public Stats(double attack, double defense, int health, double accuracy) {
         _attack = attack;
         _defense = defense;
         _health = health;
@@ -34,11 +34,11 @@ public abstract class Stats {
         _defense = defense;
     }
 
-    public double getHealth() {
+    public int getHealth() {
         return _health;
     }
 
-    public void setHealth(double health) {
+    public void setHealth(int health) {
         _health = health;
     }
 

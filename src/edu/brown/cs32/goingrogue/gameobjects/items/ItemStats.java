@@ -10,7 +10,7 @@ public class ItemStats extends Stats {
 
     private double _reloadRate;
     
-    public ItemStats(double attack, double defense, double health, double accuracy, double reloadRate) {
+    public ItemStats(double attack, double defense, int health, double accuracy, double speed, double reloadRate) {
         super(attack, defense, health, accuracy);
         _reloadRate = reloadRate;
     }
