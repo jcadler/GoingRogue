@@ -1,7 +1,7 @@
 package edu.brown.cs32.goingrogue.gameobjects.actions;
 
-import edu.brown.cs32.goingrogue.gameobjects.actions.Action;
 import edu.brown.cs32.goingrogue.gameobjects.creatures.Creature;
+import edu.brown.cs32.goingrogue.gameobjects.creatures.CreatureStats;
 
 /**
  *
@@ -9,14 +9,15 @@ import edu.brown.cs32.goingrogue.gameobjects.creatures.Creature;
  */
 public class ArcAttackAction extends Action {
 
-    private int _damage;
+    private Creature _sourceCreature;
 
-    public ArcAttackAction(double direction, double distance, double arcLength, int damage, int timer) {
+    public ArcAttackAction(double direction, double distance, double arcLength, int timer, Creature sourceCreature) {
         super(timer, new ArcAttackRange(direction, distance, arcLength, timer));
-        _damage = damage;
+        _sourceCreature = sourceCreature;
     }
 
+    @Override
     public void act(Creature creature) {
-        creature.incurDamage(_damage);
+        creature.incurDamage(new CreatureStats(_sourceCreature.getStats()), _sourceCreature.getInventory());
     }
 }

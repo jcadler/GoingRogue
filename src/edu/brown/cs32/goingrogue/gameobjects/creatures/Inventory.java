@@ -61,4 +61,24 @@ public class Inventory {
     public int getNumPotions() {
         return _potions.size();
     }
+    
+    public double getAttackSum() {
+        return _weapon.getStats().getAttack() + _armour.getStats().getAttack()
+                + _shield.getStats().getAttack();
+    }
+    
+    public double getDefenseSum() {
+        return _weapon.getStats().getDefense() + _armour.getStats().getDefense()
+                + _shield.getStats().getDefense();
+    }
+    
+    public double getAccuracySum() {
+        return _weapon.getStats().getAccuracy() + _armour.getStats().getAccuracy()
+                + _shield.getStats().getAccuracy();
+    }
+    
+    public double getSpeedSum() {
+        return _weapon.getStats().getSpeed() + _armour.getStats().getSpeed()
+                + _shield.getStats().getSpeed();
+    }
 }

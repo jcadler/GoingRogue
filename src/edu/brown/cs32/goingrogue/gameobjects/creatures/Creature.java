@@ -47,8 +47,12 @@ public abstract class Creature {
         _name = name;
     }
     
-    CreatureStats getStats() {
+    public Stats getStats() {
         return _stats;
+    }
+    
+    public Inventory getInventory() {
+        return _inventory;
     }
     
     public int getPxPerMove() {
@@ -67,8 +71,8 @@ public abstract class Creature {
         return (int) _stats.getHealth();
     }
     
-    public void incurDamage(int damage) {
-        CombatUtil.incurDamage(_stats, _inventory, damage);
+    public void incurDamage(CreatureStats attackerStats, Inventory attackerInventory) {
+        CombatUtil.incurDamage(attackerStats, _stats, attackerInventory, _inventory);
     }
     
     public boolean containsAttribute(Attribute attribute) {

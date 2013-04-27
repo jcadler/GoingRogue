@@ -10,12 +10,14 @@ public abstract class Stats {
     private double _defense;
     private int _health;
     private double _accuracy;
+    private double _speed; // in pixels-per-movement
     
-    public Stats(double attack, double defense, int health, double accuracy) {
+    public Stats(double attack, double defense, int health, double accuracy, double speed) {
         _attack = attack;
         _defense = defense;
         _health = health;
         _accuracy = accuracy;
+        _speed = speed;
     }
 
     public double getAttack() {
@@ -41,6 +43,10 @@ public abstract class Stats {
     public void setHealth(int health) {
         _health = health;
     }
+    
+    public void reduceHealth(int reduction) {
+        _health -= reduction;
+    }
 
     public double getAccuracy() {
         return _accuracy;
@@ -48,5 +54,13 @@ public abstract class Stats {
 
     public void setAccuracy(double accuracy) {
         _accuracy = accuracy;
+    }
+    
+    public double getSpeed() {
+        return _speed;
+    }
+    
+    public void setSpeed(double speed) {
+        _speed = speed;
     }
 }

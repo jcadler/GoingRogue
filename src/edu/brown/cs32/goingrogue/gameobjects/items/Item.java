@@ -16,4 +16,8 @@ public class Item {
     public boolean containsAttribute(Attribute attribute) {
         return _gridItem.containsAttribute(attribute);
     }
+    
+    public ItemStats getStats() {
+        return _gridItem.getItemStats();
+    }
 }

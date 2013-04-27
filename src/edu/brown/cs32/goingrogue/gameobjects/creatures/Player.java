@@ -14,7 +14,7 @@ public class Player extends Creature {
     }
 
     @Override
-    public void incurDamage(int damage) {
+    public void incurDamage(CreatureStats attackerStats, Inventory attackerInventory) {
         
     }
 
