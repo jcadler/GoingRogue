@@ -33,7 +33,6 @@ public class GameLogic
         for(int i=0;i<numCreatures;i++)
         {
             Creature put = creatureFactory.create();
-            
         }
     }
 }

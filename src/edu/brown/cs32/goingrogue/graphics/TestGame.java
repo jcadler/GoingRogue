@@ -113,7 +113,6 @@ public class TestGame extends BasicGame
 	{
 		AppGameContainer app = new AppGameContainer(new TestGame());
 		app.setDisplayMode(800, 600, false);
-		System.exit(0);
 		app.start();
 
 	}
