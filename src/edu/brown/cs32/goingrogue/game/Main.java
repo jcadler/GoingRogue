@@ -101,7 +101,7 @@ public class Main extends BasicGame
 		
 		if(!animDrawn) {
 			AnimationLoader.setFilterType(Image.FILTER_NEAREST);
-			anim=AnimationLoader.loadMove(GraphicsPaths.SLIME.path);
+			anim=AnimationLoader.loadMove(GraphicsPaths.SLIME_SPRITE.path);
 			animDrawn=true;
 		}
 		
