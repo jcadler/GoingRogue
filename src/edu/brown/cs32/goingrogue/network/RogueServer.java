@@ -11,7 +11,7 @@ import com.esotericsoftware.kryonet.Server;
 
 import edu.brown.cs32.goingrogue.gameobjects.actions.Action;
 import edu.brown.cs32.goingrogue.gameobjects.creatures.Player;
-import edu.brown.cs32.jcalder.GameLogic.GameLogic;
+import edu.brown.cs32.jcadler.GameLogic.GameLogic;
 /** Basic networking for a host **/
 public class RogueServer extends Listener implements RoguePort{
 	private Server net;
