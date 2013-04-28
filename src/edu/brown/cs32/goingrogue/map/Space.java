@@ -39,7 +39,6 @@ public interface Space {
 	 */
 	public Tile[][] getFloor();
 	
-	
 	/** Returns the type of wall to draw around this space (including type NONE)
 	 */
 	public Wall getWallType();

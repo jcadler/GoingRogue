@@ -21,7 +21,7 @@ public interface RogueMap {
 	 */
 	public List<Space> getData(int minX, int minY, int maxX, int maxY);
 	
-	/** Returns all map items in the area specified by the given bounds
+	/** Returns all grid items in the area specified by the given bounds
 	 * Includes chests and spawn points
 	 */
 	public List<GridItem> getMapItems();
