@@ -8,7 +8,7 @@ import org.newdawn.slick.SlickException;
 
 import edu.brown.cs32.goingrogue.gameobjects.creatures.Player;
 import edu.brown.cs32.goingrogue.graphics.TestGame;
-import edu.brown.cs32.jcalder.GameLogic.GameLogic;
+import edu.brown.cs32.goingrogue.map.RogueMap;
 
 /**
  * @author Dominic Adams
@@ -21,15 +21,15 @@ public class Main extends BasicGame
 {
 	int timeCount;
 	
-	GameLogic game;
-	Player player;
-	
 	public Main()
 	{
 		super("Going Rogue");
 		
-		timeCount=0;
+		game = null; /* new GameLogic() */
+		player=game.getPlayer();
+		map
 		
+		timeCount=0;
 	}
 	
 	@Override
