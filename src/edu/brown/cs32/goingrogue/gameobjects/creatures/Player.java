@@ -22,4 +22,6 @@ public class Player extends Creature {
     public boolean isItem() {
         return false;
     }
+    
+    
 }
