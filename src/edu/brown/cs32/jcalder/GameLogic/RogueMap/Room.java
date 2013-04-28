@@ -1,24 +1,27 @@
 package edu.brown.cs32.jcalder.GameLogic.RogueMap;
 
-import java.awt.Rectangle;
+import java.awt.geom.Rectangle2D;
 import java.awt.Point;
-import java.awt.Dimension;
 import java.util.List;
 import java.util.ArrayList;
+
+import edu.brown.cs32.goingrogue.map.Space;
+import edu.brown.cs32.goingrogue.map.Tile;
+import edu.brown.cs32.goingrogue.map.Wall;
 
 /**
  *
  * @author john
  */
-public class Room 
+public class Room implements Space
 {
-    private Rectangle room;
+    private Rectangle2D.Double room;
     private String id;
     private List<Corridor> connections;
     
     public Room(Point p, int w, int h, String id)
     {
-        room=new Rectangle(p,new Dimension(w,h));
+        room=new Rectangle2D.Double(p.getX(),p.getY(),w,h);
         connections = new ArrayList<>();
     }
     
@@ -40,6 +43,39 @@ public class Room
     public int getHeight()
     {
         return (int)room.getHeight();
+    }
+    
+    public int width()
+    {
+        return getWidth();
+    }
+    
+    public int height()
+    {
+        return getHeight();
+    }
+    
+    public Point upperLeft()
+    {
+        return new Point((int)room.getX(),(int)room.getY());
+    }
+    
+    public Tile[][] getFloor()
+    {
+        int x = (int)room.getX();
+        int y = (int)room.getY();
+        Tile[][] ret = new Tile[x][y];
+        for(int i=0;i<x;i++)
+        {
+            for(int j=0;j<y;j++)
+                ret[i][j]=Tile.GROUND;
+        }
+        return ret;
+    }
+    
+    public Wall getWallType()
+    {
+        return Wall.DEFAULT;
     }
     
     public int getX()

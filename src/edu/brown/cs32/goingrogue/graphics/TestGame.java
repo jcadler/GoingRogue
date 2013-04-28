@@ -145,7 +145,7 @@ public class TestGame extends BasicGame
 		//Escape key to quit
 		if(key==1) System.exit(0);
 		
-		//Other fun stuff
+	   	//Other fun stuff
 		if(Character.getNumericValue(c)!=-1 ||
 			key==57) {
 			if(textToDisplay.equals("_")) textToDisplay=c+"_";
