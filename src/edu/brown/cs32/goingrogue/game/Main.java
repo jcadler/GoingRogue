@@ -101,7 +101,7 @@ public class Main extends BasicGame
 		
 		if(!animDrawn) {
 			AnimationLoader.setFilterType(Image.FILTER_NEAREST);
-			anim=AnimationLoader.loadMove(GraphicsPaths.SLIME.path);
+			anim=AnimationLoader.loadMove(GraphicsPaths.SLIME_SPRITE.path);
 			animDrawn=true;
 		}
 		
@@ -135,26 +135,9 @@ public class Main extends BasicGame
 	
 	@Override
 	public void mouseDragged(int oldx, int oldy, int newx, int newy) {
-		for(int i=0; i<xList.size(); i++) {
-			xList.set(i, xList.get(i)+newx-oldx);
-			yList.set(i, yList.get(i)+newy-oldy);
-		}
 	}
 	
 	@Override
 	public void keyPressed(int key, char c) {
-		
-		//Escape key to quit
-		if(key==1) System.exit(0);
-		
-	   	//Other fun stuff
-		if(Character.getNumericValue(c)!=-1 ||
-			key==57) {
-			if(textToDisplay.equals("_")) textToDisplay=c+"_";
-			else textToDisplay=textToDisplay.substring(0, Math.max(1, textToDisplay.length()-1))+c+"_";
-		}
-		else if(key==14) {
-			textToDisplay=textToDisplay.substring(0, Math.max(0, textToDisplay.length()-2))+"_";
-		}
 	}
 }

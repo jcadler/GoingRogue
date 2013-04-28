@@ -1,14 +1,16 @@
 package edu.brown.cs32.goingrogue.gameobjects.creatures.factories;
 
+import static edu.brown.cs32.goingrogue.gameobjects.creatures.Attribute.PLAYER;
+
+import java.awt.geom.Point2D;
+import java.util.ArrayList;
+import java.util.List;
+
 import edu.brown.cs32.goingrogue.gameobjects.creatures.Attribute;
 import edu.brown.cs32.goingrogue.gameobjects.creatures.Creature;
 import edu.brown.cs32.goingrogue.gameobjects.creatures.CreatureStats;
 import edu.brown.cs32.goingrogue.gameobjects.creatures.Player;
-import static edu.brown.cs32.goingrogue.gameobjects.creatures.Attribute.*;
 import edu.brown.cs32.goingrogue.graphics.GraphicsPaths;
-import java.awt.geom.Point2D;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  *
