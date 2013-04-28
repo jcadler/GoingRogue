@@ -7,6 +7,8 @@ import org.newdawn.slick.Animation;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
+import edu.brown.cs32.goingrogue.constants.Constants;
+
 /** Loads an animation from file given a pathname
  * 
  * @author Dominic Adams
