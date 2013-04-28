@@ -20,9 +20,4 @@ public interface RogueMap {
 	 * Note that spaces within one tile of the specified area should be returned to allow for walls
 	 */
 	public List<Space> getData(int minX, int minY, int maxX, int maxY);
-	
-	/** Returns all grid items in the area specified by the given bounds
-	 * Includes chests and spawn points
-	 */
-	public List<GridItem> getMapItems();
 }
