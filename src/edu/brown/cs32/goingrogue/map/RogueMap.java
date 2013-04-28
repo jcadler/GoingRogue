@@ -17,6 +17,7 @@ import edu.brown.cs32.goingrogue.gameobjects.items.GridItem;
 public interface RogueMap {
 	
 	/** Returns all Spaces in the area specified by the given bounds
+	 * Note that spaces within one tile of the specified area should be returned to allow for walls
 	 */
 	public List<Space> getData(int minX, int minY, int maxX, int maxY);
 	
