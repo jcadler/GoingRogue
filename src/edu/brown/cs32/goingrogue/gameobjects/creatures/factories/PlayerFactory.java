@@ -18,11 +18,12 @@ import edu.brown.cs32.goingrogue.graphics.GraphicsPaths;
  */
 public class PlayerFactory {
 
-    public Creature create(Point2D pos, String name, CreatureStats stats) {
+    public static Player create() {
         List<Attribute> attributes = new ArrayList<>();
         attributes.add(PLAYER);
-        String sprite = GraphicsPaths.PLAYER_SPRITE;
-        Creature returnCreature = new Player(new Point2D.Double(0.0, 0.0), name, attributes, stats, sprite);
+        String sprite = ""; // TODO fill this in later
+        Player returnCreature = new Player(new Point2D.Double(0.0, 0.0), Math.PI / 2.0, "Bob",
+                attributes, null, sprite);
         return returnCreature;
     }
 }

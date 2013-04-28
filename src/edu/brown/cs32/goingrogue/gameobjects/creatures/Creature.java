@@ -1,8 +1,10 @@
 package edu.brown.cs32.goingrogue.gameobjects.creatures;
 
+import edu.brown.cs32.goingrogue.gameobjects.actions.Action;
 import edu.brown.cs32.goingrogue.gameobjects.creatures.util.CombatUtil;
 import edu.brown.cs32.goingrogue.gameobjects.items.Item;
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -13,19 +15,25 @@ import java.util.Objects;
 public abstract class Creature implements Cloneable {
 
     private Point2D _pos;
+    private double _direction; // in radians
     private String _name;
     private List<Attribute> _attributes;
     private CreatureStats _stats;
     private String _spritePath;
     private Inventory _inventory;
+    private List<Action> _actions;
+    private int _level;
 
-    public Creature(Point2D pos, String name, List<Attribute> attributes, CreatureStats stats, String spritePath) {
+    public Creature(Point2D pos, double direction, String name, List<Attribute> attributes, CreatureStats stats, String spritePath) {
         _pos = pos;
+        _direction = direction;
         _name = name;
         _attributes = attributes;
         _stats = stats;
         _spritePath = spritePath;
         _inventory = new Inventory();
+        _actions = new ArrayList<>();
+        _level = 1;
     }
 
     public List<Attribute> getAttributes() {
@@ -38,6 +46,14 @@ public abstract class Creature implements Cloneable {
 
     public void setPosition(Point2D pos) {
         _pos = pos;
+    }
+    
+    public double getDirection() {
+        return _direction;
+    }
+    
+    public void setDirection(double direction) {
+        _direction = direction;
     }
 
     public String getName() {
@@ -56,8 +72,8 @@ public abstract class Creature implements Cloneable {
         return _inventory;
     }
 
-    public int getPxPerMove() {
-        return (int) _stats.getSpeed();
+    public double getSpeed() {
+        return _stats.getSpeed();
     }
 
     public void addItem(Item item) {
@@ -71,13 +87,49 @@ public abstract class Creature implements Cloneable {
     public int getHealth() {
         return _stats.getHealth();
     }
+    
+    public double getWeaponRange() {
+        return _inventory.getWeapon().getStats().getRange();
+    }
+    
+    public double getWeaponArcLength() {
+        return _inventory.getWeapon().getStats().getArcLength();
+    }
+    
+    public int getWeaponAttackTimer() {
+        return _inventory.getWeapon().getStats().getAttackTimer();
+    }
 
-    public void incurDamage(CreatureStats attackerStats, Inventory attackerInventory) {
-        CombatUtil.incurDamage(attackerStats, _stats, attackerInventory, _inventory);
+    public void incurDamage(Creature attacker) {
+        CombatUtil.incurDamage(attacker, this);
     }
 
     public boolean containsAttribute(Attribute attribute) {
         return _attributes.contains(attribute);
+    }
+    
+    public int getLevel() {
+        return _level;
+    }
+    
+    public void incrementLevel() {
+        ++_level;
+    }
+    
+    public void decrementLevel() {
+        --_level;
+    }
+
+    public List<Action> getActions() {
+        try {
+            return _actions;
+        } finally {
+            _actions = new ArrayList<>();
+        }
+    }
+
+    public void addAction(Action action) {
+        _actions.add(action);
     }
 
     @Override

@@ -13,15 +13,14 @@ import java.util.List;
  *
  * @author Ben Weedon (bweedon)
  */
-public class GridItemFactory implements CreatureFactory {
+public class GridItemFactory {
 
-    @Override
-    public Creature create() {
+    public static GridItem create() {
         List<Attribute> attributes = randomItemAttributes();
         String name = getItemName(attributes);
         String sprite = getSprite(attributes);
         ItemStats stats = randomItemStats(attributes);
-        Creature returnCreature = new GridItem(new Point2D.Double(0.0, 0.0), name, attributes, stats, sprite);
+        GridItem returnCreature = new GridItem(new Point2D.Double(0.0, 0.0), name, attributes, stats, sprite);
         return returnCreature;
     }
 }

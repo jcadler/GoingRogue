@@ -187,31 +187,31 @@ public class RandomDataUtil {
 
     public static String getSprite(List<Attribute> attributes) {
         if (attributes.contains(EMU)) {
-            return EMU_SPRITE;
+            return EMU_SPRITE.path;
         } else if (attributes.contains(DRAGON)) {
-            return DRAGON_SPRITE;
+            return DRAGON_SPRITE.path;
         } else if (attributes.contains(HOB_GOBLIN)) {
-            return HOB_GOBLIN_SPRITE;
+            return HOB_GOBLIN_SPRITE.path;
         } else if (attributes.contains(GIANT)) {
-            return GIANT_SPRITE;
+            return GIANT_SPRITE.path;
         } else if (attributes.contains(SNAKE)) {
-            return SNAKE_SPRITE;
+            return SNAKE_SPRITE.path;
         } else if (attributes.contains(DOG)) {
-            return DOG_SPRITE;
+            return DOG_SPRITE.path;
         } else if (attributes.contains(SWORD)) {
-            return SWORD_SPRITE;
+            return SWORD_SPRITE.path;
         } else if (attributes.contains(AXE)) {
-            return AXE_SPRITE;
+            return AXE_SPRITE.path;
         } else if (attributes.contains(WAR_HAMMER)) {
-            return WAR_HAMMER_SPRITE;
+            return WAR_HAMMER_SPRITE.path;
         } else if (attributes.contains(SPEAR)) {
-            return SPEAR_SPRITE;
+            return SPEAR_SPRITE.path;
         } else if (attributes.contains(ARMOUR)) {
-            return ARMOUR_SPRITE;
+            return ARMOUR_SPRITE.path;
         } else if (attributes.contains(SHIELD)) {
-            return SHIELD_SPRITE;
+            return SHIELD_SPRITE.path;
         } else if (attributes.contains(POTION)) {
-            return POTION_SPRITE;
+            return POTION_SPRITE.path;
         } else {
             return null; // TODO leave null here?
         }

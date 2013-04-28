@@ -9,8 +9,9 @@ import java.util.List;
  */
 public class AICreature extends Creature {
     
-    public AICreature(Point2D pos, String name, List<Attribute> attributes, CreatureStats stats, String spritePath) {
-        super(pos, name, attributes, stats, spritePath);
+    public AICreature(Point2D pos, double direction, String name, List<Attribute> attributes,
+            CreatureStats stats, String spritePath) {
+        super(pos, direction, name, attributes, stats, spritePath);
     }
 
     @Override

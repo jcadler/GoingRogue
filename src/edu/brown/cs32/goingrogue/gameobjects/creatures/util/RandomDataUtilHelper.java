@@ -6,6 +6,7 @@ import edu.brown.cs32.goingrogue.gameobjects.items.ItemStats;
 import java.util.List;
 import static edu.brown.cs32.goingrogue.gameobjects.creatures.Attribute.*;
 import static edu.brown.cs32.bweedon.random.BweedonRandom.*;
+import static java.lang.Math.PI;
 
 /**
  *
@@ -74,7 +75,12 @@ public class RandomDataUtilHelper {
         double accuracy = scaleToAttributes(randomDouble(5, 10), attributes, true);
         double speed = scaleToAttributes(randomDouble(-10, -5), attributes, false);
         double reloadRate = scaleToAttributes(randomDouble(20, 25), attributes, false);
-        return new ItemStats(attack, defense, health, accuracy, speed, reloadRate);
+        double range = scaleToAttributes(randomDouble(5, 10), attributes, true);
+        double arcLength = scaleToAttributes(randomDouble((PI / 2.0) - (PI / 3.0), (PI / 2.0) + (PI / 3.0)),
+                attributes, true);
+        int attackTimer = (int) scaleToAttributes(randomInt(10, 15), attributes, false);
+        return new ItemStats(attack, defense, health, accuracy, speed, reloadRate,
+                range, arcLength, attackTimer);
     }
 
     static ItemStats getAxeStats(List<Attribute> attributes) {
@@ -84,7 +90,12 @@ public class RandomDataUtilHelper {
         double accuracy = scaleToAttributes(randomDouble(2, 6), attributes, true);
         double speed = scaleToAttributes(randomDouble(-15, -10), attributes, false);
         double reloadRate = scaleToAttributes(randomDouble(25, 30), attributes, false);
-        return new ItemStats(attack, defense, health, accuracy, speed, reloadRate);
+        double range = scaleToAttributes(randomDouble(2, 5), attributes, true);
+        double arcLength = scaleToAttributes(randomDouble((PI / 2.0) - (PI / 6.0), (PI / 2.0) + (PI / 3.0) + (PI / 6.0)),
+                attributes, true);
+        int attackTimer = (int) scaleToAttributes(randomInt(15, 20), attributes, false);
+        return new ItemStats(attack, defense, health, accuracy, speed, reloadRate,
+                range, arcLength, attackTimer);
     }
 
     static ItemStats getWarHammerStats(List<Attribute> attributes) {
@@ -94,7 +105,12 @@ public class RandomDataUtilHelper {
         double accuracy = scaleToAttributes(randomDouble(1, 5), attributes, true);
         double speed = scaleToAttributes(randomDouble(-20, -10), attributes, false);
         double reloadRate = scaleToAttributes(randomDouble(30, 35), attributes, false);
-        return new ItemStats(attack, defense, health, accuracy, speed, reloadRate);
+        double range = scaleToAttributes(randomDouble(2, 5), attributes, true);
+        double arcLength = scaleToAttributes(randomDouble((PI / 2.0) - (PI / 3.0), (PI / 2.0) + (PI / 3.0)),
+                attributes, true);
+        int attackTimer = (int) scaleToAttributes(randomInt(15, 20), attributes, false);
+        return new ItemStats(attack, defense, health, accuracy, speed, reloadRate,
+                range, arcLength, attackTimer);
     }
 
     static ItemStats getSpearStats(List<Attribute> attributes) {
@@ -104,7 +120,12 @@ public class RandomDataUtilHelper {
         double accuracy = scaleToAttributes(randomDouble(20, 25), attributes, true);
         double speed = scaleToAttributes(randomDouble(-5, -2), attributes, false);
         double reloadRate = scaleToAttributes(randomDouble(10, 5), attributes, false);
-        return new ItemStats(attack, defense, health, accuracy, speed, reloadRate);
+        double range = scaleToAttributes(randomDouble(15, 20), attributes, true);
+        double arcLength = scaleToAttributes(randomDouble(PI / 6.0, PI / 6.0),
+                attributes, true);
+        int attackTimer = (int) scaleToAttributes(randomInt(7, 12), attributes, false);
+        return new ItemStats(attack, defense, health, accuracy, speed, reloadRate,
+                range, arcLength, attackTimer);
     }
 
     static ItemStats getArmourStats(List<Attribute> attributes) {
@@ -114,7 +135,11 @@ public class RandomDataUtilHelper {
         double accuracy = scaleToAttributes(randomDouble(0, 0), attributes, true);
         double speed = scaleToAttributes(randomDouble(-25, -20), attributes, false);
         double reloadRate = scaleToAttributes(randomDouble(0, 0), attributes, false);
-        return new ItemStats(attack, defense, health, accuracy, speed, reloadRate);
+        double range = 0.0;
+        double arcLength = 0.0;
+        int attackTimer = 0;
+        return new ItemStats(attack, defense, health, accuracy, speed, reloadRate,
+                range, arcLength, attackTimer);
     }
 
     static ItemStats getShieldStats(List<Attribute> attributes) {
@@ -124,7 +149,11 @@ public class RandomDataUtilHelper {
         double accuracy = scaleToAttributes(randomDouble(0, 0), attributes, true);
         double speed = scaleToAttributes(randomDouble(-15, -10), attributes, false);
         double reloadRate = scaleToAttributes(randomDouble(0, 0), attributes, false);
-        return new ItemStats(attack, defense, health, accuracy, speed, reloadRate);
+        double range = 0.0;
+        double arcLength = 0.0;
+        int attackTimer = 0;
+        return new ItemStats(attack, defense, health, accuracy, speed, reloadRate,
+                range, arcLength, attackTimer);
     }
 
     static ItemStats getPotionStats(List<Attribute> attributes) {
@@ -134,7 +163,11 @@ public class RandomDataUtilHelper {
         double accuracy = scaleToAttributes(randomDouble(0, 0), attributes, true);
         double speed = scaleToAttributes(randomDouble(0, 0), attributes, false);
         double reloadRate = scaleToAttributes(randomDouble(0, 0), attributes, false);
-        return new ItemStats(attack, defense, health, accuracy, speed, reloadRate);
+        double range = 0.0;
+        double arcLength = 0.0;
+        int attackTimer = 0;
+        return new ItemStats(attack, defense, health, accuracy, speed, reloadRate,
+                range, arcLength, attackTimer);
     }
 
     private static double scaleToAttributes(double origValue, List<Attribute> attributes, boolean multiply) {
