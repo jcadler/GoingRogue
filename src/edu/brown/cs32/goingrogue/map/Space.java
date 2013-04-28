@@ -1,5 +1,7 @@
 package edu.brown.cs32.goingrogue.map;
 
+import java.awt.Point;
+
 /** An interface detailing the necessary components of a space (corridor, room, etc) in the game
  * 
  * @author Dominic Adams
@@ -29,11 +31,11 @@ public interface Space {
 	
 	/** Returns the (x,y) coordinates of the upper left tile
 	 */
-	public int[] upperLeft();
+	public Point upperLeft();
 	
 	/** Returns the (x,y) coordinates of the lower right tile
 	 */
-	public int[] lowerRight();
+	public Point lowerRight();
 	
 	/** Returns an array of Tiles detailing the floor's makeup
 	 */

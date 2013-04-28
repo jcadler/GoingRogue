@@ -1,6 +1,6 @@
 package edu.brown.cs32.jcalder.GameLogic.RogueMap;
 
-import java.awt.Rectangle;
+import java.awt.geom.Rectangle2D;
 import java.awt.Point;
 import java.awt.Dimension;
 import java.util.List;
@@ -12,13 +12,13 @@ import java.util.ArrayList;
  */
 public class Room 
 {
-    private Rectangle room;
+    private Rectangle2D.Double room;
     private String id;
     private List<Corridor> connections;
     
     public Room(Point p, int w, int h, String id)
     {
-        room=new Rectangle(p,new Dimension(w,h));
+        room=new Rectangle2D.Double(p.getX(),p.getY(),w,h);
         connections = new ArrayList<>();
     }
     
