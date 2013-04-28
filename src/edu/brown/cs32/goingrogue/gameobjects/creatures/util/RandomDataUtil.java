@@ -7,7 +7,7 @@ import java.util.Random;
 import static edu.brown.cs32.goingrogue.gameobjects.creatures.Attribute.*;
 import edu.brown.cs32.goingrogue.gameobjects.creatures.CreatureStats;
 import edu.brown.cs32.goingrogue.gameobjects.items.ItemStats;
-import static edu.brown.cs32.goingrogue.constants.Constants.*;
+import static edu.brown.cs32.goingrogue.graphics.GraphicsPaths.*;
 import static edu.brown.cs32.goingrogue.gameobjects.creatures.util.RandomDataUtilHelper.*;
 
 /**
@@ -24,16 +24,16 @@ public class RandomDataUtil {
         int choice = generator.nextInt(4);
         switch (choice) {
             case 0:
-                attributes.add(FIRE);
+                attributes.add(FIRE_TYPE);
                 break;
             case 1:
-                attributes.add(WATER);
+                attributes.add(WATER_TYPE);
                 break;
             case 2:
-                attributes.add(EARTH);
+                attributes.add(EARTH_TYPE);
                 break;
             case 3:
-                attributes.add(AIR);
+                attributes.add(AIR_TYPE);
                 break;
         }
 
@@ -124,13 +124,13 @@ public class RandomDataUtil {
 
     public static String getCreatureName(List<Attribute> attributes) {
         String name = "";
-        if (attributes.contains(FIRE)) {
+        if (attributes.contains(FIRE_TYPE)) {
             name += "Fire ";
-        } else if (attributes.contains(WATER)) {
+        } else if (attributes.contains(WATER_TYPE)) {
             name += "Water ";
-        } else if (attributes.contains(EARTH)) {
+        } else if (attributes.contains(EARTH_TYPE)) {
             name += "Earth ";
-        } else if (attributes.contains(AIR)) {
+        } else if (attributes.contains(AIR_TYPE)) {
             name += "Air ";
         }
 

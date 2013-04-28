@@ -6,6 +6,7 @@ import edu.brown.cs32.goingrogue.gameobjects.creatures.CreatureStats;
 import edu.brown.cs32.goingrogue.gameobjects.creatures.Inventory;
 import java.awt.geom.Point2D;
 import java.util.List;
+import java.util.Objects;
 
 /**
  *
@@ -39,12 +40,38 @@ public class GridItem extends Creature {
     public boolean isItem() {
         return true;
     }
-    
+
     public ItemStats getItemStats() {
         return _stats;
     }
 
     public void pickUp() {
         _pickedUp = true;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 67 * hash + (this._pickedUp ? 1 : 0);
+        hash = 67 * hash + Objects.hashCode(this._stats);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final GridItem other = (GridItem) obj;
+        if (this._pickedUp != other._pickedUp) {
+            return false;
+        }
+        if (!Objects.equals(this._stats, other._stats)) {
+            return false;
+        }
+        return true;
     }
 }

@@ -24,10 +24,10 @@ public enum Attribute {
     WOOD,
     MITHRIL,
     // elemental types
-    FIRE, // beats earth, loses to water
-    WATER, // beats fire, loses to earth
-    EARTH, // beats water, loses to fire
-    AIR, // neutral
+    FIRE_TYPE, // beats earth, loses to water
+    WATER_TYPE, // beats fire, loses to earth
+    EARTH_TYPE, // beats water, loses to fire
+    AIR_TYPE, // neutral
     // type of monster
     PLAYER,
     EMU,
