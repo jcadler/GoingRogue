@@ -17,7 +17,7 @@ public class GridItem extends Creature {
     private boolean _pickedUp = false;
     private ItemStats _stats;
 
-    public GridItem(Point2D pos, String name, List<Attribute> attributes, ItemStats stats, String spritePath) {
+    public GridItem(Point2D.Double pos, String name, List<Attribute> attributes, ItemStats stats, String spritePath) {
         super(pos, 0.0, name, attributes, new CreatureStats(stats), spritePath);
         _stats = stats;
     }

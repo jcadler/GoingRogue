@@ -14,7 +14,7 @@ public class CloneTest {
 
     @Test
     public void testClone() {
-        Point2D pos = new Point2D.Double(-1657.84, 8.9905);
+        Point2D.Double pos = new Point2D.Double(-1657.84, 8.9905);
         double direction = Math.PI / 2.0;
         String name = "booba";
         List<Attribute> attributes = new ArrayList<>();

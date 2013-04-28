@@ -20,4 +20,8 @@ public class Item {
     public ItemStats getStats() {
         return _gridItem.getItemStats();
     }
+    
+    public String getSpritePath() {
+        return _gridItem.getSpritePath();
+    }
 }

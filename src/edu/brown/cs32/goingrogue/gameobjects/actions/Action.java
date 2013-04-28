@@ -30,6 +30,15 @@ public abstract class Action {
         --_timer;
         _range.decrementTimer();
     }
+    
+    public boolean withinRange(Creature creature) {
+        return _range.inRange(creature);
+    }
+    
+    public Range getRange() {
+        return _range;
+    }
 
     public abstract void act(Creature creature);
+    public abstract ActionAnimation getActionAnimation();
 }

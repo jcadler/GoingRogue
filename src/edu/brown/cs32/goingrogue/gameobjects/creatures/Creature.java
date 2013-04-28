@@ -14,7 +14,7 @@ import java.util.Objects;
  */
 public abstract class Creature implements Cloneable {
 
-    private Point2D _pos;
+    private Point2D.Double _pos;
     private double _direction; // in radians
     private String _name;
     private List<Attribute> _attributes;
@@ -24,7 +24,8 @@ public abstract class Creature implements Cloneable {
     private List<Action> _actions;
     private int _level;
 
-    public Creature(Point2D pos, double direction, String name, List<Attribute> attributes, CreatureStats stats, String spritePath) {
+    public Creature(Point2D.Double pos, double direction, String name,
+            List<Attribute> attributes, CreatureStats stats, String spritePath) {
         _pos = pos;
         _direction = direction;
         _name = name;
@@ -40,11 +41,11 @@ public abstract class Creature implements Cloneable {
         return _attributes;
     }
 
-    public Point2D getPosition() {
+    public Point2D.Double getPosition() {
         return _pos;
     }
 
-    public void setPosition(Point2D pos) {
+    public void setPosition(Point2D.Double pos) {
         _pos = pos;
     }
     
@@ -54,6 +55,14 @@ public abstract class Creature implements Cloneable {
     
     public void setDirection(double direction) {
         _direction = direction;
+    }
+    
+    public String getSpritePath() {
+        return _spritePath;
+    }
+    
+    public void setSpritePath(String spritePath) {
+        _spritePath = spritePath;
     }
 
     public String getName() {
@@ -86,6 +95,10 @@ public abstract class Creature implements Cloneable {
 
     public int getHealth() {
         return _stats.getHealth();
+    }
+    
+    public boolean isDead() {
+        return _stats.getHealth() <= 0;
     }
     
     public double getWeaponRange() {
