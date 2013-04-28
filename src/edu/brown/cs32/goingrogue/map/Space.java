@@ -33,10 +33,6 @@ public interface Space {
 	 */
 	public Point upperLeft();
 	
-	/** Returns the (x,y) coordinates of the lower right tile
-	 */
-	public Point lowerRight();
-	
 	/** Returns an array of Tiles detailing the floor's makeup
 	 */
 	public Tile[][] getFloor();
