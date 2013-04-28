@@ -100,4 +100,9 @@ public class Room implements Space
         }
         return false;
     }
+    
+    public List<Corridor> getCorridors()
+    {
+        return connections;
+    }
 }
