@@ -7,7 +7,8 @@ import java.io.IOException;
 
 import edu.brown.cs32.jcalder.GameLogic.RogueMap.LogicMap;
 import edu.brown.cs32.goingrogue.gameobjects.creatures.Creature;
-import edu.brown.cs32.goingrogue.gameobjects.items.Item;
+import edu.brown.cs32.goingrogue.gameobjects.creatures.factories.AICreatureFactory;
+import edu.brown.cs32.goingrogue.gameobjects.items.factories.GridItemFactory;
 import edu.brown.cs32.goingrogue.gameobjects.items.GridItem;
 
 /**
@@ -23,5 +24,13 @@ public class GameLogic
     public GameLogic() throws IOException
     {
         crrntMap = LogicMap.getRandomMap();
+        Random r = new Random();
+        int numCreatures = r.nextInt(3);
+        creatures = new ArrayList<>();
+        items = new ArrayList<>();
+        for(int i=0;i<numCreatures;i++)
+        {
+            creatures.add(
+        }
     }
 }
