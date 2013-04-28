@@ -18,7 +18,7 @@ public class GridItem extends Creature {
     private ItemStats _stats;
 
     public GridItem(Point2D pos, String name, List<Attribute> attributes, ItemStats stats, String spritePath) {
-        super(pos, name, attributes, new CreatureStats(stats), spritePath);
+        super(pos, 0.0, name, attributes, new CreatureStats(stats), spritePath);
         _stats = stats;
     }
 

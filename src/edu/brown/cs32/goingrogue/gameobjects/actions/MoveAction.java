@@ -23,8 +23,8 @@ public class MoveAction extends Action {
 
     @Override
     public void act(Creature creature) {
-        double xTranslation = creature.getPxPerMove() * cos(_direction);
-        double yTranslation = creature.getPxPerMove() * sin(_direction);
+        double xTranslation = creature.getSpeed() * cos(_direction);
+        double yTranslation = creature.getSpeed() * sin(_direction);
         Point2D origPos = creature.getPosition();
         creature.setPosition(new Point2D.Double(origPos.getX() + xTranslation, origPos.getY() + yTranslation));
     }

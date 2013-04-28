@@ -10,7 +10,7 @@ public abstract class Stats {
     private double _defense;
     private int _health;
     private double _accuracy;
-    private double _speed; // in pixels-per-movement
+    private double _speed; // in units-per-movement
     
     public Stats(double attack, double defense, int health, double accuracy, double speed) {
         _attack = attack;

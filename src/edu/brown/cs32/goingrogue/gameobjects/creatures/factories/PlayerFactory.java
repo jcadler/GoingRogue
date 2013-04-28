@@ -16,11 +16,12 @@ import java.util.List;
  */
 public class PlayerFactory {
 
-    public Creature create(Point2D pos, String name, CreatureStats stats) {
+    public Creature create(Point2D pos, double direction, String name, CreatureStats stats) {
         List<Attribute> attributes = new ArrayList<>();
         attributes.add(PLAYER);
         String sprite = GraphicsPaths.PLAYER_SPRITE;
-        Creature returnCreature = new Player(new Point2D.Double(0.0, 0.0), name, attributes, stats, sprite);
+        Creature returnCreature = new Player(new Point2D.Double(0.0, 0.0), direction, name,
+                attributes, stats, sprite);
         return returnCreature;
     }
 }
