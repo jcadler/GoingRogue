@@ -100,12 +100,16 @@ public abstract class Creature implements Cloneable {
         return _inventory.getWeapon().getStats().getAttackTimer();
     }
 
-    public void incurDamage(CreatureStats attackerStats, Inventory attackerInventory) {
-        CombatUtil.incurDamage(attackerStats, _stats, attackerInventory, _inventory);
+    public void incurDamage(Creature attacker) {
+        CombatUtil.incurDamage(attacker, this);
     }
 
     public boolean containsAttribute(Attribute attribute) {
         return _attributes.contains(attribute);
+    }
+    
+    public int getLevel() {
+        return _level;
     }
     
     public void incrementLevel() {

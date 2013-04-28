@@ -23,7 +23,7 @@ public class GridItem extends Creature {
     }
 
     @Override
-    public void incurDamage(CreatureStats attackerStats, Inventory attackerInventory) {
+    public void incurDamage(Creature attacker) {
         // do nothing
     }
 

@@ -19,8 +19,8 @@ public class Player extends Creature {
     }
 
     @Override
-    public void incurDamage(CreatureStats attackerStats, Inventory attackerInventory) {
-        CombatUtil.incurDamage(attackerStats, (CreatureStats) getStats(), attackerInventory, getInventory());
+    public void incurDamage(Creature attacker) {
+        CombatUtil.incurDamage(attacker, this);
     }
 
     @Override

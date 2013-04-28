@@ -18,6 +18,6 @@ public class ArcAttackAction extends Action {
 
     @Override
     public void act(Creature creature) {
-        creature.incurDamage(new CreatureStats(_sourceCreature.getStats()), _sourceCreature.getInventory());
+        creature.incurDamage(_sourceCreature);
     }
 }
