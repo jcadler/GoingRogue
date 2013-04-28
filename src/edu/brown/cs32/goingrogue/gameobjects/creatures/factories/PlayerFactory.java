@@ -14,14 +14,13 @@ import java.util.List;
  *
  * @author Ben Weedon (bweedon)
  */
-public class PlayerFactory implements CreatureFactory {
+public class PlayerFactory {
 
-    @Override
-    public Creature create() {
+    public static Player create() {
         List<Attribute> attributes = new ArrayList<>();
         attributes.add(PLAYER);
         String sprite = ""; // TODO fill this in later
-        Creature returnCreature = new Player(new Point2D.Double(0.0, 0.0), Math.PI / 2.0, "Bob",
+        Player returnCreature = new Player(new Point2D.Double(0.0, 0.0), Math.PI / 2.0, "Bob",
                 attributes, null, sprite);
         return returnCreature;
     }
