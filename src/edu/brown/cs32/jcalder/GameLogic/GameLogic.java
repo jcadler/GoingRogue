@@ -9,7 +9,8 @@ import edu.brown.cs32.jcalder.GameLogic.RogueMap.LogicMap;
 import edu.brown.cs32.goingrogue.gameobjects.creatures.Creature;
 import edu.brown.cs32.goingrogue.gameobjects.creatures.factories.AICreatureFactory;
 import edu.brown.cs32.goingrogue.gameobjects.items.factories.GridItemFactory;
-import edu.brown.cs32.goingrogue.gameobjects.items.GridItem;
+import edu.brown.cs32.goingrogue.gameobjects.creatures.Player;
+import edu.brown.cs32.goingrogue.gameobjects.creatures.factories.PlayerFactory;
 
 /**
  *
@@ -19,18 +20,20 @@ public class GameLogic
 {
     private LogicMap crrntMap;
     private List<Creature> creatures;
-    private List<GridItem> items;
+    private Player player;
     
     public GameLogic() throws IOException
     {
         crrntMap = LogicMap.getRandomMap();
         Random r = new Random();
-        int numCreatures = r.nextInt(3);
+        int numCreatures = r.nextInt(3)+1;
         creatures = new ArrayList<>();
-        items = new ArrayList<>();
+        AICreatureFactory creatureFactory = new AICreatureFactory();
+        GridItemFactory itemFactory = new GridItemFactory();
         for(int i=0;i<numCreatures;i++)
         {
-            creatures.add(
+            Creature put = creatureFactory.create();
+            
         }
     }
 }

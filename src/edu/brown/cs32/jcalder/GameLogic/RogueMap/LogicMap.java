@@ -3,9 +3,14 @@ package edu.brown.cs32.jcalder.GameLogic.RogueMap;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 import java.awt.Point;
+import java.awt.Rectangle;
+
+import edu.brown.cs32.goingrogue.map.RogueMap;
+import edu.brown.cs32.goingrogue.map.Space;
 
 /**
  *
@@ -40,5 +45,23 @@ public class LogicMap implements RogueMap
                 return true;
         }
         return false;
+    }
+    
+    public List<Space> getData(int minX, int minY,int maxX, int maxY)
+    {
+        Rectangle view = new Rectangle(minX,minY,maxX-minX,maxY-minY);
+        List<Space> ret = new ArrayList<>();
+        for(Room r : rooms)
+        {
+            Rectangle rm = new Rectangle(r.getX(),r.getY(),r.getWidth(),r.getHeight());
+            if(view.intersects(rm))
+                ret.add(r);
+            for(Corridor c : r.getCorridors())
+            {
+                if(view.intersects(c.getRectangle()))
+                    ret.add(c);
+            }
+        }
+        return ret;
     }
 }

@@ -1,4 +1,4 @@
-package edu.brown.cs32.goingrogue.graphics;
+package edu.brown.cs32.goingrogue.game;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,16 +12,18 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
-/** A class for testing basic graphical methods
- * 
+import edu.brown.cs32.goingrogue.graphics.AnimationLoader;
+import edu.brown.cs32.goingrogue.graphics.GraphicsPaths;
+import edu.brown.cs32.goingrogue.graphics.TestGame;
+
+/**
  * @author Dominic Adams
  * @author Ben Weedon
  * @author John Adler
  * @author Ken Lin
  * @version 1.0 4/13
  */
-
-public class TestGame extends BasicGame
+public class Main extends BasicGame
 {
 	Animation anim;
 	List<Animation> anims;
@@ -41,9 +43,9 @@ public class TestGame extends BasicGame
 	
 	String textToDisplay;
 	
-	public TestGame()
+	public Main()
 	{
-		super("Hello World");
+		super("Going Rogue");
 		
 		anim=null;
 		xList=new ArrayList<>();
@@ -99,8 +101,7 @@ public class TestGame extends BasicGame
 		
 		if(!animDrawn) {
 			AnimationLoader.setFilterType(Image.FILTER_NEAREST);
-			anim=AnimationLoader.loadMove(GraphicsPaths.SLIME_SPRITE.path);
-			AnimationHandler.setDurations(anim, new int[]{500, 250});
+			anim=AnimationLoader.loadMove(GraphicsPaths.SLIME.path);
 			animDrawn=true;
 		}
 		

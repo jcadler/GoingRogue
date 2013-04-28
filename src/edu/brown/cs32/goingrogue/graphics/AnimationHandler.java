@@ -12,25 +12,13 @@ import org.newdawn.slick.Animation;
  */
 public class AnimationHandler {
 	
-	Animation animation;
-	
-	/** Constructs a new AnimationHandler
-	 * 
-	 * @param a The animation to be handled
-	 */
-	public AnimationHandler(Animation a) {
-		animation=a;
-	}
-	
-	/** Constructs a new AnimationHandler whose animation must run in a given time constraint
+	/** Changes the time an animation takes to run
 	 * 
 	 * @param a The animation to be handled
 	 * @param time The time that the animation should take (in milliseconds)
 	 */
-	public AnimationHandler(Animation a, int time) {
-		animation=a;
-		
-		//Calculates the length in 
+	public static void setTime(Animation animation, int time) {
+		//Calculates the length
 		int[] lengths=animation.getDurations();
 		float currTime=0;
 		for(int i: lengths) currTime+=i;
@@ -38,39 +26,18 @@ public class AnimationHandler {
 		animation.setSpeed(currTime/time);
 	}
 	
-	/** Returns the animation
-	 */
-	public Animation getAnimation() {
-		return animation;
-	}
-	
-	/** Updates the animation
-	 * NOTE Nearly all animations should be autoupdating
-	 * Only use this method in the rare case that one is not
+	/** Sets the duration of each frame of the animation
 	 * 
-	 * @param time The amount of time required to pass since the last update before this one takes place
+	 * @param durations An array of the msec durations for each frame in the animation
+	 * @return The time in msecs that it will take to run the new animation
+	 * @exception IllegalArgumentException Thrown if the array input does not match the length of the animation
 	 */
-	public void update(int time) {
-		animation.update(time);
-	}
-	
-	/** Pauses the animation
-	 */
-	public void pause() {
-		animation.stop();
-	}
-	
-	/** Unpauses the animation
-	 */
-	public void unpause() {
-		animation.start();
-	}
-	
-	/** Reports whether the animation has finished displaying
-	 * 
-	 * @return True if the animation is finished displaying, else false
-	 */
-//	public boolean isFinished() {
+	public static void setDurations(Animation a, int[] durations) throws IllegalArgumentException {
+		if(durations.length!=a.getFrameCount())
+			throw new IllegalArgumentException("Animation had a different number of frames than the array specified");
 		
-//	}
+		for(int i=0; i<durations.length; i++) {
+			a.setDuration(i, durations[i]);
+		}
+	}
 }
