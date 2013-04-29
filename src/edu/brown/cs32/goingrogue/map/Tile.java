@@ -38,4 +38,9 @@ public enum Tile {
 	public Image getImage() throws SlickException {
 		return new Image(path);
 	}
+	
+	@Override
+	public String toString() {
+		return path;
+	}
 }

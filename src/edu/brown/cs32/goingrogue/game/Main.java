@@ -25,9 +25,6 @@ public class Main extends BasicGame
 	{
 		super("Going Rogue");
 		
-		game = null; /* new GameLogic() */
-		player=game.getPlayer();
-		map
 		
 		timeCount=0;
 	}
