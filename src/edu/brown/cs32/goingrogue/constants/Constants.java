@@ -14,5 +14,5 @@ public class Constants {
     
         // starting player stats
         public static final CreatureStats STARTING_PLAYER_STATS
-                = new CreatureStats(100, 70, 100, 50, .001);
+                = new CreatureStats(100, 70, 100, 50, .05);
 }
