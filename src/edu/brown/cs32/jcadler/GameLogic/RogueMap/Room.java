@@ -20,10 +20,11 @@ public class Room implements Space
     private String id;
     private List<Corridor> connections;
     
-    public Room(Point p, int w, int h, String id)
+    public Room(Point p, int w, int h, String i)
     {
         room=new Rectangle2D.Double(p.getX(),p.getY(),w,h);
         connections = new ArrayList<>();
+        id=i;
     }
     
     public void addCorridor(Corridor c)

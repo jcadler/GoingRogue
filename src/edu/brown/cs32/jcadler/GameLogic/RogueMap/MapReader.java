@@ -96,6 +96,10 @@ public class MapReader
             String[] poss = s.get(4).split(",");
             int pos1 = Integer.parseInt(poss[0]);
             int pos2 = Integer.parseInt(poss[1]);
+            if(rooms.get(start)==null)
+                System.out.println(start+" is null");
+            if(rooms.get(end)==null)
+                System.out.println(end+" is null");
             if(rooms.get(start)==null || rooms.get(end)==null)
                 throw new Exception();
             return new Corridor(rooms.get(start),rooms.get(end),dir,width,pos1,pos2);

@@ -60,7 +60,10 @@ public class GameLogic
         return crrntMap;
     }
     
-    
+    public List<Creature> getCreatures()
+    {
+        return creatures;
+    }
     
     public void update() throws CloneNotSupportedException
     {   
