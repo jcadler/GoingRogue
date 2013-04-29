@@ -9,8 +9,6 @@ import org.newdawn.slick.Animation;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
-import edu.brown.cs32.goingrogue.constants.Constants;
-
 /** Loads an animation from file given a pathname
  * 
  * @author Dominic Adams
@@ -18,20 +16,26 @@ import edu.brown.cs32.goingrogue.constants.Constants;
  */
 public class GraphicsLoader {
 	
+	static GraphicsCache cache=new GraphicsCache();
+	
 	//The filter to use on an image
 	static int filter=Image.FILTER_NEAREST;
 	
 	/** Loads the image for a creature whose directory is rooted at the specified path
+	 * (Same as loadImageAt, but it automatically appends "1.png" to the end of the path for ease)
 	 */
 	public static Image loadImage(String path) throws SlickException {
-		return new Image(path+"1.png", false, filter);
+		path+="1.png";
+		
+		return loadImageAt(path);
 	}
 	
 	/** Loads the image for a creature whose image is located at the specified path
 	 */
 	public static Image loadImageAt(String path) throws SlickException {
-		return new Image(path, false, filter);
+		if(cache.getImage(path)==null) cache.add(path, new Image(path, false, filter));
 		
+		return cache.getImage(path);
 	}
 	
 	/** Sets the filter type to use on all subsequent animations until it is set again
@@ -44,15 +48,15 @@ public class GraphicsLoader {
 	 */
 	public static Animation load(String path) {
 		
-		List<Image> images=new ArrayList<>();
-		
-		File f=new File(path);
-		List<String> fileNames=new ArrayList<String>(Arrays.asList(f.list()));
-		
 		//Loads all images in the given directory
 		//Loads in order "1.png, 2.png..." etc
 		//Throws an exception if a file not matching this format is in the directory
-		try {
+		if(cache.getAnimation(path)==null) try {
+			
+			List<Image> images=new ArrayList<>();
+			
+			File f=new File(path);
+			List<String> fileNames=new ArrayList<String>(Arrays.asList(f.list()));
 			
 			int i=1;
 			while(i<=fileNames.size()) {
@@ -64,17 +68,19 @@ public class GraphicsLoader {
 				images.add(new Image(path+i+".png", false, filter));
 				i++;
 			}
-		
+			
+			//Creates an auto-updating image from the found files
+			Animation a=new Animation(images.toArray(new Image[]{}), //Images
+										(int)(1000./* /Constants.FRAMERATE */), //Time per image
+										true);
+			cache.add(path, a);
+			
 		} catch(SlickException e) {
 			//Could not load the animation
 			e.printStackTrace();
 		}
 		
-		//Creates an auto-updating image from the found files
-		Animation a=new Animation(images.toArray(new Image[]{}), //Images
-									(int)(1000./* /Constants.FRAMERATE */), //Time per image
-									true);
-		return a;
+		return cache.getAnimation(path);
 	}
 	
 	/** Loads the movement animation for a creature whose directory is rooted at the specified path

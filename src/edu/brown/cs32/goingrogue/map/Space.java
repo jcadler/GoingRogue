@@ -1,6 +1,9 @@
 package edu.brown.cs32.goingrogue.map;
 
 import java.awt.Point;
+import java.util.List;
+
+import edu.brown.cs32.goingrogue.util.IndexPair;
 
 /** An interface detailing the necessary components of a space (corridor, room, etc) in the game
  * 
@@ -40,4 +43,8 @@ public interface Space {
 	/** Returns the type of wall to draw around this space (including type NONE)
 	 */
 	public Wall getWallType();
+	
+	/** Returns a list of edge locations on which not to draw walls
+	 */
+	public List<IndexPair> getWallOpenings();
 }

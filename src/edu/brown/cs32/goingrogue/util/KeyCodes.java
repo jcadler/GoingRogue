@@ -1,4 +1,4 @@
-package edu.brown.cs32.goingrogue.gameobjects.creatures;
+package edu.brown.cs32.goingrogue.util;
 
 /** A class of constants containing the key codes that can be entered
  * 

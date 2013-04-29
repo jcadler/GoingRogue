@@ -11,7 +11,6 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
-import edu.brown.cs32.goingrogue.constants.Constants;
 import edu.brown.cs32.goingrogue.gameobjects.actions.Action;
 import edu.brown.cs32.goingrogue.gameobjects.actions.ActionAnimation;
 import edu.brown.cs32.goingrogue.gameobjects.actions.ActionType;
@@ -127,11 +126,10 @@ public class GamePlay {
 		
 		//Draws the map
 		List<Space> spaces=map.getData(/*(int)(upperLeft.getX()-1), (int)(upperLeft.getY()-1), (int)(lowerRight.getX()+1), (int)(lowerRight.getY()+1)*/);
-//		System.out.println(spaces.get(0).getFloor().length);
-//		System.out.println(spaces.get(0).getFloor()[0].length);
 		for(Space s: spaces) drawSpace(s, center, g);
 		if(prevNumRooms!=spaces.size()) System.out.println("ROOMS: "+spaces.size());
 		prevNumRooms=spaces.size();
+		
 		//Draws and animates entities
 		//TODO Add creature size. Right now I just get everything within 2 tiles
 		List<Creature> gameCreatures=game.getCreatures(/*upperLeft.getX(), upperLeft.getY(), lowerRight.getX(), lowerRight.getY()*/);
@@ -220,7 +218,7 @@ public class GamePlay {
 					images=new Image[]{anim.getCurrentFrame()};
 				}
 				
-				//Scales, centers, rotates and draws the images 
+				//Scales, centers, rotates and draws the current images 
 				// TODO Scale the image according to the creature's dimensions
 				for(int i=0; i<images.length; i++) {
 					ActionAnimation actionAnim = actionAnimations.get(i);

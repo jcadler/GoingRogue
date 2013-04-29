@@ -8,8 +8,8 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 
-import edu.brown.cs32.goingrogue.gameobjects.creatures.KeyCodes;
 import edu.brown.cs32.goingrogue.gameobjects.creatures.Player;
+import edu.brown.cs32.goingrogue.util.KeyCodes;
 
 /**
  * @author Dominic Adams
@@ -71,13 +71,13 @@ public class Main extends BasicGame
 	@Override
 	public void render(GameContainer gc, Graphics graphics) throws SlickException {
 		g.render(graphics);
-	}
+	} 
 	
 	public static void main(String[] args) throws SlickException
 	{
 		AppGameContainer app = new AppGameContainer(new Main());
 		app.setDisplayMode(800, 600, false);
-		app.setSmoothDeltas(false);
+		app.setSmoothDeltas(true);
 		app.start();
 	
 	}
