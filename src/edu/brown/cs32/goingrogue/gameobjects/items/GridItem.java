@@ -3,7 +3,6 @@ package edu.brown.cs32.goingrogue.gameobjects.items;
 import edu.brown.cs32.goingrogue.gameobjects.creatures.Attribute;
 import edu.brown.cs32.goingrogue.gameobjects.creatures.Creature;
 import edu.brown.cs32.goingrogue.gameobjects.creatures.CreatureStats;
-import edu.brown.cs32.goingrogue.gameobjects.creatures.Inventory;
 import java.awt.geom.Point2D;
 import java.util.List;
 import java.util.Objects;
