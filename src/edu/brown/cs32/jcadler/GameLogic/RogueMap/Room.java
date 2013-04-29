@@ -92,8 +92,8 @@ public class Room implements Space
     
     public boolean isValid(Point2D.Double p)
     {
-        if(p.getX()>=room.getX() && p.getX()<=room.getX()+room.getWidth()&&
-           p.getY()>=room.getY() && p.getY()<=room.getY()+room.getHeight())
+        if(p.getX()<=room.getX() && p.getX()<=room.getX()+room.getWidth()&&
+           p.getY()<=room.getY() && p.getY()<=room.getY()+room.getHeight())
             return true;
         for(Corridor c : connections)
         {
