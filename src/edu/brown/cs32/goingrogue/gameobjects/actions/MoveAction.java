@@ -5,6 +5,7 @@ import edu.brown.cs32.goingrogue.gameobjects.creatures.Creature;
 import java.awt.geom.Point2D;
 import static java.lang.Math.sin;
 import static java.lang.Math.cos;
+import java.util.Objects;
 
 /**
  *
@@ -35,5 +36,31 @@ public class MoveAction extends Action {
         Point2D.Double pos = _sourceCreature.getPosition();
         double angle = _sourceCreature.getDirection();
         return new ActionAnimation(spritePath, pos, angle);
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 73 * hash + (int) (Double.doubleToLongBits(this._direction) ^ (Double.doubleToLongBits(this._direction) >>> 32));
+        hash = 73 * hash + Objects.hashCode(this._sourceCreature);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final MoveAction other = (MoveAction) obj;
+        if (Double.doubleToLongBits(this._direction) != Double.doubleToLongBits(other._direction)) {
+            return false;
+        }
+        if (!Objects.equals(this._sourceCreature, other._sourceCreature)) {
+            return false;
+        }
+        return true;
     }
 }

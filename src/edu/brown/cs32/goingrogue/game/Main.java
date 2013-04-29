@@ -45,9 +45,11 @@ public class Main extends BasicGame
 	
 	public static void main(String[] args) throws SlickException
 	{
-		AppGameContainer app = new AppGameContainer(new TestGame());
+	/*	AppGameContainer app = new AppGameContainer(new TestGame());
 		app.setDisplayMode(800, 600, false);
 		app.start();
+	*/
+		
 	}
 	
 	@Override

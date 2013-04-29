@@ -108,7 +108,10 @@ public class GamePlay {
 		
 		for(Creature c: gameCreatures) {
 			List<Action> actions=c.getActions();
-			
+			ActionAnimation anim=
+			for(Action a: actions) {
+				if(a)
+			}
 		}
 	}
 	

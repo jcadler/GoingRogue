@@ -1,6 +1,7 @@
 package edu.brown.cs32.goingrogue.gameobjects.actions;
 
 import edu.brown.cs32.goingrogue.gameobjects.creatures.Creature;
+import java.util.Objects;
 
 /**
  *
@@ -22,5 +23,27 @@ public class MoveRange implements Range {
     @Override
     public void decrementTimer() {
         // do nothing
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 97 * hash + Objects.hashCode(this._sourceCreature);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final MoveRange other = (MoveRange) obj;
+        if (!Objects.equals(this._sourceCreature, other._sourceCreature)) {
+            return false;
+        }
+        return true;
     }
 }

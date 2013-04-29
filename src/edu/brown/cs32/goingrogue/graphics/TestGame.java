@@ -98,8 +98,8 @@ public class TestGame extends BasicGame
 		g.setAntiAlias(false);
 		
 		if(!animDrawn) {
-			AnimationLoader.setFilterType(Image.FILTER_NEAREST);
-			anim=AnimationLoader.loadMove(GraphicsPaths.SLIME_SPRITE.path);
+			GraphicsLoader.setFilterType(Image.FILTER_NEAREST);
+			anim=GraphicsLoader.loadMove(GraphicsPaths.SLIME_SPRITE.path);
 			AnimationHandler.setDurations(anim, new int[]{500, 250});
 			animDrawn=true;
 		}

@@ -4,15 +4,16 @@ import edu.brown.cs32.goingrogue.gameobjects.creatures.Creature;
 import edu.brown.cs32.goingrogue.gameobjects.items.GridItem;
 import edu.brown.cs32.goingrogue.gameobjects.items.Item;
 import java.awt.geom.Point2D;
+import java.util.Objects;
 
 /**
  *
  * @author Ben Weedon (bweedon)
  */
 public class PickupAction extends Action {
-    
+
     private Creature _sourceCreature;
-    
+
     public PickupAction(int timer, Range range, Creature sourceCreature) {
         super(timer, range);
         _sourceCreature = sourceCreature;
@@ -32,5 +33,27 @@ public class PickupAction extends Action {
         Point2D.Double pos = new Point2D.Double(0.0, 0.0);
         double angle = 0.0;
         return new ActionAnimation(spritePath, pos, angle);
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 23 * hash + Objects.hashCode(this._sourceCreature);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final PickupAction other = (PickupAction) obj;
+        if (!Objects.equals(this._sourceCreature, other._sourceCreature)) {
+            return false;
+        }
+        return true;
     }
 }
