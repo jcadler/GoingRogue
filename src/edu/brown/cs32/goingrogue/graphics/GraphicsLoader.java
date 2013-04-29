@@ -65,7 +65,7 @@ public class GraphicsLoader {
 		
 		//Creates an auto-updating image from the found files
 		Animation a=new Animation(images.toArray(new Image[]{}), //Images
-									(int)(1000./Constants.FRAMERATE), //Time per image
+									(int)(1000./* /Constants.FRAMERATE */), //Time per image
 									true); 
 		return a;
 	}

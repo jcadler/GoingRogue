@@ -1,6 +1,7 @@
 package edu.brown.cs32.goingrogue.game;
 
 import java.awt.geom.Point2D;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
@@ -19,6 +20,8 @@ public class Main extends BasicGame
 {
 	GamePlay g;
 	int timeCount;
+	
+//	ConcurrentHashMap<> keysPressed;
 	
 	public Main()
 	{
