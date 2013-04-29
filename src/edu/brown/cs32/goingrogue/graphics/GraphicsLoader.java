@@ -24,7 +24,14 @@ public class GraphicsLoader {
 	/** Loads the image for a creature whose directory is rooted at the specified path
 	 */
 	public static Image loadImage(String path) throws SlickException {
-		return new Image(path+"1.png");
+		return new Image(path+"1.png", false, filter);
+	}
+	
+	/** Loads the image for a creature whose image is located at the specified path
+	 */
+	public static Image loadImageAt(String path) throws SlickException {
+		return new Image(path, false, filter);
+		
 	}
 	
 	/** Sets the filter type to use on all subsequent animations until it is set again
@@ -66,7 +73,7 @@ public class GraphicsLoader {
 		//Creates an auto-updating image from the found files
 		Animation a=new Animation(images.toArray(new Image[]{}), //Images
 									(int)(1000./* /Constants.FRAMERATE */), //Time per image
-									true); 
+									true);
 		return a;
 	}
 	

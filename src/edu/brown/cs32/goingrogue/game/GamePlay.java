@@ -11,6 +11,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
+import edu.brown.cs32.goingrogue.constants.Constants;
 import edu.brown.cs32.goingrogue.gameobjects.actions.Action;
 import edu.brown.cs32.goingrogue.gameobjects.actions.ActionAnimation;
 import edu.brown.cs32.goingrogue.gameobjects.actions.ActionType;
@@ -18,6 +19,7 @@ import edu.brown.cs32.goingrogue.gameobjects.creatures.Creature;
 import edu.brown.cs32.goingrogue.gameobjects.creatures.Player;
 import edu.brown.cs32.goingrogue.graphics.AnimationHandler;
 import edu.brown.cs32.goingrogue.graphics.GraphicsLoader;
+import edu.brown.cs32.goingrogue.graphics.GraphicsPaths;
 import edu.brown.cs32.goingrogue.map.RogueMap;
 import edu.brown.cs32.goingrogue.map.Space;
 import edu.brown.cs32.goingrogue.map.Tile;
@@ -235,7 +237,7 @@ public class GamePlay {
 	//Draws a space to the graphics object given
 	void drawSpace(Space s, Point2D center, Graphics g) {
 		
-		int tileFilter=Image.FILTER_NEAREST;
+		GraphicsLoader.setFilterType(Image.FILTER_NEAREST);
 		
 		//Draws the floor tiles
 		
@@ -251,12 +253,11 @@ public class GamePlay {
 			int x=(int)upperLeft[0]+i;
 			int y=(int)upperLeft[1]+j;
 			Point2D gameCoords=new Point2D.Double(x, y);
-//			System.out.println("Drawing tile at "+x+", "+y);
 			
 			Image tileImage=null;
 			try {
 				int[] screenCoords=gameToScreen(gameCoords, center);
-				tileImage=new Image(t.path, false, tileFilter);
+				tileImage=GraphicsLoader.loadImageAt(t.path);
 				tileImage.draw(screenCoords[0], screenCoords[1], (int)(1*gameToScreenFactor), (int)(1*gameToScreenFactor));
 			} catch(SlickException e) {
 		//		System.out.println("Could not create image for tile "+t+" at location ("+x+", "+y+")...");
@@ -268,9 +269,9 @@ public class GamePlay {
 		
 		Wall w=s.getWallType();
 		
-/*		//{N, S, E, W, NE, NW, SE, SW}
+		//{N, S, E, W, NE, NW, SE, SW}
 		String[] wallPaths=new String[8];
-		if(w==Wall.NONE || w==Wall.DEFAULT) {
+		if(w==Wall.NONE) {
 			for(int i=0; i<wallPaths.length; i++) {
 				wallPaths[i]=GraphicsPaths.EMPTY.path;
 			}
@@ -288,10 +289,13 @@ public class GamePlay {
 		int y1=upperLeft[1]-1;
 		
 		try {
-			Image wallN=new Image(wallPaths[0], false, tileFilter);
+			Image wallN=GraphicsLoader.loadImageAt(wallPaths[0]);
 			for(int i=0; i<s.width(); i++) {
 				int x=upperLeft[0]+i;
-				wallN.draw(x, y1, Constants.TILE_SIZE, Constants.TILE_SIZE);
+				
+				Point2D gameCoords=new Point2D.Double(x, y1);
+				int[] screenCoords=gameToScreen(gameCoords, center);
+				wallN.draw(screenCoords[0], screenCoords[1], (int)(1*gameToScreenFactor), (int)(1*gameToScreenFactor));
 			}
 		} catch(SlickException e) {
 			System.out.println("Could not create image for north wall...");
@@ -299,13 +303,16 @@ public class GamePlay {
 		}
 		
 		//Bottom edge
-		int y2=upperLeft[1]+s.height()+1;
+		int y2=upperLeft[1]+s.height();
 		
 		try {
-			Image wallS=new Image(wallPaths[1], false, tileFilter);
+			Image wallS=GraphicsLoader.loadImageAt(wallPaths[1]);
 			for(int i=0; i<s.width(); i++) {
 				int x=upperLeft[0]+i;
-				wallS.draw(x, y2, Constants.TILE_SIZE, Constants.TILE_SIZE);
+
+				Point2D gameCoords=new Point2D.Double(x, y2);
+				int[] screenCoords=gameToScreen(gameCoords, center);
+				wallS.draw(screenCoords[0], screenCoords[1], (int)(1*gameToScreenFactor), (int)(1*gameToScreenFactor));
 			}
 		} catch(SlickException e) {
 			System.out.println("Could not create image for south wall...");
@@ -313,13 +320,17 @@ public class GamePlay {
 		}
 		
 		//Right edge
-		int x2=upperLeft[0]+upperLeft[0]+s.width()+1;
+		int x2=upperLeft[0]+upperLeft[0]+s.width();
 		
 		try {
-			Image wallE=new Image(wallPaths[2], false, tileFilter);
+			Image wallE=GraphicsLoader.loadImageAt(wallPaths[2]);
 			for(int i=0; i<s.height(); i++) {
 				int y=upperLeft[1]+i;
-				wallE.draw(x2, y, Constants.TILE_SIZE, Constants.TILE_SIZE);
+
+				Point2D gameCoords=new Point2D.Double(x2, y);
+				int[] screenCoords=gameToScreen(gameCoords, center);
+				wallE.draw(screenCoords[0], screenCoords[1], (int)(1*gameToScreenFactor), (int)(1*gameToScreenFactor));
+
 			}
 		} catch(SlickException e) {
 			System.out.println("Could not create image for west wall...");
@@ -330,10 +341,13 @@ public class GamePlay {
 		int x1=upperLeft[0]-1;
 		
 		try {
-			Image wallW=new Image(wallPaths[3], false, tileFilter);
+			Image wallW=GraphicsLoader.loadImageAt(wallPaths[3]);
 			for(int i=0; i<s.height(); i++) {
 				int y=upperLeft[1]+i;
-				wallW.draw(x1, y, Constants.TILE_SIZE, Constants.TILE_SIZE);
+
+				Point2D gameCoords=new Point2D.Double(x1, y);
+				int[] screenCoords=gameToScreen(gameCoords, center);
+				wallW.draw(screenCoords[0], screenCoords[1], (int)(1*gameToScreenFactor), (int)(1*gameToScreenFactor));
 			}
 		} catch(SlickException e) {
 			System.out.println("Could not create image for east wall...");
@@ -342,8 +356,14 @@ public class GamePlay {
 		
 		//Upper right tile
 		try {
-			Image wallNE=new Image(wallPaths[4], false, tileFilter);
-			wallNE.draw(upperLeft[0]-1, upperLeft[1]-1, Constants.TILE_SIZE, Constants.TILE_SIZE);
+			Image wallNE=GraphicsLoader.loadImageAt(wallPaths[4]);
+			int x=upperLeft[0]+s.width();
+			int y=upperLeft[1]-1;
+			
+			Point2D gameCoords=new Point2D.Double(x, y);
+			int[] screenCoords=gameToScreen(gameCoords, center);
+			wallNE.draw(screenCoords[0], screenCoords[1], (int)(1*gameToScreenFactor), (int)(1*gameToScreenFactor));
+
 		} catch(SlickException e) {
 			System.out.println("Could not create image for NE wall...");
 			e.printStackTrace();
@@ -351,8 +371,14 @@ public class GamePlay {
 		
 		//Upper left tile
 		try {
-			Image wallNW=new Image(wallPaths[4], false, tileFilter);
-			wallNW.draw(upperLeft[0]-1, upperLeft[1]-1, Constants.TILE_SIZE, Constants.TILE_SIZE);
+			int x=upperLeft[0]-1;
+			int y=upperLeft[1]-1;
+			
+			Image wallNW=GraphicsLoader.loadImageAt(wallPaths[5]);
+			Point2D gameCoords=new Point2D.Double(x, y);
+			int[] screenCoords=gameToScreen(gameCoords, center);
+			wallNW.draw(screenCoords[0], screenCoords[1], (int)(1*gameToScreenFactor), (int)(1*gameToScreenFactor));
+
 		} catch(SlickException e) {
 			System.out.println("Could not create image for NW wall...");
 			e.printStackTrace();
@@ -360,8 +386,13 @@ public class GamePlay {
 
 		//Lower right tile
 		try {
-			Image wallSE=new Image(wallPaths[4], false, tileFilter);
-			wallSE.draw(upperLeft[0]-1, upperLeft[1]-1, Constants.TILE_SIZE, Constants.TILE_SIZE);
+			int x=upperLeft[0]+s.width();
+			int y=upperLeft[1]+s.height();
+			
+			Image wallSE=GraphicsLoader.loadImageAt(wallPaths[6]);
+			Point2D gameCoords=new Point2D.Double(x, y);
+			int[] screenCoords=gameToScreen(gameCoords, center);
+			wallSE.draw(screenCoords[0], screenCoords[1], (int)(1*gameToScreenFactor), (int)(1*gameToScreenFactor));
 		} catch(SlickException e) {
 			System.out.println("Could not create image for SE wall...");
 			e.printStackTrace();
@@ -369,11 +400,16 @@ public class GamePlay {
 
 		//Lower left tile
 		try {
-			Image wallSW=new Image(wallPaths[4], false, tileFilter);
-			wallSW.draw(upperLeft[0]-1, upperLeft[1]-1, Constants.TILE_SIZE, Constants.TILE_SIZE);
+			int x=upperLeft[0]-1;
+			int y=upperLeft[1]+s.height();
+			
+			Image wallSW=GraphicsLoader.loadImageAt(wallPaths[7]);
+			Point2D gameCoords=new Point2D.Double(x, y);
+			int[] screenCoords=gameToScreen(gameCoords, center);
+			wallSW.draw(screenCoords[0], screenCoords[1], (int)(1*gameToScreenFactor), (int)(1*gameToScreenFactor));
 		} catch(SlickException e) {
 			System.out.println("Could not create image for SW wall...");
 			e.printStackTrace();
 		}
-*/	}
+	}
 }
