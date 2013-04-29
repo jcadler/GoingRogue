@@ -1,8 +1,9 @@
 package edu.brown.cs32.goingrogue.gameobjects.actions;
 
 import edu.brown.cs32.goingrogue.gameobjects.creatures.Creature;
-import edu.brown.cs32.goingrogue.gameobjects.creatures.CreatureStats;
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -25,10 +26,11 @@ public class ArcAttackAction extends Action {
 
     @Override
     public ActionAnimation getActionAnimation() {
-        String spritePath = _sourceCreature.getInventory().getWeapon().getSpritePath();
+        List<String> spritePaths = new ArrayList<>();
+        spritePaths.add(_sourceCreature.getInventory().getWeapon().getSpritePath());
         Point2D.Double pos = _sourceCreature.getPosition();
         double angle = ((ArcAttackRange) getRange()).getAngle();
-        return new ActionAnimation(spritePath, pos, angle);
+        return new ActionAnimation(spritePaths, pos, angle);
     }
 
     @Override

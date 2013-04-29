@@ -1,6 +1,7 @@
 package edu.brown.cs32.goingrogue.gameobjects.actions;
 
 import java.awt.geom.Point2D;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -9,22 +10,22 @@ import java.util.Objects;
  */
 public class ActionAnimation {
 
-    private String _spritePath;
+    private List<String> _spritePaths;
     private Point2D.Double _pos;
     private double _angle;
 
-    public ActionAnimation(String spritePath, Point2D.Double pos, double angle) {
-        _spritePath = spritePath;
+    public ActionAnimation(List<String> spritePaths, Point2D.Double pos, double angle) {
+        _spritePaths = spritePaths;
         _pos = pos;
         _angle = angle;
     }
 
-    public String getSpritePath() {
-        return _spritePath;
+    public List<String> getSpritePaths() {
+        return _spritePaths;
     }
 
-    public void setSpritePath(String spritePath) {
-        _spritePath = spritePath;
+    public void setSpritePaths(List<String> spritePaths) {
+        _spritePaths = spritePaths;
     }
 
     public Point2D.Double getPos() {
@@ -45,10 +46,10 @@ public class ActionAnimation {
 
     @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 73 * hash + Objects.hashCode(this._spritePath);
-        hash = 73 * hash + Objects.hashCode(this._pos);
-        hash = 73 * hash + (int) (Double.doubleToLongBits(this._angle) ^ (Double.doubleToLongBits(this._angle) >>> 32));
+        int hash = 7;
+        hash = 37 * hash + Objects.hashCode(this._spritePaths);
+        hash = 37 * hash + Objects.hashCode(this._pos);
+        hash = 37 * hash + (int) (Double.doubleToLongBits(this._angle) ^ (Double.doubleToLongBits(this._angle) >>> 32));
         return hash;
     }
 
@@ -61,7 +62,7 @@ public class ActionAnimation {
             return false;
         }
         final ActionAnimation other = (ActionAnimation) obj;
-        if (!Objects.equals(this._spritePath, other._spritePath)) {
+        if (!Objects.equals(this._spritePaths, other._spritePaths)) {
             return false;
         }
         if (!Objects.equals(this._pos, other._pos)) {

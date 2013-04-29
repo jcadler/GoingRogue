@@ -1,10 +1,11 @@
 package edu.brown.cs32.goingrogue.gameobjects.actions;
 
-import edu.brown.cs32.goingrogue.gameobjects.actions.Action;
 import edu.brown.cs32.goingrogue.gameobjects.creatures.Creature;
 import java.awt.geom.Point2D;
 import static java.lang.Math.sin;
 import static java.lang.Math.cos;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -32,10 +33,11 @@ public class MoveAction extends Action {
 
     @Override
     public ActionAnimation getActionAnimation() {
-        String spritePath = _sourceCreature.getSpritePath();
+        List<String> spritePaths = new ArrayList<>();
+        spritePaths.add(_sourceCreature.getSpritePath());
         Point2D.Double pos = _sourceCreature.getPosition();
         double angle = _sourceCreature.getDirection();
-        return new ActionAnimation(spritePath, pos, angle);
+        return new ActionAnimation(spritePaths, pos, angle);
     }
 
     @Override

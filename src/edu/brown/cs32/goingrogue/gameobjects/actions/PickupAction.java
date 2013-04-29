@@ -4,6 +4,8 @@ import edu.brown.cs32.goingrogue.gameobjects.creatures.Creature;
 import edu.brown.cs32.goingrogue.gameobjects.items.GridItem;
 import edu.brown.cs32.goingrogue.gameobjects.items.Item;
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -29,10 +31,10 @@ public class PickupAction extends Action {
 
     @Override
     public ActionAnimation getActionAnimation() {
-        String spritePath = null;
+        List<String> spritePaths = new ArrayList<>();
         Point2D.Double pos = new Point2D.Double(0.0, 0.0);
         double angle = 0.0;
-        return new ActionAnimation(spritePath, pos, angle);
+        return new ActionAnimation(spritePaths, pos, angle);
     }
 
     @Override
