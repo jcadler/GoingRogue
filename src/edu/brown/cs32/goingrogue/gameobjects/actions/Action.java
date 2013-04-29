@@ -1,5 +1,7 @@
 package edu.brown.cs32.goingrogue.gameobjects.actions;
 
+import java.util.List;
+
 import edu.brown.cs32.goingrogue.gameobjects.creatures.Creature;
 
 /** 
@@ -8,12 +10,18 @@ import edu.brown.cs32.goingrogue.gameobjects.creatures.Creature;
  */
 public abstract class Action {
 
+	protected ActionType _type;
+	
     private int _timer;
     private Range _range;
 
     public Action(int timer, Range range) {
-        _timer = timer;
+    	_timer = timer;
         _range = range;
+    }
+    
+    public ActionType type() {
+    	return _type;
     }
 
     public Creature actOnClone(Creature creature) throws CloneNotSupportedException {
@@ -40,5 +48,5 @@ public abstract class Action {
     }
 
     public abstract void act(Creature creature);
-    public abstract ActionAnimation getActionAnimation();
+    public abstract List<ActionAnimation> getActionAnimations();
 }

@@ -34,10 +34,18 @@ public class AnimationHandler {
 	 */
 	public static void setDurations(Animation a, int[] durations) throws IllegalArgumentException {
 		if(durations.length!=a.getFrameCount())
-			throw new IllegalArgumentException("Animation had a different number of frames than the array specified");
+			throw new IllegalArgumentException("Animation "+getAnimationName(a)+"had a different number of frames ("+a.getFrameCount()+") than the array specified ("+durations.length+")");
 		
 		for(int i=0; i<durations.length; i++) {
 			a.setDuration(i, durations[i]);
 		}
+	}
+	
+	static String getAnimationName(Animation a) {
+		String ref=a.getCurrentFrame().getResourceReference();
+		ref=ref.substring(0, ref.lastIndexOf("/"));
+		ref=ref.substring(0, ref.lastIndexOf("/"));
+		ref=ref.substring(ref.lastIndexOf("/"));
+		return ref;
 	}
 }

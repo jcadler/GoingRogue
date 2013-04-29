@@ -100,11 +100,16 @@ public class TestGame extends BasicGame
 		if(!animDrawn) {
 			GraphicsLoader.setFilterType(Image.FILTER_NEAREST);
 			anim=GraphicsLoader.loadMove(GraphicsPaths.SLIME_SPRITE.path);
-			AnimationHandler.setDurations(anim, new int[]{500, 250});
+			AnimationHandler.setDurations(anim, new int[]{5000, 250});
 			animDrawn=true;
 		}
 		
-		for(int i=0; i<xList.size(); i++) anims.get(i).draw(xList.get(i), yList.get(i), 40, 40);
+		int i=0;
+		while(i<xList.size()) {
+			Animation a=anims.get(i);
+			a.draw(xList.get(i), yList.get(i), 40, 40);
+			i++;
+		}
 		
 		g.drawString(textToDisplay, 100, gc.getHeight()-100);
 	}

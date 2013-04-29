@@ -4,6 +4,8 @@ import edu.brown.cs32.goingrogue.gameobjects.creatures.Creature;
 import edu.brown.cs32.goingrogue.gameobjects.items.GridItem;
 import edu.brown.cs32.goingrogue.gameobjects.items.Item;
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -16,6 +18,7 @@ public class PickupAction extends Action {
 
     public PickupAction(int timer, Range range, Creature sourceCreature) {
         super(timer, range);
+        _type = ActionType.PICKUP;
         _sourceCreature = sourceCreature;
     }
 
@@ -28,11 +31,13 @@ public class PickupAction extends Action {
     }
 
     @Override
-    public ActionAnimation getActionAnimation() {
-        String spritePath = null;
+    public List<ActionAnimation> getActionAnimations() {
+        String spritePath = _sourceCreature.getSpritePath();
         Point2D.Double pos = new Point2D.Double(0.0, 0.0);
         double angle = 0.0;
-        return new ActionAnimation(spritePath, pos, angle);
+        List<ActionAnimation> list=new ArrayList<>();
+        list.add(new ActionAnimation(spritePath, pos, angle));
+        return list;
     }
 
     @Override

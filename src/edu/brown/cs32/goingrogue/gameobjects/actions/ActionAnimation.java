@@ -1,6 +1,7 @@
 package edu.brown.cs32.goingrogue.gameobjects.actions;
 
 import java.awt.geom.Point2D;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -13,8 +14,8 @@ public class ActionAnimation {
     private Point2D.Double _pos;
     private double _angle;
 
-    public ActionAnimation(String spritePath, Point2D.Double pos, double angle) {
-        _spritePath = spritePath;
+    public ActionAnimation(String spritePaths, Point2D.Double pos, double angle) {
+        _spritePath = spritePaths;
         _pos = pos;
         _angle = angle;
     }
@@ -45,10 +46,10 @@ public class ActionAnimation {
 
     @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 73 * hash + Objects.hashCode(this._spritePath);
-        hash = 73 * hash + Objects.hashCode(this._pos);
-        hash = 73 * hash + (int) (Double.doubleToLongBits(this._angle) ^ (Double.doubleToLongBits(this._angle) >>> 32));
+        int hash = 7;
+        hash = 37 * hash + Objects.hashCode(this._spritePath);
+        hash = 37 * hash + Objects.hashCode(this._pos);
+        hash = 37 * hash + (int) (Double.doubleToLongBits(this._angle) ^ (Double.doubleToLongBits(this._angle) >>> 32));
         return hash;
     }
 

@@ -19,4 +19,24 @@ public class Util {
 	public static int[] snapPoint(Point2D p) {
 		return new int[]{(int)(p.getX()+.5), (int)(p.getY()+.5)};
 	}
+	
+	/** Converts a polar coordinate to a rectangular one
+	 * 
+	 * @param r The coordinate's radius
+	 * @param theta The coordinate's angle
+	 * @return The same coordinate in rectangular coordinates (x, y)
+	 */
+	public static double[] polarToRectangular(double r, double theta) {
+		return new double[]{r*Math.cos(theta), r*Math.sin(theta)};
+	}
+	
+	/** Converts a rectangular coordinate to a polar one
+	 * 
+	 * @param x The x coord
+	 * @param y The y coord
+	 * @return The same coordinate in polar coordinates (r, theta)
+	 */
+	public static double[] rectangularToPolar(double x, double y) {
+		return new double[]{Math.sqrt(x*x+y*y), Math.atan2(y,x)};
+	}
 }

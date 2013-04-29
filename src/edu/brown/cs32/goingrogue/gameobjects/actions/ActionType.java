@@ -3,22 +3,20 @@ package edu.brown.cs32.goingrogue.gameobjects.actions;
 import java.util.ArrayList;
 import java.util.List;
 
-/** Prioritizes animations so that only the highest priority action appears
+/** An enum detailing types of action
+ * Prioritizes animations so that only the highest priority action appears
  * For instance, attack animations override move animations
  * 
  * @author Dominic Adams
  * @version 1.0 4/13
  */
-public enum ActionAnimationPriority {
+public enum ActionType {
 	
 	MOVE, ATTACK, PICKUP;
 	
-	static List<ActionAnimationPriority> priorities=new ArrayList<>();
+	static List<ActionType> priorities=new ArrayList<>();
 	
-	/** Returns an integer representing the action animation priority.
-	 * Higher priorities are preferred
-	 */
-	static int getPriority(ActionAnimationPriority a) {
+	static int getPriority(ActionType a) {
 		if(priorities.isEmpty()) {
 			priorities.add(PICKUP);
 			priorities.add(MOVE);
@@ -27,11 +25,10 @@ public enum ActionAnimationPriority {
 		return priorities.indexOf(a);
 	}
 	
+	/** Returns the priority of this type of action
+	 * Higher priority actions should be animated in the place of lower priority ones
+	 */
 	public int getPriority() {
 		return getPriority(this);
-	}
-	
-	public static void main(String[] args) {
-		System.out.println("Hello!");
 	}
 }

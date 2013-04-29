@@ -24,7 +24,7 @@ public class GraphicsLoader {
 	/** Loads the image for a creature whose directory is rooted at the specified path
 	 */
 	public static Image loadImage(String path) throws SlickException {
-		return new Image(path+"creature.png");
+		return new Image(path+"1.png");
 	}
 	
 	/** Sets the filter type to use on all subsequent animations until it is set again
@@ -42,11 +42,13 @@ public class GraphicsLoader {
 		File f=new File(path);
 		List<String> fileNames=new ArrayList<String>(Arrays.asList(f.list()));
 		
-		//Loads images until one cannot be found
+		//Loads all images in the given directory
+		//Loads in order "1.png, 2.png..." etc
+		//Throws an exception if a file not matching this format is in the directory
 		try {
 			
 			int i=1;
-			while(i<fileNames.size()) {
+			while(i<=fileNames.size()) {
 				
 				//Breaks if a file cannot be found
 				if(!fileNames.contains(""+i+".png"))
@@ -57,6 +59,7 @@ public class GraphicsLoader {
 			}
 		
 		} catch(SlickException e) {
+			//Could not load the animation
 			e.printStackTrace();
 		}
 		

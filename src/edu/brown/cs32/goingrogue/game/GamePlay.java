@@ -1,8 +1,10 @@
 package edu.brown.cs32.goingrogue.game;
 
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
 import java.util.List;
 
+import org.newdawn.slick.Animation;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -10,8 +12,12 @@ import org.newdawn.slick.SlickException;
 
 import edu.brown.cs32.goingrogue.constants.Constants;
 import edu.brown.cs32.goingrogue.gameobjects.actions.Action;
+import edu.brown.cs32.goingrogue.gameobjects.actions.ActionAnimation;
+import edu.brown.cs32.goingrogue.gameobjects.actions.ActionType;
 import edu.brown.cs32.goingrogue.gameobjects.creatures.Creature;
 import edu.brown.cs32.goingrogue.gameobjects.creatures.Player;
+import edu.brown.cs32.goingrogue.graphics.AnimationHandler;
+import edu.brown.cs32.goingrogue.graphics.GraphicsLoader;
 import edu.brown.cs32.goingrogue.graphics.GraphicsPaths;
 import edu.brown.cs32.goingrogue.map.RogueMap;
 import edu.brown.cs32.goingrogue.map.Space;
@@ -34,6 +40,7 @@ public class GamePlay {
 	GameLogic game;
 	Player player;
 	RogueMap map;
+	AnimationCache cache;
 	
 	int timeCount; //Used for tracking game updates
 	
@@ -47,6 +54,7 @@ public class GamePlay {
 		game = null; /* new GameLogic() */
 		player=game.getPlayer();
 		map=game.getMap();
+		cache=new AnimationCache();
 	}
 	
 	//Converts a point on the game map to a point on the screen
@@ -63,6 +71,7 @@ public class GamePlay {
 		return new int[]{x, y};
 	}
 	
+	//Converts a point on the screen to a point on the game map
 	Point2D screenToGame(int[] point, Point2D center) {
 		
 		//The screen center
@@ -74,6 +83,11 @@ public class GamePlay {
 		double y=(point[1]-screenYCenter)/gameToScreenFactor + center.getY();
 		
 		return new Point2D.Double(x, y);
+	}
+	
+	//Locates the an image's center of rotation at its center
+	void setRotationCenter(Image i) {
+		i.setCenterOfRotation(i.getWidth()/2, i.getHeight()/2);
 	}
 	
 	/** Updates the game one time
@@ -104,13 +118,100 @@ public class GamePlay {
 		for(Space s: spaces) drawSpace(s, g);
 		
 		//Draws and animates entities
-		List<Creature> gameCreaures=game.getCreatures();
+		List<Creature> gameCreatures=game.getCreatures();
 		
 		for(Creature c: gameCreatures) {
+			
+			Action actionToAnimate=null;
 			List<Action> actions=c.getActions();
-			ActionAnimation anim=
 			for(Action a: actions) {
-				if(a)
+				if(actionToAnimate==null ||
+					a.type().getPriority()>actionToAnimate.type().getPriority()) {
+					
+					actionToAnimate=a;
+				}
+			}
+			
+			//No action
+			if(actionToAnimate==null) {
+				//TODO Call c.getDimensions() and scale the image on creation
+				Image image=GraphicsLoader.loadImage(c.getSpritePath());
+				
+				int[] screenCoords=gameToScreen(c.getPosition(), center);
+				image.drawCentered(screenCoords[0], screenCoords[1]);
+			
+			
+			} else {
+				
+				Image[] images=null;
+				List<ActionAnimation> actionAnimations=actionToAnimate.getActionAnimations();
+				
+				//Attack action
+				if(actionToAnimate.type()==ActionType.ATTACK) {
+					
+					Animation creatureAnim=null;
+					Animation weaponAnim=null;
+					
+					//Checks the animation cache for memory equality of the current attack action
+					if(actionToAnimate==cache.getAction(c)) {
+						//Gets the animation in the cache
+						List<Animation> list=cache.get(c);
+						creatureAnim=list.get(0);
+						weaponAnim=list.get(1);
+					} else {
+						//Creates a new animation and adds it to the cache
+						
+						creatureAnim=GraphicsLoader.loadAttack(actionAnimations.get(0).getSpritePath());
+						weaponAnim=GraphicsLoader.load(actionAnimations.get(1).getSpritePath());
+						
+						AnimationHandler.setTime(creatureAnim, actionToAnimate.getTimer());
+						AnimationHandler.setTime(weaponAnim, actionToAnimate.getTimer());
+						
+						List<Animation> animList=new ArrayList<>();
+						animList.add(creatureAnim);
+						animList.add(weaponAnim);
+						cache.add(c, actionToAnimate, animList);
+					}
+					
+					Image creatureImage=creatureAnim.getCurrentFrame();
+					Image weaponImage=weaponAnim.getCurrentFrame();
+					
+					images=new Image[]{creatureImage, weaponImage};
+				
+				//Other type of action (no weapon)
+				} else {
+					
+					ActionAnimation actionAnimation=actionAnimations.get(0);
+					
+					Animation anim=null;
+					
+					//Checks the animation cache for type equality of the current attack action
+					if(cache.getAction(c).type()==actionToAnimate.type()) {
+						//Gets the animation in the cache
+						anim=cache.get(c).get(0);
+					} else {
+						//Creates a new animation and adds it to the cache
+						anim=GraphicsLoader.loadAttack(actionAnimations.get(0).getSpritePath());
+						AnimationHandler.setTime(anim, actionToAnimate.getTimer());
+						
+						List<Animation> animList=new ArrayList<>();
+						animList.add(anim);
+						cache.add(c, actionToAnimate, animList);
+					}
+					
+					images=new Image[]{anim.getCurrentFrame()};
+				}
+				
+				//Scales, centers, rotates and draws the images 
+				// TODO Scale the image according to the creature's dimensions
+				for(int i=0; i<images.length; i++) {
+					ActionAnimation actionAnim = actionAnimations.get(i);
+					setRotationCenter(images[i]);
+					images[i].setRotation((float)actionAnim.getAngle());
+					double[] gameCoords=new double[]{actionAnim.getPos().x, actionAnim.getPos().y};
+					int[] screenCoords=gameToScreen(new Point2D.Double(gameCoords[0], gameCoords[1]), center);
+					images[i].drawCentered(screenCoords[0], screenCoords[1]);
+				}
 			}
 		}
 	}
