@@ -42,12 +42,15 @@ public class Corridor implements Space
             case 1:
                 wdth=(int)(p.getX()-end.getX());
                 hght=width;
+                break;
             case 2:
                 wdth=width;
                 hght=(int)(p.getY()-end.getY());
+                break;
             case 3:
                 wdth=(int)(p.getX()-start.getX());
                 hght=width;
+                break;
         }
         rect=new Rectangle(p.x,p.y,wdth,hght);
     }
