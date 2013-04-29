@@ -25,6 +25,10 @@ public class RogueServer extends Listener implements RoguePort{
 	{
 		return name;
 	}
+	public void setName(String name)
+	{
+		this.name = name;
+	}
 	public EndPoint getEndPoint(){
 		return net;
 	}
@@ -43,6 +47,7 @@ public class RogueServer extends Listener implements RoguePort{
 		//		TCP only, default buffer should be ok.
 		net = new Server();
 		net.bind(port);
+		Network.register(net);
 		net.addListener(this);
 		
 		players = new HashMap<>();
@@ -56,11 +61,11 @@ public class RogueServer extends Listener implements RoguePort{
 		//	DO NOT use net.sendToAllTCP(arg0)
 		//	iterate through players, send each one their snapshot (Entities in range for each player).
 		for(Map.Entry<Integer, Player> entry : players.entrySet())
-			updateClient(entry.getValue());
+			updateClient(entry.getKey());
 	}
 	
-	public void updateClient(Player p){
-		
+	public void updateClient(int id){
+		//	
 	}
 	
 	@Override
@@ -102,6 +107,15 @@ public class RogueServer extends Listener implements RoguePort{
 			//Action a = (Action) o;
 			//	TODO: Not actually a thing yet.
 			//	List<Action> acts = players.get(c.getID()).addAction(a);
+		}
+		//	Players reporting their names!
+		if(o instanceof String){
+			if(lobby.containsKey(c.getID())){
+				lobby.get(c.getID()).setName((String) o);
+			}
+			if(players.containsKey(c.getID())){
+				players.get(c.getID()).setName((String) o);
+			}
 		}
 	}
 }

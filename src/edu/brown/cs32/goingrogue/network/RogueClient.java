@@ -45,6 +45,7 @@ public class RogueClient extends Listener implements RoguePort{
 		net = new Client();
 		net.start();
 		net.connect(3000, host, port);
+		Network.register(net);
 		net.addListener(this);
 	}
 
@@ -56,7 +57,7 @@ public class RogueClient extends Listener implements RoguePort{
 
 	@Override
 	public void connected(Connection c){
-		
+		net.sendTCP(name);
 	}
 	
 	@Override
@@ -75,6 +76,7 @@ public class RogueClient extends Listener implements RoguePort{
 				if(cmd[0].equals("dc")){
 					//	Print reason for disconnection
 					System.out.println(cmd[1]);
+					net.close();
 				}
 				else if(cmd[0].equals("map")){
 					//	TODO: Not actually a thing yet - manage later...
