@@ -1,5 +1,6 @@
 package edu.brown.cs32.jcadler.GameLogic.RogueMap;
 
+import java.awt.geom.Point2D;
 import java.awt.Point;
 import java.awt.Rectangle;
 
@@ -71,7 +72,7 @@ public class Corridor implements Space
         return direction;
     }
     
-    public boolean isValid(Point p)
+    public boolean isValid(Point2D.Double p)
     {
         switch(direction)
         {

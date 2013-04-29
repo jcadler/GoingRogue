@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
-import java.awt.Point;
+import java.awt.geom.Point2D;
 import java.awt.Rectangle;
 
 import edu.brown.cs32.goingrogue.map.RogueMap;
@@ -37,7 +37,7 @@ public class LogicMap implements RogueMap
         return MapReader.readMap(map);
     }
     
-    public boolean isValid(Point p)
+    public boolean isValid(Point2D.Double p)
     {
         for(Room r : rooms)
         {
