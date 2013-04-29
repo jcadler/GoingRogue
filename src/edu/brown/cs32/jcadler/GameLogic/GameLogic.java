@@ -49,6 +49,8 @@ public class GameLogic
         player.setName("bob");
         Room rm = rooms.get(r.nextInt(rooms.size()));
         player.setPosition(new Point2D.Double(rm.getX()+r.nextInt(rm.getWidth()),rm.getY()+r.nextInt(rm.getHeight())));
+        
+        creatures.add(player);
     }
     
     public Player getPlayer()

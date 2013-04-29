@@ -2,8 +2,6 @@ package edu.brown.cs32.goingrogue.map;
 
 import java.util.List;
 
-import edu.brown.cs32.goingrogue.gameobjects.items.GridItem;
-
 /** An interface to allow access to map info inside the given bounds
  * Only handles access to things that are snapped to the grid, which means it does not handle
  * moving creatures, dropped items, etc
@@ -20,4 +18,6 @@ public interface RogueMap {
 	 * Note that spaces within one tile of the specified area should be returned to allow for walls
 	 */
 	public List<Space> getData(int minX, int minY, int maxX, int maxY);
+	
+	public List<Space> getData();
 }

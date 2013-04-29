@@ -69,4 +69,16 @@ public class LogicMap implements RogueMap
         }
         return ret;
     }
+    
+    @Override
+    public List<Space> getData() {
+    	
+    	List<Space> ret = new ArrayList<>();
+    	for(Room r: rooms) {
+    		ret.add(r);
+    		for(Corridor c: r.getCorridors()) ret.add(c);
+    	}
+    	
+    	return ret;
+    }
 }

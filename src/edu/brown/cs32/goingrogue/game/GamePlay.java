@@ -11,7 +11,6 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
-import edu.brown.cs32.goingrogue.constants.Constants;
 import edu.brown.cs32.goingrogue.gameobjects.actions.Action;
 import edu.brown.cs32.goingrogue.gameobjects.actions.ActionAnimation;
 import edu.brown.cs32.goingrogue.gameobjects.actions.ActionType;
@@ -19,14 +18,12 @@ import edu.brown.cs32.goingrogue.gameobjects.creatures.Creature;
 import edu.brown.cs32.goingrogue.gameobjects.creatures.Player;
 import edu.brown.cs32.goingrogue.graphics.AnimationHandler;
 import edu.brown.cs32.goingrogue.graphics.GraphicsLoader;
-import edu.brown.cs32.goingrogue.graphics.GraphicsPaths;
 import edu.brown.cs32.goingrogue.map.RogueMap;
 import edu.brown.cs32.goingrogue.map.Space;
 import edu.brown.cs32.goingrogue.map.Tile;
 import edu.brown.cs32.goingrogue.map.Wall;
 import edu.brown.cs32.goingrogue.util.Util;
 import edu.brown.cs32.jcadler.GameLogic.GameLogic;
-import edu.brown.cs32.jcadler.GameLogic.RogueMap.Room;
 
 /** Handles the updating and rendering of a game
  * 
@@ -45,6 +42,10 @@ public class GamePlay {
 	int timeCount; //Used for tracking game updates
 	
 	double gameToScreenFactor=40.; //Conversion from game to screen coordinates
+	
+	
+	int prevNumRooms;
+	
 	
 	public GamePlay(GameContainer gc) {
 		
@@ -123,19 +124,17 @@ public class GamePlay {
 		Point2D lowerRight=screenToGame(new int[]{gc.getWidth(),gc.getHeight()}, center);
 		
 		//Draws the map
-		List<Space> spaces=map.getData((int)(upperLeft.getX()-1), (int)(upperLeft.getY()-1), (int)(lowerRight.getX()+1), (int)(lowerRight.getY()+1));
+		List<Space> spaces=map.getData(/*(int)(upperLeft.getX()-1), (int)(upperLeft.getY()-1), (int)(lowerRight.getX()+1), (int)(lowerRight.getY()+1)*/);
 //		System.out.println(spaces.get(0).getFloor().length);
 //		System.out.println(spaces.get(0).getFloor()[0].length);
 		for(Space s: spaces) drawSpace(s, center, g);
+		if(prevNumRooms!=spaces.size()) System.out.println("ROOMS: "+spaces.size());
+		prevNumRooms=spaces.size();
 		//Draws and animates entities
 		//TODO Add creature size. Right now I just get everything within 2 tiles
 		List<Creature> gameCreatures=game.getCreatures(/*upperLeft.getX(), upperLeft.getY(), lowerRight.getX(), lowerRight.getY()*/);
 		
-		int index=0;
 		for(Creature c: gameCreatures) {
-			
-			System.out.println("CREATURE! "+index);
-			index++;
 			
 			Action actionToAnimate=null;
 			List<Action> actions=c.getActions();
