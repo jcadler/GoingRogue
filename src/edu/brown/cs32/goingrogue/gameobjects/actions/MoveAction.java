@@ -28,4 +28,12 @@ public class MoveAction extends Action {
         Point2D origPos = creature.getPosition();
         creature.setPosition(new Point2D.Double(origPos.getX() + xTranslation, origPos.getY() + yTranslation));
     }
+
+    @Override
+    public ActionAnimation getActionAnimation() {
+        String spritePath = _sourceCreature.getSpritePath();
+        Point2D.Double pos = _sourceCreature.getPosition();
+        double angle = _sourceCreature.getDirection();
+        return new ActionAnimation(spritePath, pos, angle);
+    }
 }

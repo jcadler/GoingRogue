@@ -14,7 +14,7 @@ import java.util.List;
  */
 public class Player extends Creature {
 
-    public Player(Point2D pos, double direction, String name, List<Attribute> attributes, CreatureStats stats, String sprite) {
+    public Player(Point2D.Double pos, double direction, String name, List<Attribute> attributes, CreatureStats stats, String sprite) {
         super(pos, direction, name, attributes, stats, sprite);
     }
 

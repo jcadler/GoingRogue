@@ -9,6 +9,8 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
 import edu.brown.cs32.goingrogue.constants.Constants;
+import edu.brown.cs32.goingrogue.gameobjects.actions.Action;
+import edu.brown.cs32.goingrogue.gameobjects.creatures.Creature;
 import edu.brown.cs32.goingrogue.gameobjects.creatures.Player;
 import edu.brown.cs32.goingrogue.graphics.GraphicsPaths;
 import edu.brown.cs32.goingrogue.map.RogueMap;
@@ -80,7 +82,11 @@ public class GamePlay {
 	 */
 	public void update(int delta) {
 		timeCount+=delta;
-		game.update(delta);
+		try {
+			game.update(); // TODO Add delta
+		} catch(CloneNotSupportedException e) {
+			
+		}
 	}
 	
 	/** Draws the game
@@ -98,7 +104,12 @@ public class GamePlay {
 		for(Space s: spaces) drawSpace(s, g);
 		
 		//Draws and animates entities
+		List<Creature> gameCreaures=game.getCreatures();
 		
+		for(Creature c: gameCreatures) {
+			List<Action> actions=c.getActions();
+			
+		}
 	}
 	
 	//Draws a space to the graphics object given
@@ -231,7 +242,5 @@ public class GamePlay {
 			System.out.println("Could not create image for SW wall...");
 			e.printStackTrace();
 		}
-
 	}
-	
 }

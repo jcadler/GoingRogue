@@ -1,6 +1,7 @@
 package edu.brown.cs32.jcadler.GameLogic.RogueMap;
 
 import java.awt.geom.Rectangle2D;
+import java.awt.geom.Point2D;
 import java.awt.Point;
 import java.util.List;
 import java.util.ArrayList;
@@ -88,7 +89,7 @@ public class Room implements Space
         return (int)room.getY();
     }
     
-    public boolean isValid(Point p)
+    public boolean isValid(Point2D.Double p)
     {
         if(p.getX()>=room.getX() && p.getX()<=room.getX()+room.getWidth()&&
            p.getY()>=room.getY() && p.getY()<=room.getY()+room.getHeight())

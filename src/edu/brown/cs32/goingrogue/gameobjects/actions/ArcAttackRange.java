@@ -46,4 +46,9 @@ public class ArcAttackRange implements Range {
     public void decrementTimer() {
         --_timer;
     }
+    
+    public double getAngle() {
+        double startAngle = toDegrees(((((double) STARTING_TIMER - _timer) / STARTING_TIMER) * (FULL_ARC.getAngleExtent())) + FULL_ARC.getAngleStart());
+        return startAngle + (RANGE_CHECK_ARC_EXTENT / 2.0);
+    }
 }

@@ -1,9 +1,9 @@
 package edu.brown.cs32.goingrogue.gameobjects.actions;
 
-import edu.brown.cs32.goingrogue.gameobjects.actions.Action;
 import edu.brown.cs32.goingrogue.gameobjects.creatures.Creature;
 import edu.brown.cs32.goingrogue.gameobjects.items.GridItem;
 import edu.brown.cs32.goingrogue.gameobjects.items.Item;
+import java.awt.geom.Point2D;
 
 /**
  *
@@ -24,5 +24,13 @@ public class PickupAction extends Action {
             ((GridItem) creature).pickUp();
             _sourceCreature.addItem(new Item((GridItem) creature));
         }
+    }
+
+    @Override
+    public ActionAnimation getActionAnimation() {
+        String spritePath = null;
+        Point2D.Double pos = new Point2D.Double(0.0, 0.0);
+        double angle = 0.0;
+        return new ActionAnimation(spritePath, pos, angle);
     }
 }

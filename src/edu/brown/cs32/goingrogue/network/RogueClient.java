@@ -7,7 +7,7 @@ import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.EndPoint;
 import com.esotericsoftware.kryonet.Listener;
 
-import edu.brown.cs32.jcalder.GameLogic.GameLogic;
+import edu.brown.cs32.jcadler.GameLogic.GameLogic;
 /** Basic networking for a non-host player **/
 public class RogueClient extends Listener implements RoguePort{
 	private Client net;

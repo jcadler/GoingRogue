@@ -3,8 +3,8 @@ package edu.brown.cs32.jcadler.GameLogic;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Random;
-import java.io.IOException;
 import java.awt.geom.Point2D;
+import java.io.IOException;
 
 import edu.brown.cs32.jcadler.GameLogic.RogueMap.LogicMap;
 import edu.brown.cs32.jcadler.GameLogic.RogueMap.Room;
@@ -14,6 +14,7 @@ import edu.brown.cs32.goingrogue.gameobjects.items.factories.GridItemFactory;
 import edu.brown.cs32.goingrogue.gameobjects.creatures.Player;
 import edu.brown.cs32.goingrogue.gameobjects.creatures.factories.PlayerFactory;
 import edu.brown.cs32.goingrogue.gameobjects.actions.Action;
+import edu.brown.cs32.goingrogue.map.RogueMap;
 
 /**
  *
@@ -54,11 +55,28 @@ public class GameLogic
         return player;
     }
     
-    public void update()
+    public RogueMap getMap()
     {
+        return crrntMap;
+    }
+    
+    public void update() throws CloneNotSupportedException
+    {   
         for(Creature c : creatures)
+            actions.addAll(c.getActions());
+        List<Creature> range = new ArrayList<>();
+        for(Action a : actions)
         {
-            action
+            for(Creature c : creatures)
+            {
+                if(a.withinRange(c))
+                {
+                    Creature test = a.actOnClone(c);
+                    if(crrntMap.isValid(test.getPosition()))
+                        
+                }
+            }
+            
         }
     }
 }

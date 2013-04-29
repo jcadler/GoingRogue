@@ -2,6 +2,7 @@ package edu.brown.cs32.goingrogue.gameobjects.actions;
 
 import edu.brown.cs32.goingrogue.gameobjects.creatures.Creature;
 import edu.brown.cs32.goingrogue.gameobjects.creatures.CreatureStats;
+import java.awt.geom.Point2D;
 
 /**
  *
@@ -19,5 +20,13 @@ public class ArcAttackAction extends Action {
     @Override
     public void act(Creature creature) {
         creature.incurDamage(_sourceCreature);
+    }
+
+    @Override
+    public ActionAnimation getActionAnimation() {
+        String spritePath = _sourceCreature.getInventory().getWeapon().getSpritePath();
+        Point2D.Double pos = _sourceCreature.getPosition();
+        double angle = ((ArcAttackRange) getRange()).getAngle();
+        return new ActionAnimation(spritePath, pos, angle);
     }
 }
