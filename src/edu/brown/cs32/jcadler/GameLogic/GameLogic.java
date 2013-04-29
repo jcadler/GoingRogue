@@ -60,11 +60,13 @@ public class GameLogic
         return crrntMap;
     }
     
+    
+    
     public void update() throws CloneNotSupportedException
     {   
         for(Creature c : creatures)
             actions.addAll(c.getActions());
-        List<Creature> range = new ArrayList<>();
+        List<Action> remove = new ArrayList<>();
         for(Action a : actions)
         {
             for(Creature c : creatures)
@@ -73,10 +75,19 @@ public class GameLogic
                 {
                     Creature test = a.actOnClone(c);
                     if(crrntMap.isValid(test.getPosition()))
-                        
+                        a.act(c);
                 }
             }
-            
+            if(a.getTimer()==0)
+                remove.add(a);
         }
+        actions.removeAll(remove);
+        List<Creature> dead = new ArrayList<>();
+        for(Creature c : creatures)
+        {
+            if(c.isDead())
+                dead.add(c);
+        }
+        creatures.removeAll(dead);
     }
 }
