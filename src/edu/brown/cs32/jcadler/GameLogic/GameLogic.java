@@ -58,6 +58,7 @@ public class GameLogic
     
     public RogueMap getMap()
     {
+    	
         return crrntMap;
     }
     
@@ -86,7 +87,8 @@ public class GameLogic
     }
     
     public void update() throws CloneNotSupportedException
-    {   
+    {
+    	List<Action> actions=new ArrayList<>();
         for(Creature c : creatures)
             actions.addAll(c.getActions());
         List<Action> remove = new ArrayList<>();

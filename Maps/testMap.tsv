@@ -1,7 +1,1 @@
-Room	0	0	50	50	testRoom
-Room	0	100	50	50	bottomRoom
-Room	0	50	10	10	turn1
-Room	10	50	10	10	turn2
-Corridor	testRoom	turn1	2	10	0,0
-Corridor	turn1	turn2	1	10	0,0
-Corridor	turn2	bottomRoom	2	10	0,10
+Room	0	0	10	10	testRoom

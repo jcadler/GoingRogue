@@ -26,12 +26,11 @@ import edu.brown.cs32.goingrogue.map.Tile;
 import edu.brown.cs32.goingrogue.map.Wall;
 import edu.brown.cs32.goingrogue.util.Util;
 import edu.brown.cs32.jcadler.GameLogic.GameLogic;
+import edu.brown.cs32.jcadler.GameLogic.RogueMap.Room;
 
-/**
+/** Handles the updating and rendering of a game
+ * 
  * @author Dominic Adams
- * @author Ben Weedon
- * @author John Adler
- * @author Ken Lin
  * @version 1.0 4/13
  */
 public class GamePlay {
@@ -125,13 +124,18 @@ public class GamePlay {
 		
 		//Draws the map
 		List<Space> spaces=map.getData((int)(upperLeft.getX()-1), (int)(upperLeft.getY()-1), (int)(lowerRight.getX()+1), (int)(lowerRight.getY()+1));
-		for(Space s: spaces) drawSpace(s, g);
-		
+//		System.out.println(spaces.get(0).getFloor().length);
+//		System.out.println(spaces.get(0).getFloor()[0].length);
+		for(Space s: spaces) drawSpace(s, center, g);
 		//Draws and animates entities
 		//TODO Add creature size. Right now I just get everything within 2 tiles
-		List<Creature> gameCreatures=game.getCreatures(upperLeft.getX(), upperLeft.getY(), lowerRight.getX(), lowerRight.getY());
+		List<Creature> gameCreatures=game.getCreatures(/*upperLeft.getX(), upperLeft.getY(), lowerRight.getX(), lowerRight.getY()*/);
 		
+		int index=0;
 		for(Creature c: gameCreatures) {
+			
+			System.out.println("CREATURE! "+index);
+			index++;
 			
 			Action actionToAnimate=null;
 			List<Action> actions=c.getActions();
@@ -230,31 +234,44 @@ public class GamePlay {
 	}
 	
 	//Draws a space to the graphics object given
-	void drawSpace(Space s, Graphics g) {
+	void drawSpace(Space s, Point2D center, Graphics g) {
+		
+		int tileFilter=Image.FILTER_NEAREST;
+		
+		//Draws the floor tiles
+		
 		int[] upperLeft=Util.snapPoint(s.upperLeft());
 		Tile[][] floor=s.getFloor();
+		
+//		System.out.println("FLOOR WIDTH: "+floor.length);
+//		System.out.println("FLOOR HEIGHT: "+(floor.length==0 ? 0 : floor[0].length));
 		
 		for(int i=0; i<floor.length; i++)
 		for(int j=0; j<floor[i].length; j++) {
 			Tile t=floor[i][j];
 			int x=(int)upperLeft[0]+i;
 			int y=(int)upperLeft[1]+j;
+			Point2D gameCoords=new Point2D.Double(x, y);
+//			System.out.println("Drawing tile at "+x+", "+y);
 			
 			Image tileImage=null;
 			try {
-				tileImage=new Image(t.path, false, Image.FILTER_LINEAR);
-				tileImage.draw(x, y, Constants.TILE_SIZE, Constants.TILE_SIZE);
+				int[] screenCoords=gameToScreen(gameCoords, center);
+				tileImage=new Image(t.path, false, tileFilter);
+				tileImage.draw(screenCoords[0], screenCoords[1], (int)(1*gameToScreenFactor), (int)(1*gameToScreenFactor));
 			} catch(SlickException e) {
-				System.out.println("Could not create image for tile "+t+" at location ("+x+", "+y+")...");
+		//		System.out.println("Could not create image for tile "+t+" at location ("+x+", "+y+")...");
 				e.printStackTrace();
 			}
 		}
 		
+		//Draws the wall
+		
 		Wall w=s.getWallType();
 		
-		//{N, S, E, W, NE, NW, SE, SW}
+/*		//{N, S, E, W, NE, NW, SE, SW}
 		String[] wallPaths=new String[8];
-		if(w==Wall.NONE) {
+		if(w==Wall.NONE || w==Wall.DEFAULT) {
 			for(int i=0; i<wallPaths.length; i++) {
 				wallPaths[i]=GraphicsPaths.EMPTY.path;
 			}
@@ -272,7 +289,7 @@ public class GamePlay {
 		int y1=upperLeft[1]-1;
 		
 		try {
-			Image wallN=new Image(wallPaths[0], false, Image.FILTER_LINEAR);
+			Image wallN=new Image(wallPaths[0], false, tileFilter);
 			for(int i=0; i<s.width(); i++) {
 				int x=upperLeft[0]+i;
 				wallN.draw(x, y1, Constants.TILE_SIZE, Constants.TILE_SIZE);
@@ -286,7 +303,7 @@ public class GamePlay {
 		int y2=upperLeft[1]+s.height()+1;
 		
 		try {
-			Image wallS=new Image(wallPaths[1], false, Image.FILTER_LINEAR);
+			Image wallS=new Image(wallPaths[1], false, tileFilter);
 			for(int i=0; i<s.width(); i++) {
 				int x=upperLeft[0]+i;
 				wallS.draw(x, y2, Constants.TILE_SIZE, Constants.TILE_SIZE);
@@ -300,7 +317,7 @@ public class GamePlay {
 		int x2=upperLeft[0]+upperLeft[0]+s.width()+1;
 		
 		try {
-			Image wallE=new Image(wallPaths[2], false, Image.FILTER_LINEAR);
+			Image wallE=new Image(wallPaths[2], false, tileFilter);
 			for(int i=0; i<s.height(); i++) {
 				int y=upperLeft[1]+i;
 				wallE.draw(x2, y, Constants.TILE_SIZE, Constants.TILE_SIZE);
@@ -314,7 +331,7 @@ public class GamePlay {
 		int x1=upperLeft[0]-1;
 		
 		try {
-			Image wallW=new Image(wallPaths[3], false, Image.FILTER_LINEAR);
+			Image wallW=new Image(wallPaths[3], false, tileFilter);
 			for(int i=0; i<s.height(); i++) {
 				int y=upperLeft[1]+i;
 				wallW.draw(x1, y, Constants.TILE_SIZE, Constants.TILE_SIZE);
@@ -326,7 +343,7 @@ public class GamePlay {
 		
 		//Upper right tile
 		try {
-			Image wallNE=new Image(wallPaths[4]);
+			Image wallNE=new Image(wallPaths[4], false, tileFilter);
 			wallNE.draw(upperLeft[0]-1, upperLeft[1]-1, Constants.TILE_SIZE, Constants.TILE_SIZE);
 		} catch(SlickException e) {
 			System.out.println("Could not create image for NE wall...");
@@ -335,7 +352,7 @@ public class GamePlay {
 		
 		//Upper left tile
 		try {
-			Image wallNW=new Image(wallPaths[4]);
+			Image wallNW=new Image(wallPaths[4], false, tileFilter);
 			wallNW.draw(upperLeft[0]-1, upperLeft[1]-1, Constants.TILE_SIZE, Constants.TILE_SIZE);
 		} catch(SlickException e) {
 			System.out.println("Could not create image for NW wall...");
@@ -344,7 +361,7 @@ public class GamePlay {
 
 		//Lower right tile
 		try {
-			Image wallSE=new Image(wallPaths[4]);
+			Image wallSE=new Image(wallPaths[4], false, tileFilter);
 			wallSE.draw(upperLeft[0]-1, upperLeft[1]-1, Constants.TILE_SIZE, Constants.TILE_SIZE);
 		} catch(SlickException e) {
 			System.out.println("Could not create image for SE wall...");
@@ -353,11 +370,11 @@ public class GamePlay {
 
 		//Lower left tile
 		try {
-			Image wallSW=new Image(wallPaths[4]);
+			Image wallSW=new Image(wallPaths[4], false, tileFilter);
 			wallSW.draw(upperLeft[0]-1, upperLeft[1]-1, Constants.TILE_SIZE, Constants.TILE_SIZE);
 		} catch(SlickException e) {
 			System.out.println("Could not create image for SW wall...");
 			e.printStackTrace();
 		}
-	}
+*/	}
 }

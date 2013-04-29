@@ -1,5 +1,7 @@
 package edu.brown.cs32.goingrogue.game;
 
+import java.awt.geom.Point2D;
+
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.GameContainer;
@@ -8,13 +10,9 @@ import org.newdawn.slick.SlickException;
 
 import edu.brown.cs32.goingrogue.gameobjects.creatures.KeyCodes;
 import edu.brown.cs32.goingrogue.gameobjects.creatures.Player;
-import edu.brown.cs32.goingrogue.graphics.TestGame;
 
 /**
  * @author Dominic Adams
- * @author Ben Weedon
- * @author John Adler
- * @author Ken Lin
  * @version 1.0 4/13
  */
 public class Main extends BasicGame
@@ -49,7 +47,7 @@ public class Main extends BasicGame
 	
 	public static void main(String[] args) throws SlickException
 	{
-		AppGameContainer app = new AppGameContainer(new TestGame());
+		AppGameContainer app = new AppGameContainer(new Main());
 		app.setDisplayMode(800, 600, false);
 		app.start();
 	
@@ -69,6 +67,17 @@ public class Main extends BasicGame
 	
 	@Override
 	public void mouseClicked(int button, int x, int y, int clickCount) {
+		//Test the coord transformation methods
+		
+		Point2D center=g.player.getPosition();
+		
+		System.out.println("ORIG: "+x+", "+y);
+		
+		Point2D gameCoords=g.screenToGame(new int[]{x, y}, center);
+		System.out.println("GAME: "+gameCoords.getX()+", "+gameCoords.getY());
+		
+		int[] newCoords=g.gameToScreen(gameCoords, center);
+		System.out.println("NEW:  "+newCoords[0]+", "+newCoords[1]);
 	}
 	
 	@Override

@@ -39,23 +39,23 @@ public enum GraphicsPaths {
 			CHAR_3("", CHARACTERS),
 			CHAR_4("", CHARACTERS),
 		MONSTERS("monsters/", CREATURES),
-			BAT_SPRITE("bat/", MONSTERS),
+			BAT_SPRITE("slime/", MONSTERS),
 			SLIME_SPRITE("slime/", MONSTERS),
-			EMU_SPRITE("", MONSTERS),
-			DRAGON_SPRITE("", MONSTERS),
-			HOB_GOBLIN_SPRITE("", MONSTERS),
-			GIANT_SPRITE("", MONSTERS),
-			SNAKE_SPRITE("", MONSTERS),
-			DOG_SPRITE("", MONSTERS),
+			EMU_SPRITE("slime/", MONSTERS),
+			DRAGON_SPRITE("slime/", MONSTERS),
+			HOB_GOBLIN_SPRITE("slime/", MONSTERS),
+			GIANT_SPRITE("slime/", MONSTERS),
+			SNAKE_SPRITE("slime/", MONSTERS),
+			DOG_SPRITE("slime/", MONSTERS),
 
-	ITEMS("items/", GRAPHICS),
-		SWORD_SPRITE("", ITEMS),
-		AXE_SPRITE("", ITEMS),
-		WAR_HAMMER_SPRITE("", ITEMS),
-		SPEAR_SPRITE("", ITEMS),
-		ARMOUR_SPRITE("", ITEMS),
-		SHIELD_SPRITE("", ITEMS),
-		POTION_SPRITE("", ITEMS);
+	ITEMS(/*"items/"*/"creatures/monsters/", GRAPHICS),
+		SWORD_SPRITE("bat/", ITEMS),
+		AXE_SPRITE("bat/", ITEMS),
+		WAR_HAMMER_SPRITE("bat/", ITEMS),
+		SPEAR_SPRITE("bat/", ITEMS),
+		ARMOUR_SPRITE("bat/", ITEMS),
+		SHIELD_SPRITE("bat/", ITEMS),
+		POTION_SPRITE("bat/", ITEMS);
 	
 	public final String path;
 	final GraphicsPaths superpath;

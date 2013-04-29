@@ -11,13 +11,11 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.Rectangle;
 
 /** A class for testing basic graphical methods
  * 
  * @author Dominic Adams
- * @author Ben Weedon
- * @author John Adler
- * @author Ken Lin
  * @version 1.0 4/13
  */
 
@@ -82,12 +80,12 @@ public class TestGame extends BasicGame
 			anims.add(anim.copy());
 		}
 		
-		if(anim!=null && timeCount>=nextMoveMarker) {
+/*		if(anim!=null && timeCount>=nextMoveMarker) {
 			nextMoveMarker+=moveMarkerDelta;
 			for(int i=0; i<xList.size(); i++) xList.set(i, xList.get(i)+moveDelta);
 			numMoves++;
 		}
-		
+*/		
 		//Add code to remove bats when list gets too big
 	}
 	
@@ -100,15 +98,29 @@ public class TestGame extends BasicGame
 		if(!animDrawn) {
 			GraphicsLoader.setFilterType(Image.FILTER_NEAREST);
 			anim=GraphicsLoader.loadMove(GraphicsPaths.SLIME_SPRITE.path);
-			AnimationHandler.setDurations(anim, new int[]{5000, 250});
+			AnimationHandler.setDurations(anim, new int[]{500, 250});
 			animDrawn=true;
 		}
+		
+		Rectangle screenBounds = new Rectangle(0, 0, gc.getWidth(), gc.getHeight());
+		g.draw(screenBounds);
 		
 		int i=0;
 		while(i<xList.size()) {
 			Animation a=anims.get(i);
 			a.draw(xList.get(i), yList.get(i), 40, 40);
-			i++;
+			
+			Rectangle animBounds = new Rectangle(xList.get(i), yList.get(i), 40, 40);
+			g.draw(animBounds);
+			
+			if(!animBounds.intersects(screenBounds)) {
+				anims.remove(i);
+				xList.remove(i);
+				yList.remove(i);
+			}
+			else i++;
+			
+			
 		}
 		
 		g.drawString(textToDisplay, 100, gc.getHeight()-100);
@@ -118,8 +130,8 @@ public class TestGame extends BasicGame
 	{
 		AppGameContainer app = new AppGameContainer(new TestGame());
 		app.setDisplayMode(800, 600, false);
+		app.setShowFPS(false);
 		app.start();
-
 	}
 	
 	@Override

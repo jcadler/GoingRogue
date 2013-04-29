@@ -32,7 +32,7 @@ public class Player extends Creature {
         return new InputHandler();
     }
 
-    private class InputHandler {
+    public class InputHandler {
 
         public void moveUp() {
             setPosition(new Point2D.Double(getPosition().getX(), getPosition().getY() - getSpeed()));

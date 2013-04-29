@@ -64,8 +64,8 @@ public class Room implements Space
     
     public Tile[][] getFloor()
     {
-        int x = (int)room.getX();
-        int y = (int)room.getY();
+        int x = (int)room.getWidth();
+        int y = (int)room.getHeight();
         Tile[][] ret = new Tile[x][y];
         for(int i=0;i<x;i++)
         {
