@@ -1,8 +1,6 @@
 package edu.brown.cs32.goingrogue.gameobjects.items.factories;
 
 import edu.brown.cs32.goingrogue.gameobjects.creatures.Attribute;
-import edu.brown.cs32.goingrogue.gameobjects.creatures.Creature;
-import edu.brown.cs32.goingrogue.gameobjects.creatures.factories.CreatureFactory;
 import edu.brown.cs32.goingrogue.gameobjects.items.GridItem;
 import static edu.brown.cs32.goingrogue.gameobjects.creatures.util.RandomDataUtil.*;
 import edu.brown.cs32.goingrogue.gameobjects.items.ItemStats;

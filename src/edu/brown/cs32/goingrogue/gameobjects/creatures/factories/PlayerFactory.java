@@ -5,7 +5,7 @@ import edu.brown.cs32.goingrogue.gameobjects.creatures.Attribute;
 import edu.brown.cs32.goingrogue.gameobjects.creatures.Player;
 import static edu.brown.cs32.goingrogue.gameobjects.creatures.Attribute.*;
 import edu.brown.cs32.goingrogue.gameobjects.items.Item;
-import edu.brown.cs32.goingrogue.gameobjects.items.factories.GridItemFactory;
+import edu.brown.cs32.goingrogue.gameobjects.items.factories.GridWeaponFactory;
 import edu.brown.cs32.goingrogue.graphics.GraphicsPaths;
 
 import java.awt.geom.Point2D;
@@ -24,7 +24,7 @@ public class PlayerFactory {
         String sprite = GraphicsPaths.SLIME_SPRITE.path; // TODO fill this in later
         Player returnCreature = new Player(new Point2D.Double(0.0, 0.0), Math.PI / 2.0, "Bob",
                 attributes, Constants.STARTING_PLAYER_STATS, sprite);
-        returnCreature.addItem(new Item(GridItemFactory.create()));
+        returnCreature.addItem(new Item(GridWeaponFactory.create()));
         return returnCreature;
     }
 }
