@@ -1,6 +1,7 @@
 package edu.brown.cs32.goingrogue.gameobjects.actions;
 
 import java.awt.geom.Point2D;
+import java.util.Objects;
 
 /**
  *
@@ -40,5 +41,35 @@ public class ActionAnimation {
 
     public void setAngle(double angle) {
         _angle = angle;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 73 * hash + Objects.hashCode(this._spritePath);
+        hash = 73 * hash + Objects.hashCode(this._pos);
+        hash = 73 * hash + (int) (Double.doubleToLongBits(this._angle) ^ (Double.doubleToLongBits(this._angle) >>> 32));
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final ActionAnimation other = (ActionAnimation) obj;
+        if (!Objects.equals(this._spritePath, other._spritePath)) {
+            return false;
+        }
+        if (!Objects.equals(this._pos, other._pos)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this._angle) != Double.doubleToLongBits(other._angle)) {
+            return false;
+        }
+        return true;
     }
 }

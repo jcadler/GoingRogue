@@ -6,6 +6,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import static java.lang.Math.PI;
 import static java.lang.Math.toDegrees;
+import java.util.Objects;
 
 /**
  *
@@ -46,9 +47,55 @@ public class ArcAttackRange implements Range {
     public void decrementTimer() {
         --_timer;
     }
-    
+
     public double getAngle() {
         double startAngle = toDegrees(((((double) STARTING_TIMER - _timer) / STARTING_TIMER) * (FULL_ARC.getAngleExtent())) + FULL_ARC.getAngleStart());
         return startAngle + (RANGE_CHECK_ARC_EXTENT / 2.0);
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 37 * hash + (int) (Double.doubleToLongBits(this._direction) ^ (Double.doubleToLongBits(this._direction) >>> 32));
+        hash = 37 * hash + (int) (Double.doubleToLongBits(this._distance) ^ (Double.doubleToLongBits(this._distance) >>> 32));
+        hash = 37 * hash + (int) (Double.doubleToLongBits(this._arcLength) ^ (Double.doubleToLongBits(this._arcLength) >>> 32));
+        hash = 37 * hash + this._timer;
+        hash = 37 * hash + this.STARTING_TIMER;
+        hash = 37 * hash + Objects.hashCode(this.FULL_ARC);
+        hash = 37 * hash + (int) (Double.doubleToLongBits(this.RANGE_CHECK_ARC_EXTENT) ^ (Double.doubleToLongBits(this.RANGE_CHECK_ARC_EXTENT) >>> 32));
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final ArcAttackRange other = (ArcAttackRange) obj;
+        if (Double.doubleToLongBits(this._direction) != Double.doubleToLongBits(other._direction)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this._distance) != Double.doubleToLongBits(other._distance)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this._arcLength) != Double.doubleToLongBits(other._arcLength)) {
+            return false;
+        }
+        if (this._timer != other._timer) {
+            return false;
+        }
+        if (this.STARTING_TIMER != other.STARTING_TIMER) {
+            return false;
+        }
+        if (!Objects.equals(this.FULL_ARC, other.FULL_ARC)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.RANGE_CHECK_ARC_EXTENT) != Double.doubleToLongBits(other.RANGE_CHECK_ARC_EXTENT)) {
+            return false;
+        }
+        return true;
     }
 }
