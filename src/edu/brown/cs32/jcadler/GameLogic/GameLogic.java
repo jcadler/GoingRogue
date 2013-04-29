@@ -1,20 +1,21 @@
 package edu.brown.cs32.jcadler.GameLogic;
 
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Random;
+import java.awt.Rectangle;
 import java.awt.geom.Point2D;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
+import edu.brown.cs32.goingrogue.gameobjects.actions.Action;
+import edu.brown.cs32.goingrogue.gameobjects.creatures.Creature;
+import edu.brown.cs32.goingrogue.gameobjects.creatures.Player;
+import edu.brown.cs32.goingrogue.gameobjects.creatures.factories.AICreatureFactory;
+import edu.brown.cs32.goingrogue.gameobjects.creatures.factories.PlayerFactory;
+import edu.brown.cs32.goingrogue.gameobjects.items.factories.GridItemFactory;
+import edu.brown.cs32.goingrogue.map.RogueMap;
 import edu.brown.cs32.jcadler.GameLogic.RogueMap.LogicMap;
 import edu.brown.cs32.jcadler.GameLogic.RogueMap.Room;
-import edu.brown.cs32.goingrogue.gameobjects.creatures.Creature;
-import edu.brown.cs32.goingrogue.gameobjects.creatures.factories.AICreatureFactory;
-import edu.brown.cs32.goingrogue.gameobjects.items.factories.GridItemFactory;
-import edu.brown.cs32.goingrogue.gameobjects.creatures.Player;
-import edu.brown.cs32.goingrogue.gameobjects.creatures.factories.PlayerFactory;
-import edu.brown.cs32.goingrogue.gameobjects.actions.Action;
-import edu.brown.cs32.goingrogue.map.RogueMap;
 
 /**
  *
@@ -60,7 +61,29 @@ public class GameLogic
         return crrntMap;
     }
     
+    /** Gets all creatures
+     */
+    public List<Creature> getCreatures()
+    {
+        return creatures;
+    }
     
+    /** Gets all creatures within the given (x1, y1, x2, y2) bounds
+     */
+    public List<Creature> getCreatures(double minX, double minY, double maxX, double maxY)
+    {
+    	Rectangle bounds=new Rectangle();
+    	
+    	List<Creature> boundedCreatures=new ArrayList<>();
+    	//TODO Incorporate creature size
+        for(Creature c: creatures) {
+        	if(bounds.contains(c.getPosition())) {
+        		boundedCreatures.add(c);
+        	}
+        }
+    	
+    	return boundedCreatures;
+    }
     
     public void update() throws CloneNotSupportedException
     {   

@@ -1,6 +1,7 @@
 package edu.brown.cs32.goingrogue.game;
 
 import java.awt.geom.Point2D;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,10 +52,19 @@ public class GamePlay {
 		this.gc=gc;
 		
 		//Initializes gameplay
-		game = null; /* new GameLogic() */
-		player=game.getPlayer();
-		map=game.getMap();
-		cache=new AnimationCache();
+		try {
+			game = new GameLogic();
+			player=game.getPlayer();
+			map=game.getMap();
+			cache=new AnimationCache();
+		} catch(IOException e) {
+			//Should not happen
+			e.printStackTrace();
+		}
+	}
+	
+	public Player getPlayer() {
+		return player;
 	}
 	
 	//Converts a point on the game map to a point on the screen
@@ -118,7 +128,8 @@ public class GamePlay {
 		for(Space s: spaces) drawSpace(s, g);
 		
 		//Draws and animates entities
-		List<Creature> gameCreatures=game.getCreatures();
+		//TODO Add creature size. Right now I just get everything within 2 tiles
+		List<Creature> gameCreatures=game.getCreatures(upperLeft.getX(), upperLeft.getY(), lowerRight.getX(), lowerRight.getY());
 		
 		for(Creature c: gameCreatures) {
 			
@@ -135,11 +146,15 @@ public class GamePlay {
 			//No action
 			if(actionToAnimate==null) {
 				//TODO Call c.getDimensions() and scale the image on creation
-				Image image=GraphicsLoader.loadImage(c.getSpritePath());
-				
-				int[] screenCoords=gameToScreen(c.getPosition(), center);
-				image.drawCentered(screenCoords[0], screenCoords[1]);
-			
+				try {
+					Image image=GraphicsLoader.loadImage(c.getSpritePath());
+					
+					int[] screenCoords=gameToScreen(c.getPosition(), center);
+					image.drawCentered(screenCoords[0], screenCoords[1]);
+				} catch(SlickException e) {
+					//Should not happen
+					e.printStackTrace();
+				}
 			
 			} else {
 				
@@ -180,8 +195,6 @@ public class GamePlay {
 				
 				//Other type of action (no weapon)
 				} else {
-					
-					ActionAnimation actionAnimation=actionAnimations.get(0);
 					
 					Animation anim=null;
 					

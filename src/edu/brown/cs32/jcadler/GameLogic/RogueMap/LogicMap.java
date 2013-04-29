@@ -27,7 +27,7 @@ public class LogicMap implements RogueMap
     
     public static LogicMap getRandomMap() throws IOException,IllegalArgumentException
     {
-        File folder = new File("./Maps");
+        File folder = new File("Maps");
         File map;
         List<File> maps = Arrays.asList(folder.listFiles());
         if(maps.size()==1)

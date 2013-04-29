@@ -5,7 +5,11 @@
 	<classpathentry kind="lib" path="lib/slick.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="lib/lwjgl-2.8.5/jinput.jar"/>
-	<classpathentry kind="lib" path="lib/lwjgl-2.8.5/lwjgl.jar"/>
-	<classpathentry kind="lib" path="lib/kryonet-2.18-all.jar"/>
+	<classpathentry kind="lib" path="lib/lwjgl-2.8.5/lwjgl.jar">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="C:/Users/Nico/Desktop/Programs/LWJGL/lwjgl-2.8.5/native/windows"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="C:/Users/Nico/Desktop/College/CS 32/GoingRogue/lib/kryonet-2.18-all.jar"/>
 	<classpathentry kind="output" path="derived/classes"/>
 </classpath>
