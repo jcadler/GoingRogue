@@ -48,19 +48,19 @@ public abstract class Creature implements Cloneable {
     public void setPosition(Point2D.Double pos) {
         _pos = pos;
     }
-    
+
     public double getDirection() {
         return _direction;
     }
-    
+
     public void setDirection(double direction) {
         _direction = direction;
     }
-    
+
     public String getSpritePath() {
         return _spritePath;
     }
-    
+
     public void setSpritePath(String spritePath) {
         _spritePath = spritePath;
     }
@@ -96,19 +96,19 @@ public abstract class Creature implements Cloneable {
     public int getHealth() {
         return _stats.getHealth();
     }
-    
+
     public boolean isDead() {
         return _stats.getHealth() <= 0;
     }
-    
+
     public double getWeaponRange() {
         return _inventory.getWeapon().getStats().getRange();
     }
-    
+
     public double getWeaponArcLength() {
         return _inventory.getWeapon().getStats().getArcLength();
     }
-    
+
     public int getWeaponAttackTimer() {
         return _inventory.getWeapon().getStats().getAttackTimer();
     }
@@ -120,15 +120,15 @@ public abstract class Creature implements Cloneable {
     public boolean containsAttribute(Attribute attribute) {
         return _attributes.contains(attribute);
     }
-    
+
     public int getLevel() {
         return _level;
     }
-    
+
     public void incrementLevel() {
         ++_level;
     }
-    
+
     public void decrementLevel() {
         --_level;
     }
