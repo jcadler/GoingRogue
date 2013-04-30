@@ -19,6 +19,9 @@ public class AnimationHandler {
 	 */
 	public static void setTime(Animation animation, int time) {
 		//Calculates the length
+		
+		System.out.println(animation);
+		
 		int[] lengths=animation.getDurations();
 		float currTime=0;
 		for(int i: lengths) currTime+=i;

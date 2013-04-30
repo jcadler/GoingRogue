@@ -80,12 +80,12 @@ public class TestGame extends BasicGame
 			anims.add(anim.copy());
 		}
 		
-/*		if(anim!=null && timeCount>=nextMoveMarker) {
+		if(anim!=null && timeCount>=nextMoveMarker) {
 			nextMoveMarker+=moveMarkerDelta;
 			for(int i=0; i<xList.size(); i++) xList.set(i, xList.get(i)+moveDelta);
 			numMoves++;
 		}
-*/		
+		
 		//Add code to remove bats when list gets too big
 	}
 	
@@ -98,12 +98,10 @@ public class TestGame extends BasicGame
 		if(!animDrawn) {
 			GraphicsLoader.setFilterType(Image.FILTER_NEAREST);
 			anim=GraphicsLoader.loadMove(GraphicsPaths.SLIME_SPRITE.path);
-			AnimationHandler.setDurations(anim, new int[]{500, 250});
 			animDrawn=true;
 		}
 		
 		Rectangle screenBounds = new Rectangle(0, 0, gc.getWidth(), gc.getHeight());
-		g.draw(screenBounds);
 		
 		int i=0;
 		while(i<xList.size()) {
@@ -111,7 +109,6 @@ public class TestGame extends BasicGame
 			a.draw(xList.get(i), yList.get(i), 40, 40);
 			
 			Rectangle animBounds = new Rectangle(xList.get(i), yList.get(i), 40, 40);
-			g.draw(animBounds);
 			
 			if(!animBounds.intersects(screenBounds)) {
 				anims.remove(i);

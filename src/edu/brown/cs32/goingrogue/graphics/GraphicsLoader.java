@@ -9,6 +9,8 @@ import org.newdawn.slick.Animation;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
+import edu.brown.cs32.goingrogue.constants.Constants;
+
 /** Loads an animation from file given a pathname
  * 
  * @author Dominic Adams
@@ -71,14 +73,18 @@ public class GraphicsLoader {
 			
 			//Creates an auto-updating image from the found files
 			Animation a=new Animation(images.toArray(new Image[]{}), //Images
-										(int)(1000./* /Constants.FRAMERATE */), //Time per image
+										(int)(1000./Constants.DEFAULT_FRAMERATE), //Time per image
 										true);
+			
 			cache.add(path, a);
+			
 			
 		} catch(SlickException e) {
 			//Could not load the animation
 			e.printStackTrace();
 		}
+		
+		System.out.println("Loading animation "+path+"\n\t Returned "+cache.getAnimation(path));
 		
 		return cache.getAnimation(path);
 	}

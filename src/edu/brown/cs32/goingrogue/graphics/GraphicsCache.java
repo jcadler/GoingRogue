@@ -40,7 +40,7 @@ public class GraphicsCache {
 		return animationCache.get(p);
 	}
 	
-	/** Returns the animation stored by the specified path, or null if none exists
+	/** Returns the image stored by the specified path, or null if none exists
 	 */
 	public Image getImage(String p) {
 		return imageCache.get(p);

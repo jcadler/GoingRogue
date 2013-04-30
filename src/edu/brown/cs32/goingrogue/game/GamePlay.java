@@ -139,6 +139,7 @@ public class GamePlay {
 			Action actionToAnimate=null;
 			List<Action> actions=c.getActions();
 			for(Action a: actions) {
+				
 				if(actionToAnimate==null ||
 					a.type().getPriority()>actionToAnimate.type().getPriority()) {
 					
@@ -150,6 +151,7 @@ public class GamePlay {
 			if(actionToAnimate==null) {
 				//TODO Call c.getDimensions() and scale the image on creation
 				try {
+					
 					Image image=GraphicsLoader.loadImage(c.getSpritePath());
 					
 					int[] screenCoords=gameToScreen(c.getPosition(), center);
