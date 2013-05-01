@@ -13,13 +13,13 @@ import java.util.Objects;
  * @author Ben Weedon (bweedon)
  */
 public class ArcAttackAction extends Action {
-	
+
     private Creature _sourceCreature;
-    
+
     public ArcAttackAction(double direction, double distance, double arcLength, int timer, Creature sourceCreature) {
         super(timer, new ArcAttackRange(direction, distance, arcLength, timer));
-        
-        _type=ActionType.ATTACK;
+
+        _type = ActionType.ATTACK;
         _sourceCreature = sourceCreature;
     }
 
@@ -31,20 +31,25 @@ public class ArcAttackAction extends Action {
     @Override
     public List<ActionAnimation> getActionAnimations() {
         String creatureSpritePath = _sourceCreature.getSpritePath();
-        String weaponSpritePath = _sourceCreature.getInventory().getWeapon().getSpritePath();
-        
+        String weaponSpritePath;
+        if (_sourceCreature.getInventory().getWeapon() != null) {
+            weaponSpritePath = _sourceCreature.getInventory().getWeapon().getSpritePath();
+        } else {
+            weaponSpritePath = null;
+        }
+
         Point2D.Double creaturePos = _sourceCreature.getPosition();
         double creatureAngle = ((ArcAttackRange) getRange()).getAngle();
-        
+
         double[] weaponPosTemp = new double[]{creaturePos.getX(), creaturePos.getY()};
         double[] weaponPosPolar = Util.rectangularToPolar(weaponPosTemp[0], weaponPosTemp[1]);
-        weaponPosPolar[0]+=.5;
+        weaponPosPolar[0] += .5;
         weaponPosTemp = Util.polarToRectangular(weaponPosPolar[0], weaponPosPolar[1]);
         Point2D.Double weaponPos = new Point2D.Double(weaponPosTemp[0], weaponPosTemp[1]);
-        
-        ActionAnimation creatureAnimation=new ActionAnimation(creatureSpritePath, creaturePos, creatureAngle);
-        ActionAnimation weaponAnimation=new ActionAnimation(weaponSpritePath, weaponPos, creatureAngle);
-        List<ActionAnimation> list=new ArrayList<>();
+
+        ActionAnimation creatureAnimation = new ActionAnimation(creatureSpritePath, creaturePos, creatureAngle);
+        ActionAnimation weaponAnimation = new ActionAnimation(weaponSpritePath, weaponPos, creatureAngle);
+        List<ActionAnimation> list = new ArrayList<>();
         list.add(creatureAnimation);
         list.add(weaponAnimation);
         return list;

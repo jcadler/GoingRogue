@@ -113,15 +113,27 @@ public abstract class Creature implements Cloneable {
     }
 
     public double getWeaponRange() {
-        return _inventory.getWeapon().getStats().getRange();
+        if (_inventory.getWeapon() != null) {
+            return _inventory.getWeapon().getStats().getRange();
+        } else {
+            return 0.0;
+        }
     }
 
     public double getWeaponArcLength() {
-        return _inventory.getWeapon().getStats().getArcLength();
+        if (_inventory.getWeapon() != null) {
+            return _inventory.getWeapon().getStats().getArcLength();
+        } else {
+            return 0.0;
+        }
     }
 
     public int getWeaponAttackTimer() {
-        return _inventory.getWeapon().getStats().getAttackTimer();
+        if (_inventory.getWeapon() != null) {
+            return _inventory.getWeapon().getStats().getAttackTimer();
+        } else {
+            return 0;
+        }
     }
 
     public void incurDamage(Creature attacker) {
