@@ -36,10 +36,11 @@ public class ArcAttackAction extends Action {
         Point2D.Double creaturePos = _sourceCreature.getPosition();
         double creatureAngle = ((ArcAttackRange) getRange()).getAngle();
         
-        double[] weaponPosTemp = new double[]{creaturePos.getX(), creaturePos.getY()};
-        double[] weaponPosPolar = Util.rectangularToPolar(weaponPosTemp[0], weaponPosTemp[1]);
+        double[] weaponPosPolar = new double[]{0, creatureAngle};
         weaponPosPolar[0]+=.5;
-        weaponPosTemp = Util.polarToRectangular(weaponPosPolar[0], weaponPosPolar[1]);
+        double[] weaponPosTemp = Util.polarToRectangular(weaponPosPolar[0], weaponPosPolar[1]);
+        weaponPosTemp[0]+=creaturePos.x;
+        weaponPosTemp[1]+=creaturePos.y;
         Point2D.Double weaponPos = new Point2D.Double(weaponPosTemp[0], weaponPosTemp[1]);
         
         ActionAnimation creatureAnimation=new ActionAnimation(creatureSpritePath, creaturePos, creatureAngle);
