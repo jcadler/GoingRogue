@@ -34,6 +34,7 @@ public class GameLogic
         Random r = new Random();
         int numCreatures = r.nextInt(3)+1;
         creatures = new ArrayList<>();
+        actions = new ArrayList<>();
         List<Room> rooms = crrntMap.getRooms();
         for(int i=0;i<numCreatures;i++)
         {
@@ -90,10 +91,18 @@ public class GameLogic
     
     public void update() throws CloneNotSupportedException
     {
-    	List<Action> actions=new ArrayList<>();
+        List<Action> zero = new ArrayList<>();
+        for(Action a : actions)
+        {
+            if(a.getTimer()<=0)
+                zero.add(a);
+        }
+        actions.removeAll(zero);
         for(Creature c : creatures)
+        {
+            c.removeTimedOutActions();
             actions.addAll(c.getActions());
-        List<Action> remove = new ArrayList<>();
+        }
         for(Action a : actions)
         {
             for(Creature c : creatures)
@@ -101,14 +110,13 @@ public class GameLogic
                 if(a.withinRange(c))
                 {
                     Creature test = a.actOnClone(c);
+                    System.out.println("clone position "+test.getPosition());
                     if(crrntMap.isValid(test.getPosition()))
                         a.act(c);
+                    System.out.println("resulting position "+c.getPosition());
                 }
             }
-            if(a.getTimer()==0)
-                remove.add(a);
         }
-        actions.removeAll(remove);
         List<Creature> dead = new ArrayList<>();
         for(Creature c : creatures)
         {
