@@ -8,6 +8,7 @@ import edu.brown.cs32.goingrogue.gameobjects.actions.MoveAction;
 import edu.brown.cs32.goingrogue.gameobjects.actions.PickupAction;
 import edu.brown.cs32.goingrogue.gameobjects.actions.PickupRange;
 import edu.brown.cs32.goingrogue.gameobjects.creatures.util.CombatUtil;
+import edu.brown.cs32.goingrogue.util.CreatureSize;
 
 /**
  *
@@ -15,8 +16,9 @@ import edu.brown.cs32.goingrogue.gameobjects.creatures.util.CombatUtil;
  */
 public class Player extends Creature {
 
-    public Player(Point2D.Double pos, double direction, String name, List<Attribute> attributes, CreatureStats stats, String sprite) {
-        super(pos, direction, name, attributes, stats, sprite);
+    public Player(Point2D.Double pos, double direction, String name,
+            List<Attribute> attributes, CreatureStats stats, String sprite, CreatureSize size) {
+        super(pos, direction, name, attributes, stats, sprite, size);
     }
 
     @Override
@@ -42,22 +44,18 @@ public class Player extends Creature {
     	}
     	
         public void moveUp() {
-            setPosition(new Point2D.Double(getPosition().getX(), getPosition().getY() - getSpeed()));
             addAction(new MoveAction(Math.PI/2, player));
         }
 
         public void moveRight() {
-            setPosition(new Point2D.Double(getPosition().getX() + getSpeed(), getPosition().getY()));
             addAction(new MoveAction(0, player));
         }
 
         public void moveDown() {
-            setPosition(new Point2D.Double(getPosition().getX(), getPosition().getY() + getSpeed()));
             addAction(new MoveAction(-Math.PI/2, player));
         }
 
         public void moveLeft() {
-            setPosition(new Point2D.Double(getPosition().getX() - getSpeed(), getPosition().getY()));
             addAction(new MoveAction(Math.PI, player));
         }
 

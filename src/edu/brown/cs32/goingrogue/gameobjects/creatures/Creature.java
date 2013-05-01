@@ -3,6 +3,8 @@ package edu.brown.cs32.goingrogue.gameobjects.creatures;
 import edu.brown.cs32.goingrogue.gameobjects.actions.Action;
 import edu.brown.cs32.goingrogue.gameobjects.creatures.util.CombatUtil;
 import edu.brown.cs32.goingrogue.gameobjects.items.Item;
+import edu.brown.cs32.goingrogue.util.CreatureSize;
+import java.awt.Dimension;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,18 +22,20 @@ public abstract class Creature implements Cloneable {
     private List<Attribute> _attributes;
     private CreatureStats _stats;
     private String _spritePath;
+    private CreatureSize _size;
     private Inventory _inventory;
     private List<Action> _actions;
     private int _level;
 
     public Creature(Point2D.Double pos, double direction, String name,
-            List<Attribute> attributes, CreatureStats stats, String spritePath) {
+            List<Attribute> attributes, CreatureStats stats, String spritePath, CreatureSize size) {
         _pos = pos;
         _direction = direction;
         _name = name;
         _attributes = attributes;
         _stats = stats;
         _spritePath = spritePath;
+        _size = size;
         _inventory = new Inventory();
         _actions = new ArrayList<>();
         _level = 1;
@@ -63,6 +67,14 @@ public abstract class Creature implements Cloneable {
 
     public void setSpritePath(String spritePath) {
         _spritePath = spritePath;
+    }
+
+    public CreatureSize getSize() {
+        return _size;
+    }
+
+    public void setSize(CreatureSize size) {
+        _size = size;
     }
 
     public String getName() {
@@ -134,18 +146,18 @@ public abstract class Creature implements Cloneable {
     }
 
     public List<Action> getActions() {
-        try {
-            return _actions;
-        } finally {
-            List<Action> removeActions = new ArrayList<>();
-            for (Action action : _actions) {
-                if (action.getTimer() == 0) {
-                    removeActions.add(action);
-                }
+        return _actions;
+    }
+
+    public void removeTimedOutAction() {
+        List<Action> removeActions = new ArrayList<>();
+        for (Action action : _actions) {
+            if (action.getTimer() == 0) {
+                removeActions.add(action);
             }
-            for (Action action : removeActions) {
-                _actions.remove(action);
-            }
+        }
+        for (Action action : removeActions) {
+            _actions.remove(action);
         }
     }
 
@@ -155,13 +167,17 @@ public abstract class Creature implements Cloneable {
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 23 * hash + Objects.hashCode(this._pos);
-        hash = 23 * hash + Objects.hashCode(this._name);
-        hash = 23 * hash + Objects.hashCode(this._attributes);
-        hash = 23 * hash + Objects.hashCode(this._stats);
-        hash = 23 * hash + Objects.hashCode(this._spritePath);
-        hash = 23 * hash + Objects.hashCode(this._inventory);
+        int hash = 3;
+        hash = 19 * hash + Objects.hashCode(this._pos);
+        hash = 19 * hash + (int) (Double.doubleToLongBits(this._direction) ^ (Double.doubleToLongBits(this._direction) >>> 32));
+        hash = 19 * hash + Objects.hashCode(this._name);
+        hash = 19 * hash + Objects.hashCode(this._attributes);
+        hash = 19 * hash + Objects.hashCode(this._stats);
+        hash = 19 * hash + Objects.hashCode(this._spritePath);
+        hash = 19 * hash + Objects.hashCode(this._size);
+        hash = 19 * hash + Objects.hashCode(this._inventory);
+        hash = 19 * hash + Objects.hashCode(this._actions);
+        hash = 19 * hash + this._level;
         return hash;
     }
 
@@ -177,6 +193,9 @@ public abstract class Creature implements Cloneable {
         if (!Objects.equals(this._pos, other._pos)) {
             return false;
         }
+        if (Double.doubleToLongBits(this._direction) != Double.doubleToLongBits(other._direction)) {
+            return false;
+        }
         if (!Objects.equals(this._name, other._name)) {
             return false;
         }
@@ -189,7 +208,16 @@ public abstract class Creature implements Cloneable {
         if (!Objects.equals(this._spritePath, other._spritePath)) {
             return false;
         }
+        if (!Objects.equals(this._size, other._size)) {
+            return false;
+        }
         if (!Objects.equals(this._inventory, other._inventory)) {
+            return false;
+        }
+        if (!Objects.equals(this._actions, other._actions)) {
+            return false;
+        }
+        if (this._level != other._level) {
             return false;
         }
         return true;

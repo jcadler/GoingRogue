@@ -10,5 +10,5 @@ public interface Range { // make abstract class, maybe?
 
     public boolean inRange(Creature creature);
 
-    public void decrementTimer();
+    public void decrementTimer(int delta);
 }

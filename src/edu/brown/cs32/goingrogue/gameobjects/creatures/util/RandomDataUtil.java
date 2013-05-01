@@ -9,6 +9,8 @@ import edu.brown.cs32.goingrogue.gameobjects.creatures.CreatureStats;
 import edu.brown.cs32.goingrogue.gameobjects.items.ItemStats;
 import static edu.brown.cs32.goingrogue.graphics.GraphicsPaths.*;
 import static edu.brown.cs32.goingrogue.gameobjects.creatures.util.RandomDataUtilHelper.*;
+import edu.brown.cs32.goingrogue.util.CreatureSize;
+import java.awt.Dimension;
 
 /**
  *
@@ -250,6 +252,24 @@ public class RandomDataUtil {
             return getShieldStats(attributes);
         } else if (attributes.contains(POTION)) {
             return getPotionStats(attributes);
+        } else {
+            return null; // TODO OK to return null?
+        }
+    }
+    
+    public static CreatureSize getCreatureSize(List<Attribute> attributes) {
+        if (attributes.contains(EMU)) {
+            return new CreatureSize(1.0, 1.0);
+        } else if (attributes.contains(DRAGON)) {
+            return new CreatureSize(2.0, 7.0);
+        } else if (attributes.contains(HOB_GOBLIN)) {
+            return new CreatureSize(1.0, 1.0);
+        } else if (attributes.contains(GIANT)) {
+            return new CreatureSize(3.0, 3.0);
+        } else if (attributes.contains(SNAKE)) {
+            return new CreatureSize(1.0, 1.0);
+        } else if (attributes.contains(DOG)) {
+            return new CreatureSize(1.0, 1.0);
         } else {
             return null; // TODO OK to return null?
         }

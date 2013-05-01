@@ -34,9 +34,9 @@ public abstract class Action {
         return _timer;
     }
 
-    public void decrementTimer() {
-        --_timer;
-        _range.decrementTimer();
+    public void decrementTimer(int delta) {
+        _timer -= delta;
+        _range.decrementTimer(delta);
     }
     
     public boolean withinRange(Creature creature) {
