@@ -68,6 +68,13 @@ public class GraphicsLoader {
 			
 			File f=new File(path);
 			List<String> fileNames=new ArrayList<String>(Arrays.asList(f.list()));
+			fileNames=getPNGs(fileNames);
+			
+		//TEST
+			if(path.equals("graphics/creatures/monsters/bat/")) {
+				System.out.println("NUM FILES: "+fileNames.size());
+				System.out.println("FILES: "+fileNames);
+			}
 			
 			int i=1;
 			while(i<=fileNames.size()) {
@@ -108,5 +115,19 @@ public class GraphicsLoader {
 	 */
 	public static Animation loadAttack(String path) {
 		return load(path+"attack/");
+	}
+	
+	
+	//Returns a list of all file names ending in .png
+	static List<String> getPNGs(List<String> names) {
+		
+		List<String> newNames=new ArrayList<>();
+		for(String name: names) {
+			if(name.length()<4) continue;
+			String extension=name.substring(name.length()-4);
+			if(extension.equals(".png")) newNames.add(name);
+		}
+		
+		return newNames;
 	}
 }
