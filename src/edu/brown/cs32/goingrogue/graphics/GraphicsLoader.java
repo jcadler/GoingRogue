@@ -23,6 +23,12 @@ public class GraphicsLoader {
 	//The filter to use on an image
 	static int filter=Image.FILTER_NEAREST;
 	
+	/** Sets the filter type to use on all subsequent animations until it is set again
+	 */
+	public static void setFilterType(int filterType) {
+		filter=filterType;
+	}
+	
 	/** Loads the image for a creature whose directory is rooted at the specified path
 	 * (Same as loadImageAt, but it automatically appends "1.png" to the end of the path for ease)
 	 */
@@ -40,10 +46,13 @@ public class GraphicsLoader {
 		return cache.getImage(path);
 	}
 	
-	/** Sets the filter type to use on all subsequent animations until it is set again
+	/** Turns a single image into an animation
 	 */
-	public static void setFilterType(int filterType) {
-		filter=filterType;
+	public static Animation makeAnimation(Image i) throws SlickException {
+		
+		return new Animation(new Image[]{new Image(GraphicsPaths.EMPTY.path, false, filter)},
+				Constants.DEFAULT_FRAMERATE,
+				true);
 	}
 	
 	/** Loads an animation rooted at the specified path
