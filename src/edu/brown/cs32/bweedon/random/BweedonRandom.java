@@ -37,6 +37,6 @@ public class BweedonRandom {
         
         Random generator = new Random(System.currentTimeMillis());
         double firstDouble = generator.nextDouble();
-        return (firstDouble * (max - min + 1)) + min;
+        return (firstDouble * (max - min)) + min;
     }
 }
