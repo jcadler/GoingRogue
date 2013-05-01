@@ -15,6 +15,22 @@ public class IndexPair {
 		this.y=y;
 	}
 	
+	public IndexPair incX() {
+		return new IndexPair(x+1, y);
+	}
+	
+	public IndexPair altX(int amt) {
+		return new IndexPair(x+amt, y);
+	}
+	
+	public IndexPair incY() {
+		return new IndexPair(x, y+1);
+	}
+	
+	public IndexPair altY(int amt) {
+		return new IndexPair(x, y+amt);
+	}
+	
 	@Override
 	public boolean equals(Object other) {
 		if(!(other instanceof IndexPair)) return false;

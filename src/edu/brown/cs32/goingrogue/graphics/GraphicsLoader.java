@@ -48,9 +48,9 @@ public class GraphicsLoader {
 	
 	/** Turns a single image into an animation
 	 */
-	public static Animation makeAnimation(Image i) throws SlickException {
+	public static Animation makeAnimation(String p) throws SlickException {
 		
-		return new Animation(new Image[]{new Image(GraphicsPaths.EMPTY.path, false, filter)},
+		return new Animation(new Image[]{new Image(p, false, filter)},
 				Constants.DEFAULT_FRAMERATE,
 				true);
 	}

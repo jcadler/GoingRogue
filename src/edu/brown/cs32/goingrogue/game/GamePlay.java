@@ -186,9 +186,12 @@ public class GamePlay {
 						//Creates a new animation and adds it to the cache
 						
 						creatureAnim=GraphicsLoader.loadAttack(actionAnimations.get(0).getSpritePath());
-						if(actionAnimations.get(1)==null) weaponAnim=new Animation(new Image[]{new Image(GraphicsPaths.EMPTY.path, false, )},
-																					Constants.DEFAULT_FRAMERATE,
-																					true); 
+						try {
+							if(actionAnimations.get(1)==null) weaponAnim=GraphicsLoader.makeAnimation(GraphicsPaths.EMPTY.path);
+						} catch(SlickException e) {
+							//Should not happen
+							e.printStackTrace();
+						}
 						weaponAnim=GraphicsLoader.load(actionAnimations.get(1).getSpritePath());
 						
 						AnimationHandler.setTime(creatureAnim, actionToAnimate.getTimer());
