@@ -43,8 +43,4 @@ public interface Space {
 	/** Returns the type of wall to draw around this space (including type NONE)
 	 */
 	public Wall getWallType();
-	
-	/** Returns a list of edge locations on which not to draw walls
-	 */
-	public List<IndexPair> getWallOpenings();
 }

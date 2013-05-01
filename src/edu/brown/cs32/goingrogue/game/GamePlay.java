@@ -1,5 +1,13 @@
 package edu.brown.cs32.goingrogue.game;
 
+/* Notes!
+ * 
+ * - Implement character size
+ * - Implement updates on deltas
+ * - Ben, if weapon is null, give me "empty" as the animation sprite
+ */
+
+
 import java.awt.geom.Point2D;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -11,6 +19,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
+import edu.brown.cs32.goingrogue.constants.Constants;
 import edu.brown.cs32.goingrogue.gameobjects.actions.Action;
 import edu.brown.cs32.goingrogue.gameobjects.actions.ActionAnimation;
 import edu.brown.cs32.goingrogue.gameobjects.actions.ActionType;
@@ -177,6 +186,12 @@ public class GamePlay {
 						//Creates a new animation and adds it to the cache
 						
 						creatureAnim=GraphicsLoader.loadAttack(actionAnimations.get(0).getSpritePath());
+						try {
+							if(actionAnimations.get(1)==null) weaponAnim=GraphicsLoader.makeAnimation(GraphicsPaths.EMPTY.path);
+						} catch(SlickException e) {
+							//Should not happen
+							e.printStackTrace();
+						}
 						weaponAnim=GraphicsLoader.load(actionAnimations.get(1).getSpritePath());
 						
 						AnimationHandler.setTime(creatureAnim, actionToAnimate.getTimer());
