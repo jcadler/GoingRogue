@@ -8,6 +8,7 @@ import edu.brown.cs32.goingrogue.gameobjects.actions.MoveAction;
 import edu.brown.cs32.goingrogue.gameobjects.actions.PickupAction;
 import edu.brown.cs32.goingrogue.gameobjects.actions.PickupRange;
 import edu.brown.cs32.goingrogue.gameobjects.creatures.util.CombatUtil;
+import edu.brown.cs32.goingrogue.util.CreatureSize;
 
 /**
  *
@@ -15,8 +16,9 @@ import edu.brown.cs32.goingrogue.gameobjects.creatures.util.CombatUtil;
  */
 public class Player extends Creature {
 
-    public Player(Point2D.Double pos, double direction, String name, List<Attribute> attributes, CreatureStats stats, String sprite) {
-        super(pos, direction, name, attributes, stats, sprite);
+    public Player(Point2D.Double pos, double direction, String name,
+            List<Attribute> attributes, CreatureStats stats, String sprite, CreatureSize size) {
+        super(pos, direction, name, attributes, stats, sprite, size);
     }
 
     @Override

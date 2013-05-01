@@ -3,6 +3,7 @@ package edu.brown.cs32.goingrogue.gameobjects.items;
 import edu.brown.cs32.goingrogue.gameobjects.creatures.Attribute;
 import edu.brown.cs32.goingrogue.gameobjects.creatures.Creature;
 import edu.brown.cs32.goingrogue.gameobjects.creatures.CreatureStats;
+import edu.brown.cs32.goingrogue.util.CreatureSize;
 import java.awt.geom.Point2D;
 import java.util.List;
 import java.util.Objects;
@@ -16,8 +17,9 @@ public class GridItem extends Creature {
     private boolean _pickedUp = false;
     private ItemStats _stats;
 
-    public GridItem(Point2D.Double pos, String name, List<Attribute> attributes, ItemStats stats, String spritePath) {
-        super(pos, 0.0, name, attributes, new CreatureStats(stats), spritePath);
+    public GridItem(Point2D.Double pos, String name, List<Attribute> attributes,
+            ItemStats stats, String spritePath, CreatureSize size) {
+        super(pos, 0.0, name, attributes, new CreatureStats(stats), spritePath, size);
         _stats = stats;
     }
 

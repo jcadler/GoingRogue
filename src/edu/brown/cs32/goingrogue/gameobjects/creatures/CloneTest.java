@@ -1,5 +1,6 @@
 package edu.brown.cs32.goingrogue.gameobjects.creatures;
 
+import edu.brown.cs32.goingrogue.util.CreatureSize;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +23,8 @@ public class CloneTest {
         attributes.add(Attribute.MITHRIL);
         CreatureStats stats = new CreatureStats(0.88, 748.8, 44, 927.89, 948.0);
         String spritePath = "footouht";
-        Creature creature = new AICreature(pos, direction, name, attributes, stats, spritePath);
+        CreatureSize size = new CreatureSize(9, 4);
+        Creature creature = new AICreature(pos, direction, name, attributes, stats, spritePath, size);
         try {
             Creature clonedCreature = creature.createNewInstance();
             assertTrue(creature.equals(clonedCreature));

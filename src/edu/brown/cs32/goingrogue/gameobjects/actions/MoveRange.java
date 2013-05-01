@@ -21,7 +21,7 @@ public class MoveRange implements Range {
     }
 
     @Override
-    public void decrementTimer() {
+    public void decrementTimer(int delta) {
         // do nothing
     }
 

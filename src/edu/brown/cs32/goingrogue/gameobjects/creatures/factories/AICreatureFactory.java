@@ -2,12 +2,11 @@ package edu.brown.cs32.goingrogue.gameobjects.creatures.factories;
 
 import edu.brown.cs32.goingrogue.gameobjects.creatures.AICreature;
 import edu.brown.cs32.goingrogue.gameobjects.creatures.Attribute;
-import edu.brown.cs32.goingrogue.gameobjects.creatures.Creature;
 import edu.brown.cs32.goingrogue.gameobjects.creatures.CreatureStats;
-import edu.brown.cs32.goingrogue.gameobjects.creatures.Player;
 import java.awt.geom.Point2D;
 import java.util.List;
 import static edu.brown.cs32.goingrogue.gameobjects.creatures.util.RandomDataUtil.*;
+import edu.brown.cs32.goingrogue.util.CreatureSize;
 
 /**
  *
@@ -21,8 +20,9 @@ public class AICreatureFactory {
         String name = getCreatureName(attributes);
         String sprite = getSprite(attributes);
         CreatureStats stats = randomCreatureStats(attributes);
+        CreatureSize size = getCreatureSize(attributes);
         AICreature returnCreature = new AICreature(new Point2D.Double(0.0, 0.0), direction, name,
-                attributes, stats, sprite);
+                attributes, stats, sprite, size);
         return returnCreature;
     }
 }

@@ -44,8 +44,8 @@ public class ArcAttackRange implements Range {
     }
 
     @Override
-    public void decrementTimer() {
-        --_timer;
+    public void decrementTimer(int delta) {
+        _timer -= delta;
     }
 
     public double getAngle() {
