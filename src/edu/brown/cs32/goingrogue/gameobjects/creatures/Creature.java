@@ -149,10 +149,10 @@ public abstract class Creature implements Cloneable {
         return _actions;
     }
 
-    public void removeTimedOutAction() {
+    public void removeTimedOutActions() {
         List<Action> removeActions = new ArrayList<>();
         for (Action action : _actions) {
-            if (action.getTimer() == 0) {
+            if (action.getTimer() <= 0) {
                 removeActions.add(action);
             }
         }
