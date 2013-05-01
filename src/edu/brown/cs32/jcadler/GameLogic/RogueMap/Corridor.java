@@ -75,32 +75,19 @@ public class Corridor implements Space
         return direction;
     }
     
+    public int getPos1()
+    {
+        return position1;
+    }
+    
+    public int getPos2()
+    {
+        return position2;
+    }
+    
     public boolean isValid(Point2D.Double p)
     {
-        switch(direction)
-        {
-            case 0:
-                return p.getY()>=start.getY() && 
-                       p.getX()>=start.getX()+position1 &&
-                       p.getX()<=start.getX()+position1+width &&
-                       p.getY()<=end.getY()+end.getHeight();
-            case 1:
-                return p.getX()>=start.getX()+start.getWidth() &&
-                       p.getY()>=start.getY()+position1 &&
-                       p.getY()<=start.getY()+position1+width &&
-                       p.getX()<=end.getX();
-            case 2:
-                return p.getY()>=start.getY()+start.getHeight() &&
-                       p.getX()>=start.getX()+position1 &&
-                       p.getX()<=start.getX()+position1+width &&
-                       p.getY()<=end.getY();
-            case 3:
-                return p.getX()<=start.getX() &&
-                       p.getY()<=start.getY()+position1 &&
-                       p.getY()>=start.getY()+position1+width &&
-                       p.getX()>=end.getX()+end.getWidth();
-        }
-        throw new IllegalArgumentException("Direction does not have the right value");
+        return rect.contains(p);
     }
     
     public Corridor flipped()
@@ -136,7 +123,7 @@ public class Corridor implements Space
     
     public Wall getWallType()
     {
-        return Wall.DEFAULT;
+        return Wall.NONE;
     }
     
     private Point getTopLeft()
