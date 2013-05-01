@@ -176,7 +176,6 @@ public abstract class Creature implements Cloneable {
         hash = 19 * hash + Objects.hashCode(this._spritePath);
         hash = 19 * hash + Objects.hashCode(this._size);
         hash = 19 * hash + Objects.hashCode(this._inventory);
-        hash = 19 * hash + Objects.hashCode(this._actions);
         hash = 19 * hash + this._level;
         return hash;
     }
@@ -212,9 +211,6 @@ public abstract class Creature implements Cloneable {
             return false;
         }
         if (!Objects.equals(this._inventory, other._inventory)) {
-            return false;
-        }
-        if (!Objects.equals(this._actions, other._actions)) {
             return false;
         }
         if (this._level != other._level) {

@@ -132,7 +132,9 @@ public class GamePlay {
 		
 		//Draws the map
 		List<Space> spaces=map.getData(/*(int)(upperLeft.getX()-1), (int)(upperLeft.getY()-1), (int)(lowerRight.getX()+1), (int)(lowerRight.getY()+1)*/);
-		for(Space s: spaces) drawSpace(s, center, g);
+		for(Space s: spaces) drawWall(s, center, g);
+		for(Space s: spaces) drawInnerSpace(s, center, g);
+		
 		
 		//Draws and animates entities
 		//TODO Add creature size. Right now I just get everything within 2 tiles
@@ -244,8 +246,8 @@ public class GamePlay {
 		}
 	}
 	
-	//Draws a space to the graphics object given
-	void drawSpace(Space s, Point2D center, Graphics g) {
+	//Draws the inside of a space
+	void drawInnerSpace(Space s, Point2D center, Graphics g) {
 		
 		GraphicsLoader.setFilterType(Image.FILTER_NEAREST);
 		
@@ -253,9 +255,6 @@ public class GamePlay {
 		
 		int[] upperLeft=Util.snapPoint(s.upperLeft());
 		Tile[][] floor=s.getFloor();
-		
-//		System.out.println("FLOOR WIDTH: "+floor.length);
-//		System.out.println("FLOOR HEIGHT: "+(floor.length==0 ? 0 : floor[0].length));
 		
 		for(int i=0; i<floor.length; i++)
 		for(int j=0; j<floor[i].length; j++) {
@@ -274,10 +273,15 @@ public class GamePlay {
 				e.printStackTrace();
 			}
 		}
+	}	
+	
+	//Draws the wall around a space
+	public void drawWall(Space s, Point2D center, Graphics g) {
 		
-		//Draws the wall
+		GraphicsLoader.setFilterType(Image.FILTER_NEAREST);
 		
 		Wall w=s.getWallType();
+		int[] upperLeft=Util.snapPoint(s.upperLeft());
 		
 		//{N, S, E, W, NE, NW, SE, SW}
 		String[] wallPaths=new String[8];
