@@ -44,22 +44,18 @@ public class Player extends Creature {
     	}
     	
         public void moveUp() {
-            setPosition(new Point2D.Double(getPosition().getX(), getPosition().getY() - getSpeed()));
             addAction(new MoveAction(Math.PI/2, player));
         }
 
         public void moveRight() {
-            setPosition(new Point2D.Double(getPosition().getX() + getSpeed(), getPosition().getY()));
             addAction(new MoveAction(0, player));
         }
 
         public void moveDown() {
-            setPosition(new Point2D.Double(getPosition().getX(), getPosition().getY() + getSpeed()));
             addAction(new MoveAction(-Math.PI/2, player));
         }
 
         public void moveLeft() {
-            setPosition(new Point2D.Double(getPosition().getX() - getSpeed(), getPosition().getY()));
             addAction(new MoveAction(Math.PI, player));
         }
 

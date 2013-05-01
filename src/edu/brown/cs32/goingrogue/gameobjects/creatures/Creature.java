@@ -146,18 +146,18 @@ public abstract class Creature implements Cloneable {
     }
 
     public List<Action> getActions() {
-        try {
-            return _actions;
-        } finally {
-            List<Action> removeActions = new ArrayList<>();
-            for (Action action : _actions) {
-                if (action.getTimer() == 0) {
-                    removeActions.add(action);
-                }
+        return _actions;
+    }
+
+    public void removeTimedOutAction() {
+        List<Action> removeActions = new ArrayList<>();
+        for (Action action : _actions) {
+            if (action.getTimer() == 0) {
+                removeActions.add(action);
             }
-            for (Action action : removeActions) {
-                _actions.remove(action);
-            }
+        }
+        for (Action action : removeActions) {
+            _actions.remove(action);
         }
     }
 
