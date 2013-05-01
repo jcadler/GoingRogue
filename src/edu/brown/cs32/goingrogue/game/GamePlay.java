@@ -45,9 +45,6 @@ public class GamePlay {
 	double gameToScreenFactor=40.; //Conversion from game to screen coordinates
 	
 	
-	int prevNumRooms;
-	
-	
 	public GamePlay(GameContainer gc) {
 		
 		this.gc=gc;
@@ -127,8 +124,6 @@ public class GamePlay {
 		//Draws the map
 		List<Space> spaces=map.getData(/*(int)(upperLeft.getX()-1), (int)(upperLeft.getY()-1), (int)(lowerRight.getX()+1), (int)(lowerRight.getY()+1)*/);
 		for(Space s: spaces) drawSpace(s, center, g);
-		if(prevNumRooms!=spaces.size()) System.out.println("ROOMS: "+spaces.size());
-		prevNumRooms=spaces.size();
 		
 		//Draws and animates entities
 		//TODO Add creature size. Right now I just get everything within 2 tiles

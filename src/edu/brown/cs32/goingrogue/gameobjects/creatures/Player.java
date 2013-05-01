@@ -1,12 +1,13 @@
 package edu.brown.cs32.goingrogue.gameobjects.creatures;
 
-import edu.brown.cs32.goingrogue.constants.Constants;
+import java.awt.geom.Point2D;
+import java.util.List;
+
 import edu.brown.cs32.goingrogue.gameobjects.actions.ArcAttackAction;
+import edu.brown.cs32.goingrogue.gameobjects.actions.MoveAction;
 import edu.brown.cs32.goingrogue.gameobjects.actions.PickupAction;
 import edu.brown.cs32.goingrogue.gameobjects.actions.PickupRange;
 import edu.brown.cs32.goingrogue.gameobjects.creatures.util.CombatUtil;
-import java.awt.geom.Point2D;
-import java.util.List;
 
 /**
  *
@@ -29,25 +30,35 @@ public class Player extends Creature {
     }
 
     public InputHandler getHandler() {
-        return new InputHandler();
+        return new InputHandler(this);
     }
 
     public class InputHandler {
-
+    	
+    	Player player;
+    	
+    	InputHandler(Player p) {
+    		player=p;
+    	}
+    	
         public void moveUp() {
             setPosition(new Point2D.Double(getPosition().getX(), getPosition().getY() - getSpeed()));
+            addAction(new MoveAction(Math.PI/2, player));
         }
 
         public void moveRight() {
             setPosition(new Point2D.Double(getPosition().getX() + getSpeed(), getPosition().getY()));
+            addAction(new MoveAction(0, player));
         }
 
         public void moveDown() {
             setPosition(new Point2D.Double(getPosition().getX(), getPosition().getY() + getSpeed()));
+            addAction(new MoveAction(-Math.PI/2, player));
         }
 
         public void moveLeft() {
             setPosition(new Point2D.Double(getPosition().getX() - getSpeed(), getPosition().getY()));
+            addAction(new MoveAction(Math.PI, player));
         }
 
         public void attack() {
