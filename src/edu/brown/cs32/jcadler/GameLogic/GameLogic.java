@@ -104,7 +104,6 @@ public class GameLogic
             c.removeTimedOutActions();
             actions.addAll(c.getActions());
         }
-        System.out.println("actions "+actions.size());
         for(Action a : actions)
         {
             for(Creature c : creatures)
