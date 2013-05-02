@@ -119,7 +119,7 @@ public class GamePlay {
 	public void update(int delta) {
 		timeCount+=delta;
 		try {
-			game.update(); // TODO Add delta vals
+			game.update(delta); // TODO Add delta vals
 		} catch(CloneNotSupportedException e) {
 			
 		}
