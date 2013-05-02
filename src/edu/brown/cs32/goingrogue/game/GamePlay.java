@@ -216,7 +216,7 @@ public class GamePlay {
 					Animation anim=null;
 					
 					//Checks the animation cache for type equality of the current attack action
-					if(cache.getAction(c).type()==actionToAnimate.type()) {
+					if(cache.getAction(c)!=null && cache.getAction(c).type()==actionToAnimate.type()) {
 						//Gets the animation in the cache
 						anim=cache.get(c).get(0);
 					} else {
