@@ -18,29 +18,32 @@ public class ArcAttackRange implements Range {
     private double _distance;
     private double _arcLength; // in radians
     private int _timer;
+    private Creature _sourceCreature;
     private final int STARTING_TIMER;
     private final Arc2D FULL_ARC;
     private final double RANGE_CHECK_ARC_EXTENT = PI / 3.0; // in radians
 
-    public ArcAttackRange(double direction, double distance, double arcLength, int timer) {
+    public ArcAttackRange(double direction, double distance, double arcLength, int timer, Creature sourceCreature) {
         _direction = direction;
         _distance = distance;
         _arcLength = arcLength;
         _timer = STARTING_TIMER = timer;
+        _sourceCreature = sourceCreature;
         Rectangle2D ellipseBounds = new Rectangle2D.Double(0.0 - _distance,
                 0.0 - _distance, _distance * 2.0, _distance * 2.0);
         FULL_ARC = new Arc2D.Double(ellipseBounds, toDegrees(_direction - (_arcLength / 2.0)), toDegrees(_arcLength), Arc2D.PIE);
     }
 
     @Override
-    public boolean inRange(Creature creature) {
-        Point2D creaturePos = creature.getPosition();
-        Rectangle2D ellipseBounds = new Rectangle2D.Double(creaturePos.getX() - _distance,
-                creaturePos.getY() - _distance, _distance * 2.0, _distance * 2.0);
+    public boolean inRange(Creature targetCreature) {
+        Point2D sourcePos = _sourceCreature.getCenterPosition();
+        Rectangle2D targetRec = targetCreature.getRectangle();
+        Rectangle2D ellipseBounds = new Rectangle2D.Double(sourcePos.getX() - _distance,
+                sourcePos.getY() - _distance, _distance * 2.0, _distance * 2.0);
         FULL_ARC.setFrame(ellipseBounds);
         double startAngle = toDegrees(((((double) STARTING_TIMER - _timer) / STARTING_TIMER) * (FULL_ARC.getAngleExtent())) + FULL_ARC.getAngleStart());
         Arc2D attackArc = new Arc2D.Double(ellipseBounds, startAngle, RANGE_CHECK_ARC_EXTENT, Arc2D.PIE);
-        return attackArc.contains(creaturePos);
+        return attackArc.intersects(targetRec);
     }
 
     @Override

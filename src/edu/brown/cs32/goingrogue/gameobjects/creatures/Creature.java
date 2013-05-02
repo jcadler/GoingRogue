@@ -5,6 +5,7 @@ import edu.brown.cs32.goingrogue.gameobjects.creatures.util.CombatUtil;
 import edu.brown.cs32.goingrogue.gameobjects.items.Item;
 import edu.brown.cs32.goingrogue.util.CreatureSize;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -134,6 +135,16 @@ public abstract class Creature implements Cloneable {
         } else {
             return 0;
         }
+    }
+    
+    public Rectangle2D getRectangle() {
+        return new Rectangle2D.Double(_pos.getX(), _pos.getY(), _size.getWidth(), _size.getHeight());
+    }
+    
+    public Point2D getCenterPosition() {
+        double xVal = _pos.getX() + (_size.getWidth() / 2.0);
+        double yVal = _pos.getY() + (_size.getHeight() / 2.0);
+        return new Point2D.Double(xVal, yVal);
     }
 
     public void incurDamage(Creature attacker) {
