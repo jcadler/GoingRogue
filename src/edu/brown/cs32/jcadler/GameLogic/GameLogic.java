@@ -113,10 +113,8 @@ public class GameLogic
                 if(a.withinRange(c))
                 {
                     Creature test = a.actOnClone(c);
-//                    System.out.println("clone position "+test.getPosition());
                     if(crrntMap.isValid(test.getPosition()))
                         a.act(c);
-//                    System.out.println("resulting position "+c.getPosition());
                 }
             }
         }
