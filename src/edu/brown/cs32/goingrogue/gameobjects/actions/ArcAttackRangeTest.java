@@ -47,5 +47,8 @@ public class ArcAttackRangeTest {
         
         Action a6 = new ArcAttackAction(Math.PI / 2.0, 2.0, Math.PI / 20.0, 20, c2);
         assertTrue(a6.getRange().inRange(c1));
+        
+        Action a7 = new ArcAttackAction(Math.PI / 2.0, 2.0, Math.PI / 999999.0, 20, c2);
+        assertTrue(a7.getRange().inRange(c1));
     }
 }
