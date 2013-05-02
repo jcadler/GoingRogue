@@ -45,7 +45,7 @@ public class Inventory {
     public Item getArmour() {
         return _armour;
     }
-    
+
     public Item getShield() {
         return _shield;
     }
@@ -61,24 +61,54 @@ public class Inventory {
     public int getNumPotions() {
         return _potions.size();
     }
-    
+
     public double getAttackSum() {
-        return _weapon.getStats().getAttack() + _armour.getStats().getAttack()
-                + _shield.getStats().getAttack();
+        List<Item> thingsToAdd = getThingsToAdd(_weapon, _armour, _shield);
+        double sum = 0.0;
+        for (Item currItem : thingsToAdd) {
+            sum += currItem.getStats().getAttack();
+        }
+        return sum;
     }
-    
+
     public double getDefenseSum() {
-        return _weapon.getStats().getDefense() + _armour.getStats().getDefense()
-                + _shield.getStats().getDefense();
+        List<Item> thingsToAdd = getThingsToAdd(_weapon, _armour, _shield);
+        double sum = 0.0;
+        for (Item currItem : thingsToAdd) {
+            sum += currItem.getStats().getDefense();
+        }
+        return sum;
     }
-    
+
     public double getAccuracySum() {
-        return _weapon.getStats().getAccuracy() + _armour.getStats().getAccuracy()
-                + _shield.getStats().getAccuracy();
+        List<Item> thingsToAdd = getThingsToAdd(_weapon, _armour, _shield);
+        double sum = 0.0;
+        for (Item currItem : thingsToAdd) {
+            sum += currItem.getStats().getAccuracy();
+        }
+        return sum;
     }
-    
+
     public double getSpeedSum() {
-        return _weapon.getStats().getSpeed() + _armour.getStats().getSpeed()
-                + _shield.getStats().getSpeed();
+        List<Item> thingsToAdd = getThingsToAdd(_weapon, _armour, _shield);
+        double sum = 0.0;
+        for (Item currItem : thingsToAdd) {
+            sum += currItem.getStats().getSpeed();
+        }
+        return sum;
+    }
+
+    private List<Item> getThingsToAdd(Item weapon, Item armour, Item shield) {
+        List<Item> thingsToAdd = new ArrayList<>();
+        if (weapon != null) {
+            thingsToAdd.add(weapon);
+        }
+        if (armour != null) {
+            thingsToAdd.add(armour);
+        }
+        if (shield != null) {
+            thingsToAdd.add(shield);
+        }
+        return thingsToAdd;
     }
 }
