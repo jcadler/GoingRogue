@@ -44,7 +44,7 @@ public class Player extends Creature {
     	}
     	
         public void moveUp() {
-            addAction(new MoveAction(Math.PI/2, player));
+            addAction(new MoveAction(-Math.PI/2, player));
         }
 
         public void moveRight() {
@@ -52,7 +52,7 @@ public class Player extends Creature {
         }
 
         public void moveDown() {
-            addAction(new MoveAction(-Math.PI/2, player));
+            addAction(new MoveAction(Math.PI/2, player));
         }
 
         public void moveLeft() {
