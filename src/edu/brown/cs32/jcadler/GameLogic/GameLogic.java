@@ -89,23 +89,22 @@ public class GameLogic
     	return boundedCreatures;
     }
     
-    public void update() throws CloneNotSupportedException
+    public void update(int delta) throws CloneNotSupportedException
     {
         List<Action> zero = new ArrayList<>();
         for(Action a : actions)
         {
+            a.decrementTimer(delta);
             if(a.getTimer()<=0)
                 zero.add(a);
-        }
-        
-        System.out.println("");
-        
+        }        
         actions.removeAll(zero);
         for(Creature c : creatures)
         {
             c.removeTimedOutActions();
             actions.addAll(c.getActions());
         }
+        System.out.println("actions "+actions.size());
         for(Action a : actions)
         {
             for(Creature c : creatures)
