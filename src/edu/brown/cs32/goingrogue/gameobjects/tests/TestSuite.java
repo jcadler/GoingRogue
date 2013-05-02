@@ -7,7 +7,8 @@ import org.junit.runners.Suite;
 @Suite.SuiteClasses({
     edu.brown.cs32.goingrogue.gameobjects.creatures.CloneTest.class,
     edu.brown.cs32.bweedon.random.BweedonRandomTest.class,
-    edu.brown.cs32.goingrogue.gameobjects.actions.ArcAttackRangeTest.class})
+    edu.brown.cs32.goingrogue.gameobjects.actions.ArcAttackRangeTest.class,
+    edu.brown.cs32.bweedon.geometry.Point2DUtilTest.class})
 /**
  * @author Ben Weedon (bweedon)
  */
