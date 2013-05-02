@@ -72,8 +72,8 @@ public class GraphicsLoader {
 			
 		//TEST
 			if(path.equals("graphics/creatures/monsters/bat/")) {
-				System.out.println("NUM FILES: "+fileNames.size());
-				System.out.println("FILES: "+fileNames);
+//				System.out.println("NUM FILES: "+fileNames.size());
+//				System.out.println("FILES: "+fileNames);
 			}
 			
 			int i=1;
@@ -100,7 +100,7 @@ public class GraphicsLoader {
 			e.printStackTrace();
 		}
 		
-		System.out.println("Loading animation "+path+"\n\t Returned "+cache.getAnimation(path));
+//		System.out.println("Loading animation "+path+"\n\t Returned "+cache.getAnimation(path));
 		
 		return cache.getAnimation(path);
 	}

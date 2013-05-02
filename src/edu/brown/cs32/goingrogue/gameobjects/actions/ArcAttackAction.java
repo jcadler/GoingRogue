@@ -43,8 +43,9 @@ public class ArcAttackAction extends Action {
         weaponPosTemp[1]+=creaturePos.y;
         Point2D.Double weaponPos = new Point2D.Double(weaponPosTemp[0], weaponPosTemp[1]);
         
-        ActionAnimation creatureAnimation=new ActionAnimation(creatureSpritePath, creaturePos, creatureAngle);
-        ActionAnimation weaponAnimation=new ActionAnimation(weaponSpritePath, weaponPos, creatureAngle);
+        ActionAnimation creatureAnimation=new ActionAnimation(creatureSpritePath, creaturePos, creatureAngle, _sourceCreature.getSize());
+        ActionAnimation weaponAnimation=new ActionAnimation(weaponSpritePath, weaponPos, creatureAngle,
+        											_sourceCreature.getInventory().getWeapon().getSize());
         List<ActionAnimation> list=new ArrayList<>();
         list.add(creatureAnimation);
         list.add(weaponAnimation);

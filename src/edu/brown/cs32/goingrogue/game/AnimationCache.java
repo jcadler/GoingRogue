@@ -7,9 +7,10 @@ import org.newdawn.slick.Animation;
 
 import edu.brown.cs32.goingrogue.gameobjects.actions.Action;
 import edu.brown.cs32.goingrogue.gameobjects.creatures.Creature;
+import edu.brown.cs32.goingrogue.graphics.GraphicsHandler;
 
 /** Caches animations according to the creature and action that initiated them.
- * This ensures that an animation can be played continously for a creature until the action that
+ * This ensures that an animation can be played continuously for a creature until the action that
  * animation was initiated by stops happening or is overridden
  * 
  * @author Dominic Adams
@@ -43,6 +44,9 @@ public class AnimationCache {
 	 */
 	public boolean add(Creature creature, Action action, List<Animation> anim) {
 		AnimationData data=cache.put(creature, new AnimationData(action, anim));
+		
+		System.out.println("Cache - ADDED");
+		
 		return data!=null;
 	}
 	
@@ -50,6 +54,9 @@ public class AnimationCache {
 	 */
 	public List<Animation> get(Creature creature) {
 		if(cache.get(creature)==null) return null;
+		
+		System.out.println("Cache - GETTING, currSize="+cache.size()+", "+cache.get(creature).animations.get(0));
+		
 		return cache.get(creature).animations;
 	}
 	

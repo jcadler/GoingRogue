@@ -41,7 +41,7 @@ public class MoveAction extends Action {
         Point2D.Double pos = _sourceCreature.getPosition();
         double angle = _sourceCreature.getDirection();
         List<ActionAnimation> list=new ArrayList<>();
-        list.add(new ActionAnimation(spritePath, pos, angle));
+        list.add(new ActionAnimation(spritePath, pos, angle, _sourceCreature.getSize()));
         return list;
     }
 

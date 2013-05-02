@@ -1,6 +1,7 @@
 package edu.brown.cs32.goingrogue.graphics;
 
 import org.newdawn.slick.Animation;
+import org.newdawn.slick.Image;
 
 /** Supplies tools for handling an animation
  * 
@@ -10,7 +11,7 @@ import org.newdawn.slick.Animation;
  * @author Ken Lin
  * @version 1.0 4/13
  */
-public class AnimationHandler {
+public class GraphicsHandler {
 	
 	/** Changes the time an animation takes to run
 	 * 
@@ -19,8 +20,6 @@ public class AnimationHandler {
 	 */
 	public static void setTime(Animation animation, int time) {
 		//Calculates the length
-		
-		System.out.println(animation);
 		
 		int[] lengths=animation.getDurations();
 		float currTime=0;
@@ -50,5 +49,15 @@ public class AnimationHandler {
 		ref=ref.substring(0, ref.lastIndexOf("/"));
 		ref=ref.substring(ref.lastIndexOf("/"));
 		return ref;
+	}
+	
+	/** Draws an animation's current frame offscreen
+	 */
+	public static void drawOffscreen(Animation a) {
+		Image i=a.getCurrentFrame();
+		int x=-2*i.getWidth();
+		int y=-2*i.getHeight();
+		
+		a.draw(x, y);
 	}
 }

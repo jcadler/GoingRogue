@@ -1,6 +1,7 @@
 package edu.brown.cs32.goingrogue.gameobjects.items;
 
 import edu.brown.cs32.goingrogue.gameobjects.creatures.Attribute;
+import edu.brown.cs32.goingrogue.util.CreatureSize;
 
 /**
  *
@@ -23,5 +24,9 @@ public class Item {
     
     public String getSpritePath() {
         return _gridItem.getSpritePath();
+    }
+    
+    public CreatureSize getSize() {
+    	return _gridItem.getSize();
     }
 }

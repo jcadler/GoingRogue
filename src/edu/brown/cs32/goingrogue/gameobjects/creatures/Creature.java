@@ -26,7 +26,10 @@ public abstract class Creature implements Cloneable {
     private Inventory _inventory;
     private List<Action> _actions;
     private int _level;
-
+    
+    //Used to ensure existence of a single unique hash code
+    private int _hashCode;
+    
     public Creature(Point2D.Double pos, double direction, String name,
             List<Attribute> attributes, CreatureStats stats, String spritePath, CreatureSize size) {
         _pos = pos;
@@ -39,6 +42,8 @@ public abstract class Creature implements Cloneable {
         _inventory = new Inventory();
         _actions = new ArrayList<>();
         _level = 1;
+        
+        _hashCode=-1;
     }
 
     public List<Attribute> getAttributes() {
@@ -189,17 +194,23 @@ public abstract class Creature implements Cloneable {
 
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 19 * hash + Objects.hashCode(this._pos);
-        hash = 19 * hash + (int) (Double.doubleToLongBits(this._direction) ^ (Double.doubleToLongBits(this._direction) >>> 32));
-        hash = 19 * hash + Objects.hashCode(this._name);
-        hash = 19 * hash + Objects.hashCode(this._attributes);
-        hash = 19 * hash + Objects.hashCode(this._stats);
-        hash = 19 * hash + Objects.hashCode(this._spritePath);
-        hash = 19 * hash + Objects.hashCode(this._size);
-        hash = 19 * hash + Objects.hashCode(this._inventory);
-        hash = 19 * hash + this._level;
-        return hash;
+        
+    	if(_hashCode==-1) {
+        	int hash = 3;
+            hash = 19 * hash + Objects.hashCode(this._pos);
+            hash = 19 * hash + (int) (Double.doubleToLongBits(this._direction) ^ (Double.doubleToLongBits(this._direction) >>> 32));
+            hash = 19 * hash + Objects.hashCode(this._name);
+            hash = 19 * hash + Objects.hashCode(this._attributes);
+            hash = 19 * hash + Objects.hashCode(this._stats);
+            hash = 19 * hash + Objects.hashCode(this._spritePath);
+            hash = 19 * hash + Objects.hashCode(this._size);
+            hash = 19 * hash + Objects.hashCode(this._inventory);
+            hash = 19 * hash + this._level;
+
+            _hashCode=hash;
+    	}
+    	
+    	return _hashCode;
     }
 
     @Override
