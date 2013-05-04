@@ -4,6 +4,7 @@ import java.awt.geom.Point2D;
 import java.util.List;
 
 import edu.brown.cs32.goingrogue.gameobjects.actions.ArcAttackAction;
+import edu.brown.cs32.goingrogue.gameobjects.actions.ChangeDirectionAction;
 import edu.brown.cs32.goingrogue.gameobjects.actions.MoveAction;
 import edu.brown.cs32.goingrogue.gameobjects.actions.PickupAction;
 import edu.brown.cs32.goingrogue.gameobjects.actions.PickupRange;
@@ -44,19 +45,22 @@ public class Player extends Creature {
     	}
     	
         public void moveUp() {
-            addAction(new MoveAction(-Math.PI/2, player));
+            addAction(new MoveAction(-Math.PI/2.0, player));
+            addAction(new ChangeDirectionAction(player, -Math.PI/2.0));
         }
 
         public void moveRight() {
             addAction(new MoveAction(0, player));
+            addAction(new ChangeDirectionAction(player, 0));
         }
 
         public void moveDown() {
-            addAction(new MoveAction(Math.PI/2, player));
+            addAction(new MoveAction(Math.PI/2.0, player));
         }
 
         public void moveLeft() {
             addAction(new MoveAction(Math.PI, player));
+            addAction(new ChangeDirectionAction(player, Math.PI));
         }
 
         public void attack() {
