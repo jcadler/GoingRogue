@@ -79,7 +79,6 @@ public class GameLogic
     	Rectangle bounds=new Rectangle();
     	
     	List<Creature> boundedCreatures=new ArrayList<>();
-    	//TODO Incorporate creature size
         for(Creature c: creatures) {
         	if(bounds.contains(c.getPosition())) {
         		boundedCreatures.add(c);
@@ -105,7 +104,6 @@ public class GameLogic
             c.removeTimedOutActions();
             actions.addAll(c.getActions());
         }
-        System.out.println(actions.size());
         for(Action a : actions)
         {
             for(Creature c : creatures)
