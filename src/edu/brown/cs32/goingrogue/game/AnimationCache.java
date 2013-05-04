@@ -25,10 +25,15 @@ public class AnimationCache {
 	static class AnimationData {
 		Action action;
 		List<Animation> animations;
+		int playTime;
 		
 		AnimationData(Action act, List<Animation> anim) {
 			action=act;
 			animations=anim;
+			playTime=0;
+			for(Animation a: animations) {
+				if(a.getDuration()>playTime) playTime=a.getDuration();
+			}
 		}
 		
 		public String toString() {
@@ -75,21 +80,19 @@ public class AnimationCache {
 		
 		for(Map.Entry<Creature, AnimationData> dataPair: cache.entrySet()) {
 			AnimationData data=dataPair.getValue();
-			boolean shouldRemove=false;
+			data.playTime-=delta;
+
+			if(data.playTime<=0) cache.remove(dataPair.getKey());
 			
 			for(Animation a: data.animations) {
 				
 				Countdown c=new Countdown(2000, data);
 				c.start();
-				a.update(delta);
+				a.updateWithReset(delta);
 				c.end();
 				
-				if(a.isFinished()) {
-					shouldRemove=true;
-				}
+				if(a.isFinished()) System.out.println("Anim in cache is finished -- should not happen");
 			}
-			
-			if(shouldRemove) cache.remove(dataPair.getKey());
 		}
 	}
 	

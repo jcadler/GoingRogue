@@ -63,7 +63,7 @@ public class Player extends Creature {
             addAction(new ArcAttackAction(getDirection(), getWeaponRange(), getWeaponArcLength(),
                     getWeaponAttackTimer(), Player.this));
         }
-
+        
         public void pickUp() {
             addAction(new PickupAction(0, new PickupRange(Player.this), Player.this));
         }

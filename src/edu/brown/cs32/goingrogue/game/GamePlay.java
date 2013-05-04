@@ -238,6 +238,9 @@ public class GamePlay {
 						cache.add(c, actionToAnimate, animList);
 					}
 					
+					System.out.println("Creature: "+!creatureAnim.isFinished());
+					System.out.println("Weapon: "+!weaponAnim.isFinished());
+					
 					Image creatureImage=creatureAnim.getCurrentFrame();
 					Image weaponImage=weaponAnim.getCurrentFrame();
 					

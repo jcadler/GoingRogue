@@ -77,9 +77,8 @@ public class Main extends BasicGame
 	{
 		AppGameContainer app = new AppGameContainer(new Main());
 		app.setDisplayMode(800, 600, false);
-		app.setSmoothDeltas(true);
+		app.setSmoothDeltas(false);
 		app.start();
-	
 	}
 	
 	@Override
