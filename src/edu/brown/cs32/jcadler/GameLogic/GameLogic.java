@@ -97,13 +97,14 @@ public class GameLogic
             a.decrementTimer(delta);
             if(a.getTimer()<=0)
                 zero.add(a);
-        }        
+        }
         actions.removeAll(zero);
         for(Creature c : creatures)
         {
             c.removeTimedOutActions();
             actions.addAll(c.getActions());
         }
+        System.out.println(actions.size());
         for(Action a : actions)
         {
             for(Creature c : creatures)
