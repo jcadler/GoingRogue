@@ -17,7 +17,7 @@ import edu.brown.cs32.goingrogue.util.CreatureSize;
  * @author Ben Weedon (bweedon)
  */
 public class Player extends Creature {
-    
+
     private InputHandler handle;
 
     public Player(Point2D.Double pos, double direction, String name,
@@ -41,18 +41,18 @@ public class Player extends Creature {
     }
 
     public class InputHandler {
-    	
-    	Player player;
+
+        Player player;
         Action attack;
-    	
-    	InputHandler(Player p) {
-    		player=p;
-                attack=null;
-    	}
-    	
+
+        InputHandler(Player p) {
+            player = p;
+            attack = null;
+        }
+
         public void moveUp() {
-            addAction(new MoveAction(-Math.PI/2.0, player));
-            addAction(new ChangeDirectionAction(player, -Math.PI/2.0));
+            addAction(new MoveAction((3.0 * Math.PI) / 2.0, player));
+            addAction(new ChangeDirectionAction(player, -Math.PI / 2.0));
         }
 
         public void moveRight() {
@@ -61,8 +61,8 @@ public class Player extends Creature {
         }
 
         public void moveDown() {
-            addAction(new MoveAction(Math.PI/2.0, player));
-            addAction(new ChangeDirectionAction(player, Math.PI/2.0));
+            addAction(new MoveAction(Math.PI / 2.0, player));
+            addAction(new ChangeDirectionAction(player, Math.PI / 2.0));
         }
 
         public void moveLeft() {
@@ -71,16 +71,15 @@ public class Player extends Creature {
         }
 
         public void attack() {
-            if(attack==null || attack.getTimer()<=0)
-            {
+            if (attack == null || attack.getTimer() <= 0) {
                 System.out.println("adding");
                 Action a = new ArcAttackAction(getDirection(), getWeaponRange(), getWeaponArcLength(),
                         getWeaponAttackTimer(), Player.this);
-                attack=a;
+                attack = a;
                 addAction(a);
             }
         }
-        
+
         public void pickUp() {
             addAction(new PickupAction(0, new PickupRange(Player.this), Player.this));
         }
