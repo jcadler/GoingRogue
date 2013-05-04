@@ -62,6 +62,7 @@ public class Player extends Creature {
 
         public void moveDown() {
             addAction(new MoveAction(Math.PI/2.0, player));
+            addAction(new ChangeDirectionAction(player, Math.PI/2.0));
         }
 
         public void moveLeft() {
