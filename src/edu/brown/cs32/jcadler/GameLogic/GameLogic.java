@@ -95,10 +95,11 @@ public class GameLogic
         for(Action a : actions)
         {
             a.decrementTimer(delta);
-            if(a.getTimer()<=0)
-                zero.add(a);
+        //    if(a.getTimer()<=0)
+          //      zero.add(a);
         }
-        actions.removeAll(zero);
+        //actions.removeAll(zero);
+        actions.clear();
         for(Creature c : creatures)
         {
             c.removeTimedOutActions();
