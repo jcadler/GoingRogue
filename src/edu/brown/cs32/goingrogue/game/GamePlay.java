@@ -46,9 +46,10 @@ public class GamePlay {
 	
 	double gameToScreenFactor=40.; //Conversion from game to screen coordinates
 	
+	final int animationDurationBuffer=20; //Adds 20 ms to the duration of an animation
 	
 	public GamePlay(GameContainer gc) {
-		
+
 		this.gc=gc;
 		
 		//Initializes gameplay
@@ -228,8 +229,8 @@ public class GamePlay {
 						}
 						weaponAnim=GraphicsLoader.load(actionAnimations.get(1).getSpritePath());
 						
-						creatureAnim.setDuration(actionToAnimate.getTimer());
-						weaponAnim.setDuration(actionToAnimate.getTimer());
+						setDuration(creatureAnim, actionToAnimate.getTimer());
+						setDuration(weaponAnim, actionToAnimate.getTimer());
 						System.out.println("NEW ANIM DURATION: "+actionToAnimate.getTimer());
 						
 						List<Animation> animList=new ArrayList<>();
@@ -237,9 +238,6 @@ public class GamePlay {
 						animList.add(weaponAnim);
 						cache.add(c, actionToAnimate, animList);
 					}
-					
-					System.out.println("Creature: "+!creatureAnim.isFinished());
-					System.out.println("Weapon: "+!weaponAnim.isFinished());
 					
 					Image creatureImage=creatureAnim.getCurrentFrame();
 					Image weaponImage=weaponAnim.getCurrentFrame();
@@ -260,8 +258,7 @@ public class GamePlay {
 						//Creates a new animation and adds it to the cache
 						if(actionToAnimate.type()==ActionType.MOVE) anim=GraphicsLoader.loadMove(actionAnimations.get(0).getSpritePath());
 						else if(actionToAnimate.type()==ActionType.PICKUP) anim=GraphicsLoader.load(actionAnimations.get(0).getSpritePath());
-						anim.setDuration(actionToAnimate.getTimer());
-						if(anim.getDuration()==0) anim.setImageDuration((int)(1000./Constants.DEFAULT_IMAGE_RATE));
+						setDuration(anim, actionToAnimate.getTimer());
 						
 						List<Animation> animList=new ArrayList<>();
 						animList.add(anim);
@@ -504,5 +501,10 @@ public class GamePlay {
 											actionAnim.getSize().getWidth(),
 											actionAnim.getSize().getHeight(),
 											actionAnim.getAngle()));
+	}
+	
+	void setDuration(Animation a, int dur) {
+		if(dur==0) a.setImageDuration((int)(1000./Constants.DEFAULT_IMAGE_RATE));
+		else a.setDuration(dur+animationDurationBuffer);
 	}
 }

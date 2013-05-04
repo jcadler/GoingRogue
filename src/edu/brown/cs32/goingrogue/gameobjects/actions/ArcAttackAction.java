@@ -39,7 +39,7 @@ public class ArcAttackAction extends Action {
         double creatureAngle = ((ArcAttackRange) getRange()).getAngle();
         
         double[] weaponPosPolar = new double[]{0, creatureAngle};
-        weaponPosPolar[0]+=.5;
+        weaponPosPolar[0]-=1;
         double[] weaponPosTemp = Util.polarToRectangular(weaponPosPolar[0], weaponPosPolar[1]);
         weaponPosTemp[0]+=creaturePos.x;
         weaponPosTemp[1]+=creaturePos.y;

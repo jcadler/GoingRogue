@@ -149,6 +149,10 @@ public class Animation {
 			durationD-=imageDuration;
 			durations[i]=(int)(lastDuration-durationD);
 		}
+		
+		durations[0]+=duration-getDuration();
+		
+		if(duration!=getDuration()) System.out.println("NOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
 	}
 	
 	/** Returns a copy of this animation
