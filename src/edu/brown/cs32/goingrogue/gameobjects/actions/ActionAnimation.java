@@ -1,8 +1,9 @@
 package edu.brown.cs32.goingrogue.gameobjects.actions;
 
 import java.awt.geom.Point2D;
-import java.util.List;
 import java.util.Objects;
+
+import edu.brown.cs32.goingrogue.util.CreatureSize;
 
 /**
  *
@@ -13,11 +14,13 @@ public class ActionAnimation {
     private String _spritePath;
     private Point2D.Double _pos;
     private double _angle;
+    private CreatureSize _size;
 
-    public ActionAnimation(String spritePaths, Point2D.Double pos, double angle) {
+    public ActionAnimation(String spritePaths, Point2D.Double pos, double angle, CreatureSize size) {
         _spritePath = spritePaths;
         _pos = pos;
         _angle = angle;
+        _size = size;
     }
 
     public String getSpritePath() {
@@ -31,6 +34,10 @@ public class ActionAnimation {
     public Point2D.Double getPos() {
         return _pos;
     }
+    
+    public CreatureSize getSize() {
+        return _size;
+    }
 
     public void setPos(Point2D.Double pos) {
         _pos = pos;
@@ -43,7 +50,11 @@ public class ActionAnimation {
     public void setAngle(double angle) {
         _angle = angle;
     }
-
+    
+    public void setSize(CreatureSize size) {
+        _size=size;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 7;

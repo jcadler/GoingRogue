@@ -6,6 +6,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import static java.lang.Math.PI;
 import static java.lang.Math.toDegrees;
+import static java.lang.Math.toRadians;
 import java.util.Objects;
 
 /**
@@ -52,8 +53,8 @@ public class ArcAttackRange implements Range {
     }
 
     public double getAngle() {
-        double startAngle = toDegrees(((((double) STARTING_TIMER - _timer) / STARTING_TIMER) * (FULL_ARC.getAngleExtent())) + FULL_ARC.getAngleStart());
-        return startAngle + (RANGE_CHECK_ARC_EXTENT / 2.0);
+        double startAngle = ((((double) STARTING_TIMER - _timer) / STARTING_TIMER) * (FULL_ARC.getAngleExtent())) + FULL_ARC.getAngleStart();
+        return toRadians(startAngle);
     }
 
     @Override

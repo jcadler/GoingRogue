@@ -1,19 +1,11 @@
 package edu.brown.cs32.goingrogue.game;
 
-/* Notes!
- * 
- * - Implement character size
- * - Implement updates on deltas
- * - Ben, if weapon is null, give me "empty" as the animation sprite
- */
-
-
 import java.awt.geom.Point2D;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-import org.newdawn.slick.Animation;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -25,7 +17,7 @@ import edu.brown.cs32.goingrogue.gameobjects.actions.ActionAnimation;
 import edu.brown.cs32.goingrogue.gameobjects.actions.ActionType;
 import edu.brown.cs32.goingrogue.gameobjects.creatures.Creature;
 import edu.brown.cs32.goingrogue.gameobjects.creatures.Player;
-import edu.brown.cs32.goingrogue.graphics.AnimationHandler;
+import edu.brown.cs32.goingrogue.graphics.Animation;
 import edu.brown.cs32.goingrogue.graphics.GraphicsLoader;
 import edu.brown.cs32.goingrogue.graphics.GraphicsPaths;
 import edu.brown.cs32.goingrogue.map.RogueMap;
@@ -50,12 +42,14 @@ public class GamePlay {
 	AnimationCache cache;
 	
 	int timeCount; //Used for tracking game updates
+	int lastRenderTime; //Used to track time passage since the last render
 	
 	double gameToScreenFactor=40.; //Conversion from game to screen coordinates
 	
+	final int animationDurationBuffer=20; //Adds 20 ms to the duration of an animation
 	
 	public GamePlay(GameContainer gc) {
-		
+
 		this.gc=gc;
 		
 		//Initializes gameplay
@@ -102,6 +96,11 @@ public class GamePlay {
 		return new Point2D.Double(x, y);
 	}
 	
+	//Returns the coords needed to draw an image so that it appears centered around the specified coords
+	int[] centerImage(int[] coords, Image i) {
+		return new int[]{coords[0]-i.getWidth()/2, coords[1]-i.getHeight()/2};
+	}
+	
 	//Locates the an image's center of rotation at its center
 	void setRotationCenter(Image i) {
 		i.setCenterOfRotation(i.getWidth()/2, i.getHeight()/2);
@@ -114,7 +113,7 @@ public class GamePlay {
 	public void update(int delta) {
 		timeCount+=delta;
 		try {
-			game.update(); // TODO Add delta
+			game.update(delta); // TODO Add delta vals
 		} catch(CloneNotSupportedException e) {
 			
 		}
@@ -131,16 +130,27 @@ public class GamePlay {
 		Point2D lowerRight=screenToGame(new int[]{gc.getWidth(),gc.getHeight()}, center);
 		
 		//Draws the map
+		//TODO Fix the data method to work with bounds
 		List<Space> spaces=map.getData(/*(int)(upperLeft.getX()-1), (int)(upperLeft.getY()-1), (int)(lowerRight.getX()+1), (int)(lowerRight.getY()+1)*/);
 		for(Space s: spaces) drawWall(s, center, g);
 		for(Space s: spaces) drawInnerSpace(s, center, g);
 		
 		
+		GraphicsLoader.setFilterType(Image.FILTER_NEAREST);
+		
+		//Updates all animations in the cache
+		int renderDelta=timeCount-lastRenderTime;
+		lastRenderTime=timeCount;
+		cache.update(renderDelta);
+		
 		//Draws and animates entities
 		//TODO Add creature size. Right now I just get everything within 2 tiles
+		//TODO Fix the getCreatures to actually get the creatures we need
 		List<Creature> gameCreatures=game.getCreatures(/*upperLeft.getX(), upperLeft.getY(), lowerRight.getX(), lowerRight.getY()*/);
 		
-		for(Creature c: gameCreatures) {
+		for(int i=0; i<gameCreatures.size(); i++) {
+			
+			Creature c=gameCreatures.get(i);
 			
 			Action actionToAnimate=null;
 			List<Action> actions=c.getActions();
@@ -149,25 +159,47 @@ public class GamePlay {
 				if(actionToAnimate==null ||
 					a.type().getPriority()>actionToAnimate.type().getPriority()) {
 					
-					actionToAnimate=a;
+						actionToAnimate=a;
 				}
 			}
 			
 			//No action
 			if(actionToAnimate==null) {
-				//TODO Call c.getDimensions() and scale the image on creation
 				try {
 					
-					Image image=GraphicsLoader.loadImage(c.getSpritePath());
+					Image[] images=null;
 					
-					int[] screenCoords=gameToScreen(c.getPosition(), center);
-					image.drawCentered(screenCoords[0], screenCoords[1]);
+					//Finishes the previous animation
+					if(cache.get(c)!=null) {
+						List<Animation> anims=cache.get(c);
+						List<Image> imageList=new ArrayList<>();
+						for(int j=0; j<anims.size(); j++)
+							imageList.add(anims.get(j).getCurrentFrame());
+						images=imageList.toArray(new Image[0]);
+						
+					}
+					
+					//Otherwise, draws the creature's static sprite
+					else {
+						images=new Image[1];
+						images[0]=GraphicsLoader.loadImage(c.getSpritePath());
+					}
+					
+					for(Image image: images)
+						drawImage(image, center, new ImageData(c.getPosition().x,
+							c.getPosition().y,
+							c.getSize().getWidth(),
+							c.getSize().getHeight(),
+							c.getDirection()));
+
+					
 				} catch(SlickException e) {
 					//Should not happen
 					e.printStackTrace();
 				}
 			
 			} else {
+				
 				
 				Image[] images=null;
 				List<ActionAnimation> actionAnimations=actionToAnimate.getActionAnimations();
@@ -188,6 +220,7 @@ public class GamePlay {
 						//Creates a new animation and adds it to the cache
 						
 						creatureAnim=GraphicsLoader.loadAttack(actionAnimations.get(0).getSpritePath());
+						
 						try {
 							if(actionAnimations.get(1)==null) weaponAnim=GraphicsLoader.makeAnimation(GraphicsPaths.EMPTY.path);
 						} catch(SlickException e) {
@@ -196,8 +229,9 @@ public class GamePlay {
 						}
 						weaponAnim=GraphicsLoader.load(actionAnimations.get(1).getSpritePath());
 						
-						AnimationHandler.setTime(creatureAnim, actionToAnimate.getTimer());
-						AnimationHandler.setTime(weaponAnim, actionToAnimate.getTimer());
+						setDuration(creatureAnim, actionToAnimate.getTimer());
+						setDuration(weaponAnim, actionToAnimate.getTimer());
+						System.out.println("NEW ANIM DURATION: "+actionToAnimate.getTimer());
 						
 						List<Animation> animList=new ArrayList<>();
 						animList.add(creatureAnim);
@@ -209,6 +243,7 @@ public class GamePlay {
 					Image weaponImage=weaponAnim.getCurrentFrame();
 					
 					images=new Image[]{creatureImage, weaponImage};
+					
 				
 				//Other type of action (no weapon)
 				} else {
@@ -221,8 +256,9 @@ public class GamePlay {
 						anim=cache.get(c).get(0);
 					} else {
 						//Creates a new animation and adds it to the cache
-						anim=GraphicsLoader.loadAttack(actionAnimations.get(0).getSpritePath());
-						AnimationHandler.setTime(anim, actionToAnimate.getTimer());
+						if(actionToAnimate.type()==ActionType.MOVE) anim=GraphicsLoader.loadMove(actionAnimations.get(0).getSpritePath());
+						else if(actionToAnimate.type()==ActionType.PICKUP) anim=GraphicsLoader.load(actionAnimations.get(0).getSpritePath());
+						setDuration(anim, actionToAnimate.getTimer());
 						
 						List<Animation> animList=new ArrayList<>();
 						animList.add(anim);
@@ -232,15 +268,10 @@ public class GamePlay {
 					images=new Image[]{anim.getCurrentFrame()};
 				}
 				
-				//Scales, centers, rotates and draws the current images 
-				// TODO Scale the image according to the creature's dimensions
-				for(int i=0; i<images.length; i++) {
-					ActionAnimation actionAnim = actionAnimations.get(i);
-					setRotationCenter(images[i]);
-					images[i].setRotation((float)actionAnim.getAngle());
-					double[] gameCoords=new double[]{actionAnim.getPos().x, actionAnim.getPos().y};
-					int[] screenCoords=gameToScreen(new Point2D.Double(gameCoords[0], gameCoords[1]), center);
-					images[i].drawCentered(screenCoords[0], screenCoords[1]);
+				//Scales, centers, rotates and draws the current images
+				//Updates all animations
+				for(int index=0; index<images.length; index++) {
+					drawImage(images[index], center, actionAnimations.get(index));
 				}
 			}
 		}
@@ -269,7 +300,7 @@ public class GamePlay {
 				tileImage=GraphicsLoader.loadImageAt(t.path);
 				tileImage.draw(screenCoords[0], screenCoords[1], (int)(1*gameToScreenFactor), (int)(1*gameToScreenFactor));
 			} catch(SlickException e) {
-		//		System.out.println("Could not create image for tile "+t+" at location ("+x+", "+y+")...");
+				System.out.println("Could not create image for tile "+t+" at location ("+x+", "+y+")...");
 				e.printStackTrace();
 			}
 		}
@@ -425,5 +456,55 @@ public class GamePlay {
 			System.out.println("Could not create image for SW wall...");
 			e.printStackTrace();
 		}
+	}
+	
+	//A packaging class for the data required to draw an image
+	static class ImageData {
+		
+		double x, y, width, height, rot;
+		
+		public ImageData(double x0, double y0, double w, double h, double r) {
+			x=x0;
+			y=y0;
+			width=w;
+			height=h;
+			rot=r;
+		}
+	}
+	
+	//Draws an image to the screen given the game coordinate center, x and y coordinates, a width and height, and an angle
+	void drawImage(Image i, Point2D center, ImageData data) {
+		//Transforms the coordinates from game to screen
+		double[] gameCoords=new double[]{data.x, data.y};
+		int[] screenCoords=gameToScreen(new Point2D.Double(gameCoords[0], gameCoords[1]), center);
+		
+		//Resizes the image
+		Image toDraw=i.getScaledCopy((int)(gameToScreenFactor*data.width),
+									(int)(gameToScreenFactor*data.height));
+		
+		//Centers the image
+		screenCoords=centerImage(screenCoords, toDraw);
+		
+		//Rotates the image
+		setRotationCenter(toDraw);
+		toDraw.setRotation((float)data.rot);
+				
+		//Draws the image
+		toDraw.draw(screenCoords[0], screenCoords[1]);
+	}
+	
+	//Draws an image to the screen given the game coordinate center and the image's ActionAnimation
+	void drawImage(Image i, Point2D center, ActionAnimation actionAnim) {
+		
+		drawImage(i, center, new ImageData(actionAnim.getPos().x,
+											actionAnim.getPos().y,
+											actionAnim.getSize().getWidth(),
+											actionAnim.getSize().getHeight(),
+											actionAnim.getAngle()));
+	}
+	
+	void setDuration(Animation a, int dur) {
+		if(dur==0) a.setImageDuration((int)(1000./Constants.DEFAULT_IMAGE_RATE));
+		else a.setDuration(dur+animationDurationBuffer);
 	}
 }

@@ -48,14 +48,14 @@ public enum GraphicsPaths {
 			SNAKE_SPRITE("slime/", MONSTERS),
 			DOG_SPRITE("slime/", MONSTERS),
 
-	ITEMS(/*"items/"*/"creatures/monsters/", GRAPHICS),
-		SWORD_SPRITE("bat/", ITEMS),
-		AXE_SPRITE("bat/", ITEMS),
-		WAR_HAMMER_SPRITE("bat/", ITEMS),
-		SPEAR_SPRITE("bat/", ITEMS),
-		ARMOUR_SPRITE("bat/", ITEMS),
-		SHIELD_SPRITE("bat/", ITEMS),
-		POTION_SPRITE("bat/", ITEMS);
+	ITEMS("items/", GRAPHICS),
+		SWORD_SPRITE("sword/", ITEMS),
+		AXE_SPRITE("sword/", ITEMS),
+		WAR_HAMMER_SPRITE("sword/", ITEMS),
+		SPEAR_SPRITE("sword/", ITEMS),
+		ARMOUR_SPRITE("sword/", ITEMS),
+		SHIELD_SPRITE("sword/", ITEMS),
+		POTION_SPRITE("sword/", ITEMS);
 	
 	public final String path;
 	final GraphicsPaths superpath;

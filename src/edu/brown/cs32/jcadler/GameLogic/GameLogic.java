@@ -89,15 +89,17 @@ public class GameLogic
     	return boundedCreatures;
     }
     
-    public void update() throws CloneNotSupportedException
+    public void update(int delta) throws CloneNotSupportedException
     {
         List<Action> zero = new ArrayList<>();
         for(Action a : actions)
         {
-            if(a.getTimer()<=0)
-                zero.add(a);
+            a.decrementTimer(delta);
+        //    if(a.getTimer()<=0)
+          //      zero.add(a);
         }
-        actions.removeAll(zero);
+        //actions.removeAll(zero);
+        actions.clear();
         for(Creature c : creatures)
         {
             c.removeTimedOutActions();
@@ -110,10 +112,8 @@ public class GameLogic
                 if(a.withinRange(c))
                 {
                     Creature test = a.actOnClone(c);
-                    System.out.println("clone position "+test.getPosition());
                     if(crrntMap.isValid(test.getPosition()))
                         a.act(c);
-                    System.out.println("resulting position "+c.getPosition());
                 }
             }
         }

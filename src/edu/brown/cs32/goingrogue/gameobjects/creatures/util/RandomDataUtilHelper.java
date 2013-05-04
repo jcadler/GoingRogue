@@ -78,7 +78,7 @@ public class RandomDataUtilHelper {
         double range = scaleToAttributes(randomDouble(5, 10), attributes, true);
         double arcLength = scaleToAttributes(randomDouble((PI / 2.0) - (PI / 3.0), (PI / 2.0) + (PI / 3.0)),
                 attributes, true);
-        int attackTimer = (int) scaleToAttributes(randomInt(10, 15), attributes, false);
+        int attackTimer = getAttackTimer(speed);//(int) scaleToAttributes(randomInt(10, 15), attributes, false);
         return new ItemStats(attack, defense, health, accuracy, speed, reloadRate,
                 range, arcLength, attackTimer);
     }
@@ -93,7 +93,7 @@ public class RandomDataUtilHelper {
         double range = scaleToAttributes(randomDouble(2, 5), attributes, true);
         double arcLength = scaleToAttributes(randomDouble((PI / 2.0) - (PI / 6.0), (PI / 2.0) + (PI / 3.0) + (PI / 6.0)),
                 attributes, true);
-        int attackTimer = (int) scaleToAttributes(randomInt(15, 20), attributes, false);
+        int attackTimer = getAttackTimer(speed);//(int) scaleToAttributes(randomInt(15, 20), attributes, false);
         return new ItemStats(attack, defense, health, accuracy, speed, reloadRate,
                 range, arcLength, attackTimer);
     }
@@ -108,7 +108,7 @@ public class RandomDataUtilHelper {
         double range = scaleToAttributes(randomDouble(2, 5), attributes, true);
         double arcLength = scaleToAttributes(randomDouble((PI / 2.0) - (PI / 3.0), (PI / 2.0) + (PI / 3.0)),
                 attributes, true);
-        int attackTimer = (int) scaleToAttributes(randomInt(15, 20), attributes, false);
+        int attackTimer = getAttackTimer(speed);//(int) scaleToAttributes(randomInt(15, 20), attributes, false);
         return new ItemStats(attack, defense, health, accuracy, speed, reloadRate,
                 range, arcLength, attackTimer);
     }
@@ -123,7 +123,7 @@ public class RandomDataUtilHelper {
         double range = scaleToAttributes(randomDouble(15, 20), attributes, true);
         double arcLength = scaleToAttributes(randomDouble(PI / 6.0, PI / 6.0),
                 attributes, true);
-        int attackTimer = (int) scaleToAttributes(randomInt(7, 12), attributes, false);
+        int attackTimer = getAttackTimer(speed);//(int) scaleToAttributes(randomInt(7, 12), attributes, false);
         return new ItemStats(attack, defense, health, accuracy, speed, reloadRate,
                 range, arcLength, attackTimer);
     }
@@ -200,5 +200,10 @@ public class RandomDataUtilHelper {
                 return origValue;
             }
         }
+    }
+    
+    //Returns an attack timer for an object of given speed
+    static int getAttackTimer(double speed) {
+    	return (int) (10*(50+speed));
     }
 }

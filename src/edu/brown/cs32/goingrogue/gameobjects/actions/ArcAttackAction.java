@@ -19,6 +19,8 @@ public class ArcAttackAction extends Action {
     public ArcAttackAction(double direction, double distance, double arcLength, int timer, Creature sourceCreature) {
         super(timer, new ArcAttackRange(direction, distance, arcLength, timer, sourceCreature));
         
+        System.out.println("new ArcAttackAction(), timer="+timer);
+        
         _type=ActionType.ATTACK;
         _sourceCreature = sourceCreature;
     }
@@ -37,14 +39,15 @@ public class ArcAttackAction extends Action {
         double creatureAngle = ((ArcAttackRange) getRange()).getAngle();
         
         double[] weaponPosPolar = new double[]{0, creatureAngle};
-        weaponPosPolar[0]+=.5;
+        weaponPosPolar[0]-=1;
         double[] weaponPosTemp = Util.polarToRectangular(weaponPosPolar[0], weaponPosPolar[1]);
         weaponPosTemp[0]+=creaturePos.x;
         weaponPosTemp[1]+=creaturePos.y;
         Point2D.Double weaponPos = new Point2D.Double(weaponPosTemp[0], weaponPosTemp[1]);
         
-        ActionAnimation creatureAnimation=new ActionAnimation(creatureSpritePath, creaturePos, creatureAngle);
-        ActionAnimation weaponAnimation=new ActionAnimation(weaponSpritePath, weaponPos, creatureAngle);
+        ActionAnimation creatureAnimation=new ActionAnimation(creatureSpritePath, creaturePos, creatureAngle, _sourceCreature.getSize());
+        ActionAnimation weaponAnimation=new ActionAnimation(weaponSpritePath, weaponPos, creatureAngle,
+        											_sourceCreature.getInventory().getWeapon().getSize());
         List<ActionAnimation> list=new ArrayList<>();
         list.add(creatureAnimation);
         list.add(weaponAnimation);

@@ -3,7 +3,6 @@ package edu.brown.cs32.goingrogue.graphics;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.newdawn.slick.Animation;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.Color;
@@ -39,6 +38,8 @@ public class TestGame extends BasicGame
 	
 	String textToDisplay;
 	
+	int timeOfLastRender;
+	
 	public TestGame()
 	{
 		super("Hello World");
@@ -60,6 +61,8 @@ public class TestGame extends BasicGame
 		moveDelta=-1;
 		
 		textToDisplay="_";
+		
+		timeOfLastRender=0;
 	}
 	
 	@Override
@@ -95,6 +98,9 @@ public class TestGame extends BasicGame
 		g.setBackground(Color.black);
 		g.setAntiAlias(false);
 		
+		int renderDelta=timeCount-timeOfLastRender;
+		timeOfLastRender=timeCount;
+		
 		if(!animDrawn) {
 			GraphicsLoader.setFilterType(Image.FILTER_NEAREST);
 			anim=GraphicsLoader.loadMove(GraphicsPaths.SLIME_SPRITE.path);
@@ -106,7 +112,8 @@ public class TestGame extends BasicGame
 		int i=0;
 		while(i<xList.size()) {
 			Animation a=anims.get(i);
-			a.draw(xList.get(i), yList.get(i), 40, 40);
+			a.updateWithReset(renderDelta);
+			a.getCurrentFrame().draw(xList.get(i), yList.get(i), 40, 40);
 			
 			Rectangle animBounds = new Rectangle(xList.get(i), yList.get(i), 40, 40);
 			
