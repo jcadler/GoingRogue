@@ -1,19 +1,11 @@
 package edu.brown.cs32.goingrogue.game;
 
-/* Notes!
- * 
- * - Implement character size
- * - Implement updates on deltas
- * - Ben, if weapon is null, give me "empty" as the animation sprite
- */
-
-
 import java.awt.geom.Point2D;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-import org.newdawn.slick.Animation;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -25,7 +17,7 @@ import edu.brown.cs32.goingrogue.gameobjects.actions.ActionAnimation;
 import edu.brown.cs32.goingrogue.gameobjects.actions.ActionType;
 import edu.brown.cs32.goingrogue.gameobjects.creatures.Creature;
 import edu.brown.cs32.goingrogue.gameobjects.creatures.Player;
-import edu.brown.cs32.goingrogue.graphics.GraphicsHandler;
+import edu.brown.cs32.goingrogue.graphics.Animation;
 import edu.brown.cs32.goingrogue.graphics.GraphicsLoader;
 import edu.brown.cs32.goingrogue.graphics.GraphicsPaths;
 import edu.brown.cs32.goingrogue.map.RogueMap;
@@ -50,6 +42,7 @@ public class GamePlay {
 	AnimationCache cache;
 	
 	int timeCount; //Used for tracking game updates
+	int lastRenderTime; //Used to track time passage since the last render
 	
 	double gameToScreenFactor=40.; //Conversion from game to screen coordinates
 	
@@ -144,12 +137,19 @@ public class GamePlay {
 		
 		GraphicsLoader.setFilterType(Image.FILTER_NEAREST);
 		
+		//Updates all animations in the cache
+		int renderDelta=timeCount-lastRenderTime;
+		lastRenderTime=timeCount;
+		cache.update(renderDelta);
+		
 		//Draws and animates entities
 		//TODO Add creature size. Right now I just get everything within 2 tiles
 		//TODO Fix the getCreatures to actually get the creatures we need
 		List<Creature> gameCreatures=game.getCreatures(/*upperLeft.getX(), upperLeft.getY(), lowerRight.getX(), lowerRight.getY()*/);
 		
-		for(Creature c: gameCreatures) {
+		for(int i=0; i<gameCreatures.size(); i++) {
+			
+			Creature c=gameCreatures.get(i);
 			
 			Action actionToAnimate=null;
 			List<Action> actions=c.getActions();
@@ -158,21 +158,39 @@ public class GamePlay {
 				if(actionToAnimate==null ||
 					a.type().getPriority()>actionToAnimate.type().getPriority()) {
 					
-					actionToAnimate=a;
+						actionToAnimate=a;
 				}
 			}
 			
 			//No action
 			if(actionToAnimate==null) {
-				//TODO Call c.getDimensions() and scale the image on creation
 				try {
 					
-					Image image=GraphicsLoader.loadImage(c.getSpritePath());
-					drawImage(image, center, new ImageData(c.getPosition().x,
-															c.getPosition().y,
-															c.getSize().getWidth(),
-															c.getSize().getHeight(),
-															c.getDirection()));
+					Image[] images=null;
+					
+					//Finishes the previous animation
+					if(cache.get(c)!=null) {
+						List<Animation> anims=cache.get(c);
+						List<Image> imageList=new ArrayList<>();
+						for(int j=0; j<anims.size(); j++)
+							imageList.add(anims.get(j).getCurrentFrame());
+						images=imageList.toArray(new Image[0]);
+						
+					}
+					
+					//Otherwise, draws the creature's static sprite
+					else {
+						images=new Image[1];
+						images[0]=GraphicsLoader.loadImage(c.getSpritePath());
+					}
+					
+					for(Image image: images)
+						drawImage(image, center, new ImageData(c.getPosition().x,
+							c.getPosition().y,
+							c.getSize().getWidth(),
+							c.getSize().getHeight(),
+							c.getDirection()));
+
 					
 				} catch(SlickException e) {
 					//Should not happen
@@ -180,6 +198,7 @@ public class GamePlay {
 				}
 			
 			} else {
+				
 				
 				Image[] images=null;
 				List<ActionAnimation> actionAnimations=actionToAnimate.getActionAnimations();
@@ -200,6 +219,7 @@ public class GamePlay {
 						//Creates a new animation and adds it to the cache
 						
 						creatureAnim=GraphicsLoader.loadAttack(actionAnimations.get(0).getSpritePath());
+						
 						try {
 							if(actionAnimations.get(1)==null) weaponAnim=GraphicsLoader.makeAnimation(GraphicsPaths.EMPTY.path);
 						} catch(SlickException e) {
@@ -208,8 +228,9 @@ public class GamePlay {
 						}
 						weaponAnim=GraphicsLoader.load(actionAnimations.get(1).getSpritePath());
 						
-						GraphicsHandler.setTime(creatureAnim, actionToAnimate.getTimer());
-						GraphicsHandler.setTime(weaponAnim, actionToAnimate.getTimer());
+						creatureAnim.setDuration(actionToAnimate.getTimer());
+						weaponAnim.setDuration(actionToAnimate.getTimer());
+						System.out.println("NEW ANIM DURATION: "+actionToAnimate.getTimer());
 						
 						List<Animation> animList=new ArrayList<>();
 						animList.add(creatureAnim);
@@ -221,6 +242,7 @@ public class GamePlay {
 					Image weaponImage=weaponAnim.getCurrentFrame();
 					
 					images=new Image[]{creatureImage, weaponImage};
+					
 				
 				//Other type of action (no weapon)
 				} else {
@@ -235,7 +257,8 @@ public class GamePlay {
 						//Creates a new animation and adds it to the cache
 						if(actionToAnimate.type()==ActionType.MOVE) anim=GraphicsLoader.loadMove(actionAnimations.get(0).getSpritePath());
 						else if(actionToAnimate.type()==ActionType.PICKUP) anim=GraphicsLoader.load(actionAnimations.get(0).getSpritePath());
-						GraphicsHandler.setTime(anim, actionToAnimate.getTimer());
+						anim.setDuration(actionToAnimate.getTimer());
+						if(anim.getDuration()==0) anim.setImageDuration((int)(1000./Constants.DEFAULT_IMAGE_RATE));
 						
 						List<Animation> animList=new ArrayList<>();
 						animList.add(anim);
@@ -243,15 +266,13 @@ public class GamePlay {
 					}
 					
 					images=new Image[]{anim.getCurrentFrame()};
-					
-					//Updates the animation
-					GraphicsHandler.drawOffscreen(anim);
 				}
 				
 				//Scales, centers, rotates and draws the current images
 				//Updates all animations
-				for(int i=0; i<images.length; i++)
-					drawImage(images[i], center, actionAnimations.get(i));
+				for(int index=0; index<images.length; index++) {
+					drawImage(images[index], center, actionAnimations.get(index));
+				}
 			}
 		}
 	}

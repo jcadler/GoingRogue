@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.newdawn.slick.Animation;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
@@ -51,8 +50,7 @@ public class GraphicsLoader {
 	public static Animation makeAnimation(String p) throws SlickException {
 		
 		return new Animation(new Image[]{new Image(p, false, filter)},
-				Constants.DEFAULT_FRAMERATE,
-				true);
+				(int)(1000./Constants.DEFAULT_IMAGE_RATE));
 	}
 	
 	/** Loads an animation rooted at the specified path
@@ -62,19 +60,13 @@ public class GraphicsLoader {
 		//Loads all images in the given directory
 		//Loads in order "1.png, 2.png..." etc
 		//Throws an exception if a file not matching this format is in the directory
-		if(cache.getAnimation(path)==null) try {
+		if(cache.getAnimation(path)==null || cache.getAnimation(path).isFinished()) try {
 			
 			List<Image> images=new ArrayList<>();
 			
 			File f=new File(path);
 			List<String> fileNames=new ArrayList<String>(Arrays.asList(f.list()));
 			fileNames=getPNGs(fileNames);
-			
-		//TEST
-			if(path.equals("graphics/creatures/monsters/bat/")) {
-//				System.out.println("NUM FILES: "+fileNames.size());
-//				System.out.println("FILES: "+fileNames);
-			}
 			
 			int i=1;
 			while(i<=fileNames.size()) {
@@ -87,10 +79,10 @@ public class GraphicsLoader {
 				i++;
 			}
 			
-			//Creates an auto-updating image from the found files
+			//Creates an animation from the found files
 			Animation a=new Animation(images.toArray(new Image[]{}), //Images
-										(int)(1000./Constants.DEFAULT_FRAMERATE), //Time per image
-										true);
+										(int)(1000./Constants.DEFAULT_IMAGE_RATE) //Time per image
+										);
 			
 			cache.add(path, a);
 			
@@ -99,8 +91,6 @@ public class GraphicsLoader {
 			//Could not load the animation
 			e.printStackTrace();
 		}
-		
-//		System.out.println("Loading animation "+path+"\n\t Returned "+cache.getAnimation(path));
 		
 		return cache.getAnimation(path);
 	}

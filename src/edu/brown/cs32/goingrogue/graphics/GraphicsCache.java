@@ -2,7 +2,6 @@ package edu.brown.cs32.goingrogue.graphics;
 
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.newdawn.slick.Animation;
 import org.newdawn.slick.Image;
 
 /** Caches Images and Animations by their file paths to avoid loading them again from file
