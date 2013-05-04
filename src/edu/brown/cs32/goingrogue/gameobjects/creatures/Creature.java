@@ -190,6 +190,7 @@ public abstract class Creature implements Cloneable {
 
     public void addAction(Action action) {
         _actions.add(action);
+        
     }
 
     @Override
