@@ -11,10 +11,11 @@ import java.util.List;
 public class ChangeDirectionAction extends Action {
 
     private double _direction;
-
+    
     public ChangeDirectionAction(Creature sourceCreature, double direction) {
         super(0, new ChangeDirectionRange(sourceCreature));
         _direction = direction;
+        _type=ActionType.CHANGE_DIR;
     }
 
     @Override
