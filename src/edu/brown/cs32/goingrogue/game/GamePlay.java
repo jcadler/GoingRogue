@@ -3,7 +3,6 @@ package edu.brown.cs32.goingrogue.game;
 import java.awt.geom.Point2D;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.newdawn.slick.GameContainer;
@@ -44,12 +43,12 @@ public class GamePlay {
 	int timeCount; //Used for tracking game updates
 	int lastRenderTime; //Used to track time passage since the last render
 	
-	double gameToScreenFactor=40.; //Conversion from game to screen coordinates
+	double gameToScreenFactor=50.; //Conversion from game to screen coordinates
 	
-	final int animationDurationBuffer=20; //Adds 20 ms to the duration of an animation
+	final int animationDurationBuffer=1; //Adds some time to the duration of an animation
 	
 	public GamePlay(GameContainer gc) {
-
+		
 		this.gc=gc;
 		
 		//Initializes gameplay
@@ -106,6 +105,8 @@ public class GamePlay {
 		i.setCenterOfRotation(i.getWidth()/2, i.getHeight()/2);
 	}
 	
+	public void init() {}
+	
 	/** Updates the game one time
 	 * 
 	 * @param delta The amount of time since the last game update
@@ -155,6 +156,8 @@ public class GamePlay {
 			Action actionToAnimate=null;
 			List<Action> actions=c.getActions();
 			for(Action a: actions) {
+				
+				System.out.println(a);
 				
 				if(actionToAnimate==null ||
 					a.type().getPriority()>actionToAnimate.type().getPriority()) {
@@ -231,7 +234,6 @@ public class GamePlay {
 						
 						setDuration(creatureAnim, actionToAnimate.getTimer());
 						setDuration(weaponAnim, actionToAnimate.getTimer());
-						System.out.println("NEW ANIM DURATION: "+actionToAnimate.getTimer());
 						
 						List<Animation> animList=new ArrayList<>();
 						animList.add(creatureAnim);

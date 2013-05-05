@@ -91,10 +91,7 @@ public class Animation {
 			if(i>=images.length) return -1;
 			durationSum+=durations[i];
 			
-			if(currTime>=getDuration()) {
-				System.out.println("Animation is finished: "+this);
-				throw new RuntimeException();
-			}
+			assert(currTime>=getDuration());
 
 		}
 		
@@ -150,9 +147,7 @@ public class Animation {
 			durations[i]=(int)(lastDuration-durationD);
 		}
 		
-		durations[0]+=duration-getDuration();
-		
-		if(duration!=getDuration()) System.out.println("NOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
+		durations[0]+=duration-getDuration()+1;
 	}
 	
 	/** Returns a copy of this animation

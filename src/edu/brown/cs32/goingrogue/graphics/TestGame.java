@@ -95,7 +95,7 @@ public class TestGame extends BasicGame
 	@Override
 	public void render(GameContainer gc, Graphics g) throws SlickException
 	{
-		g.setBackground(Color.black);
+		g.setBackground(Color.gray);
 		g.setAntiAlias(false);
 		
 		int renderDelta=timeCount-timeOfLastRender;
@@ -103,7 +103,7 @@ public class TestGame extends BasicGame
 		
 		if(!animDrawn) {
 			GraphicsLoader.setFilterType(Image.FILTER_NEAREST);
-			anim=GraphicsLoader.loadMove(GraphicsPaths.SLIME_SPRITE.path);
+			anim=GraphicsLoader.load(GraphicsPaths.POTION_SPRITE.path);
 			animDrawn=true;
 		}
 		

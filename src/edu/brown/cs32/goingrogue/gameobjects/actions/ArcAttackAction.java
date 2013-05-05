@@ -19,8 +19,6 @@ public class ArcAttackAction extends Action {
     public ArcAttackAction(double direction, double distance, double arcLength, int timer, Creature sourceCreature) {
         super(timer, new ArcAttackRange(direction, distance, arcLength, timer, sourceCreature));
         
-        System.out.println("new ArcAttackAction(), timer="+timer);
-        
         _type=ActionType.ATTACK;
         _sourceCreature = sourceCreature;
     }
