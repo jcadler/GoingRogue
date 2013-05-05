@@ -14,7 +14,7 @@ public class Constants {
     
     // starting player stats
 	public static final CreatureStats STARTING_PLAYER_STATS
-		= new CreatureStats(100, 70, 100, 50, .01);
+		= new CreatureStats(100, 70, 100, 50, .3);
 	
 	//Default image rate for loaded animations
 	public static final int DEFAULT_IMAGE_RATE=10;

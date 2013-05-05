@@ -21,8 +21,8 @@ public class CombatUtil {
         double speed = targetStats.getSpeed() + targetInventory.getSpeedSum();
         
         double damage = (attack / defense) + (accuracy / speed); // TODO come up with a better formula
-        
         if (damage > 0) {
+            System.out.println(target.getName()+" took "+damage);
             targetStats.reduceHealth((int) damage);
         }
     }

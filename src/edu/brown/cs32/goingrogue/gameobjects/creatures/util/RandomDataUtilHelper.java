@@ -73,7 +73,7 @@ public class RandomDataUtilHelper {
         double defense = scaleToAttributes(randomDouble(10, 15), attributes, true);
         int health = (int) scaleToAttributes(randomInt(0, 0), attributes, true);
         double accuracy = scaleToAttributes(randomDouble(5, 10), attributes, true);
-        double speed = scaleToAttributes(randomDouble(-10, -5), attributes, false);
+        double speed = scaleToAttributes(randomDouble(5,10), attributes, false);
         double reloadRate = scaleToAttributes(randomDouble(20, 25), attributes, false);
         double range = scaleToAttributes(randomDouble(5, 10), attributes, true);
         double arcLength = scaleToAttributes(randomDouble((PI / 2.0) - (PI / 3.0), (PI / 2.0) + (PI / 3.0)),
@@ -88,7 +88,7 @@ public class RandomDataUtilHelper {
         double defense = scaleToAttributes(randomDouble(5, 10), attributes, true);
         int health = (int) scaleToAttributes(randomInt(0, 0), attributes, true);
         double accuracy = scaleToAttributes(randomDouble(2, 6), attributes, true);
-        double speed = scaleToAttributes(randomDouble(-15, -10), attributes, false);
+        double speed = scaleToAttributes(randomDouble(10,15), attributes, false);
         double reloadRate = scaleToAttributes(randomDouble(25, 30), attributes, false);
         double range = scaleToAttributes(randomDouble(2, 5), attributes, true);
         double arcLength = scaleToAttributes(randomDouble((PI / 2.0) - (PI / 6.0), (PI / 2.0) + (PI / 3.0) + (PI / 6.0)),
@@ -103,7 +103,7 @@ public class RandomDataUtilHelper {
         double defense = scaleToAttributes(randomDouble(10, 15), attributes, true);
         int health = (int) scaleToAttributes(randomInt(0, 0), attributes, true);
         double accuracy = scaleToAttributes(randomDouble(1, 5), attributes, true);
-        double speed = scaleToAttributes(randomDouble(-20, -10), attributes, false);
+        double speed = scaleToAttributes(randomDouble(10,20), attributes, false);
         double reloadRate = scaleToAttributes(randomDouble(30, 35), attributes, false);
         double range = scaleToAttributes(randomDouble(2, 5), attributes, true);
         double arcLength = scaleToAttributes(randomDouble((PI / 2.0) - (PI / 3.0), (PI / 2.0) + (PI / 3.0)),
@@ -118,7 +118,7 @@ public class RandomDataUtilHelper {
         double defense = scaleToAttributes(randomDouble(5, 10), attributes, true);
         int health = (int) scaleToAttributes(randomInt(0, 0), attributes, true);
         double accuracy = scaleToAttributes(randomDouble(20, 25), attributes, true);
-        double speed = scaleToAttributes(randomDouble(-5, -2), attributes, false);
+        double speed = scaleToAttributes(randomDouble(2,5), attributes, false);
         double reloadRate = scaleToAttributes(randomDouble(10, 5), attributes, false);
         double range = scaleToAttributes(randomDouble(15, 20), attributes, true);
         double arcLength = scaleToAttributes(randomDouble(PI / 6.0, PI / 6.0),
@@ -133,7 +133,7 @@ public class RandomDataUtilHelper {
         double defense = scaleToAttributes(randomDouble(40, 45), attributes, true);
         int health = (int) scaleToAttributes(randomInt(0, 0), attributes, true);
         double accuracy = scaleToAttributes(randomDouble(0, 0), attributes, true);
-        double speed = scaleToAttributes(randomDouble(-25, -20), attributes, false);
+        double speed = scaleToAttributes(randomDouble(20,25), attributes, false);
         double reloadRate = scaleToAttributes(randomDouble(0, 0), attributes, false);
         double range = 0.0;
         double arcLength = 0.0;
@@ -147,7 +147,7 @@ public class RandomDataUtilHelper {
         double defense = scaleToAttributes(randomDouble(30, 35), attributes, true);
         int health = (int) scaleToAttributes(randomInt(0, 0), attributes, true);
         double accuracy = scaleToAttributes(randomDouble(0, 0), attributes, true);
-        double speed = scaleToAttributes(randomDouble(-15, -10), attributes, false);
+        double speed = scaleToAttributes(randomDouble(10,15), attributes, false);
         double reloadRate = scaleToAttributes(randomDouble(0, 0), attributes, false);
         double range = 0.0;
         double arcLength = 0.0;
