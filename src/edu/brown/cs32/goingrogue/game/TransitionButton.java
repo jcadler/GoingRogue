@@ -10,13 +10,13 @@ import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.Transition;
 
 public class TransitionButton extends MouseOverArea implements ComponentListener{
-	private final Transition from;
-	private final Transition to;
+	private final Class<Transition> from;
+	private final Class<Transition> to;
 	private final int nextState;
 	private final StateBasedGame game;
 	
-	public TransitionButton(GUIContext gc, Image img, int x, int y, Transition from,
-			Transition to, int nextState, StateBasedGame game) {
+	public TransitionButton(GUIContext gc, Image img, int x, int y, Class<Transition> from,
+			Class<Transition> to, int nextState, StateBasedGame game) {
 		super(gc, img, x, y);
 		this.from = from;
 		this.to = to;
@@ -29,6 +29,14 @@ public class TransitionButton extends MouseOverArea implements ComponentListener
 	
 	@Override
 	public void componentActivated(AbstractComponent arg0) {
-		game.enterState(nextState, from, to);
+		try{
+			Transition f = from.newInstance();
+			Transition t = to.newInstance();
+			game.enterState(nextState, f, t);
+		}
+		catch(Throwable e){
+			//	SHOULD NOT HAPPEN
+			System.err.println("Cannot instantiate Transitions!");
+		}
 	}
 }

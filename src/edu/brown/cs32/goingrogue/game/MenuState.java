@@ -16,8 +16,8 @@ import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
 import org.newdawn.slick.state.transition.Transition;
 
-public class MainMenu extends BasicGameState{
-	private String background = "graphics/menu/mmbg.png";
+public class MenuState extends BasicGameState{
+	private String background = "graphics/menu/mmbg.png";	//	Default is Main Menu!
 	private String menuData = "data/menus/mm.txt";
 	private Image bg;
 	private List<TransitionButton> buttons;
@@ -29,7 +29,13 @@ public class MainMenu extends BasicGameState{
 		this.id = id;
 	}
 	
-	public MainMenu(){
+	public MenuState(){
+	}
+	
+	public MenuState(String background, String menuData, int id){
+		this.background = background;
+		this.menuData = menuData;
+		this.id = id;
 	}
 
 	@Override
@@ -44,6 +50,8 @@ public class MainMenu extends BasicGameState{
 		}
 		//this.gc = gc;
 		buttons = new ArrayList<TransitionButton>();
+		Class from = FadeOutTransition.class;
+		Class to = FadeInTransition.class;
 		try{
 			File f = new File(menuData);
 			FileReader fr = new FileReader(f);
@@ -57,8 +65,6 @@ public class MainMenu extends BasicGameState{
 				int ns = Integer.parseInt(next[1]);
 				int x = Integer.parseInt(next[2]);
 				int y = Integer.parseInt(next[3]);
-				Transition from = new FadeOutTransition();
-				Transition to = new FadeInTransition();
 				TransitionButton b = new TransitionButton(gc, i, x, y, from, to, ns, game);
 				buttons.add(b);
 				line = r.readLine();
