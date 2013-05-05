@@ -9,6 +9,7 @@ import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 /**
  *
@@ -19,6 +20,7 @@ public abstract class Creature implements Cloneable {
     private Point2D.Double _pos;
     private double _direction; // in radians
     private String _name;
+    private UUID _id;
     private List<Attribute> _attributes;
     private CreatureStats _stats;
     private String _spritePath;
@@ -26,15 +28,15 @@ public abstract class Creature implements Cloneable {
     private Inventory _inventory;
     private List<Action> _actions;
     private int _level;
-    
     //Used to ensure existence of a single unique hash code
     private int _hashCode;
-    
+
     public Creature(Point2D.Double pos, double direction, String name,
             List<Attribute> attributes, CreatureStats stats, String spritePath, CreatureSize size) {
         _pos = pos;
         _direction = direction;
         _name = name;
+        _id = UUID.randomUUID();
         _attributes = attributes;
         _stats = stats;
         _spritePath = spritePath;
@@ -42,8 +44,8 @@ public abstract class Creature implements Cloneable {
         _inventory = new Inventory();
         _actions = new ArrayList<>();
         _level = 1;
-        
-        _hashCode=-1;
+
+        _hashCode = -1;
     }
 
     public List<Attribute> getAttributes() {
@@ -141,11 +143,11 @@ public abstract class Creature implements Cloneable {
             return 0;
         }
     }
-    
+
     public Rectangle2D getRectangle() {
         return new Rectangle2D.Double(_pos.getX(), _pos.getY(), _size.getWidth(), _size.getHeight());
     }
-    
+
     public Point2D getCenterPosition() {
         double xVal = _pos.getX() + (_size.getWidth() / 2.0);
         double yVal = _pos.getY() + (_size.getHeight() / 2.0);
@@ -190,28 +192,14 @@ public abstract class Creature implements Cloneable {
 
     public void addAction(Action action) {
         _actions.add(action);
-        
+
     }
 
     @Override
     public int hashCode() {
-        
-    	if(_hashCode==-1) {
-        	int hash = 3;
-            hash = 19 * hash + Objects.hashCode(this._pos);
-            hash = 19 * hash + (int) (Double.doubleToLongBits(this._direction) ^ (Double.doubleToLongBits(this._direction) >>> 32));
-            hash = 19 * hash + Objects.hashCode(this._name);
-            hash = 19 * hash + Objects.hashCode(this._attributes);
-            hash = 19 * hash + Objects.hashCode(this._stats);
-            hash = 19 * hash + Objects.hashCode(this._spritePath);
-            hash = 19 * hash + Objects.hashCode(this._size);
-            hash = 19 * hash + Objects.hashCode(this._inventory);
-            hash = 19 * hash + this._level;
-
-            _hashCode=hash;
-    	}
-    	
-    	return _hashCode;
+        int hash = 3;
+        hash = 59 * hash + Objects.hashCode(this._id);
+        return hash;
     }
 
     @Override
@@ -223,31 +211,7 @@ public abstract class Creature implements Cloneable {
             return false;
         }
         final Creature other = (Creature) obj;
-        if (!Objects.equals(this._pos, other._pos)) {
-            return false;
-        }
-        if (Double.doubleToLongBits(this._direction) != Double.doubleToLongBits(other._direction)) {
-            return false;
-        }
-        if (!Objects.equals(this._name, other._name)) {
-            return false;
-        }
-        if (!Objects.equals(this._attributes, other._attributes)) {
-            return false;
-        }
-        if (!Objects.equals(this._stats, other._stats)) {
-            return false;
-        }
-        if (!Objects.equals(this._spritePath, other._spritePath)) {
-            return false;
-        }
-        if (!Objects.equals(this._size, other._size)) {
-            return false;
-        }
-        if (!Objects.equals(this._inventory, other._inventory)) {
-            return false;
-        }
-        if (this._level != other._level) {
+        if (!Objects.equals(this._id, other._id)) {
             return false;
         }
         return true;

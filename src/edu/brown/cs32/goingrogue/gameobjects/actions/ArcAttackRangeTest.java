@@ -94,6 +94,16 @@ public class ArcAttackRangeTest {
         }
         assertTrue(hit);
         hit = false;
+        
+        ArcAttackAction a8 = new ArcAttackAction((3.0 * Math.PI) / 2.0, 0.499, Math.PI / 2.0, 20, c2);
+        while (a8.getTimer() >= 0) {
+            if (a8.getRange().inRange(c1)) {
+                hit = true;
+            }
+            a8.decrementTimer(1);
+        }
+        assertFalse(hit);
+        hit = false;
     }
 
     @Test
