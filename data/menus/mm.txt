@@ -1,0 +1,2 @@
+graphics/menu/op.png	1	500	50
+graphics/menu/sg.png	2	500	200
