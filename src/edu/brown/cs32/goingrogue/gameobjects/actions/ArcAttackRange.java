@@ -39,6 +39,9 @@ public class ArcAttackRange implements Range {
 
     @Override
     public boolean inRange(Creature targetCreature) {
+        if (targetCreature.equals(_sourceCreature)) {
+            return false;
+        }
         Point2D sourcePos = _sourceCreature.getCenterPosition();
         Rectangle2D targetRec = targetCreature.getRectangle();
         Rectangle2D ellipseBounds = new Rectangle2D.Double(sourcePos.getX() - _distance,
