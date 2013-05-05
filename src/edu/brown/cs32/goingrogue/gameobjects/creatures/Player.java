@@ -72,7 +72,6 @@ public class Player extends Creature {
 
         public void attack() {
             if (attack == null || attack.getTimer() <= 0) {
-                System.out.println("adding");
                 Action a = new ArcAttackAction(getDirection(), getWeaponRange(), getWeaponArcLength(),
                         getWeaponAttackTimer(), Player.this);
                 attack = a;

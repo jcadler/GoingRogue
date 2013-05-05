@@ -43,7 +43,7 @@ public class GamePlay {
 	int timeCount; //Used for tracking game updates
 	int lastRenderTime; //Used to track time passage since the last render
 	
-	double gameToScreenFactor=40.; //Conversion from game to screen coordinates
+	double gameToScreenFactor=50.; //Conversion from game to screen coordinates
 	
 	final int animationDurationBuffer=1; //Adds some time to the duration of an animation
 	
@@ -157,6 +157,8 @@ public class GamePlay {
 			List<Action> actions=c.getActions();
 			for(Action a: actions) {
 				
+				System.out.println(a);
+				
 				if(actionToAnimate==null ||
 					a.type().getPriority()>actionToAnimate.type().getPriority()) {
 					
@@ -232,7 +234,6 @@ public class GamePlay {
 						
 						setDuration(creatureAnim, actionToAnimate.getTimer());
 						setDuration(weaponAnim, actionToAnimate.getTimer());
-						System.out.println("NEW ANIM DURATION: "+actionToAnimate.getTimer());
 						
 						List<Animation> animList=new ArrayList<>();
 						animList.add(creatureAnim);
