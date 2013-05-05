@@ -2,11 +2,13 @@ package edu.brown.cs32.goingrogue.gameobjects.actions;
 
 import edu.brown.cs32.goingrogue.gameobjects.creatures.Creature;
 import java.awt.geom.Arc2D;
+import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import static java.lang.Math.PI;
 import static java.lang.Math.toDegrees;
 import static java.lang.Math.toRadians;
+import static java.lang.Math.cos;
+import static java.lang.Math.sin;
 import java.util.Objects;
 
 /**
@@ -22,7 +24,6 @@ public class ArcAttackRange implements Range {
     private Creature _sourceCreature;
     private final int STARTING_TIMER;
     private final Arc2D FULL_ARC;
-    private final double RANGE_CHECK_ARC_EXTENT = PI / 3.0; // in radians
 
     public ArcAttackRange(double direction, double distance, double arcLength, int timer, Creature sourceCreature) {
         _direction = direction;
@@ -42,9 +43,10 @@ public class ArcAttackRange implements Range {
         Rectangle2D ellipseBounds = new Rectangle2D.Double(sourcePos.getX() - _distance,
                 sourcePos.getY() - _distance, _distance * 2.0, _distance * 2.0);
         FULL_ARC.setFrame(ellipseBounds);
-        double startAngle = toDegrees(((((double) STARTING_TIMER - _timer) / STARTING_TIMER) * (FULL_ARC.getAngleExtent())) + FULL_ARC.getAngleStart());
-        Arc2D attackArc = new Arc2D.Double(ellipseBounds, startAngle, RANGE_CHECK_ARC_EXTENT, Arc2D.PIE);
-        return attackArc.intersects(targetRec);
+        double startAngle = ((((double) STARTING_TIMER - _timer) / STARTING_TIMER) * (FULL_ARC.getAngleExtent())) + FULL_ARC.getAngleStart();
+        Line2D attackLine = new Line2D.Double(sourcePos.getX(), sourcePos.getY(),
+                _distance * cos(startAngle), _distance * sin(startAngle));
+        return attackLine.intersects(targetRec);
     }
 
     @Override
@@ -66,7 +68,6 @@ public class ArcAttackRange implements Range {
         hash = 37 * hash + this._timer;
         hash = 37 * hash + this.STARTING_TIMER;
         hash = 37 * hash + Objects.hashCode(this.FULL_ARC);
-        hash = 37 * hash + (int) (Double.doubleToLongBits(this.RANGE_CHECK_ARC_EXTENT) ^ (Double.doubleToLongBits(this.RANGE_CHECK_ARC_EXTENT) >>> 32));
         return hash;
     }
 
@@ -95,9 +96,6 @@ public class ArcAttackRange implements Range {
             return false;
         }
         if (!Objects.equals(this.FULL_ARC, other.FULL_ARC)) {
-            return false;
-        }
-        if (Double.doubleToLongBits(this.RANGE_CHECK_ARC_EXTENT) != Double.doubleToLongBits(other.RANGE_CHECK_ARC_EXTENT)) {
             return false;
         }
         return true;
