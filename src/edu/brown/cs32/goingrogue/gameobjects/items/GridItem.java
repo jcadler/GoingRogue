@@ -36,6 +36,11 @@ public class GridItem extends Creature {
             return 1;
         }
     }
+    
+    @Override
+    public boolean isDead() {
+        return _pickedUp;
+    }
 
     @Override
     public boolean isItem() {
