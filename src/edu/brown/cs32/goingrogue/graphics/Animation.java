@@ -150,9 +150,9 @@ public class Animation {
 			durations[i]=(int)(lastDuration-durationD);
 		}
 		
-		durations[0]+=duration-getDuration();
+		durations[0]+=duration-getDuration()+1;
 		
-		if(duration!=getDuration()) System.out.println("NOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
+		//if(duration!=getDuration()) System.out.println("NOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
 	}
 	
 	/** Returns a copy of this animation

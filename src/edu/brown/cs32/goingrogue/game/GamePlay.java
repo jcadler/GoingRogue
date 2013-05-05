@@ -3,7 +3,6 @@ package edu.brown.cs32.goingrogue.game;
 import java.awt.geom.Point2D;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.newdawn.slick.GameContainer;
@@ -46,10 +45,10 @@ public class GamePlay {
 	
 	double gameToScreenFactor=40.; //Conversion from game to screen coordinates
 	
-	final int animationDurationBuffer=20; //Adds 20 ms to the duration of an animation
+	final int animationDurationBuffer=1; //Adds some time to the duration of an animation
 	
 	public GamePlay(GameContainer gc) {
-
+		
 		this.gc=gc;
 		
 		//Initializes gameplay
@@ -105,6 +104,8 @@ public class GamePlay {
 	void setRotationCenter(Image i) {
 		i.setCenterOfRotation(i.getWidth()/2, i.getHeight()/2);
 	}
+	
+	public void init() {}
 	
 	/** Updates the game one time
 	 * 
