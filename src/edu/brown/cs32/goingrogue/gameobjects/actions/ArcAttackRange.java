@@ -10,6 +10,7 @@ import static java.lang.Math.toRadians;
 import static java.lang.Math.cos;
 import static java.lang.Math.sin;
 import java.util.Objects;
+import static edu.brown.cs32.goingrogue.util.Util.polarToRectangular;
 
 /**
  *
@@ -43,9 +44,10 @@ public class ArcAttackRange implements Range {
         Rectangle2D ellipseBounds = new Rectangle2D.Double(sourcePos.getX() - _distance,
                 sourcePos.getY() - _distance, _distance * 2.0, _distance * 2.0);
         FULL_ARC.setFrame(ellipseBounds);
-        double startAngle = ((((double) STARTING_TIMER - _timer) / STARTING_TIMER) * (FULL_ARC.getAngleExtent())) + FULL_ARC.getAngleStart();
+        double startAngle = toRadians(((((double) STARTING_TIMER - _timer) / STARTING_TIMER) * (FULL_ARC.getAngleExtent())) + FULL_ARC.getAngleStart());
+        double[] p2 = polarToRectangular(_distance, startAngle);
         Line2D attackLine = new Line2D.Double(sourcePos.getX(), sourcePos.getY(),
-                _distance * cos(startAngle), _distance * sin(startAngle));
+                p2[0] + sourcePos.getX(), p2[1] + sourcePos.getY());
         return attackLine.intersects(targetRec);
     }
 
