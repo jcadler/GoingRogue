@@ -24,6 +24,7 @@ public class TransitionButton extends MouseOverArea implements ComponentListener
 		this.game = game;
 		addListener(this);
 		setMouseOverColor(new Color(225, 225, 225));
+		setMouseDownColor(new Color(195, 195, 195));
 	}
 	
 	@Override

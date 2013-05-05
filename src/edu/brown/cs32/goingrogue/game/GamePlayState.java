@@ -4,12 +4,14 @@ import java.awt.geom.Point2D;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.state.*;
+import org.newdawn.slick.state.BasicGameState;
+import org.newdawn.slick.state.StateBasedGame;
 
 import edu.brown.cs32.goingrogue.constants.Constants;
 import edu.brown.cs32.goingrogue.gameobjects.actions.Action;
@@ -24,6 +26,7 @@ import edu.brown.cs32.goingrogue.map.RogueMap;
 import edu.brown.cs32.goingrogue.map.Space;
 import edu.brown.cs32.goingrogue.map.Tile;
 import edu.brown.cs32.goingrogue.map.Wall;
+import edu.brown.cs32.goingrogue.util.KeyCodes;
 import edu.brown.cs32.goingrogue.util.Util;
 import edu.brown.cs32.jcadler.GameLogic.GameLogic;
 
@@ -35,6 +38,8 @@ import edu.brown.cs32.jcadler.GameLogic.GameLogic;
 public class GamePlayState extends BasicGameState{
 	
 	GameContainer gc;
+	
+	ConcurrentHashMap<Integer, Boolean> keysPressed;
 	
 	GameLogic game;
 	Player player;
@@ -61,6 +66,23 @@ public class GamePlayState extends BasicGameState{
 	}
 	
 	public void init(){
+		//g=null; //Set up by init() method
+		timeCount=0;
+		
+		keysPressed=new ConcurrentHashMap<Integer, Boolean>();
+		keysPressed.put(KeyCodes.Q, false);
+		keysPressed.put(KeyCodes.W, false);
+		keysPressed.put(KeyCodes.E, false);
+		keysPressed.put(KeyCodes.A, false);
+		keysPressed.put(KeyCodes.S, false);
+		keysPressed.put(KeyCodes.D, false);
+		keysPressed.put(KeyCodes.LEFT, false);
+		keysPressed.put(KeyCodes.RIGHT, false);
+		keysPressed.put(KeyCodes.UP, false);
+		keysPressed.put(KeyCodes.DOWN, false);
+		keysPressed.put(KeyCodes.SPACE, false);
+		keysPressed.put(KeyCodes.ESC, false);
+		
 		//Initializes gameplay
 		try {
 			game = new GameLogic();
@@ -507,16 +529,7 @@ public class GamePlayState extends BasicGameState{
 	public void init(GameContainer gc, StateBasedGame gm)
 			throws SlickException {
 		this.gc = gc;
-		//Initializes gameplay
-		try {
-			game = new GameLogic();
-			player=game.getPlayer();
-			map=game.getMap();
-			cache=new AnimationCache();
-		} catch(IOException e) {
-			//Should not happen
-			e.printStackTrace();
-		}
+		init();
 	}
 
 	@Override
@@ -550,5 +563,36 @@ public class GamePlayState extends BasicGameState{
 			height=h;
 			rot=r;
 		}
+	}
+	
+	@Override
+	public void mouseMoved(int oldx, int oldy, int newx, int newy) {
+	}
+	
+	@Override
+	public void mousePressed(int button, int x, int y) {
+	}
+	
+	@Override
+	public void mouseReleased(int button, int x, int y) {
+	}
+	
+	@Override
+	public void mouseClicked(int button, int x, int y, int clickCount) {
+		
+	}
+	
+	@Override
+	public void mouseDragged(int oldx, int oldy, int newx, int newy) {
+	}
+	
+	@Override
+	public void keyPressed(int key, char c) {
+		keysPressed.put(key, true);
+	}
+	
+	@Override
+	public void keyReleased(int key, char c) {
+		keysPressed.put(key, false);
 	}
 }

@@ -1,0 +1,2 @@
+graphics/menu/mm.png	0	500	50
+graphics/menu/sg.png	1	500	200
