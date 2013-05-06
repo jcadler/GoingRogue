@@ -49,13 +49,9 @@ public class ArcAttackRange implements Range {
         double[] p2 = Util.polarToRectangular(_distance, startAngle);
         Line2D attackLine = new Line2D.Double(sourcePos.getX(), sourcePos.getY(),
                 p2[0] + sourcePos.getX(), p2[1] + sourcePos.getY());
+        System.out.println(attackLine.getX1() + ", " + attackLine.getY1() + " | " 
+                + attackLine.getX2() + ", " + attackLine.getY2());
         return attackLine.intersects(targetRec);
-//        Item weapon = _sourceCreature.getInventory().getWeapon();
-//        if (weapon != null) {
-//            return weapon.getRectangle().intersects(targetCreature.getRectangle());
-//        } else {
-//            return false;
-//        }
     }
 
     @Override
