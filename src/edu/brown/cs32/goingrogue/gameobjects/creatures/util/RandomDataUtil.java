@@ -10,7 +10,6 @@ import edu.brown.cs32.goingrogue.gameobjects.items.ItemStats;
 import static edu.brown.cs32.goingrogue.graphics.GraphicsPaths.*;
 import static edu.brown.cs32.goingrogue.gameobjects.creatures.util.RandomDataUtilHelper.*;
 import edu.brown.cs32.goingrogue.util.CreatureSize;
-import java.awt.Dimension;
 
 /**
  *

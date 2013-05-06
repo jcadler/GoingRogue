@@ -27,11 +27,6 @@ public class Player extends Creature {
     }
 
     @Override
-    public void incurDamage(Creature attacker) {
-        CombatUtil.incurDamage(attacker, this);
-    }
-
-    @Override
     public boolean isItem() {
         return false;
     }

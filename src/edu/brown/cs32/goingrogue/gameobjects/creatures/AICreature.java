@@ -35,34 +35,38 @@ public class AICreature extends Creature {
 
     @Override
     public List<Action> getActionsWithUpdate(int delta) {
-//        Creature closestCreature = null;
-//        for (Creature currCreature : _creatures) {
-//            Point2D currCreaturePos = currCreature.getPosition();
-//            if (closestCreature == null) {
-//                closestCreature = currCreature;
-//            } else if ((getPosition().distance(currCreaturePos)
-//                    < getPosition().distance(closestCreature.getPosition()))
-//                    && (!currCreature.equals(this))
-//                    && (currCreature.getAttributes().contains(Attribute.PLAYER))) {
-//                closestCreature = currCreature;
-//            }
-//        }
-//
+        Creature closestCreature = null;
+        for (int i = 0; i < _creatures.size(); ++i) {
+            Creature currCreature = _creatures.get(i);
+            Point2D currCreaturePos = currCreature.getPosition();
+            if ((closestCreature == null) && (!currCreature.equals(this))
+                    && (currCreature.getAttributes().contains(Attribute.PLAYER))) {
+                closestCreature = currCreature;
+            } else if ((closestCreature != null)
+                    && (getPosition().distance(currCreaturePos)
+                    < getPosition().distance(closestCreature.getPosition()))
+                    && (!currCreature.equals(this))
+                    && (currCreature.getAttributes().contains(Attribute.PLAYER))) {
+                closestCreature = currCreature;
+            }
+        }
+
         List<Action> returnActions = new ArrayList<>();
-//        if (closestCreature != null) {
-//            setDirection(getAngleFromTo(getPosition(), closestCreature.getPosition()));
-//            if (getPosition().distance(closestCreature.getPosition()) < DIST_TO_ATTACK) {
-//                returnActions.add(
-//                        new ArcAttackAction(getDirection(), getWeaponRange(), getWeaponArcLength(),
-//                        getWeaponAttackTimer(), this));
-//                return returnActions;
-//            } else {
-//                returnActions.add(new MoveAction(getDirection(), this));
-//                return returnActions;
-//            }
-//        }
-//
-//        setActions(returnActions);
+        if (closestCreature != null) {
+            setDirection(getAngleFromTo(getPosition(), closestCreature.getPosition()));
+            if (getPosition().distance(closestCreature.getPosition()) < DIST_TO_ATTACK) {
+                returnActions.add(
+                        new ArcAttackAction(getDirection(), getWeaponRange(), getWeaponArcLength(),
+                        getWeaponAttackTimer(), this));
+                return returnActions;
+            } else {
+                returnActions.add(new MoveAction(getDirection(), this));
+                return returnActions;
+            }
+        }
+
+        setActions(returnActions);
         return returnActions;
+//        return new ArrayList<>();
     }
 }
