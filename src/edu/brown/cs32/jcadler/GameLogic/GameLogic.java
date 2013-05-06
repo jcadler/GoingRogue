@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Random;
 
 import edu.brown.cs32.goingrogue.gameobjects.actions.Action;
+import edu.brown.cs32.goingrogue.gameobjects.actions.ActionType;
 import edu.brown.cs32.goingrogue.gameobjects.creatures.Creature;
 import edu.brown.cs32.goingrogue.gameobjects.creatures.Player;
 import edu.brown.cs32.goingrogue.gameobjects.creatures.factories.AICreatureFactory;
@@ -35,14 +36,12 @@ public class GameLogic
         int numCreatures = r.nextInt(3)+1;
         creatures = new ArrayList<>();
         actions = new ArrayList<>();
-        List<Room> rooms = crrntMap.getRooms();
         setRandomExit();
         addCreatures(numCreatures);
         player = PlayerFactory.create(creatures,crrntMap.getRooms());
         player.setName("bob");
         setPlayer();
         creatures.add(player);
-        System.out.println(player.getSpeed());
     }
     
     private void addCreatures(int numCreatures)
@@ -116,22 +115,26 @@ public class GameLogic
     
     public void update(int delta) throws CloneNotSupportedException,IOException
     {
-        List<Action> zero = new ArrayList<>();
         for(Action a : actions)
         {
             a.decrementTimer(delta);
-        //    if(a.getTimer()<=0)
-          //      zero.add(a);
         }
-        //actions.removeAll(zero);
         actions.clear();
         for(Creature c : creatures)
         {
             c.removeTimedOutActions();
-            actions.addAll(c.getActionsWithUpdate(delta));
+            List<Action> as = c.getActionsWithUpdate(delta);
+            actions.addAll(as);  
         }
         for(Action a : actions)
         {
+            if(a.type().equals(ActionType.ATTACK))
+            {/*
+                System.out.println(a.toString());
+                System.out.println(a.getTimer());
+                a.decrementTimer(delta);
+                System.out.println(a.getTimer());*/
+            }
             for(Creature c : creatures)
             {
                 if(a.withinRange(c))
@@ -158,7 +161,6 @@ public class GameLogic
             }
         }
         creatures.removeAll(dead);
-        System.out.println(creatures.size());
         if(exit)
         {
             crrntMap.newLevel();
