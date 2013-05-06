@@ -32,6 +32,7 @@ public class TransitionButton extends MouseOverArea implements ComponentListener
 		try{
 			Transition f = from.newInstance();
 			Transition t = to.newInstance();
+			transitionAction();
 			game.enterState(nextState, f, t);
 		}
 		catch(Throwable e){
@@ -39,4 +40,6 @@ public class TransitionButton extends MouseOverArea implements ComponentListener
 			System.err.println("Cannot instantiate Transitions!");
 		}
 	}
+	
+	public void transitionAction(){}
 }
