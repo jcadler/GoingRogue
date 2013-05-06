@@ -34,7 +34,7 @@ public class AICreature extends Creature {
     }
 
     @Override
-    public List<Action> getActions() {
+    public List<Action> getActions(int delta) {
         Creature closestCreature = null;
         for (Creature currCreature : _creatures) {
             Point2D currCreaturePos = currCreature.getPosition();
