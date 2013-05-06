@@ -16,8 +16,8 @@ public class PickupAction extends Action {
 
     private Creature _sourceCreature;
 
-    public PickupAction(int timer, Range range, Creature sourceCreature) {
-        super(timer, range);
+    public PickupAction(Range range, Creature sourceCreature) {
+        super(0, range);
         _type = ActionType.PICKUP;
         _sourceCreature = sourceCreature;
     }
@@ -30,12 +30,13 @@ public class PickupAction extends Action {
 
     @Override
     public List<ActionAnimation> getActionAnimations() {
-        String spritePath = _sourceCreature.getSpritePath();
-        Point2D.Double pos = new Point2D.Double(0.0, 0.0);
-        double angle = 0.0;
-        List<ActionAnimation> list = new ArrayList<>();
-        list.add(new ActionAnimation(spritePath, pos, angle, _sourceCreature.getSize()));
-        return list;
+//        String spritePath = _sourceCreature.getSpritePath();
+//        Point2D.Double pos = new Point2D.Double(0.0, 0.0);
+//        double angle = 0.0;
+//        List<ActionAnimation> list = new ArrayList<>();
+//        list.add(new ActionAnimation(spritePath, pos, angle, _sourceCreature.getSize()));
+//        return list;
+        return new ArrayList<>();
     }
 
     @Override

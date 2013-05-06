@@ -18,19 +18,21 @@ public class MoveAction extends Action {
 
     private double _direction; // angle of motion in radians, with East being 0 rad
     private Creature _sourceCreature;
+    private int _delta;
 
-    public MoveAction(double direction, Creature creature) {
+    public MoveAction(double direction, Creature creature, int delta) {
         super(0, new MoveRange(creature));
         
         _type = ActionType.MOVE;
         _direction = direction;
         _sourceCreature = creature;
+        _delta = delta;
     }
 
     @Override
     public void act(Creature creature) {
-        double xTranslation = creature.getSpeed() * cos(_direction);
-        double yTranslation = creature.getSpeed() * sin(_direction);
+        double xTranslation = _delta * (creature.getSpeed() * cos(_direction));
+        double yTranslation = _delta * (creature.getSpeed() * sin(_direction));
         Point2D origPos = creature.getPosition();
         creature.setPosition(new Point2D.Double(origPos.getX() + xTranslation, origPos.getY() + yTranslation));
     }
@@ -43,6 +45,10 @@ public class MoveAction extends Action {
         List<ActionAnimation> list=new ArrayList<>();
         list.add(new ActionAnimation(spritePath, pos, angle, _sourceCreature.getSize()));
         return list;
+    }
+    
+    public void setDelta(int delta) {
+        _delta = delta;
     }
 
     @Override
