@@ -176,7 +176,7 @@ public abstract class Creature implements Cloneable {
     
         
     public List<Action> getActionsWithUpdate(int delta) {
-        return _actions;
+        return getActions();
     }
 
     public List<Action> getActions() {

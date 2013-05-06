@@ -60,7 +60,7 @@ public class AICreature extends Creature {
                         getWeaponAttackTimer(), this));
                 return returnActions;
             } else {
-                returnActions.add(new MoveAction(getDirection(), this));
+                returnActions.add(new MoveAction(getDirection(), this, delta));
                 return returnActions;
             }
         }

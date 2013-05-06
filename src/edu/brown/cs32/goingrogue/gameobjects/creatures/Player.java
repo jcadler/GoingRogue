@@ -9,8 +9,9 @@ import edu.brown.cs32.goingrogue.gameobjects.actions.MoveAction;
 import edu.brown.cs32.goingrogue.gameobjects.actions.PickupAction;
 import edu.brown.cs32.goingrogue.gameobjects.actions.PickupRange;
 import edu.brown.cs32.goingrogue.gameobjects.actions.Action;
-import edu.brown.cs32.goingrogue.gameobjects.creatures.util.CombatUtil;
+import edu.brown.cs32.goingrogue.gameobjects.actions.ActionType;
 import edu.brown.cs32.goingrogue.util.CreatureSize;
+import java.util.ArrayList;
 
 /**
  *
@@ -24,6 +25,16 @@ public class Player extends Creature {
             List<Attribute> attributes, CreatureStats stats, String sprite, CreatureSize size) {
         super(pos, direction, name, attributes, stats, sprite, size);
         handle = new InputHandler(this);
+    }
+    
+    @Override
+    public List<Action> getActionsWithUpdate(int delta) {
+        for (Action currAction : getActions()) {
+            if (currAction.type().equals(ActionType.MOVE)) {
+                ((MoveAction) currAction).setDelta(delta);
+            }
+        }
+        return getActions();
     }
 
     @Override
@@ -46,22 +57,22 @@ public class Player extends Creature {
         }
 
         public void moveUp() {
-            addAction(new MoveAction((3.0 * Math.PI) / 2.0, player));
+            addAction(new MoveAction((3.0 * Math.PI) / 2.0, player, 1));
             addAction(new ChangeDirectionAction(player, (3.0 * Math.PI) / 2.0));
         }
 
         public void moveRight() {
-            addAction(new MoveAction(0, player));
+            addAction(new MoveAction(0, player, 1));
             addAction(new ChangeDirectionAction(player, 0));
         }
 
         public void moveDown() {
-            addAction(new MoveAction(Math.PI / 2.0, player));
+            addAction(new MoveAction(Math.PI / 2.0, player, 1));
             addAction(new ChangeDirectionAction(player, Math.PI / 2.0));
         }
 
         public void moveLeft() {
-            addAction(new MoveAction(Math.PI, player));
+            addAction(new MoveAction(Math.PI, player, 1));
             addAction(new ChangeDirectionAction(player, Math.PI));
         }
 
