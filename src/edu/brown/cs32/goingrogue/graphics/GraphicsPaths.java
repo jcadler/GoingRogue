@@ -22,6 +22,7 @@ public enum GraphicsPaths {
 	SCENERY("scenery/", GRAPHICS),
 		GROUND("ground.png", SCENERY),
 		WATER("water.png", SCENERY),
+		EXIT("water.png", SCENERY),
 		WALLS("walls/", SCENERY),
 			WALL_N("N.png", WALLS),
 			WALL_S("S.png", WALLS),
