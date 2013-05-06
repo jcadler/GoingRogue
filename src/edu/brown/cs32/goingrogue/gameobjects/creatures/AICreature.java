@@ -39,7 +39,8 @@ public class AICreature extends Creature {
         for (int i = 0; i < _creatures.size(); ++i) {
             Creature currCreature = _creatures.get(i);
             Point2D currCreaturePos = currCreature.getPosition();
-            if ((closestCreature == null) && (!currCreature.equals(this))) {
+            if ((closestCreature == null) && (!currCreature.equals(this))
+                    && (currCreature.getAttributes().contains(Attribute.PLAYER))) {
                 closestCreature = currCreature;
             } else if ((closestCreature != null)
                     && (getPosition().distance(currCreaturePos)
