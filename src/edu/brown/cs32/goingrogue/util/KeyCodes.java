@@ -10,6 +10,7 @@ public class KeyCodes {
 	public static final int Q=16;
 	public static final int W=17;
 	public static final int E=18;
+	public static final int P=25;
 	public static final int A=30;
 	public static final int S=31;
 	public static final int D=32;

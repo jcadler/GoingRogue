@@ -64,36 +64,6 @@ public class GamePlayState extends BasicGameState{
 		this.id = id;
 	}
 
-	public void init(){
-		//g=null; //Set up by init() method
-		timeCount=0;
-
-		keysPressed=new ConcurrentHashMap<Integer, Boolean>();
-		keysPressed.put(KeyCodes.Q, false);
-		keysPressed.put(KeyCodes.W, false);
-		keysPressed.put(KeyCodes.E, false);
-		keysPressed.put(KeyCodes.A, false);
-		keysPressed.put(KeyCodes.S, false);
-		keysPressed.put(KeyCodes.D, false);
-		keysPressed.put(KeyCodes.LEFT, false);
-		keysPressed.put(KeyCodes.RIGHT, false);
-		keysPressed.put(KeyCodes.UP, false);
-		keysPressed.put(KeyCodes.DOWN, false);
-		keysPressed.put(KeyCodes.SPACE, false);
-		keysPressed.put(KeyCodes.ESC, false);
-
-		//Initializes gameplay
-		try {
-			game = new GameLogic();
-			player=game.getPlayer();
-			map=game.getMap();
-			cache=new AnimationCache();
-		} catch(IOException e) {
-			//Should not happen
-			e.printStackTrace();
-		}
-	}
-
 	public Player getPlayer() {
 		return player;
 	}
@@ -134,190 +104,6 @@ public class GamePlayState extends BasicGameState{
 	//Locates the an image's center of rotation at its center
 	void setRotationCenter(Image i) {
 		i.setCenterOfRotation(i.getWidth()/2, i.getHeight()/2);
-	}
-
-	/** Updates the game one time
-	 * 
-	 * @param delta The amount of time since the last game update
-	 */
-	public void update(int delta) {
-		Player p = getPlayer();
-
-		if(keysPressed.get(KeyCodes.W) || keysPressed.get(KeyCodes.UP)) p.getHandler().moveUp();
-		else if(keysPressed.get(KeyCodes.S) || keysPressed.get(KeyCodes.DOWN)) p.getHandler().moveDown();
-		if(keysPressed.get(KeyCodes.A) || keysPressed.get(KeyCodes.LEFT)) p.getHandler().moveLeft();
-		else if(keysPressed.get(KeyCodes.D) || keysPressed.get(KeyCodes.RIGHT)) p.getHandler().moveRight();
-		if(keysPressed.get(KeyCodes.SPACE)) p.getHandler().attack();
-		if(keysPressed.get(KeyCodes.E)) p.getHandler().pickUp();
-
-		else if(keysPressed.get(KeyCodes.ESC)) System.exit(0);
-		timeCount+=delta;
-		try {
-			game.update(delta); // TODO Add delta vals
-		} catch(CloneNotSupportedException e) {
-
-		}
-                catch(IOException e)
-                {
-                }
-	}
-
-	/** Draws the game
-	 * 
-	 * @param g The graphics component used to draw the game
-	 */
-	public void render(Graphics g) {
-		Point2D center=player.getPosition();
-
-		Point2D upperLeft=screenToGame(new int[]{0,0}, center);
-		Point2D lowerRight=screenToGame(new int[]{gc.getWidth(),gc.getHeight()}, center);
-
-		//Draws the map
-		//TODO Fix the data method to work with bounds
-		List<Space> spaces=map.getData(/*(int)(upperLeft.getX()-1), (int)(upperLeft.getY()-1), (int)(lowerRight.getX()+1), (int)(lowerRight.getY()+1)*/);
-		for(Space s: spaces) drawWall(s, center, g);
-		for(Space s: spaces) drawInnerSpace(s, center, g);
-
-
-		GraphicsLoader.setFilterType(Image.FILTER_NEAREST);
-
-		//Updates all animations in the cache
-		int renderDelta=timeCount-lastRenderTime;
-		lastRenderTime=timeCount;
-		cache.update(renderDelta);
-
-		//Draws and animates entities
-		//TODO Add creature size. Right now I just get everything within 2 tiles
-		//TODO Fix the getCreatures to actually get the creatures we need
-		List<Creature> gameCreatures=game.getCreatures(/*upperLeft.getX(), upperLeft.getY(), lowerRight.getX(), lowerRight.getY()*/);
-
-		for(int i=0; i<gameCreatures.size(); i++) {
-
-			Creature c=gameCreatures.get(i);
-
-			Action actionToAnimate=null;
-			List<Action> actions=c.getActions();
-			for(Action a: actions) {
-
-				if(actionToAnimate==null ||
-						a.type().getPriority()>actionToAnimate.type().getPriority()) {
-
-					actionToAnimate=a;
-				}
-			}
-
-			//No action
-			if(actionToAnimate==null) {
-				try {
-
-					Image[] images=null;
-
-					//Finishes the previous animation
-					if(cache.get(c)!=null) {
-						List<Animation> anims=cache.get(c);
-						List<Image> imageList=new ArrayList<>();
-						for(int j=0; j<anims.size(); j++)
-							imageList.add(anims.get(j).getCurrentFrame());
-						images=imageList.toArray(new Image[0]);
-
-					}
-
-					//Otherwise, draws the creature's static sprite
-					else {
-						images=new Image[1];
-						images[0]=GraphicsLoader.loadImage(c.getSpritePath());
-					}
-
-					for(Image image: images)
-						drawImage(image, center, new ImageData(c.getPosition().x,
-								c.getPosition().y,
-								c.getSize().getWidth(),
-								c.getSize().getHeight(),
-								c.getDirection()));
-
-
-				} catch(SlickException e) {
-					//Should not happen
-					e.printStackTrace();
-				}
-
-			} else {
-
-
-				Image[] images=null;
-				List<ActionAnimation> actionAnimations=actionToAnimate.getActionAnimations();
-
-				//Attack action
-				if(actionToAnimate.type()==ActionType.ATTACK) {
-
-					Animation creatureAnim=null;
-					Animation weaponAnim=null;
-
-					//Checks the animation cache for memory equality of the current attack action
-					if(actionToAnimate==cache.getAction(c)) {
-						//Gets the animation in the cache
-						List<Animation> list=cache.get(c);
-						creatureAnim=list.get(0);
-						weaponAnim=list.get(1);
-					} else {
-						//Creates a new animation and adds it to the cache
-
-						creatureAnim=GraphicsLoader.loadAttack(actionAnimations.get(0).getSpritePath());
-
-						try {
-							if(actionAnimations.get(1)==null) weaponAnim=GraphicsLoader.makeAnimation(GraphicsPaths.EMPTY.path);
-						} catch(SlickException e) {
-							//Should not happen
-							e.printStackTrace();
-						}
-						weaponAnim=GraphicsLoader.load(actionAnimations.get(1).getSpritePath());
-
-						setDuration(creatureAnim, actionToAnimate.getTimer());
-						setDuration(weaponAnim, actionToAnimate.getTimer());
-						System.out.println("NEW ANIM DURATION: "+actionToAnimate.getTimer());
-
-						List<Animation> animList=new ArrayList<>();
-						animList.add(creatureAnim);
-						animList.add(weaponAnim);
-						cache.add(c, actionToAnimate, animList);
-					}
-
-					Image creatureImage=creatureAnim.getCurrentFrame();
-					Image weaponImage=weaponAnim.getCurrentFrame();
-
-					images=new Image[]{creatureImage, weaponImage};
-
-
-					//Other type of action (no weapon)
-				} else {
-
-					Animation anim=null;
-
-					//Checks the animation cache for type equality of the current attack action
-					if(cache.getAction(c)!=null && cache.getAction(c).type()==actionToAnimate.type()) {
-						//Gets the animation in the cache
-						anim=cache.get(c).get(0);
-					} else {
-						//Creates a new animation and adds it to the cache
-						if(actionToAnimate.type()==ActionType.MOVE) anim=GraphicsLoader.loadMove(actionAnimations.get(0).getSpritePath());
-						else if(actionToAnimate.type()==ActionType.PICKUP) anim=GraphicsLoader.load(actionAnimations.get(0).getSpritePath());
-						setDuration(anim, actionToAnimate.getTimer());
-
-						List<Animation> animList=new ArrayList<>();
-						animList.add(anim);
-						cache.add(c, actionToAnimate, animList);
-					}
-
-					images=new Image[]{anim.getCurrentFrame()};
-				}
-
-				//Scales, centers, rotates and draws the current images
-				//Updates all animations
-				for(int index=0; index<images.length; index++) {
-					drawImage(images[index], center, actionAnimations.get(index));
-				}
-			}
-		}
 	}
 
 	//Draws the inside of a space
@@ -537,25 +323,232 @@ public class GamePlayState extends BasicGameState{
 		else a.setDuration(dur+animationDurationBuffer);
 	}
 
+	/** Initializes a new game! **/
 	@Override
 	public void init(GameContainer gc, StateBasedGame gm)
 			throws SlickException {
 		this.gc = gc;
-		init();
+		//g=null; //Set up by init() method
+		timeCount=0;
+
+		keysPressed=new ConcurrentHashMap<Integer, Boolean>();
+		keysPressed.put(KeyCodes.Q, false);
+		keysPressed.put(KeyCodes.W, false);
+		keysPressed.put(KeyCodes.E, false);
+		keysPressed.put(KeyCodes.A, false);
+		keysPressed.put(KeyCodes.S, false);
+		keysPressed.put(KeyCodes.D, false);
+		keysPressed.put(KeyCodes.LEFT, false);
+		keysPressed.put(KeyCodes.RIGHT, false);
+		keysPressed.put(KeyCodes.UP, false);
+		keysPressed.put(KeyCodes.DOWN, false);
+		keysPressed.put(KeyCodes.SPACE, false);
+		keysPressed.put(KeyCodes.ESC, false);
+
+		//Initializes gameplay
+		try {
+			game = new GameLogic();
+			player=game.getPlayer();
+			map=game.getMap();
+			cache=new AnimationCache();
+		} catch(IOException e) {
+			//Should not happen
+			e.printStackTrace();
+		}
 	}
 
+
+	/** Draws the game
+	 * 
+	 * @param g The graphics component used to draw the game
+	 */
 	@Override
 	public void render(GameContainer gc, StateBasedGame gm, Graphics g)
 			throws SlickException {
-		render(g);
+		Point2D center=player.getPosition();
 
+		Point2D upperLeft=screenToGame(new int[]{0,0}, center);
+		Point2D lowerRight=screenToGame(new int[]{gc.getWidth(),gc.getHeight()}, center);
+
+		//Draws the map
+		//TODO Fix the data method to work with bounds
+		List<Space> spaces=map.getData(/*(int)(upperLeft.getX()-1), (int)(upperLeft.getY()-1), (int)(lowerRight.getX()+1), (int)(lowerRight.getY()+1)*/);
+		for(Space s: spaces) drawWall(s, center, g);
+		for(Space s: spaces) drawInnerSpace(s, center, g);
+
+
+		GraphicsLoader.setFilterType(Image.FILTER_NEAREST);
+
+		//Updates all animations in the cache
+		int renderDelta=timeCount-lastRenderTime;
+		lastRenderTime=timeCount;
+		cache.update(renderDelta);
+
+		//Draws and animates entities
+		//TODO Add creature size. Right now I just get everything within 2 tiles
+		//TODO Fix the getCreatures to actually get the creatures we need
+		List<Creature> gameCreatures=game.getCreatures(/*upperLeft.getX(), upperLeft.getY(), lowerRight.getX(), lowerRight.getY()*/);
+
+		for(int i=0; i<gameCreatures.size(); i++) {
+
+			Creature c=gameCreatures.get(i);
+
+			Action actionToAnimate=null;
+			List<Action> actions=c.getActions();
+			for(Action a: actions) {
+
+				if(actionToAnimate==null ||
+						a.type().getPriority()>actionToAnimate.type().getPriority()) {
+
+					actionToAnimate=a;
+				}
+			}
+
+			//No action
+			if(actionToAnimate==null) {
+				try {
+
+					Image[] images=null;
+
+					//Finishes the previous animation
+					if(cache.get(c)!=null) {
+						List<Animation> anims=cache.get(c);
+						List<Image> imageList=new ArrayList<>();
+						for(int j=0; j<anims.size(); j++)
+							imageList.add(anims.get(j).getCurrentFrame());
+						images=imageList.toArray(new Image[0]);
+
+					}
+
+					//Otherwise, draws the creature's static sprite
+					else {
+						images=new Image[1];
+						images[0]=GraphicsLoader.loadImage(c.getSpritePath());
+					}
+
+					for(Image image: images)
+						drawImage(image, center, new ImageData(c.getPosition().x,
+								c.getPosition().y,
+								c.getSize().getWidth(),
+								c.getSize().getHeight(),
+								c.getDirection()));
+
+
+				} catch(SlickException e) {
+					//Should not happen
+					e.printStackTrace();
+				}
+
+			} else {
+
+
+				Image[] images=null;
+				List<ActionAnimation> actionAnimations=actionToAnimate.getActionAnimations();
+
+				//Attack action
+				if(actionToAnimate.type()==ActionType.ATTACK) {
+
+					Animation creatureAnim=null;
+					Animation weaponAnim=null;
+
+					//Checks the animation cache for memory equality of the current attack action
+					if(actionToAnimate==cache.getAction(c)) {
+						//Gets the animation in the cache
+						List<Animation> list=cache.get(c);
+						creatureAnim=list.get(0);
+						weaponAnim=list.get(1);
+					} else {
+						//Creates a new animation and adds it to the cache
+
+						creatureAnim=GraphicsLoader.loadAttack(actionAnimations.get(0).getSpritePath());
+
+						try {
+							if(actionAnimations.get(1)==null) weaponAnim=GraphicsLoader.makeAnimation(GraphicsPaths.EMPTY.path);
+						} catch(SlickException e) {
+							//Should not happen
+							e.printStackTrace();
+						}
+						weaponAnim=GraphicsLoader.load(actionAnimations.get(1).getSpritePath());
+
+						setDuration(creatureAnim, actionToAnimate.getTimer());
+						setDuration(weaponAnim, actionToAnimate.getTimer());
+						System.out.println("NEW ANIM DURATION: "+actionToAnimate.getTimer());
+
+						List<Animation> animList=new ArrayList<>();
+						animList.add(creatureAnim);
+						animList.add(weaponAnim);
+						cache.add(c, actionToAnimate, animList);
+					}
+
+					Image creatureImage=creatureAnim.getCurrentFrame();
+					Image weaponImage=weaponAnim.getCurrentFrame();
+
+					images=new Image[]{creatureImage, weaponImage};
+
+
+					//Other type of action (no weapon)
+				} else {
+
+					Animation anim=null;
+
+					//Checks the animation cache for type equality of the current attack action
+					if(cache.getAction(c)!=null && cache.getAction(c).type()==actionToAnimate.type()) {
+						//Gets the animation in the cache
+						anim=cache.get(c).get(0);
+					} else {
+						//Creates a new animation and adds it to the cache
+						if(actionToAnimate.type()==ActionType.MOVE) anim=GraphicsLoader.loadMove(actionAnimations.get(0).getSpritePath());
+						else if(actionToAnimate.type()==ActionType.PICKUP) anim=GraphicsLoader.load(actionAnimations.get(0).getSpritePath());
+						setDuration(anim, actionToAnimate.getTimer());
+
+						List<Animation> animList=new ArrayList<>();
+						animList.add(anim);
+						cache.add(c, actionToAnimate, animList);
+					}
+
+					images=new Image[]{anim.getCurrentFrame()};
+				}
+
+				//Scales, centers, rotates and draws the current images
+				//Updates all animations
+				for(int index=0; index<images.length; index++) {
+					drawImage(images[index], center, actionAnimations.get(index));
+				}
+			}
+		}
 	}
 
+
+	/** Updates the game one time
+	 * 
+	 * @param delta The amount of time since the last game update
+	 */
 	@Override
 	public void update(GameContainer gc, StateBasedGame gm, int delta)
 			throws SlickException {
-		update(delta);
+		handlePlayerInput();
+		timeCount+=delta;
+		try {
+			game.update(delta); // TODO Add delta vals
+		} catch(CloneNotSupportedException e) {
 
+		}
+		catch(IOException e)
+		{
+		}
+	}
+
+	private void handlePlayerInput(){
+		Player p = getPlayer();
+
+		if(keysPressed.get(KeyCodes.W) || keysPressed.get(KeyCodes.UP)) p.getHandler().moveUp();
+		else if(keysPressed.get(KeyCodes.S) || keysPressed.get(KeyCodes.DOWN)) p.getHandler().moveDown();
+		if(keysPressed.get(KeyCodes.A) || keysPressed.get(KeyCodes.LEFT)) p.getHandler().moveLeft();
+		else if(keysPressed.get(KeyCodes.D) || keysPressed.get(KeyCodes.RIGHT)) p.getHandler().moveRight();
+		if(keysPressed.get(KeyCodes.SPACE)) p.getHandler().attack();
+		if(keysPressed.get(KeyCodes.E)) p.getHandler().pickUp();
+
+		else if(keysPressed.get(KeyCodes.ESC)) System.exit(0);
 	}
 
 	@Override

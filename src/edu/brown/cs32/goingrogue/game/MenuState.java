@@ -14,7 +14,6 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
-import org.newdawn.slick.state.transition.Transition;
 
 public class MenuState extends BasicGameState{
 	private String background = "graphics/menu/mmbg.png";	//	Default is Main Menu!
@@ -55,6 +54,7 @@ public class MenuState extends BasicGameState{
 		try{
 			File f = new File(menuData);
 			FileReader fr = new FileReader(f);
+			@SuppressWarnings("resource")
 			BufferedReader r = new BufferedReader(fr);
 			String line = r.readLine();
 			while(line != null){
