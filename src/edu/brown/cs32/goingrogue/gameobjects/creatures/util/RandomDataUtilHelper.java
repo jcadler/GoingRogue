@@ -19,7 +19,7 @@ public class RandomDataUtilHelper {
         double defense = randomDouble(100, 125);
         int health = randomInt(30, 40);
         double accuracy = randomDouble(75, 100);
-        double speed = randomDouble(125, 150);
+        double speed = randomDouble(0.05, 0.06);
         return new CreatureStats(attack, defense, health, accuracy, speed);
     }
 
@@ -28,7 +28,7 @@ public class RandomDataUtilHelper {
         double defense = randomDouble(250, 300);
         int health = randomInt(500, 550);
         double accuracy = randomDouble(30, 60);
-        double speed = randomDouble(10, 30);
+        double speed = randomDouble(0.009, 0.01);
         return new CreatureStats(attack, defense, health, accuracy, speed);
     }
 
@@ -37,7 +37,7 @@ public class RandomDataUtilHelper {
         double defense = randomDouble(80, 100);
         int health = randomInt(50, 70);
         double accuracy = randomDouble(80, 110);
-        double speed = randomDouble(50, 80);
+        double speed = randomDouble(0.02, 0.03);
         return new CreatureStats(attack, defense, health, accuracy, speed);
     }
 
@@ -46,7 +46,7 @@ public class RandomDataUtilHelper {
         double defense = randomDouble(200, 250);
         int health = randomInt(200, 220);
         double accuracy = randomDouble(10, 15);
-        double speed = randomDouble(20, 30);
+        double speed = randomDouble(0.01, 0.015);
         return new CreatureStats(attack, defense, health, accuracy, speed);
     }
 
@@ -55,7 +55,7 @@ public class RandomDataUtilHelper {
         double defense = randomDouble(30, 40);
         int health = randomInt(5, 10);
         double accuracy = randomDouble(100, 120);
-        double speed = randomDouble(110, 125);
+        double speed = randomDouble(0.04, 0.05);
         return new CreatureStats(attack, defense, health, accuracy, speed);
     }
 
@@ -64,7 +64,7 @@ public class RandomDataUtilHelper {
         double defense = randomDouble(50, 65);
         int health = randomInt(20, 30);
         double accuracy = randomDouble(75, 90);
-        double speed = randomDouble(90, 105);
+        double speed = randomDouble(0.05, 0.06);
         return new CreatureStats(attack, defense, health, accuracy, speed);
     }
 

@@ -60,7 +60,7 @@ public class AICreature extends Creature {
                 return returnActions;
             } else {
                 returnActions.add(new MoveAction(getDirection(), this));
-               return returnActions;
+                return returnActions;
             }
         }
 
