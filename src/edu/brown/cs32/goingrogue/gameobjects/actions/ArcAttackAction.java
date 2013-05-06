@@ -72,4 +72,9 @@ public class ArcAttackAction extends Action {
         }
         return true;
     }
+    
+    @Override
+    public String toString() {
+        return _sourceCreature.getName();
+    }
 }
