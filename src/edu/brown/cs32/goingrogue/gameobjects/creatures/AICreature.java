@@ -8,18 +8,24 @@ import java.util.ArrayList;
 import java.util.List;
 import static edu.brown.cs32.bweedon.geometry.Point2DUtil.getAngleFromTo;
 import edu.brown.cs32.goingrogue.gameobjects.actions.ArcAttackAction;
+import edu.brown.cs32.jcadler.GameLogic.RogueMap.Room;
 
 /**
  *
  * @author Ben Weedon (bweedon)
  */
 public class AICreature extends Creature {
-    
+
+    private List<Creature> _creatures;
+    private List<Room> _rooms;
     private final double DIST_TO_ATTACK = 0.5;
 
     public AICreature(Point2D.Double pos, double direction, String name, List<Attribute> attributes,
-            CreatureStats stats, String spritePath, CreatureSize size) {
+            CreatureStats stats, String spritePath, CreatureSize size, List<Creature> creatures,
+            List<Room> rooms) {
         super(pos, direction, name, attributes, stats, spritePath, size);
+        _creatures = creatures;
+        _rooms = rooms;
     }
 
     @Override
@@ -29,22 +35,22 @@ public class AICreature extends Creature {
 
     @Override
     public List<Action> getActions() {
-        List<Creature> creaturesInRoom = new ArrayList<>();
         Creature closestCreature = null;
-        for (Creature currCreature : creaturesInRoom) {
-            
-        	Point2D currCreaturePos = currCreature.getPosition();
+        for (Creature currCreature : _creatures) {
+            Point2D currCreaturePos = currCreature.getPosition();
             if (closestCreature == null) {
                 closestCreature = currCreature;
-            } else if (getPosition().distance(currCreaturePos)
-                    < getPosition().distance(closestCreature.getPosition())) {
+            } else if ((getPosition().distance(currCreaturePos)
+                    < getPosition().distance(closestCreature.getPosition()))
+                    && (!currCreature.equals(this))
+                    && (currCreature.getAttributes().contains(Attribute.PLAYER))) {
                 closestCreature = currCreature;
             }
         }
-        
-        if(closestCreature!=null) {
+
+        List<Action> returnActions = new ArrayList<>();
+        if (closestCreature != null) {
             setDirection(getAngleFromTo(getPosition(), closestCreature.getPosition()));
-            List<Action> returnActions = new ArrayList<>();
             if (getPosition().distance(closestCreature.getPosition()) < DIST_TO_ATTACK) {
                 returnActions.add(
                         new ArcAttackAction(getDirection(), getWeaponRange(), getWeaponArcLength(),
@@ -55,7 +61,7 @@ public class AICreature extends Creature {
                 return returnActions;
             }
         }
-        
-        return new ArrayList<>();
+
+        return returnActions;
     }
 }
