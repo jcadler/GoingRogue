@@ -49,10 +49,10 @@ public enum GraphicsPaths {
 			DOG_SPRITE("dog/", MONSTERS),
 
 	ITEMS("items/", GRAPHICS),
-		SWORD_SPRITE("warhammer/", ITEMS),
-		AXE_SPRITE("warhammer/", ITEMS),
+		SWORD_SPRITE("sword/", ITEMS),
+		AXE_SPRITE("axe/", ITEMS),
 		WAR_HAMMER_SPRITE("warhammer/", ITEMS),
-		SPEAR_SPRITE("warhammer/", ITEMS),
+		SPEAR_SPRITE("spear/", ITEMS),
 		ARMOUR_SPRITE("armor/", ITEMS),
 		SHIELD_SPRITE("shield/", ITEMS),
 		POTION_SPRITE("potion/", ITEMS);
