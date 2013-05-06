@@ -75,6 +75,6 @@ public class ArcAttackAction extends Action {
     
     @Override
     public String toString() {
-        return _sourceCreature.getName();
+        return "The Creature " + _sourceCreature.getName() + " just attacked!";
     }
 }
