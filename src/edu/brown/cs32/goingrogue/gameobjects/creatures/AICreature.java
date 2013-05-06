@@ -63,7 +63,8 @@ public class AICreature extends Creature {
             }
         }
 
-        setActions(returnActions);
-        return returnActions;
+//        setActions(returnActions);
+//        return returnActions;
+        return new ArrayList<>();
     }
 }
