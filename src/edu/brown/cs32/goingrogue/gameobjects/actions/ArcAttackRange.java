@@ -1,16 +1,12 @@
 package edu.brown.cs32.goingrogue.gameobjects.actions;
 
 import edu.brown.cs32.goingrogue.gameobjects.creatures.Creature;
+import edu.brown.cs32.goingrogue.gameobjects.items.Item;
 import java.awt.geom.Arc2D;
-import java.awt.geom.Line2D;
-import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import static java.lang.Math.toDegrees;
 import static java.lang.Math.toRadians;
-import static java.lang.Math.cos;
-import static java.lang.Math.sin;
 import java.util.Objects;
-import static edu.brown.cs32.goingrogue.util.Util.polarToRectangular;
 
 /**
  *
@@ -39,19 +35,25 @@ public class ArcAttackRange implements Range {
 
     @Override
     public boolean inRange(Creature targetCreature) {
-        if (targetCreature.equals(_sourceCreature)) {
+//        if (targetCreature.equals(_sourceCreature)) {
+//            return false;
+//        }
+//        Point2D sourcePos = _sourceCreature.getCenterPosition();
+//        Rectangle2D targetRec = targetCreature.getRectangle();
+//        Rectangle2D ellipseBounds = new Rectangle2D.Double(sourcePos.getX() - _distance,
+//                sourcePos.getY() - _distance, _distance * 2.0, _distance * 2.0);
+//        FULL_ARC.setFrame(ellipseBounds);
+//        double startAngle = toRadians(((((double) STARTING_TIMER - _timer) / STARTING_TIMER) * (FULL_ARC.getAngleExtent())) + FULL_ARC.getAngleStart());
+//        double[] p2 = polarToRectangular(_distance, startAngle);
+//        Line2D attackLine = new Line2D.Double(sourcePos.getX(), sourcePos.getY(),
+//                p2[0] + sourcePos.getX(), p2[1] + sourcePos.getY());
+//        return attackLine.intersects(targetRec);
+        Item weapon = _sourceCreature.getInventory().getWeapon();
+        if (weapon != null) {
+            return weapon.getRectangle().intersects(targetCreature.getRectangle());
+        } else {
             return false;
         }
-        Point2D sourcePos = _sourceCreature.getCenterPosition();
-        Rectangle2D targetRec = targetCreature.getRectangle();
-        Rectangle2D ellipseBounds = new Rectangle2D.Double(sourcePos.getX() - _distance,
-                sourcePos.getY() - _distance, _distance * 2.0, _distance * 2.0);
-        FULL_ARC.setFrame(ellipseBounds);
-        double startAngle = toRadians(((((double) STARTING_TIMER - _timer) / STARTING_TIMER) * (FULL_ARC.getAngleExtent())) + FULL_ARC.getAngleStart());
-        double[] p2 = polarToRectangular(_distance, startAngle);
-        Line2D attackLine = new Line2D.Double(sourcePos.getX(), sourcePos.getY(),
-                p2[0] + sourcePos.getX(), p2[1] + sourcePos.getY());
-        return attackLine.intersects(targetRec);
     }
 
     @Override

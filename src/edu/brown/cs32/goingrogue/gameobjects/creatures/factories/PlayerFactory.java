@@ -10,11 +10,9 @@ import edu.brown.cs32.goingrogue.gameobjects.items.factories.GridWeaponFactory;
 import edu.brown.cs32.goingrogue.graphics.GraphicsPaths;
 import edu.brown.cs32.goingrogue.util.CreatureSize;
 import edu.brown.cs32.jcadler.GameLogic.RogueMap.Room;
-import edu.brown.cs32.jcadler.GameLogic.RogueMap.Room;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.List;
 
 /**
