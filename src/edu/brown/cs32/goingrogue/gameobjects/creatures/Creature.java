@@ -174,7 +174,7 @@ public abstract class Creature implements Cloneable {
         --_level;
     }
 
-    public List<Action> getActions() {
+    public List<Action> getActions(int delta) {
         return _actions;
     }
 

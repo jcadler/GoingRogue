@@ -24,7 +24,7 @@ public class AICreatureFactory {
         CreatureStats stats = randomCreatureStats(attributes);
         CreatureSize size = getCreatureSize(attributes);
         AICreature returnCreature = new AICreature(new Point2D.Double(0.0, 0.0), direction, name,
-                attributes, stats, sprite, size);
+                attributes, stats, sprite, size, creatures, rooms);
         return returnCreature;
     }
 }

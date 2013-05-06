@@ -2,6 +2,7 @@ package edu.brown.cs32.goingrogue.gameobjects.items;
 
 import edu.brown.cs32.goingrogue.gameobjects.creatures.Attribute;
 import edu.brown.cs32.goingrogue.util.CreatureSize;
+import java.awt.geom.Rectangle2D;
 
 /**
  *
@@ -28,5 +29,9 @@ public class Item {
     
     public CreatureSize getSize() {
     	return _gridItem.getSize();
+    }
+    
+    public Rectangle2D getRectangle() {
+        return _gridItem.getRectangle();
     }
 }

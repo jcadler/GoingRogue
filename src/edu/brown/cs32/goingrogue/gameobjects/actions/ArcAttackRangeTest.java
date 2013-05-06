@@ -18,10 +18,10 @@ public class ArcAttackRangeTest {
     public void testInRange() {
         Point2D.Double c1Pos = new Point2D.Double(0.0, 0.0);
         CreatureSize c1Size = new CreatureSize(1.0, 1.0);
-        Creature c1 = new AICreature(c1Pos, Math.PI / 2.0, "Bob", null, null, null, c1Size);
+        Creature c1 = new AICreature(c1Pos, Math.PI / 2.0, "Bob", null, null, null, c1Size, null, null);
         Point2D.Double c2Pos = new Point2D.Double(0.0, 1.0);
         CreatureSize c2Size = new CreatureSize(1.0, 1.0);
-        Creature c2 = new AICreature(c2Pos, (3.0 * Math.PI) / 2.0, "John", null, null, null, c2Size);
+        Creature c2 = new AICreature(c2Pos, (3.0 * Math.PI) / 2.0, "John", null, null, null, c2Size, null, null);
 
         boolean hit = false;
 
@@ -104,18 +104,5 @@ public class ArcAttackRangeTest {
         }
         assertFalse(hit);
         hit = false;
-    }
-
-    @Test
-    public void testAngleOnUpdate() {
-
-        Point2D.Double c1Pos = new Point2D.Double(0.0, 0.0);
-        CreatureSize c1Size = new CreatureSize(1.0, 1.0);
-        Creature c1 = new AICreature(c1Pos, Math.PI / 2.0, "Bob", null, null, null, c1Size);
-        Point2D.Double c2Pos = new Point2D.Double(0.0, 1.0);
-        CreatureSize c2Size = new CreatureSize(1.0, 1.0);
-        Creature c2 = new AICreature(c2Pos, (3.0 * Math.PI) / 2.0, "John", null, null, null, c2Size);
-
-        ArcAttackAction a1 = new ArcAttackAction(Math.PI / 2.0, 2.0, Math.PI / 20.0, 20, c1);
     }
 }
