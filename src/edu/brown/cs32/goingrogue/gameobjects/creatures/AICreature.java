@@ -56,15 +56,15 @@ public class AICreature extends Creature {
                 returnActions.add(
                         new ArcAttackAction(getDirection(), getWeaponRange(), getWeaponArcLength(),
                         getWeaponAttackTimer(), this));
-                //return returnActions;
+                return returnActions;
             } else {
                 returnActions.add(new MoveAction(getDirection(), this));
-               // return returnActions;
+               return returnActions;
             }
         }
 
-//        setActions(returnActions);
-//        return returnActions;
-        return new ArrayList<>();
+        setActions(returnActions);
+        return returnActions;
+//        return new ArrayList<>();
     }
 }
