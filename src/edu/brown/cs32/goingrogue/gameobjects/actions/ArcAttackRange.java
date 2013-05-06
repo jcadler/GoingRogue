@@ -37,7 +37,7 @@ public class ArcAttackRange implements Range {
 
     @Override
     public boolean inRange(Creature targetCreature) {
-        if (targetCreature.equals(_sourceCreature)) {
+        if (targetCreature.equals(_sourceCreature) || (STARTING_TIMER == 0)) {
             return false;
         }
         Point2D sourcePos = _sourceCreature.getCenterPosition();
@@ -50,12 +50,6 @@ public class ArcAttackRange implements Range {
         Line2D attackLine = new Line2D.Double(sourcePos.getX(), sourcePos.getY(),
                 p2[0] + sourcePos.getX(), p2[1] + sourcePos.getY());
         return attackLine.intersects(targetRec);
-//        Item weapon = _sourceCreature.getInventory().getWeapon();
-//        if (weapon != null) {
-//            return weapon.getRectangle().intersects(targetCreature.getRectangle());
-//        } else {
-//            return false;
-//        }
     }
 
     @Override
