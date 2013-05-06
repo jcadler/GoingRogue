@@ -37,7 +37,7 @@ public class ArcAttackRange implements Range {
 
     @Override
     public boolean inRange(Creature targetCreature) {
-        if (targetCreature.equals(_sourceCreature)) {
+        if (targetCreature.equals(_sourceCreature) || (STARTING_TIMER == 0)) {
             return false;
         }
         Point2D sourcePos = _sourceCreature.getCenterPosition();
@@ -49,8 +49,6 @@ public class ArcAttackRange implements Range {
         double[] p2 = Util.polarToRectangular(_distance, startAngle);
         Line2D attackLine = new Line2D.Double(sourcePos.getX(), sourcePos.getY(),
                 p2[0] + sourcePos.getX(), p2[1] + sourcePos.getY());
-        System.out.println(attackLine.getX1() + ", " + attackLine.getY1() + " | " 
-                + attackLine.getX2() + ", " + attackLine.getY2());
         return attackLine.intersects(targetRec);
     }
 
