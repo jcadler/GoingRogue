@@ -5,9 +5,11 @@ import static edu.brown.cs32.goingrogue.gameobjects.creatures.util.RandomDataUti
 import static edu.brown.cs32.goingrogue.gameobjects.creatures.util.RandomDataUtil.getSprite;
 import static edu.brown.cs32.goingrogue.gameobjects.creatures.util.RandomDataUtil.randomItemStats;
 import static edu.brown.cs32.goingrogue.gameobjects.creatures.Attribute.*;
+import edu.brown.cs32.goingrogue.gameobjects.creatures.Creature;
 import edu.brown.cs32.goingrogue.gameobjects.items.GridItem;
 import edu.brown.cs32.goingrogue.gameobjects.items.ItemStats;
 import edu.brown.cs32.goingrogue.util.CreatureSize;
+import edu.brown.cs32.jcadler.GameLogic.RogueMap.Room;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +21,7 @@ import java.util.Random;
  */
 public class GridWeaponFactory {
 
-    public static GridItem create() {
+    public static GridItem create(List<Creature> creatures, List<Room> rooms) {
         List<Attribute> attributes = getWeaponAttributes();
         String name = getItemName(attributes);
         String sprite = getSprite(attributes);
