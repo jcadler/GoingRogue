@@ -173,9 +173,18 @@ public abstract class Creature implements Cloneable {
     public void decrementLevel() {
         --_level;
     }
-
-    public List<Action> getActions(int delta) {
+    
+        
+    public List<Action> getActionsWithUpdate(int delta) {
         return _actions;
+    }
+
+    public List<Action> getActions() {
+        return _actions;
+    }
+    
+    protected void setActions(List<Action> actions) {
+        _actions = actions;
     }
 
     public void removeTimedOutActions() {
