@@ -75,7 +75,7 @@ public class Player extends Creature {
         }
 
         public void pickUp() {
-            addAction(new PickupAction(0, new PickupRange(Player.this), Player.this));
+            addAction(new PickupAction(new PickupRange(player), player));
         }
     }
 }
