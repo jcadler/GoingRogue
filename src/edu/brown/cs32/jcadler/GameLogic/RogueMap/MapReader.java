@@ -74,7 +74,7 @@ public class MapReader
             int width = Integer.parseInt(s.get(2));
             int height = Integer.parseInt(s.get(3));
             String id = s.get(4);
-            Room ret = new Room(new Point(x,y),width,height,id);
+            Room ret = new Room(new Point(x,y),width,height,id,false);
             rooms.put(id,ret);
             return ret;
         }

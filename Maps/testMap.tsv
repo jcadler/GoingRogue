@@ -1,1 +1,3 @@
 Room	0	0	10	10	testRoom
+Room	0	20	10	5	bottomRoom
+Corridor	testRoom	bottomRoom	2	2	5,5

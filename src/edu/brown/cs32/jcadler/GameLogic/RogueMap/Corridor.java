@@ -37,18 +37,18 @@ public class Corridor implements Space
         {
             case 0:
                 wdth=width;
-                hght=(int)(p.getY()-start.getY());
+                hght=(int)Math.abs(p.getY()-start.getY());
                 break;
             case 1:
-                wdth=(int)(p.getX()-end.getX());
+                wdth=(int)Math.abs(p.getX()-end.getX());
                 hght=width;
                 break;
             case 2:
                 wdth=width;
-                hght=(int)(p.getY()-end.getY());
+                hght=(int)Math.abs(p.getY()-end.getY());
                 break;
             case 3:
-                wdth=(int)(p.getX()-start.getX());
+                wdth=(int)Math.abs(p.getX()-start.getX());
                 hght=width;
                 break;
         }

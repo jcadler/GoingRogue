@@ -24,10 +24,8 @@ public class PickupAction extends Action {
 
     @Override
     public void act(Creature creature) {
-        if (creature.isItem()) {
-            ((GridItem) creature).pickUp();
-            _sourceCreature.addItem(new Item((GridItem) creature));
-        }
+        ((GridItem) creature).pickUp();
+        _sourceCreature.addItem(new Item((GridItem) creature));
     }
 
     @Override
@@ -35,7 +33,7 @@ public class PickupAction extends Action {
         String spritePath = _sourceCreature.getSpritePath();
         Point2D.Double pos = new Point2D.Double(0.0, 0.0);
         double angle = 0.0;
-        List<ActionAnimation> list=new ArrayList<>();
+        List<ActionAnimation> list = new ArrayList<>();
         list.add(new ActionAnimation(spritePath, pos, angle, _sourceCreature.getSize()));
         return list;
     }

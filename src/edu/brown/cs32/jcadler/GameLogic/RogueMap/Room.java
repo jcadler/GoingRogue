@@ -2,6 +2,7 @@ package edu.brown.cs32.jcadler.GameLogic.RogueMap;
 
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.Point2D;
+import java.awt.Rectangle;
 import java.awt.Point;
 import java.util.List;
 import java.util.ArrayList;
@@ -20,12 +21,14 @@ public class Room implements Space
     private Rectangle2D.Double room;
     private String id;
     private List<Corridor> connections;
+    private boolean exitRoom;
     
-    public Room(Point p, int w, int h, String i)
+    public Room(Point p, int w, int h, String i, boolean exit)
     {
         room=new Rectangle2D.Double(p.getX(),p.getY(),w,h);
         connections = new ArrayList<>();
         id=i;
+        exitRoom=exit;
     }
     
     public void addCorridor(Corridor c)
@@ -71,7 +74,12 @@ public class Room implements Space
         for(int i=0;i<x;i++)
         {
             for(int j=0;j<y;j++)
-                ret[i][j]=Tile.GROUND;
+            {
+                if(exitRoom && i==(int)(x/2) && j==(int)(y/2))
+                    ret[i][j]=Tile.WATER;
+                else
+                    ret[i][j]=Tile.GROUND;
+            }
         }
         return ret;
     }
@@ -106,5 +114,23 @@ public class Room implements Space
     public List<Corridor> getCorridors()
     {
         return connections;
+    }
+    
+    public boolean exitRoom()
+    {
+        return exitRoom;
+    }
+    
+    public void setExit()
+    {
+        exitRoom=true;
+    }
+    
+    public boolean atExit(Point2D p)
+    {
+        Rectangle rect = new Rectangle((int)(room.getX()+(int)(room.getWidth()/2)),
+                                       (int)(room.getY()+(int)(room.getHeight()/2)),
+                                       1,1);
+        return exitRoom && rect.contains(p);
     }
 }

@@ -13,13 +13,13 @@ import java.util.Objects;
  * @author Ben Weedon (bweedon)
  */
 public class ArcAttackAction extends Action {
-	
+
     private Creature _sourceCreature;
-    
+
     public ArcAttackAction(double direction, double distance, double arcLength, int timer, Creature sourceCreature) {
         super(timer, new ArcAttackRange(direction, distance, arcLength, timer, sourceCreature));
-        
-        _type=ActionType.ATTACK;
+
+        _type = ActionType.ATTACK;
         _sourceCreature = sourceCreature;
     }
 
@@ -32,21 +32,20 @@ public class ArcAttackAction extends Action {
     public List<ActionAnimation> getActionAnimations() {
         String creatureSpritePath = _sourceCreature.getSpritePath();
         String weaponSpritePath = _sourceCreature.getInventory().getWeapon().getSpritePath();
-        
+
         Point2D.Double creaturePos = _sourceCreature.getPosition();
         double creatureAngle = ((ArcAttackRange) getRange()).getAngle();
-        
-        double[] weaponPosPolar = new double[]{0, creatureAngle};
-        weaponPosPolar[0]+=1;
+
+        double[] weaponPosPolar = new double[]{0.5, creatureAngle};
         double[] weaponPosTemp = Util.polarToRectangular(weaponPosPolar[0], weaponPosPolar[1]);
-        weaponPosTemp[0]+=creaturePos.x;
-        weaponPosTemp[1]+=creaturePos.y;
+        weaponPosTemp[0] += creaturePos.x;
+        weaponPosTemp[1] += creaturePos.y;
         Point2D.Double weaponPos = new Point2D.Double(weaponPosTemp[0], weaponPosTemp[1]);
-        
-        ActionAnimation creatureAnimation=new ActionAnimation(creatureSpritePath, creaturePos, creatureAngle, _sourceCreature.getSize());
-        ActionAnimation weaponAnimation=new ActionAnimation(weaponSpritePath, weaponPos, creatureAngle,
-        											_sourceCreature.getInventory().getWeapon().getSize());
-        List<ActionAnimation> list=new ArrayList<>();
+
+        ActionAnimation creatureAnimation = new ActionAnimation(creatureSpritePath, creaturePos, creatureAngle, _sourceCreature.getSize());
+        ActionAnimation weaponAnimation = new ActionAnimation(weaponSpritePath, weaponPos, creatureAngle,
+                _sourceCreature.getInventory().getWeapon().getSize());
+        List<ActionAnimation> list = new ArrayList<>();
         list.add(creatureAnimation);
         list.add(weaponAnimation);
         return list;
