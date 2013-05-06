@@ -36,22 +36,49 @@ public class GameLogic
         creatures = new ArrayList<>();
         actions = new ArrayList<>();
         List<Room> rooms = crrntMap.getRooms();
+        rooms.get(r.nextInt(rooms.size())).setExit();
+        addCreatures(numCreatures);
+        player = PlayerFactory.create(creatures,crrntMap.getRooms());
+        player.setName("bob");
+        setPlayer();
+        creatures.add(player);
+        System.out.println(player.getSpeed());
+    }
+    
+    private void addCreatures(int numCreatures)
+    {
+        Random r = new Random();
+        List<Room> rooms = crrntMap.getRooms();
         for(int i=0;i<numCreatures;i++)
         {
-            Creature put = AICreatureFactory.create();
+            Creature put = AICreatureFactory.create(creatures,crrntMap.getRooms());
             Room rm = rooms.get(r.nextInt(rooms.size()));
             put.setPosition(new Point2D.Double(rm.getX()+r.nextInt(rm.getWidth()),rm.getY()+r.nextInt(rm.getHeight())));
             creatures.add(put);
-            put = GridItemFactory.create();
+            put = GridItemFactory.create(creatures,crrntMap.getRooms());
             put.setPosition(new Point2D.Double(rm.getX()+r.nextInt(rm.getWidth()),rm.getY()+r.nextInt(rm.getHeight())));
             creatures.add(put);
         }
-        player = PlayerFactory.create();
-        player.setName("bob");
+    }
+    
+    private void setPlayer()
+    {
+        Random r = new Random();
+        List<Room> rooms = crrntMap.getRooms();
         Room rm = rooms.get(r.nextInt(rooms.size()));
+        while(rm.exitRoom())
+        {
+            rm=rooms.get(r.nextInt(rooms.size()));
+        }
         player.setPosition(new Point2D.Double(rm.getX()+r.nextInt(rm.getWidth()),rm.getY()+r.nextInt(rm.getHeight())));
-        
         creatures.add(player);
+    }
+    
+    private void setRandomExit()
+    {
+        Random r = new Random();
+        List<Room> rooms = crrntMap.getRooms();
+        rooms.get(r.nextInt(rooms.size())).setExit();
     }
     
     public Player getPlayer()
@@ -61,7 +88,6 @@ public class GameLogic
     
     public RogueMap getMap()
     {
-    	
         return crrntMap;
     }
     
@@ -88,7 +114,7 @@ public class GameLogic
     	return boundedCreatures;
     }
     
-    public void update(int delta) throws CloneNotSupportedException
+    public void update(int delta) throws CloneNotSupportedException,IOException
     {
         List<Action> zero = new ArrayList<>();
         for(Action a : actions)
@@ -102,7 +128,7 @@ public class GameLogic
         for(Creature c : creatures)
         {
             c.removeTimedOutActions();
-            actions.addAll(c.getActions());
+            actions.addAll(c.getActionsWithUpdate(delta));
         }
         for(Action a : actions)
         {
@@ -117,11 +143,30 @@ public class GameLogic
             }
         }
         List<Creature> dead = new ArrayList<>();
+        boolean exit = false;
         for(Creature c : creatures)
         {
             if(c.isDead())
                 dead.add(c);
+            if(c.getName().equals("bob"))
+            {
+                for(Room r : crrntMap.getRooms())
+                {
+                    if(r.atExit(c.getPosition()))
+                        exit=true;
+                }
+            }
         }
         creatures.removeAll(dead);
+        if(exit)
+        {
+            crrntMap.newLevel();
+            Random r = new Random();
+            creatures.clear();
+            actions.clear();
+            addCreatures(r.nextInt(3)+1);
+            setPlayer();
+            System.out.println(player.getSpeed());
+        }
     }
 }

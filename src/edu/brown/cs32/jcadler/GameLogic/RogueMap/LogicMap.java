@@ -52,6 +52,11 @@ public class LogicMap implements RogueMap
         return rooms;
     }
     
+    public void newLevel() throws IOException
+    {
+        rooms = getRandomMap().getRooms();
+    }
+    
     public List<Space> getData(int minX, int minY,int maxX, int maxY)
     {
         Rectangle view = new Rectangle(minX,minY,maxX-minX,maxY-minY);

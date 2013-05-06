@@ -155,10 +155,7 @@ public class GamePlay {
 			
 			Action actionToAnimate=null;
 			List<Action> actions=c.getActions();
-			for(Action a: actions) {
-				
-				System.out.println(a);
-				
+			for(Action a: actions) {				
 				if(actionToAnimate==null ||
 					a.type().getPriority()>actionToAnimate.type().getPriority()) {
 					
