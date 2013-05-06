@@ -118,6 +118,11 @@ public class GamePlay {
 		} catch(CloneNotSupportedException e) {
 			
 		}
+                catch(IOException e)
+                {
+                    e.printStackTrace();
+                    System.exit(1);
+                }
 	}
 	
 	/** Draws the game

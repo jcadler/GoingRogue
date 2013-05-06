@@ -36,7 +36,7 @@ public class GameLogic
         creatures = new ArrayList<>();
         actions = new ArrayList<>();
         List<Room> rooms = crrntMap.getRooms();
-        rooms.get(r.nextInt(rooms.size())).setExit();
+        setRandomExit();
         addCreatures(numCreatures);
         player = PlayerFactory.create(creatures,crrntMap.getRooms());
         player.setName("bob");
@@ -158,6 +158,7 @@ public class GameLogic
             }
         }
         creatures.removeAll(dead);
+        System.out.println(creatures.size());
         if(exit)
         {
             crrntMap.newLevel();
@@ -166,7 +167,7 @@ public class GameLogic
             actions.clear();
             addCreatures(r.nextInt(3)+1);
             setPlayer();
-            System.out.println(player.getSpeed());
+            setRandomExit();
         }
     }
 }

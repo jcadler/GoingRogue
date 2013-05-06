@@ -157,6 +157,9 @@ public class GamePlayState extends BasicGameState{
 		} catch(CloneNotSupportedException e) {
 
 		}
+                catch(IOException e)
+                {
+                }
 	}
 
 	/** Draws the game
