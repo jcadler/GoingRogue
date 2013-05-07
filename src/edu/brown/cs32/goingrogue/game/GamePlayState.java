@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.PriorityQueue;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -27,6 +28,7 @@ import edu.brown.cs32.goingrogue.gameobjects.items.Item;
 import edu.brown.cs32.goingrogue.graphics.Animation;
 import edu.brown.cs32.goingrogue.graphics.GraphicsLoader;
 import edu.brown.cs32.goingrogue.graphics.GraphicsPaths;
+import edu.brown.cs32.goingrogue.graphics.Text;
 import edu.brown.cs32.goingrogue.map.RogueMap;
 import edu.brown.cs32.goingrogue.map.Space;
 import edu.brown.cs32.goingrogue.map.Tile;
@@ -182,13 +184,13 @@ public class GamePlayState extends BasicGameState{
 	public void render(Graphics g) {
 		Point2D center=player.getPosition();
 		
+		//TODO Fix the data methods to work with bounds
+		
 		Point2D upperLeft=screenToGame(new int[]{0,0}, center);
 		Point2D lowerRight=screenToGame(new int[]{gc.getWidth(),gc.getHeight()}, center);
 		
-		//TODO Fix the data methods to work with bounds
-		
 		//Draws the map
-		List<Space> spaces=map.getData(/*(int)(upperLeft.getX()-1), (int)(upperLeft.getY()-1), (int)(lowerRight.getX()+1), (int)(lowerRight.getY()+1)*/);
+		List<Space> spaces=map.getData((int)(upperLeft.getX()-2), (int)(upperLeft.getY()-2), (int)(lowerRight.getX()+2), (int)(lowerRight.getY()+2));
 		for(Space s: spaces) drawWall(s, center, g);
 		for(Space s: spaces) drawInnerSpace(s, center, g);
 		
@@ -610,28 +612,33 @@ public class GamePlayState extends BasicGameState{
 			horzTextSlots[i]=i*gc.getWidth()/numItems;
 		}
 		
-		String[] titles=new String[numItems];
-		String[] items=new String[numItems];
+		Text[] titles=new Text[numItems];
+		Text[] items=new Text[numItems];
 		
-		titles[0]="Weapon";
-		titles[1]="Armour";
-		titles[2]="Shield";
-		titles[3]="Potions";
+		titles[0]=new Text("Weapon", Color.white);
+		titles[1]=new Text("Armour", Color.white);
+		titles[2]=new Text("Shield", Color.white);
+		titles[3]=new Text("Potions", Color.white);
 		
 		Item weapon=player.getInventory().getWeapon();
 		Item armour=player.getInventory().getWeapon();
 		Item shield=player.getInventory().getWeapon();
 		
-		items[0]= (weapon==null) ? "" : weapon.toString();
-		items[1]= ""; //(armour==null) ? "" : armour.toString();
-		items[2]= ""; //(shield==null) ? "" : shield.toString();
-		items[3]= ""; //""+player.getInventory().getNumPotions();
+		items[0]= Text.getText(weapon);
+		items[1]= Text.getText(armour);
+		items[2]= Text.getText(shield);
+		items[3]= new Text(""+player.getInventory().getNumPotions(),
+							new Color(216, 65, 183));
 		
 		for(int i=0; i<numItems; i++) {
-			g.drawString(titles[i],
+			g.setColor(titles[i].getColor());
+			g.drawString(titles[i].getText(),
 							horzTextSlots[i]+horzDisplacement,
 							gc.getHeight()-vertDisplacement-lineSize*2);
-			g.drawString(items[i],
+			
+			//g.setColor(titles[i].getColor());
+			g.setColor(items[i].getColor());
+			g.drawString(items[i].getText(),
 					horzTextSlots[i]+horzDisplacement,
 					gc.getHeight()-vertDisplacement-lineSize);
 		}

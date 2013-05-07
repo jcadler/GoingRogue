@@ -9,16 +9,16 @@ import org.newdawn.slick.Color;
 public enum Attribute {
 
     // to distinguish items from other creatures
-    ITEM("Item", Color.white, Type.IDENTIFIER),
+    ITEM("Item", null, Type.IDENTIFIER),
     // types of items
-    WEAPON("Weapon", Color.white, Type.IDENTIFIER),
-    ARMOUR("Armour", Color.white, Type.ITEM),
-    SHIELD("Shield", Color.white, Type.ITEM),
-    POTION("Potion", Color.white, Type.ITEM),
-    SWORD("Sword", Color.white, Type.ITEM),
-    AXE("Axe", Color.white, Type.ITEM),
-    WAR_HAMMER("Warhammer", Color.white, Type.ITEM),
-    SPEAR("Spear", Color.white, Type.ITEM),
+    WEAPON("Weapon", null, Type.IDENTIFIER),
+    ARMOUR("Armour", null, Type.ITEM),
+    SHIELD("Shield", null, Type.ITEM),
+    POTION("Potion", null, Type.ITEM),
+    SWORD("Sword", null, Type.ITEM),
+    AXE("Axe", null, Type.ITEM),
+    WAR_HAMMER("Warhammer", null, Type.ITEM),
+    SPEAR("Spear", null, Type.ITEM),
     // materials of items
     STEEL("Steel", Color.lightGray, Type.MATERIAL),
     IRON("Iron", Color.darkGray, Type.MATERIAL),
@@ -31,16 +31,16 @@ public enum Attribute {
     EARTH_TYPE("Earth", new Color(140, 75, 20), Type.ELEMENT), // beats water, loses to fire
     AIR_TYPE("Air", Color.lightGray, Type.ELEMENT), // neutral
     // type of monster
-    PLAYER("Player", Color.white, Type.CREATURE),
-    EMU("Emu", Color.white, Type.CREATURE),
-    DRAGON("Dragon", Color.white, Type.CREATURE),
-    HOB_GOBLIN("Hobgoblin", Color.white, Type.CREATURE),
-    GIANT("Giant", Color.white, Type.CREATURE),
-    SNAKE("Snake", Color.white, Type.CREATURE),
-    DOG("Dog", Color.white, Type.CREATURE);
+    PLAYER("Player", null, Type.CREATURE),
+    EMU("Emu", null, Type.CREATURE),
+    DRAGON("Dragon", null, Type.CREATURE),
+    HOB_GOBLIN("Hobgoblin", null, Type.CREATURE),
+    GIANT("Giant", null, Type.CREATURE),
+    SNAKE("Snake", null, Type.CREATURE),
+    DOG("Dog", null, Type.CREATURE);
     
     //Orders each of these attributes by type
-    static enum Type {
+    public static enum Type {
     	IDENTIFIER, ITEM, MATERIAL, ELEMENT, CREATURE;
     }
     
@@ -53,6 +53,4 @@ public enum Attribute {
     	color=c;
     	type=t;
     }
-    
-    
 }
