@@ -53,6 +53,8 @@ public class Corridor implements Space
                 break;
         }
         rect=new Rectangle(p.x,p.y,wdth,hght);
+        System.out.println("x: "+rect.x+" y: "+rect.y);
+        System.out.println("start: "+start.getID()+" end: "+end.getID());
     }
     
     public Room getStart()
@@ -116,7 +118,7 @@ public class Corridor implements Space
         for(int i=0;i<rect.width;i++)
         {
             for(int j=0;j<rect.height;j++)
-                ret[i][j]=Tile.GROUND;
+                ret[i][j]=Tile.WATER;
         }
         return ret;
     }
