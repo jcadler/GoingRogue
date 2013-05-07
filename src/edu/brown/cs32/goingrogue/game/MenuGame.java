@@ -18,7 +18,10 @@ import org.newdawn.slick.state.StateBasedGame;
  */
 public class MenuGame extends StateBasedGame
 {
+	//	Default name and port number
 	private String userName = "Bob";
+	private String hostName = "localhost";
+	private int portNumber = 54242;
 	private String stateData = "data/gamestates.txt";
 	//GamePlayState game;
 	int timeCount;
@@ -28,10 +31,24 @@ public class MenuGame extends StateBasedGame
 		super("Going Rogue");
 	}
 	
-	/*@Override
-	public void init(GameContainer gc) throws SlickException {
-		g=new GamePlay(gc);
-	}*/
+	public String getUserName(){
+		return userName;
+	}
+	public void setUserName(String un){
+		userName = un;
+	}
+	public int getPortNumber(){
+		return portNumber;
+	}
+	public void setPortNumber(int pn){
+		portNumber = pn;
+	}
+	public String getHostName(){
+		return hostName;
+	}
+	public void setHostName(String hn){
+		hostName = hn;
+	}
 
 	@Override
 	public void initStatesList(GameContainer gc) throws SlickException {
@@ -39,6 +56,9 @@ public class MenuGame extends StateBasedGame
 		List<String> stateTypes = new ArrayList<String>();
 		stateTypes.add("ms");
 		stateTypes.add("gp");
+		stateTypes.add("l1");
+		stateTypes.add("ls");
+		stateTypes.add("lc");
 		
 		int curID = 0;
 		try{
@@ -57,6 +77,10 @@ public class MenuGame extends StateBasedGame
 					state = new MenuState(next[1], next[2], curID);
 				else if(next[0].equals("gp"))
 					state = new GamePlayState(gc, curID);
+				else if(next[0].equals("lc"))
+					state = new GameLobbyClient(next[1], next[2], curID, this);
+				else if(next[0].equals("ls"))
+					state = new GameLobbyServer(next[1], next[2], curID, this);
 				curID++;
 				addState(state);
 				line = r.readLine();
