@@ -184,8 +184,6 @@ public class GamePlayState extends BasicGameState{
 	public void render(Graphics g) {
 		Point2D center=player.getPosition();
 		
-		//TODO Fix the data methods to work with bounds
-		
 		Point2D upperLeft=screenToGame(new int[]{0,0}, center);
 		Point2D lowerRight=screenToGame(new int[]{gc.getWidth(),gc.getHeight()}, center);
 		
@@ -203,7 +201,7 @@ public class GamePlayState extends BasicGameState{
 		cache.update(renderDelta);
 		
 		//Draws and animates entities
-		List<Creature> gameCreatures=game.getCreatures(/*upperLeft.getX(), upperLeft.getY(), lowerRight.getX(), lowerRight.getY()*/);
+		List<Creature> gameCreatures=game.getCreatures(upperLeft.getX(), upperLeft.getY(), lowerRight.getX(), lowerRight.getY());
 		for(Creature c: gameCreatures) drawCreature(c, center);
 		
 		//Draws the HUD
@@ -298,7 +296,7 @@ public class GamePlayState extends BasicGameState{
 		}
 		
 		//Right edge
-		int x2=upperLeft[0]+upperLeft[0]+s.width();
+		int x2=upperLeft[0]+s.width();
 		
 		try {
 			Image wallE=GraphicsLoader.loadImageAt(wallPaths[2]);
