@@ -15,6 +15,10 @@ public class Item {
         _gridItem = gridItem;
     }
     
+    public GridItem getGridItem() {
+    	return _gridItem;
+    }
+    
     public boolean containsAttribute(Attribute attribute) {
         return _gridItem.containsAttribute(attribute);
     }
