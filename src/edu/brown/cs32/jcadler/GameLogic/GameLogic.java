@@ -10,6 +10,7 @@ import java.util.Random;
 
 import edu.brown.cs32.goingrogue.gameobjects.actions.Action;
 import edu.brown.cs32.goingrogue.gameobjects.actions.ActionType;
+import edu.brown.cs32.goingrogue.gameobjects.creatures.Attribute;
 import edu.brown.cs32.goingrogue.gameobjects.creatures.Creature;
 import edu.brown.cs32.goingrogue.gameobjects.creatures.Player;
 import edu.brown.cs32.goingrogue.gameobjects.creatures.factories.AICreatureFactory;
@@ -18,6 +19,7 @@ import edu.brown.cs32.goingrogue.gameobjects.items.factories.GridItemFactory;
 import edu.brown.cs32.goingrogue.map.RogueMap;
 import edu.brown.cs32.jcadler.GameLogic.RogueMap.LogicMap;
 import edu.brown.cs32.jcadler.GameLogic.RogueMap.Room;
+import java.util.jar.Attributes;
 
 /**
  *
@@ -146,7 +148,7 @@ public class GameLogic
         {
             if(c.isDead())
                 dead.add(c);
-            if(c.getName().equals("bob"))
+            if(c.containsAttribute(Attribute.PLAYER))
             {
                 for(Room r : crrntMap.getRooms())
                 {
