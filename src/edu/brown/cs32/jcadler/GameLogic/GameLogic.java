@@ -126,22 +126,17 @@ public class GameLogic
             List<Action> as = c.getActionsWithUpdate(delta);
             actions.addAll(as);  
         }
-        for(Action a : actions)
+        for(Action a : actions) if(!a.isDoneActing())
         {
-            if(a.type().equals(ActionType.ATTACK))
-            {/*
-                System.out.println(a.toString());
-                System.out.println(a.getTimer());
-                a.decrementTimer(delta);
-                System.out.println(a.getTimer());*/
-            }
+            
             for(Creature c : creatures)
             {
                 if(a.withinRange(c))
                 {
                     Creature test = a.actOnClone(c);
                     if(crrntMap.isValid(test.getPosition()))
-                        a.act(c);
+                        if(a.type()==ActionType.ATTACK) System.out.println("Acting!");
+                    	a.act(c);
                 }
             }
         }

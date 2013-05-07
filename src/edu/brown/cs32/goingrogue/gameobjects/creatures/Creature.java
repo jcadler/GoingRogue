@@ -19,6 +19,9 @@ public abstract class Creature implements Cloneable {
 
     private Point2D.Double _pos;
     private double _direction; // in radians
+    private boolean _left;
+    private boolean _shouldFlip;
+    private boolean _shouldRotate;
     private String _name;
     private UUID _id;
     private List<Attribute> _attributes;
@@ -35,6 +38,9 @@ public abstract class Creature implements Cloneable {
             List<Attribute> attributes, CreatureStats stats, String spritePath, CreatureSize size) {
         _pos = pos;
         _direction = direction;
+        _left = false;
+        _shouldFlip=false;
+        _shouldRotate=false;
         _name = name;
         _id = UUID.randomUUID();
         _attributes = attributes;
@@ -67,7 +73,31 @@ public abstract class Creature implements Cloneable {
     public void setDirection(double direction) {
         _direction = direction;
     }
-
+    
+    public boolean isLeft() {
+    	return _left;
+    }
+    
+    public void setLeft(boolean left) {
+    	_left=left;
+    }
+    
+    public boolean shouldFlip() {
+    	return _shouldFlip;
+    }
+    
+    public void setShouldFlip(boolean shouldFlip) {
+    	_shouldFlip=shouldFlip;
+    }
+    
+    public boolean shouldRotate() {
+    	return _shouldRotate;
+    }
+    
+    public void setShouldRotate(boolean shouldRotate) {
+    	_shouldRotate=shouldRotate;
+    }
+    
     public String getSpritePath() {
         return _spritePath;
     }

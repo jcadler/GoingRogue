@@ -14,10 +14,13 @@ public abstract class Action {
 	
     private int _timer;
     private Range _range;
+    
+    protected boolean _doneActing;
 
     public Action(int timer, Range range) {
     	_timer = timer;
         _range = range;
+        _doneActing = false;
     }
     
     public ActionType type() {
@@ -45,6 +48,10 @@ public abstract class Action {
     
     public Range getRange() {
         return _range;
+    }
+    
+    public boolean isDoneActing() {
+    	return _doneActing;
     }
 
     public abstract void act(Creature creature);

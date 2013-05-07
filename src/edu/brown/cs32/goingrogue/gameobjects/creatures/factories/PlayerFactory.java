@@ -24,11 +24,12 @@ public class PlayerFactory {
     public static Player create(List<Creature> creatures, List<Room> rooms) {
         List<Attribute> attributes = new ArrayList<>();
         attributes.add(PLAYER);
-        String sprite = GraphicsPaths.SLIME_SPRITE.path; // TODO fill this in later
+        String sprite = GraphicsPaths.CHAR_1.path; // TODO fill this in later
         CreatureSize size = new CreatureSize(1.0, 1.0);
         Player returnCreature = new Player(new Point2D.Double(0.0, 0.0), Math.PI / 2.0, "Bob",
                 attributes, Constants.STARTING_PLAYER_STATS, sprite, size);
         returnCreature.addItem(new Item(GridWeaponFactory.create(creatures, rooms)));
+        returnCreature.setShouldRotate(true);
         return returnCreature;
     }
 }

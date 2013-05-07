@@ -1,9 +1,13 @@
 package edu.brown.cs32.goingrogue.game;
 
+import static java.lang.Math.toDegrees;
+
 import java.awt.geom.Point2D;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.PriorityQueue;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.newdawn.slick.GameContainer;
@@ -39,7 +43,8 @@ public class GamePlayState extends BasicGameState{
 
 	GameContainer gc;
 
-	ConcurrentHashMap<Integer, Boolean> keysPressed;
+	ConcurrentHashMap<Integer, Integer> keysPressed;
+	PriorityQueue<Integer> keyEventQueue;
 
 	GameLogic game;
 	Player player;
@@ -68,19 +73,25 @@ public class GamePlayState extends BasicGameState{
 		//g=null; //Set up by init() method
 		timeCount=0;
 
-		keysPressed=new ConcurrentHashMap<Integer, Boolean>();
-		keysPressed.put(KeyCodes.Q, false);
-		keysPressed.put(KeyCodes.W, false);
-		keysPressed.put(KeyCodes.E, false);
-		keysPressed.put(KeyCodes.A, false);
-		keysPressed.put(KeyCodes.S, false);
-		keysPressed.put(KeyCodes.D, false);
-		keysPressed.put(KeyCodes.LEFT, false);
-		keysPressed.put(KeyCodes.RIGHT, false);
-		keysPressed.put(KeyCodes.UP, false);
-		keysPressed.put(KeyCodes.DOWN, false);
-		keysPressed.put(KeyCodes.SPACE, false);
-		keysPressed.put(KeyCodes.ESC, false);
+		keysPressed=new ConcurrentHashMap<Integer, Integer>();
+		keysPressed.put(KeyCodes.Q, -1);
+		keysPressed.put(KeyCodes.W, -1);
+		keysPressed.put(KeyCodes.E, -1);
+		keysPressed.put(KeyCodes.A, -1);
+		keysPressed.put(KeyCodes.S, -1);
+		keysPressed.put(KeyCodes.D, -1);
+		keysPressed.put(KeyCodes.LEFT, -1);
+		keysPressed.put(KeyCodes.RIGHT, -1);
+		keysPressed.put(KeyCodes.UP, -1);
+		keysPressed.put(KeyCodes.DOWN, -1);
+		keysPressed.put(KeyCodes.SPACE, -1);
+		keysPressed.put(KeyCodes.ESC, -1);
+		
+		keyEventQueue=new PriorityQueue<Integer>(10, new Comparator<Integer>(){
+			public int compare(Integer i1, Integer i2) {
+				return keysPressed.get(i1)-keysPressed.get(i2);
+			}
+		});
 
 		//Initializes gameplay
 		try {
@@ -142,24 +153,25 @@ public class GamePlayState extends BasicGameState{
 	 */
 	public void update(int delta) {
 		Player p = getPlayer();
-
-		if(keysPressed.get(KeyCodes.W) || keysPressed.get(KeyCodes.UP)) p.getHandler().moveUp();
-		else if(keysPressed.get(KeyCodes.S) || keysPressed.get(KeyCodes.DOWN)) p.getHandler().moveDown();
-		if(keysPressed.get(KeyCodes.A) || keysPressed.get(KeyCodes.LEFT)) p.getHandler().moveLeft();
-		else if(keysPressed.get(KeyCodes.D) || keysPressed.get(KeyCodes.RIGHT)) p.getHandler().moveRight();
-		if(keysPressed.get(KeyCodes.SPACE)) p.getHandler().attack();
-		if(keysPressed.get(KeyCodes.E)) p.getHandler().pickUp();
-
-		else if(keysPressed.get(KeyCodes.ESC)) System.exit(0);
+		
+		for(int key: keyEventQueue) {
+			if(key==KeyCodes.W || key==KeyCodes.UP) p.getHandler().moveUp();
+			if(key==KeyCodes.S || key==KeyCodes.DOWN) p.getHandler().moveDown();
+			if(key==KeyCodes.A || key==KeyCodes.LEFT) p.getHandler().moveLeft();
+			if(key==KeyCodes.D || key==KeyCodes.RIGHT) p.getHandler().moveRight();
+			if(key==KeyCodes.SPACE) p.getHandler().attack();
+			if(key==KeyCodes.E) p.getHandler().pickUp();
+			if(key==KeyCodes.ESC) System.exit(0);
+		}
+		
 		timeCount+=delta;
 		try {
-			game.update(delta); // TODO Add delta vals
+			game.update(delta);
 		} catch(CloneNotSupportedException e) {
-
-		}
-                catch(IOException e)
-                {
-                }
+			
+		} catch(IOException e) {
+        	
+        }
 	}
 
 	/** Draws the game
@@ -168,50 +180,49 @@ public class GamePlayState extends BasicGameState{
 	 */
 	public void render(Graphics g) {
 		Point2D center=player.getPosition();
-
+		
 		Point2D upperLeft=screenToGame(new int[]{0,0}, center);
 		Point2D lowerRight=screenToGame(new int[]{gc.getWidth(),gc.getHeight()}, center);
-
+		
 		//Draws the map
 		//TODO Fix the data method to work with bounds
 		List<Space> spaces=map.getData(/*(int)(upperLeft.getX()-1), (int)(upperLeft.getY()-1), (int)(lowerRight.getX()+1), (int)(lowerRight.getY()+1)*/);
 		for(Space s: spaces) drawWall(s, center, g);
 		for(Space s: spaces) drawInnerSpace(s, center, g);
-
-
+		
+		
 		GraphicsLoader.setFilterType(Image.FILTER_NEAREST);
-
+		
 		//Updates all animations in the cache
 		int renderDelta=timeCount-lastRenderTime;
 		lastRenderTime=timeCount;
 		cache.update(renderDelta);
-
+		
 		//Draws and animates entities
 		//TODO Add creature size. Right now I just get everything within 2 tiles
 		//TODO Fix the getCreatures to actually get the creatures we need
 		List<Creature> gameCreatures=game.getCreatures(/*upperLeft.getX(), upperLeft.getY(), lowerRight.getX(), lowerRight.getY()*/);
-
+		
 		for(int i=0; i<gameCreatures.size(); i++) {
-
+			
 			Creature c=gameCreatures.get(i);
-
+			
 			Action actionToAnimate=null;
 			List<Action> actions=c.getActions();
-			for(Action a: actions) {
-
+			for(Action a: actions) {				
 				if(actionToAnimate==null ||
-						a.type().getPriority()>actionToAnimate.type().getPriority()) {
-
-					actionToAnimate=a;
+					a.type().getPriority()>actionToAnimate.type().getPriority()) {
+					
+						actionToAnimate=a;
 				}
 			}
-
+			
 			//No action
-			if(actionToAnimate==null) {
+			if(actionToAnimate==null || actionToAnimate.getActionAnimations().size()==0) {
 				try {
-
+					
 					Image[] images=null;
-
+					
 					//Finishes the previous animation
 					if(cache.get(c)!=null) {
 						List<Animation> anims=cache.get(c);
@@ -219,40 +230,49 @@ public class GamePlayState extends BasicGameState{
 						for(int j=0; j<anims.size(); j++)
 							imageList.add(anims.get(j).getCurrentFrame());
 						images=imageList.toArray(new Image[0]);
-
+						
 					}
-
+					
 					//Otherwise, draws the creature's static sprite
 					else {
 						images=new Image[1];
 						images[0]=GraphicsLoader.loadImage(c.getSpritePath());
 					}
-
+					
 					for(Image image: images)
 						drawImage(image, center, new ImageData(c.getPosition().x,
-								c.getPosition().y,
-								c.getSize().getWidth(),
-								c.getSize().getHeight(),
-								c.getDirection()));
+							c.getPosition().y,
+							c.getSize().getWidth(),
+							c.getSize().getHeight(),
+							c.getDirection(),
+							c.shouldRotate(),
+							c.shouldFlip() && c.isLeft()));
 
-
+					
 				} catch(SlickException e) {
 					//Should not happen
 					e.printStackTrace();
 				}
-
+			
 			} else {
-
-
+				
+				
 				Image[] images=null;
+				boolean shouldFlip=false;
+				boolean shouldRotate=false;
+				
 				List<ActionAnimation> actionAnimations=actionToAnimate.getActionAnimations();
-
+				
+				
 				//Attack action
 				if(actionToAnimate.type()==ActionType.ATTACK) {
-
+					
+					shouldFlip=false;
+					shouldRotate=true;
+					
 					Animation creatureAnim=null;
 					Animation weaponAnim=null;
-
+					
 					//Checks the animation cache for memory equality of the current attack action
 					if(actionToAnimate==cache.getAction(c)) {
 						//Gets the animation in the cache
@@ -261,9 +281,9 @@ public class GamePlayState extends BasicGameState{
 						weaponAnim=list.get(1);
 					} else {
 						//Creates a new animation and adds it to the cache
-
+						
 						creatureAnim=GraphicsLoader.loadAttack(actionAnimations.get(0).getSpritePath());
-
+						
 						try {
 							if(actionAnimations.get(1)==null) weaponAnim=GraphicsLoader.makeAnimation(GraphicsPaths.EMPTY.path);
 						} catch(SlickException e) {
@@ -271,28 +291,30 @@ public class GamePlayState extends BasicGameState{
 							e.printStackTrace();
 						}
 						weaponAnim=GraphicsLoader.load(actionAnimations.get(1).getSpritePath());
-
+						
 						setDuration(creatureAnim, actionToAnimate.getTimer());
 						setDuration(weaponAnim, actionToAnimate.getTimer());
-						System.out.println("NEW ANIM DURATION: "+actionToAnimate.getTimer());
-
+						
 						List<Animation> animList=new ArrayList<>();
 						animList.add(creatureAnim);
 						animList.add(weaponAnim);
 						cache.add(c, actionToAnimate, animList);
 					}
-
+					
 					Image creatureImage=creatureAnim.getCurrentFrame();
 					Image weaponImage=weaponAnim.getCurrentFrame();
-
+					
 					images=new Image[]{creatureImage, weaponImage};
-
-
-					//Other type of action (no weapon)
+					
+				
+				//Other type of action (no weapon)
 				} else {
-
+					
+					shouldFlip=c.shouldFlip() && c.isLeft();
+					shouldRotate=c.shouldRotate();
+					
 					Animation anim=null;
-
+					
 					//Checks the animation cache for type equality of the current attack action
 					if(cache.getAction(c)!=null && cache.getAction(c).type()==actionToAnimate.type()) {
 						//Gets the animation in the cache
@@ -302,61 +324,69 @@ public class GamePlayState extends BasicGameState{
 						if(actionToAnimate.type()==ActionType.MOVE) anim=GraphicsLoader.loadMove(actionAnimations.get(0).getSpritePath());
 						else if(actionToAnimate.type()==ActionType.PICKUP) anim=GraphicsLoader.load(actionAnimations.get(0).getSpritePath());
 						setDuration(anim, actionToAnimate.getTimer());
-
+						
 						List<Animation> animList=new ArrayList<>();
 						animList.add(anim);
 						cache.add(c, actionToAnimate, animList);
 					}
-
+					
 					images=new Image[]{anim.getCurrentFrame()};
 				}
-
+				
 				//Scales, centers, rotates and draws the current images
 				//Updates all animations
 				for(int index=0; index<images.length; index++) {
-					drawImage(images[index], center, actionAnimations.get(index));
+					
+					//Patch -- avoids a null pointer exception
+					if(images[index]==null) try {
+						images[index]=GraphicsLoader.loadImageAt(GraphicsPaths.EMPTY.path);
+					} catch(SlickException e) {
+						
+					}
+					
+					drawImage(images[index], center, actionAnimations.get(index), shouldFlip, shouldRotate);
 				}
 			}
 		}
 	}
-
+	
 	//Draws the inside of a space
 	void drawInnerSpace(Space s, Point2D center, Graphics g) {
-
+		
 		GraphicsLoader.setFilterType(Image.FILTER_NEAREST);
-
+		
 		//Draws the floor tiles
-
+		
 		int[] upperLeft=Util.snapPoint(s.upperLeft());
 		Tile[][] floor=s.getFloor();
-
+		
 		for(int i=0; i<floor.length; i++)
-			for(int j=0; j<floor[i].length; j++) {
-				Tile t=floor[i][j];
-				int x=(int)upperLeft[0]+i;
-				int y=(int)upperLeft[1]+j;
-				Point2D gameCoords=new Point2D.Double(x, y);
-
-				Image tileImage=null;
-				try {
-					int[] screenCoords=gameToScreen(gameCoords, center);
-					tileImage=GraphicsLoader.loadImageAt(t.path);
-					tileImage.draw(screenCoords[0], screenCoords[1], (int)(1*gameToScreenFactor), (int)(1*gameToScreenFactor));
-				} catch(SlickException e) {
-					System.out.println("Could not create image for tile "+t+" at location ("+x+", "+y+")...");
-					e.printStackTrace();
-				}
+		for(int j=0; j<floor[i].length; j++) {
+			Tile t=floor[i][j];
+			int x=(int)upperLeft[0]+i;
+			int y=(int)upperLeft[1]+j;
+			Point2D gameCoords=new Point2D.Double(x, y);
+			
+			Image tileImage=null;
+			try {
+				int[] screenCoords=gameToScreen(gameCoords, center);
+				tileImage=GraphicsLoader.loadImageAt(t.path);
+				tileImage.draw(screenCoords[0], screenCoords[1], (int)(1*gameToScreenFactor), (int)(1*gameToScreenFactor));
+			} catch(SlickException e) {
+				System.out.println("Could not create image for tile "+t+" at location ("+x+", "+y+")...");
+				e.printStackTrace();
 			}
+		}
 	}	
-
+	
 	//Draws the wall around a space
 	public void drawWall(Space s, Point2D center, Graphics g) {
-
+		
 		GraphicsLoader.setFilterType(Image.FILTER_NEAREST);
-
+		
 		Wall w=s.getWallType();
 		int[] upperLeft=Util.snapPoint(s.upperLeft());
-
+		
 		//{N, S, E, W, NE, NW, SE, SW}
 		String[] wallPaths=new String[8];
 		if(w==Wall.NONE) {
@@ -375,12 +405,12 @@ public class GamePlayState extends BasicGameState{
 		}
 		//Top edge
 		int y1=upperLeft[1]-1;
-
+		
 		try {
 			Image wallN=GraphicsLoader.loadImageAt(wallPaths[0]);
 			for(int i=0; i<s.width(); i++) {
 				int x=upperLeft[0]+i;
-
+				
 				Point2D gameCoords=new Point2D.Double(x, y1);
 				int[] screenCoords=gameToScreen(gameCoords, center);
 				wallN.draw(screenCoords[0], screenCoords[1], (int)(1*gameToScreenFactor), (int)(1*gameToScreenFactor));
@@ -389,10 +419,10 @@ public class GamePlayState extends BasicGameState{
 			System.out.println("Could not create image for north wall...");
 			e.printStackTrace();
 		}
-
+		
 		//Bottom edge
 		int y2=upperLeft[1]+s.height();
-
+		
 		try {
 			Image wallS=GraphicsLoader.loadImageAt(wallPaths[1]);
 			for(int i=0; i<s.width(); i++) {
@@ -406,10 +436,10 @@ public class GamePlayState extends BasicGameState{
 			System.out.println("Could not create image for south wall...");
 			e.printStackTrace();
 		}
-
+		
 		//Right edge
 		int x2=upperLeft[0]+upperLeft[0]+s.width();
-
+		
 		try {
 			Image wallE=GraphicsLoader.loadImageAt(wallPaths[2]);
 			for(int i=0; i<s.height(); i++) {
@@ -424,10 +454,10 @@ public class GamePlayState extends BasicGameState{
 			System.out.println("Could not create image for west wall...");
 			e.printStackTrace();
 		}
-
+		
 		//Left edge
 		int x1=upperLeft[0]-1;
-
+		
 		try {
 			Image wallW=GraphicsLoader.loadImageAt(wallPaths[3]);
 			for(int i=0; i<s.height(); i++) {
@@ -441,13 +471,13 @@ public class GamePlayState extends BasicGameState{
 			System.out.println("Could not create image for east wall...");
 			e.printStackTrace();
 		}
-
+		
 		//Upper right tile
 		try {
 			Image wallNE=GraphicsLoader.loadImageAt(wallPaths[4]);
 			int x=upperLeft[0]+s.width();
 			int y=upperLeft[1]-1;
-
+			
 			Point2D gameCoords=new Point2D.Double(x, y);
 			int[] screenCoords=gameToScreen(gameCoords, center);
 			wallNE.draw(screenCoords[0], screenCoords[1], (int)(1*gameToScreenFactor), (int)(1*gameToScreenFactor));
@@ -456,12 +486,12 @@ public class GamePlayState extends BasicGameState{
 			System.out.println("Could not create image for NE wall...");
 			e.printStackTrace();
 		}
-
+		
 		//Upper left tile
 		try {
 			int x=upperLeft[0]-1;
 			int y=upperLeft[1]-1;
-
+			
 			Image wallNW=GraphicsLoader.loadImageAt(wallPaths[5]);
 			Point2D gameCoords=new Point2D.Double(x, y);
 			int[] screenCoords=gameToScreen(gameCoords, center);
@@ -476,7 +506,7 @@ public class GamePlayState extends BasicGameState{
 		try {
 			int x=upperLeft[0]+s.width();
 			int y=upperLeft[1]+s.height();
-
+			
 			Image wallSE=GraphicsLoader.loadImageAt(wallPaths[6]);
 			Point2D gameCoords=new Point2D.Double(x, y);
 			int[] screenCoords=gameToScreen(gameCoords, center);
@@ -490,7 +520,7 @@ public class GamePlayState extends BasicGameState{
 		try {
 			int x=upperLeft[0]-1;
 			int y=upperLeft[1]+s.height();
-
+			
 			Image wallSW=GraphicsLoader.loadImageAt(wallPaths[7]);
 			Point2D gameCoords=new Point2D.Double(x, y);
 			int[] screenCoords=gameToScreen(gameCoords, center);
@@ -500,38 +530,67 @@ public class GamePlayState extends BasicGameState{
 			e.printStackTrace();
 		}
 	}
-
+	
+	//A packaging class for the data required to draw an image
+	static class ImageData {
+		
+		double x, y, width, height, rot;
+		boolean shouldRotate, shouldFlip;
+		
+		public ImageData(double x0, double y0, double w, double h, double r, boolean rotate, boolean flip) {
+			x=x0;
+			y=y0;
+			width=w;
+			height=h;
+			rot=r;
+			shouldRotate=rotate;
+			shouldFlip=flip;
+		}
+	}
+	
 	//Draws an image to the screen given the game coordinate center, x and y coordinates, a width and height, and an angle
 	void drawImage(Image i, Point2D center, ImageData data) {
+		
 		//Transforms the coordinates from game to screen
 		double[] gameCoords=new double[]{data.x, data.y};
 		int[] screenCoords=gameToScreen(new Point2D.Double(gameCoords[0], gameCoords[1]), center);
-
+		
 		//Resizes the image
 		Image toDraw=i.getScaledCopy((int)(gameToScreenFactor*data.width),
-				(int)(gameToScreenFactor*data.height));
-
-		//Centers the image
-		screenCoords=centerImage(screenCoords, toDraw);
-
-		//Rotates the image
-		setRotationCenter(toDraw);
-		toDraw.setRotation((float)data.rot);
-
+									(int)(gameToScreenFactor*data.height));
+		
+		//If shouldFlip is true, do not rotate the image - just flip it horizontally
+		if(data.shouldFlip) {
+			System.out.println("Flip!");
+			toDraw=toDraw.getFlippedCopy(true, false);
+		}
+		
+		//If shouldRotate is true, rotate the image according to the angle
+		if(data.shouldRotate) {
+			//Centers the image
+			screenCoords=centerImage(screenCoords, toDraw);
+			
+			//Rotates the image
+			setRotationCenter(toDraw);
+			toDraw.setRotation((float)toDegrees(data.rot));
+		}
+				
 		//Draws the image
 		toDraw.draw(screenCoords[0], screenCoords[1]);
 	}
-
+	
 	//Draws an image to the screen given the game coordinate center and the image's ActionAnimation
-	void drawImage(Image i, Point2D center, ActionAnimation actionAnim) {
-
+	void drawImage(Image i, Point2D center, ActionAnimation actionAnim, boolean flip, boolean rotate) {
+		
 		drawImage(i, center, new ImageData(actionAnim.getPos().x,
-				actionAnim.getPos().y,
-				actionAnim.getSize().getWidth(),
-				actionAnim.getSize().getHeight(),
-				actionAnim.getAngle()));
+											actionAnim.getPos().y,
+											actionAnim.getSize().getWidth(),
+											actionAnim.getSize().getHeight(),
+											actionAnim.getAngle(),
+											rotate,
+											flip));
 	}
-
+	
 	void setDuration(Animation a, int dur) {
 		if(dur==0) a.setImageDuration((int)(1000./Constants.DEFAULT_IMAGE_RATE));
 		else a.setDuration(dur+animationDurationBuffer);
@@ -563,20 +622,6 @@ public class GamePlayState extends BasicGameState{
 		return id;
 	}
 
-	//A packaging class for the data required to draw an image
-	static class ImageData {
-
-		double x, y, width, height, rot;
-
-		public ImageData(double x0, double y0, double w, double h, double r) {
-			x=x0;
-			y=y0;
-			width=w;
-			height=h;
-			rot=r;
-		}
-	}
-
 	@Override
 	public void mouseMoved(int oldx, int oldy, int newx, int newy) {
 	}
@@ -600,11 +645,13 @@ public class GamePlayState extends BasicGameState{
 
 	@Override
 	public void keyPressed(int key, char c) {
-		keysPressed.put(key, true);
+		keysPressed.put(key, timeCount);
+		keyEventQueue.add(key);
 	}
 
 	@Override
 	public void keyReleased(int key, char c) {
-		keysPressed.put(key, false);
+		keysPressed.put(key, -1);
+		keyEventQueue.remove(key);
 	}
 }

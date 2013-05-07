@@ -26,6 +26,8 @@ public class ArcAttackAction extends Action {
     @Override
     public void act(Creature creature) {
         creature.incurDamage(_sourceCreature);
+        if(_doneActing) System.out.println("Acting on "+creature);
+        _doneActing=true;
     }
 
     @Override
@@ -36,9 +38,8 @@ public class ArcAttackAction extends Action {
         Point2D.Double creaturePos = _sourceCreature.getPosition();
         double creatureAngle = ((ArcAttackRange) getRange()).getAngle();
 
-        double[] weaponPosPolar = new double[]{0.5, creatureAngle};
-        
-        System.out.println(creatureAngle);
+        //TODO This is just a temporary fix
+        double[] weaponPosPolar = new double[]{0.5, creatureAngle-Math.PI/2};
         
         double[] weaponPosTemp = Util.polarToRectangular(weaponPosPolar[0], weaponPosPolar[1]);
         weaponPosTemp[0] += creaturePos.x;

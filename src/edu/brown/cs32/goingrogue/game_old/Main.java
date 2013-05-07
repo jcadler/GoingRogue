@@ -1,4 +1,4 @@
-package edu.brown.cs32.goingrogue.game;
+package edu.brown.cs32.goingrogue.game_old;
 
 import java.util.concurrent.ConcurrentHashMap;
 

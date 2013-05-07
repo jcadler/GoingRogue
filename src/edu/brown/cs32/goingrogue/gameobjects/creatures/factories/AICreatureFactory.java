@@ -25,6 +25,7 @@ public class AICreatureFactory {
         CreatureSize size = getCreatureSize(attributes);
         AICreature returnCreature = new AICreature(new Point2D.Double(0.0, 0.0), direction, name,
                 attributes, stats, sprite, size, creatures, rooms);
+        returnCreature.setShouldRotate(false);
         return returnCreature;
     }
 }
