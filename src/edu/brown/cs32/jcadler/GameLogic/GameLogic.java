@@ -32,12 +32,13 @@ public class GameLogic
     private List<Action> actions;
     private Player player;
     private int level;
+    private Room last;
     
     public GameLogic() throws IOException
     {
         crrntMap = LogicMap.getRandomMap();
         Random r = new Random();
-        int numCreatures = r.nextInt(3)+1;
+        int numCreatures = 10; //r.nextInt(10)+1;
         creatures = new ArrayList<>();
         actions = new ArrayList<>();
         setRandomExit();
@@ -120,9 +121,7 @@ public class GameLogic
     public void update(int delta) throws CloneNotSupportedException,IOException
     {
         for(Action a : actions)
-        {
             a.decrementTimer(delta);
-        }
         actions.clear();
         for(Creature c : creatures)
         {
@@ -138,7 +137,9 @@ public class GameLogic
                 {
                     Creature test = a.actOnClone(c);
                     if(crrntMap.isValid(test.getPosition()))
+                    {
                         a.act(c);
+                    }
                 }
             }
         }
@@ -150,8 +151,16 @@ public class GameLogic
                 dead.add(c);
             if(c.containsAttribute(Attribute.PLAYER))
             {
+                boolean already=false;
                 for(Room r : crrntMap.getRooms())
                 {
+                    if((r.isValid(c.getPosition()) && (last==null || !r.getID().equals(last.getID())))
+                       && !already)
+                    {
+                        System.out.println(r.getID());
+                        last=r;
+                        already=true;
+                    }
                     if(r.atExit(c.getPosition()))
                         exit=true;
                 }

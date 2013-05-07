@@ -1,0 +1,13 @@
+Room	4	2	12	6	red
+Room	24	2	12	6	blue
+Room	30	16	6	12	green
+Room	30	36	6	12	yellow
+Room	10	40	12	6	indigo
+Room	4	12	6	12	orange
+Room	14	22	2	2	turn
+Corridor	red	blue	1	2	2,2
+Corridor	blue	green	2	2	8,2
+Corridor	green	yellow	2	2	2,2
+Corridor	yellow	indigo	3	2	6,2
+Corridor	indigo	turn	1	2	4,0
+Corridor	turn	orange	3	2	0,10
