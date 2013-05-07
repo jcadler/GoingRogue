@@ -15,19 +15,20 @@ import java.util.Objects;
 public class ArcAttackAction extends Action {
 
     private Creature _sourceCreature;
-
+    List<Creature> _actedOn;
+    
     public ArcAttackAction(double direction, double distance, double arcLength, int timer, Creature sourceCreature) {
         super(timer, new ArcAttackRange(direction, distance, arcLength, timer, sourceCreature));
 
         _type = ActionType.ATTACK;
         _sourceCreature = sourceCreature;
+        _actedOn=new ArrayList<>();
     }
 
     @Override
     public void act(Creature creature) {
-        creature.incurDamage(_sourceCreature);
-        if(_doneActing) System.out.println("Acting on "+creature);
-        _doneActing=true;
+        if(!_actedOn.contains(creature)) creature.incurDamage(_sourceCreature);
+        _actedOn.add(creature);
     }
 
     @Override

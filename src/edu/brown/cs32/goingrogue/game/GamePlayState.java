@@ -23,6 +23,7 @@ import edu.brown.cs32.goingrogue.gameobjects.actions.ActionAnimation;
 import edu.brown.cs32.goingrogue.gameobjects.actions.ActionType;
 import edu.brown.cs32.goingrogue.gameobjects.creatures.Creature;
 import edu.brown.cs32.goingrogue.gameobjects.creatures.Player;
+import edu.brown.cs32.goingrogue.gameobjects.items.Item;
 import edu.brown.cs32.goingrogue.graphics.Animation;
 import edu.brown.cs32.goingrogue.graphics.GraphicsLoader;
 import edu.brown.cs32.goingrogue.graphics.GraphicsPaths;
@@ -184,8 +185,9 @@ public class GamePlayState extends BasicGameState{
 		Point2D upperLeft=screenToGame(new int[]{0,0}, center);
 		Point2D lowerRight=screenToGame(new int[]{gc.getWidth(),gc.getHeight()}, center);
 		
+		//TODO Fix the data methods to work with bounds
+		
 		//Draws the map
-		//TODO Fix the data method to work with bounds
 		List<Space> spaces=map.getData(/*(int)(upperLeft.getX()-1), (int)(upperLeft.getY()-1), (int)(lowerRight.getX()+1), (int)(lowerRight.getY()+1)*/);
 		for(Space s: spaces) drawWall(s, center, g);
 		for(Space s: spaces) drawInnerSpace(s, center, g);
@@ -199,155 +201,11 @@ public class GamePlayState extends BasicGameState{
 		cache.update(renderDelta);
 		
 		//Draws and animates entities
-		//TODO Add creature size. Right now I just get everything within 2 tiles
-		//TODO Fix the getCreatures to actually get the creatures we need
 		List<Creature> gameCreatures=game.getCreatures(/*upperLeft.getX(), upperLeft.getY(), lowerRight.getX(), lowerRight.getY()*/);
+		for(Creature c: gameCreatures) drawCreature(c, center);
 		
-		for(int i=0; i<gameCreatures.size(); i++) {
-			
-			Creature c=gameCreatures.get(i);
-			
-			Action actionToAnimate=null;
-			List<Action> actions=c.getActions();
-			for(Action a: actions) {				
-				if(actionToAnimate==null ||
-					a.type().getPriority()>actionToAnimate.type().getPriority()) {
-					
-						actionToAnimate=a;
-				}
-			}
-			
-			//No action
-			if(actionToAnimate==null || actionToAnimate.getActionAnimations().size()==0) {
-				try {
-					
-					Image[] images=null;
-					
-					//Finishes the previous animation
-					if(cache.get(c)!=null) {
-						List<Animation> anims=cache.get(c);
-						List<Image> imageList=new ArrayList<>();
-						for(int j=0; j<anims.size(); j++)
-							imageList.add(anims.get(j).getCurrentFrame());
-						images=imageList.toArray(new Image[0]);
-						
-					}
-					
-					//Otherwise, draws the creature's static sprite
-					else {
-						images=new Image[1];
-						images[0]=GraphicsLoader.loadImage(c.getSpritePath());
-					}
-					
-					for(Image image: images)
-						drawImage(image, center, new ImageData(c.getPosition().x,
-							c.getPosition().y,
-							c.getSize().getWidth(),
-							c.getSize().getHeight(),
-							c.getDirection(),
-							c.shouldRotate(),
-							c.shouldFlip() && c.isLeft()));
-
-					
-				} catch(SlickException e) {
-					//Should not happen
-					e.printStackTrace();
-				}
-			
-			} else {
-				
-				
-				Image[] images=null;
-				boolean shouldFlip=false;
-				boolean shouldRotate=false;
-				
-				List<ActionAnimation> actionAnimations=actionToAnimate.getActionAnimations();
-				
-				
-				//Attack action
-				if(actionToAnimate.type()==ActionType.ATTACK) {
-					
-					shouldFlip=false;
-					shouldRotate=true;
-					
-					Animation creatureAnim=null;
-					Animation weaponAnim=null;
-					
-					//Checks the animation cache for memory equality of the current attack action
-					if(actionToAnimate==cache.getAction(c)) {
-						//Gets the animation in the cache
-						List<Animation> list=cache.get(c);
-						creatureAnim=list.get(0);
-						weaponAnim=list.get(1);
-					} else {
-						//Creates a new animation and adds it to the cache
-						
-						creatureAnim=GraphicsLoader.loadAttack(actionAnimations.get(0).getSpritePath());
-						
-						try {
-							if(actionAnimations.get(1)==null) weaponAnim=GraphicsLoader.makeAnimation(GraphicsPaths.EMPTY.path);
-						} catch(SlickException e) {
-							//Should not happen
-							e.printStackTrace();
-						}
-						weaponAnim=GraphicsLoader.load(actionAnimations.get(1).getSpritePath());
-						
-						setDuration(creatureAnim, actionToAnimate.getTimer());
-						setDuration(weaponAnim, actionToAnimate.getTimer());
-						
-						List<Animation> animList=new ArrayList<>();
-						animList.add(creatureAnim);
-						animList.add(weaponAnim);
-						cache.add(c, actionToAnimate, animList);
-					}
-					
-					Image creatureImage=creatureAnim.getCurrentFrame();
-					Image weaponImage=weaponAnim.getCurrentFrame();
-					
-					images=new Image[]{creatureImage, weaponImage};
-					
-				
-				//Other type of action (no weapon)
-				} else {
-					
-					shouldFlip=c.shouldFlip() && c.isLeft();
-					shouldRotate=c.shouldRotate();
-					
-					Animation anim=null;
-					
-					//Checks the animation cache for type equality of the current attack action
-					if(cache.getAction(c)!=null && cache.getAction(c).type()==actionToAnimate.type()) {
-						//Gets the animation in the cache
-						anim=cache.get(c).get(0);
-					} else {
-						//Creates a new animation and adds it to the cache
-						if(actionToAnimate.type()==ActionType.MOVE) anim=GraphicsLoader.loadMove(actionAnimations.get(0).getSpritePath());
-						else if(actionToAnimate.type()==ActionType.PICKUP) anim=GraphicsLoader.load(actionAnimations.get(0).getSpritePath());
-						setDuration(anim, actionToAnimate.getTimer());
-						
-						List<Animation> animList=new ArrayList<>();
-						animList.add(anim);
-						cache.add(c, actionToAnimate, animList);
-					}
-					
-					images=new Image[]{anim.getCurrentFrame()};
-				}
-				
-				//Scales, centers, rotates and draws the current images
-				//Updates all animations
-				for(int index=0; index<images.length; index++) {
-					
-					//Patch -- avoids a null pointer exception
-					if(images[index]==null) try {
-						images[index]=GraphicsLoader.loadImageAt(GraphicsPaths.EMPTY.path);
-					} catch(SlickException e) {
-						
-					}
-					
-					drawImage(images[index], center, actionAnimations.get(index), shouldFlip, shouldRotate);
-				}
-			}
-		}
+		//Draws the HUD
+		drawHUD(g);
 	}
 	
 	//Draws the inside of a space
@@ -531,6 +389,149 @@ public class GamePlayState extends BasicGameState{
 		}
 	}
 	
+	public void drawCreature(Creature c, Point2D center) {
+		Action actionToAnimate=null;
+		List<Action> actions=c.getActions();
+		for(Action a: actions) {				
+			if(actionToAnimate==null ||
+				a.type().getPriority()>actionToAnimate.type().getPriority()) {
+				
+					actionToAnimate=a;
+			}
+		}
+		
+		//No action
+		if(actionToAnimate==null || actionToAnimate.getActionAnimations().size()==0) {
+			try {
+				
+				Image[] images=null;
+				
+				//Finishes the previous animation
+				if(cache.get(c)!=null) {
+					List<Animation> anims=cache.get(c);
+					List<Image> imageList=new ArrayList<>();
+					for(int j=0; j<anims.size(); j++)
+						imageList.add(anims.get(j).getCurrentFrame());
+					images=imageList.toArray(new Image[0]);
+					
+				}
+				
+				//Otherwise, draws the creature's static sprite
+				else {
+					images=new Image[1];
+					images[0]=GraphicsLoader.loadImage(c.getSpritePath());
+				}
+				
+				for(Image image: images)
+					drawImage(image, center, new ImageData(c.getPosition().x,
+						c.getPosition().y,
+						c.getSize().getWidth(),
+						c.getSize().getHeight(),
+						c.getDirection(),
+						c.shouldRotate(),
+						c.shouldFlip() && c.isLeft()));
+
+				
+			} catch(SlickException e) {
+				//Should not happen
+				e.printStackTrace();
+			}
+		
+		} else {
+			
+			
+			Image[] images=null;
+			boolean shouldFlip=false;
+			boolean shouldRotate=false;
+			
+			List<ActionAnimation> actionAnimations=actionToAnimate.getActionAnimations();
+			
+			
+			//Attack action
+			if(actionToAnimate.type()==ActionType.ATTACK) {
+				
+				shouldFlip=false;
+				shouldRotate=true;
+				
+				Animation creatureAnim=null;
+				Animation weaponAnim=null;
+				
+				//Checks the animation cache for memory equality of the current attack action
+				if(actionToAnimate==cache.getAction(c)) {
+					//Gets the animation in the cache
+					List<Animation> list=cache.get(c);
+					creatureAnim=list.get(0);
+					weaponAnim=list.get(1);
+				} else {
+					//Creates a new animation and adds it to the cache
+					
+					creatureAnim=GraphicsLoader.loadAttack(actionAnimations.get(0).getSpritePath());
+					
+					try {
+						if(actionAnimations.get(1)==null) weaponAnim=GraphicsLoader.makeAnimation(GraphicsPaths.EMPTY.path);
+					} catch(SlickException e) {
+						//Should not happen
+						e.printStackTrace();
+					}
+					weaponAnim=GraphicsLoader.load(actionAnimations.get(1).getSpritePath());
+					
+					setDuration(creatureAnim, actionToAnimate.getTimer());
+					setDuration(weaponAnim, actionToAnimate.getTimer());
+					
+					List<Animation> animList=new ArrayList<>();
+					animList.add(creatureAnim);
+					animList.add(weaponAnim);
+					cache.add(c, actionToAnimate, animList);
+				}
+				
+				Image creatureImage=creatureAnim.getCurrentFrame();
+				Image weaponImage=weaponAnim.getCurrentFrame();
+				
+				images=new Image[]{creatureImage, weaponImage};
+				
+			
+			//Other type of action (no weapon)
+			} else {
+				
+				shouldFlip=c.shouldFlip() && c.isLeft();
+				shouldRotate=c.shouldRotate();
+				
+				Animation anim=null;
+				
+				//Checks the animation cache for type equality of the current attack action
+				if(cache.getAction(c)!=null && cache.getAction(c).type()==actionToAnimate.type()) {
+					//Gets the animation in the cache
+					anim=cache.get(c).get(0);
+				} else {
+					//Creates a new animation and adds it to the cache
+					if(actionToAnimate.type()==ActionType.MOVE) anim=GraphicsLoader.loadMove(actionAnimations.get(0).getSpritePath());
+					else if(actionToAnimate.type()==ActionType.PICKUP) anim=GraphicsLoader.load(actionAnimations.get(0).getSpritePath());
+					setDuration(anim, actionToAnimate.getTimer());
+					
+					List<Animation> animList=new ArrayList<>();
+					animList.add(anim);
+					cache.add(c, actionToAnimate, animList);
+				}
+				
+				images=new Image[]{anim.getCurrentFrame()};
+			}
+			
+			//Scales, centers, rotates and draws the current images
+			//Updates all animations
+			for(int index=0; index<images.length; index++) {
+				
+				//Patch -- avoids a null pointer exception
+				if(images[index]==null) try {
+					images[index]=GraphicsLoader.loadImageAt(GraphicsPaths.EMPTY.path);
+				} catch(SlickException e) {
+					
+				}
+				
+				drawImage(images[index], center, actionAnimations.get(index), shouldFlip, shouldRotate);
+			}
+		}
+	}
+	
 	//A packaging class for the data required to draw an image
 	static class ImageData {
 		
@@ -595,6 +596,49 @@ public class GamePlayState extends BasicGameState{
 		if(dur==0) a.setImageDuration((int)(1000./Constants.DEFAULT_IMAGE_RATE));
 		else a.setDuration(dur+animationDurationBuffer);
 	}
+	
+	//Draw's the player's HUD
+	void drawHUD(Graphics g) {
+		
+		int lineSize=16; //The spacing between each line
+		int horzDisplacement=10; //The displacement from the horizontal slot the text is in
+		int vertDisplacement=20; //The displacement from the bottom of the screen
+		int numItems=4;
+		
+		int[] horzTextSlots=new int[numItems];
+		for(int i=0; i<numItems; i++) {
+			horzTextSlots[i]=i*gc.getWidth()/numItems;
+		}
+		
+		String[] titles=new String[numItems];
+		String[] items=new String[numItems];
+		
+		titles[0]="Weapon";
+		titles[1]="Armour";
+		titles[2]="Shield";
+		titles[3]="Potions";
+		
+		Item weapon=player.getInventory().getWeapon();
+		Item armour=player.getInventory().getWeapon();
+		Item shield=player.getInventory().getWeapon();
+		
+		items[0]= (weapon==null) ? "" : weapon.toString();
+		items[1]= ""; //(armour==null) ? "" : armour.toString();
+		items[2]= ""; //(shield==null) ? "" : shield.toString();
+		items[3]= ""; //""+player.getInventory().getNumPotions();
+		
+		for(int i=0; i<numItems; i++) {
+			g.drawString(titles[i],
+							horzTextSlots[i]+horzDisplacement,
+							gc.getHeight()-vertDisplacement-lineSize*2);
+			g.drawString(items[i],
+					horzTextSlots[i]+horzDisplacement,
+					gc.getHeight()-vertDisplacement-lineSize);
+		}
+	}
+	
+	
+	
 
 	@Override
 	public void init(GameContainer gc, StateBasedGame gm)

@@ -126,7 +126,7 @@ public class GameLogic
             List<Action> as = c.getActionsWithUpdate(delta);
             actions.addAll(as);  
         }
-        for(Action a : actions) if(!a.isDoneActing())
+        for(Action a : actions)
         {
             
             for(Creature c : creatures)
@@ -135,7 +135,6 @@ public class GameLogic
                 {
                     Creature test = a.actOnClone(c);
                     if(crrntMap.isValid(test.getPosition()))
-                        if(a.type()==ActionType.ATTACK) System.out.println("Acting!");
                     	a.act(c);
                 }
             }

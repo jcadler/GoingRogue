@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Objects;
 
 import edu.brown.cs32.goingrogue.gameobjects.creatures.Creature;
+import edu.brown.cs32.goingrogue.util.Util;
 
 /**
  *
@@ -35,6 +36,7 @@ public class MoveAction extends Action {
         double yTranslation = _delta * (creature.getSpeed() * sin(_direction));
         Point2D origPos = creature.getPosition();
         creature.setPosition(new Point2D.Double(origPos.getX() + xTranslation, origPos.getY() + yTranslation));
+        	
     }
 
     @Override

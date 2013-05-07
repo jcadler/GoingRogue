@@ -19,9 +19,6 @@ public abstract class Creature implements Cloneable {
 
     private Point2D.Double _pos;
     private double _direction; // in radians
-    private boolean _left;
-    private boolean _shouldFlip;
-    private boolean _shouldRotate;
     private String _name;
     private UUID _id;
     private List<Attribute> _attributes;
@@ -33,6 +30,11 @@ public abstract class Creature implements Cloneable {
     private int _level;
     //Used to ensure existence of a single unique hash code
     private int _hashCode;
+    
+    protected boolean _left;
+    protected boolean _shouldFlip;
+    protected boolean _shouldRotate;
+    
 
     public Creature(Point2D.Double pos, double direction, String name,
             List<Attribute> attributes, CreatureStats stats, String spritePath, CreatureSize size) {

@@ -21,7 +21,11 @@ public class ChangeDirectionAction extends Action {
     @Override
     public void act(Creature creature) {
         creature.setDirection(_direction);
-        if(_direction<-Math.PI/2.0 || _direction>Math.PI/2.0);
+        if(_direction<0) {
+        	creature.setLeft(true);
+        }
+        
+        else creature.setLeft(false);
     }
 
     @Override
