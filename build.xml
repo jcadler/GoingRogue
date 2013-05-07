@@ -30,7 +30,7 @@
     <jar destfile="${derived.jar}" basedir="${derived.classes}" includes="**/*.class">
       <manifest>
 	<attribute name="Class-Path" value="../lib/guava-14.0.1.jar ../lib/slick.jar ../lib/kryonet-2.18-all.jar ../lib/lwjgl-2.9.0/jar/lwjgl.jar ../lib/lwjgl-2.9.0/jar/jinput.jar ../lib/lwjgl-2.9.0/jar/lwjgl_util.jar ../lib/lwjgl-2.9.0/jar/lzma.jar" />
-	<attribute name="Main-Class" value="edu.brown.cs32.goingrogue.game.Main" />
+	<attribute name="Main-Class" value="edu.brown.cs32.goingrogue.game.MenuGame" />
       </manifest>
     </jar>
   </target>
