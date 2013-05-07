@@ -15,6 +15,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -22,6 +23,7 @@ import edu.brown.cs32.goingrogue.constants.Constants;
 import edu.brown.cs32.goingrogue.gameobjects.actions.Action;
 import edu.brown.cs32.goingrogue.gameobjects.actions.ActionAnimation;
 import edu.brown.cs32.goingrogue.gameobjects.actions.ActionType;
+import edu.brown.cs32.goingrogue.gameobjects.creatures.Attribute;
 import edu.brown.cs32.goingrogue.gameobjects.creatures.Creature;
 import edu.brown.cs32.goingrogue.gameobjects.creatures.Player;
 import edu.brown.cs32.goingrogue.gameobjects.items.Item;
@@ -201,7 +203,7 @@ public class GamePlayState extends BasicGameState{
 		cache.update(renderDelta);
 		
 		//Draws and animates entities
-		List<Creature> gameCreatures=game.getCreatures(upperLeft.getX(), upperLeft.getY(), lowerRight.getX(), lowerRight.getY());
+		List<Creature> gameCreatures=game.getCreatures(upperLeft.getX()-5, upperLeft.getY()-5, lowerRight.getX()+5, lowerRight.getY()+5);
 		for(Creature c: gameCreatures) drawCreature(c, center);
 		
 		//Draws the HUD
@@ -392,7 +394,18 @@ public class GamePlayState extends BasicGameState{
 	public void drawCreature(Creature c, Point2D center) {
 		Action actionToAnimate=null;
 		List<Action> actions=c.getActions();
+		
+		int actionNum=0;
+		
 		for(Action a: actions) {				
+			
+			actionNum++;
+
+		//TEST
+			if(!c.containsAttribute(Attribute.PLAYER)) {
+				System.out.println("Actions: "+actionNum);
+			}
+			
 			if(actionToAnimate==null ||
 				a.type().getPriority()>actionToAnimate.type().getPriority()) {
 				
@@ -403,6 +416,11 @@ public class GamePlayState extends BasicGameState{
 		//No action
 		if(actionToAnimate==null || actionToAnimate.getActionAnimations().size()==0) {
 			try {
+				
+			//TEST
+				if(!c.containsAttribute(Attribute.PLAYER)) {
+					//System.out.println("Static image");
+				}
 				
 				Image[] images=null;
 				
@@ -600,14 +618,15 @@ public class GamePlayState extends BasicGameState{
 	//Draw's the player's HUD
 	void drawHUD(Graphics g) {
 		
-		int lineSize=16; //The spacing between each line
+		int lineSize=20; //The spacing between each line
 		int horzDisplacement=10; //The displacement from the horizontal slot the text is in
-		int vertDisplacement=20; //The displacement from the bottom of the screen
+		int horzSpace=gc.getWidth()-150; //The total space for all text items
+		int vertDisplacement=15; //The displacement from the bottom of the screen
 		int numItems=4;
 		
 		int[] horzTextSlots=new int[numItems];
 		for(int i=0; i<numItems; i++) {
-			horzTextSlots[i]=i*gc.getWidth()/numItems;
+			horzTextSlots[i]=i*horzSpace/numItems;
 		}
 		
 		Text[] titles=new Text[numItems];
@@ -627,6 +646,20 @@ public class GamePlayState extends BasicGameState{
 		items[2]= Text.getText(shield);
 		items[3]= new Text(""+player.getInventory().getNumPotions(),
 							new Color(216, 65, 183));
+		
+		
+		int boundingRectHeight=vertDisplacement+lineSize*2+8;
+		
+		g.setColor(Color.black);
+		g.fill(new Rectangle(0, gc.getHeight()-boundingRectHeight, gc.getWidth(), boundingRectHeight));
+		
+		int ribbonRectHeight=5;
+		
+		g.setColor(Color.red);
+		g.fill(new Rectangle(0,
+							gc.getHeight()-boundingRectHeight-ribbonRectHeight,
+							gc.getWidth(),
+							ribbonRectHeight));
 		
 		for(int i=0; i<numItems; i++) {
 			g.setColor(titles[i].getColor());
