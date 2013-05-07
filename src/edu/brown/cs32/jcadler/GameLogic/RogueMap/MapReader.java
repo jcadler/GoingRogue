@@ -80,6 +80,8 @@ public class MapReader
         }
         catch(Exception e)
         {
+            e.printStackTrace();
+            System.out.println(s.toString());
             throw new IllegalArgumentException("Room string is formatted incorrectly");
         }
     }
@@ -105,6 +107,8 @@ public class MapReader
         }
         catch(Exception e)
         {
+            e.printStackTrace();
+            System.out.println(s.toString());
             throw new IllegalArgumentException("Corridor string is formatted incorrectly");
         }
     }

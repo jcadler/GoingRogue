@@ -1,6 +1,7 @@
 package edu.brown.cs32.jcadler.GameLogic;
 
 import java.awt.Rectangle;
+import java.awt.geom.Rectangle2D;
 import java.awt.geom.Point2D;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -28,6 +29,7 @@ public class GameLogic
     private List<Creature> creatures;
     private List<Action> actions;
     private Player player;
+    private int level;
     
     public GameLogic() throws IOException
     {
@@ -39,9 +41,10 @@ public class GameLogic
         setRandomExit();
         addCreatures(numCreatures);
         player = PlayerFactory.create(creatures,crrntMap.getRooms());
-        player.setName("bob");
+        player.setName("debug");
         setPlayer();
         creatures.add(player);
+        level=0;
     }
     
     private void addCreatures(int numCreatures)
@@ -101,13 +104,12 @@ public class GameLogic
      */
     public List<Creature> getCreatures(double minX, double minY, double maxX, double maxY)
     {
-    	Rectangle bounds=new Rectangle();
-    	
+    	Rectangle2D bounds=new Rectangle2D.Double(minX,minY,maxX-minX,maxY-minY);
     	List<Creature> boundedCreatures=new ArrayList<>();
-        for(Creature c: creatures) {
-        	if(bounds.contains(c.getPosition())) {
+        for(Creature c: creatures) 
+        {
+        	if(bounds.contains(c.getPosition())) 
         		boundedCreatures.add(c);
-        	}
         }
     	
     	return boundedCreatures;
@@ -128,14 +130,13 @@ public class GameLogic
         }
         for(Action a : actions)
         {
-            
             for(Creature c : creatures)
             {
                 if(a.withinRange(c))
                 {
                     Creature test = a.actOnClone(c);
                     if(crrntMap.isValid(test.getPosition()))
-                    	a.act(c);
+                        a.act(c);
                 }
             }
         }
@@ -164,6 +165,7 @@ public class GameLogic
             addCreatures(r.nextInt(3)+1);
             setPlayer();
             setRandomExit();
+            level++;
         }
     }
 }
