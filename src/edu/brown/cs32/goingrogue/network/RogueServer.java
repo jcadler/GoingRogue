@@ -1,6 +1,8 @@
 package edu.brown.cs32.goingrogue.network;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.esotericsoftware.kryonet.Client;
@@ -44,7 +46,7 @@ public class RogueServer extends Listener implements RoguePort{
 	
 	public void start(String dummy, int port) throws Exception
 	{
-		//		TCP only, default buffer should be ok.
+		//	TCP only, default buffer should be ok.
 		net = new Server();
 		net.bind(port);
 		Network.register(net);
@@ -65,7 +67,15 @@ public class RogueServer extends Listener implements RoguePort{
 	}
 	
 	public void updateClient(int id){
-		//	
+		//	TODO: Do it!
+	}
+	
+	public List<String> getPlayerNames(){
+		List<String> rv = new ArrayList<>();
+		for(Player p : players.values()){
+			rv.add(p.getName());
+		}
+		return rv;
 	}
 	
 	@Override
@@ -108,13 +118,24 @@ public class RogueServer extends Listener implements RoguePort{
 			//	TODO: Not actually a thing yet.
 			//	List<Action> acts = players.get(c.getID()).addAction(a);
 		}
-		//	Players reporting their names!
+		//	Players reporting their names, asking for lobby info, etc.
 		if(o instanceof String){
-			if(lobby.containsKey(c.getID())){
-				lobby.get(c.getID()).setName((String) o);
+			try{
+				String[] cmd = ((String) o).split("\t");
+				if(cmd[0].equals("name")){
+					if(lobby.containsKey(c.getID())){
+						lobby.get(c.getID()).setName((String) o);
+					}
+					if(players.containsKey(c.getID())){
+						players.get(c.getID()).setName((String) o);
+					}
+				}
+				else if(cmd[0].equals("lobby")){
+					
+				}
 			}
-			if(players.containsKey(c.getID())){
-				players.get(c.getID()).setName((String) o);
+			catch(Exception e){
+				
 			}
 		}
 	}
