@@ -135,7 +135,7 @@ public class GameLogic
                 if(a.withinRange(c))
                 {
                     Creature test = a.actOnClone(c);
-                    if(crrntMap.isValid(test.getPosition()) || c.getName().equals("debug"))
+                    if(crrntMap.isValid(test.getPosition()))
                         a.act(c);
                 }
             }

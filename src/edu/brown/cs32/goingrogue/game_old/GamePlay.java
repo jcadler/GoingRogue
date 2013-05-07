@@ -1,4 +1,4 @@
-package edu.brown.cs32.goingrogue.game;
+package edu.brown.cs32.goingrogue.game_old;
 
 import java.awt.geom.Point2D;
 import java.io.IOException;
@@ -11,6 +11,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
 import edu.brown.cs32.goingrogue.constants.Constants;
+import edu.brown.cs32.goingrogue.game.AnimationCache;
 import edu.brown.cs32.goingrogue.gameobjects.actions.Action;
 import edu.brown.cs32.goingrogue.gameobjects.actions.ActionAnimation;
 import edu.brown.cs32.goingrogue.gameobjects.actions.ActionType;
@@ -25,6 +26,7 @@ import edu.brown.cs32.goingrogue.map.Tile;
 import edu.brown.cs32.goingrogue.map.Wall;
 import edu.brown.cs32.goingrogue.util.Util;
 import edu.brown.cs32.jcadler.GameLogic.GameLogic;
+import static java.lang.Math.toDegrees;
 
 /** Handles the updating and rendering of a game
  * 
@@ -117,12 +119,10 @@ public class GamePlay {
 			game.update(delta); // TODO Add delta vals
 		} catch(CloneNotSupportedException e) {
 			
+		} catch(IOException e) {
+			e.printStackTrace();
+			System.exit(1);
 		}
-                catch(IOException e)
-                {
-                    e.printStackTrace();
-                    System.exit(1);
-                }
 	}
 	
 	/** Draws the game
@@ -486,12 +486,15 @@ public class GamePlay {
 		Image toDraw=i.getScaledCopy((int)(gameToScreenFactor*data.width),
 									(int)(gameToScreenFactor*data.height));
 		
+//		if(data.rot>Math.PI/2 || data.rot<-Math.PI/2) 
+//			toDraw=toDraw.getFlippedCopy(false, true);
+		
 		//Centers the image
 		screenCoords=centerImage(screenCoords, toDraw);
 		
 		//Rotates the image
 		setRotationCenter(toDraw);
-		toDraw.setRotation((float)data.rot);
+		toDraw.setRotation((float)toDegrees(data.rot));
 				
 		//Draws the image
 		toDraw.draw(screenCoords[0], screenCoords[1]);

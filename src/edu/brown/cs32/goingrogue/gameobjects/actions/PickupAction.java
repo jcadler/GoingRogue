@@ -30,12 +30,6 @@ public class PickupAction extends Action {
 
     @Override
     public List<ActionAnimation> getActionAnimations() {
-//        String spritePath = _sourceCreature.getSpritePath();
-//        Point2D.Double pos = new Point2D.Double(0.0, 0.0);
-//        double angle = 0.0;
-//        List<ActionAnimation> list = new ArrayList<>();
-//        list.add(new ActionAnimation(spritePath, pos, angle, _sourceCreature.getSize()));
-//        return list;
         return new ArrayList<>();
     }
 

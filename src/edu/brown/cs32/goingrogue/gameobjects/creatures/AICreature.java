@@ -26,6 +26,9 @@ public class AICreature extends Creature {
         super(pos, direction, name, attributes, stats, spritePath, size);
         _creatures = creatures;
         _rooms = rooms;
+        
+        _shouldRotate=false;
+        _shouldFlip=true;
     }
 
     @Override

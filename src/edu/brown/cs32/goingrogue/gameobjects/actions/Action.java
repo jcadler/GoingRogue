@@ -14,7 +14,7 @@ public abstract class Action {
 	
     private int _timer;
     private Range _range;
-
+    
     public Action(int timer, Range range) {
     	_timer = timer;
         _range = range;

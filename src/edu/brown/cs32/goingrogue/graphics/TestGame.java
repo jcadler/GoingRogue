@@ -113,7 +113,11 @@ public class TestGame extends BasicGame
 		while(i<xList.size()) {
 			Animation a=anims.get(i);
 			a.updateWithReset(renderDelta);
-			a.getCurrentFrame().draw(xList.get(i), yList.get(i), 40, 40);
+			Image image=a.getCurrentFrame().copy();
+			image.setCenterOfRotation(20, 20);
+			image.rotate((float)Math.PI);
+			
+			image.draw(xList.get(i), yList.get(i), 40, 40);
 			
 			Rectangle animBounds = new Rectangle(xList.get(i), yList.get(i), 40, 40);
 			

@@ -1,15 +1,19 @@
 package edu.brown.cs32.goingrogue.gameobjects.actions;
 
-import edu.brown.cs32.goingrogue.gameobjects.creatures.Creature;
-import edu.brown.cs32.goingrogue.util.Util;
+import static edu.brown.cs32.goingrogue.gameobjects.creatures.Attribute.PLAYER;
+import static java.lang.Math.toDegrees;
+import static java.lang.Math.toRadians;
+
 import java.awt.geom.Arc2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import static java.lang.Math.toDegrees;
-import static java.lang.Math.toRadians;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
-import static edu.brown.cs32.goingrogue.gameobjects.creatures.Attribute.PLAYER;
+
+import edu.brown.cs32.goingrogue.gameobjects.creatures.Creature;
+import edu.brown.cs32.goingrogue.util.Util;
 
 /**
  *
@@ -38,7 +42,8 @@ public class ArcAttackRange implements Range {
 
     @Override
     public boolean inRange(Creature targetCreature) {
-        if (targetCreature.equals(_sourceCreature) || (STARTING_TIMER == 0)) {
+    	
+    	if (targetCreature.equals(_sourceCreature) || (STARTING_TIMER == 0)) {
             return false;
         }
         if (_sourceCreature.getAttributes().contains(PLAYER)
@@ -61,7 +66,7 @@ public class ArcAttackRange implements Range {
     public void decrementTimer(int delta) {
         _timer -= delta;
     }
-
+    
     public double getAngle() {
         double startAngle = ((((double) STARTING_TIMER - _timer) / STARTING_TIMER) * (FULL_ARC.getAngleExtent())) + FULL_ARC.getAngleStart();
         return toRadians(startAngle);

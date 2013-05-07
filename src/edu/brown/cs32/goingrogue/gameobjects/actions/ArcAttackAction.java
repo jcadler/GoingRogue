@@ -15,17 +15,20 @@ import java.util.Objects;
 public class ArcAttackAction extends Action {
 
     private Creature _sourceCreature;
-
+    List<Creature> _actedOn;
+    
     public ArcAttackAction(double direction, double distance, double arcLength, int timer, Creature sourceCreature) {
         super(timer, new ArcAttackRange(direction, distance, arcLength, timer, sourceCreature));
 
         _type = ActionType.ATTACK;
         _sourceCreature = sourceCreature;
+        _actedOn=new ArrayList<>();
     }
 
     @Override
     public void act(Creature creature) {
-        creature.incurDamage(_sourceCreature);
+        if(!_actedOn.contains(creature)) creature.incurDamage(_sourceCreature);
+        _actedOn.add(creature);
     }
 
     @Override
@@ -36,7 +39,9 @@ public class ArcAttackAction extends Action {
         Point2D.Double creaturePos = _sourceCreature.getPosition();
         double creatureAngle = ((ArcAttackRange) getRange()).getAngle();
 
-        double[] weaponPosPolar = new double[]{0.5, creatureAngle};
+        //TODO This is just a temporary fix
+        double[] weaponPosPolar = new double[]{0.5, creatureAngle-Math.PI/2};
+        
         double[] weaponPosTemp = Util.polarToRectangular(weaponPosPolar[0], weaponPosPolar[1]);
         weaponPosTemp[0] += creaturePos.x;
         weaponPosTemp[1] += creaturePos.y;
