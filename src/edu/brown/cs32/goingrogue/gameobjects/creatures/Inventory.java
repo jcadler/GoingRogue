@@ -36,6 +36,9 @@ public class Inventory {
                 _potions.add(item);
             }
         }
+        
+        System.out.println("EQ1: "+(_weapon==_armour));
+        System.out.println("EQ2: "+(_weapon==_shield));
     }
 
     public Item getWeapon() {
