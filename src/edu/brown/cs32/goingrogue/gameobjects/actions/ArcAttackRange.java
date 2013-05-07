@@ -9,6 +9,7 @@ import java.awt.geom.Rectangle2D;
 import static java.lang.Math.toDegrees;
 import static java.lang.Math.toRadians;
 import java.util.Objects;
+import static edu.brown.cs32.goingrogue.gameobjects.creatures.Attribute.PLAYER;
 
 /**
  *
@@ -38,6 +39,10 @@ public class ArcAttackRange implements Range {
     @Override
     public boolean inRange(Creature targetCreature) {
         if (targetCreature.equals(_sourceCreature) || (STARTING_TIMER == 0)) {
+            return false;
+        }
+        if (_sourceCreature.getAttributes().contains(PLAYER)
+                && targetCreature.getAttributes().contains(PLAYER)) {
             return false;
         }
         Point2D sourcePos = _sourceCreature.getCenterPosition();

@@ -18,6 +18,7 @@ import org.newdawn.slick.state.StateBasedGame;
  */
 public class MenuGame extends StateBasedGame
 {
+	private String userName = "Bob";
 	private String stateData = "data/gamestates.txt";
 	//GamePlayState game;
 	int timeCount;
@@ -43,6 +44,7 @@ public class MenuGame extends StateBasedGame
 		try{
 			File f = new File(stateData);
 			FileReader fr = new FileReader(f);
+			@SuppressWarnings("resource")
 			BufferedReader r = new BufferedReader(fr);
 
 			String line = r.readLine();

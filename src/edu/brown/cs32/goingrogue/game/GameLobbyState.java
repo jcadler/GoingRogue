@@ -1,45 +1,25 @@
 package edu.brown.cs32.goingrogue.game;
 
-import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Graphics;
-import org.newdawn.slick.SlickException;
+import java.util.List;
+
+import org.newdawn.slick.Image;
 import org.newdawn.slick.state.BasicGameState;
-import org.newdawn.slick.state.StateBasedGame;
 
-import edu.brown.cs32.goingrogue.network.RogueServer;
+import edu.brown.cs32.goingrogue.network.RoguePort;
 
-public class GameLobbyState extends BasicGameState{
-	
+public abstract class GameLobbyState extends BasicGameState{
+	protected String message = "";
+	protected String background = "graphics/menu/mmbg.png";	//	Default is Main Menu!
+	protected String menuData = "data/menus/mm.txt";
+	protected Image bg;
+	protected List<TransitionButton> buttons;
 	private int id; //	Used for StateBasedGame
-	private RogueServer server;	//	The core of the lobby!
+	protected RoguePort port;	//	The core of the lobby!
+	protected MenuGame game;
 	
-	public GameLobbyState(int id){
+	public GameLobbyState(int id, MenuGame game){
 		this.id = id;
-	}
-
-	@Override
-	public void init(GameContainer arg0, StateBasedGame arg1)
-			throws SlickException {
-		try{
-			server = new RogueServer("");
-		}
-		catch(Exception e){
-			System.err.println(e.getMessage());
-		}
-	}
-
-	@Override
-	public void render(GameContainer arg0, StateBasedGame arg1, Graphics arg2)
-			throws SlickException {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void update(GameContainer arg0, StateBasedGame arg1, int arg2)
-			throws SlickException {
-		// TODO Auto-generated method stub
-		
+		this.game = game;
 	}
 
 	@Override

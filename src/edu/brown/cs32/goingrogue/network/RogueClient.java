@@ -1,5 +1,6 @@
 package edu.brown.cs32.goingrogue.network;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.esotericsoftware.kryonet.Client;
@@ -12,6 +13,7 @@ import edu.brown.cs32.jcadler.GameLogic.GameLogic;
 public class RogueClient extends Listener implements RoguePort{
 	private Client net;
 	private String name;
+	private List<String> playerNames;
 	GameLogic g = null;
 	
 	public String getName(){
@@ -38,6 +40,12 @@ public class RogueClient extends Listener implements RoguePort{
 	public void send(Object o){
 		net.sendTCP(o);
 	}
+	
+	public List<String> getPlayerNames(){
+		//	Update me please - next tick will provide accurate info.
+		net.sendTCP("lobby");
+		return playerNames;
+	}
 
 	@Override
 	public void start(String host, int port) throws Exception{
@@ -57,7 +65,7 @@ public class RogueClient extends Listener implements RoguePort{
 
 	@Override
 	public void connected(Connection c){
-		net.sendTCP(name);
+		net.sendTCP("name\t" + name);
 	}
 	
 	@Override
