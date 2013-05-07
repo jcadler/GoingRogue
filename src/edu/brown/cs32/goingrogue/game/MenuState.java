@@ -6,37 +6,42 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.newdawn.slick.Font;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.gui.AbstractComponent;
+import org.newdawn.slick.gui.TextField;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
 
 public class MenuState extends BasicGameState{
-	private String background = "graphics/menu/mmbg.png";	//	Default is Main Menu!
-	private String menuData = "data/menus/mm.txt";
+	protected String background = "graphics/menu/mmbg.png";	//	Default is Main Menu!
+	protected String menuData = "data/menus/mm.txt";
 	private Image bg;
-	private List<TransitionButton> buttons;
+	private List<AbstractComponent> components;
+	protected List<TextField> inputFields;
 	//private GameContainer gc;	//	Needed?
 
 	private int id; //Used for StateBasedGame
-	
+
 	public void setID(int id){
 		this.id = id;
 	}
-	
+
 	public MenuState(){
 	}
-	
+
 	public MenuState(String background, String menuData, int id){
 		this.background = background;
 		this.menuData = menuData;
 		this.id = id;
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public void init(GameContainer gc, StateBasedGame game)
 			throws SlickException {
@@ -48,9 +53,11 @@ public class MenuState extends BasicGameState{
 			System.exit(1);
 		}
 		//this.gc = gc;
-		buttons = new ArrayList<TransitionButton>();
+		components = new ArrayList<>();
+		inputFields = new ArrayList<>();
 		Class from = FadeOutTransition.class;
 		Class to = FadeInTransition.class;
+		Font font = gc.getDefaultFont();
 		try{
 			File f = new File(menuData);
 			FileReader fr = new FileReader(f);
@@ -59,14 +66,35 @@ public class MenuState extends BasicGameState{
 			String line = r.readLine();
 			while(line != null){
 				String[] next = line.split("\t");
-				if(next.length != 4)
-					throw new Exception("Bad formatting on button!");
-				Image i = new Image(next[0]).getScaledCopy(200, 100);
-				int ns = Integer.parseInt(next[1]);
-				int x = Integer.parseInt(next[2]);
-				int y = Integer.parseInt(next[3]);
-				TransitionButton b = new TransitionButton(gc, i, x, y, from, to, ns, game);
-				buttons.add(b);
+				if(next.length != 5)
+					throw new Exception("Bad formatting in menu data: " + line + ", " + next.length);
+				int x = Integer.parseInt(next[3]);
+				int y = Integer.parseInt(next[4]);
+				AbstractComponent nextItem = null;
+				if(next[0].equals("button")){
+					Image i = new Image(next[1]).getScaledCopy(200, 100);
+					nextItem = new ActionButton(gc, i, x, y, game);
+					//	Manually create the proper ActionButtons in their required areas!
+				}
+				else if(next[0].equals("tbutton")){
+					int ns = Integer.parseInt(next[2]);
+					Image i = new Image(next[1]).getScaledCopy(200, 100);
+					nextItem = new TransitionButton(gc, i, x, y, from, to, ns, game);
+				}
+				else if(next[0].equals("textfield")){
+					int width = Integer.parseInt(next[1]);
+					int height = Integer.parseInt(next[2]);
+					TextField t = new TextField(gc, font, x, y, width, height);
+					inputFields.add(t);
+					nextItem = t;
+				}
+				else if(next[0].equals("label")){
+					nextItem = new SlickLabel(gc, font, next[1], x, y);
+				}
+				else{
+					throw new Exception("Bad formatting in menu data: " + line + ", " + next.length);
+				}
+				components.add(nextItem);
 				line = r.readLine();
 			}
 			r.close();
@@ -82,18 +110,17 @@ public class MenuState extends BasicGameState{
 	public void render(GameContainer gc, StateBasedGame game, Graphics g)
 			throws SlickException {
 		//	Draw background
-		//	Color c = Color.RED;
 		g.drawImage(bg, 0f, 0f);
-		for(TransitionButton t : buttons){
-			t.render(gc, g);
+		for(AbstractComponent c : components){
+			c.render(gc, g);
 		}
 	}
 
 	@Override
 	public void update(GameContainer gc, StateBasedGame game, int delta)
 			throws SlickException {
-		// TODO Auto-generated method stub
-		
+		//	Doesn't really update. :/
+
 	}
 
 	@Override

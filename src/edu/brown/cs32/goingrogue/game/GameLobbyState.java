@@ -2,29 +2,34 @@ package edu.brown.cs32.goingrogue.game;
 
 import java.util.List;
 
-import org.newdawn.slick.Image;
-import org.newdawn.slick.state.BasicGameState;
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
+import org.newdawn.slick.SlickException;
+import org.newdawn.slick.state.StateBasedGame;
 
 import edu.brown.cs32.goingrogue.network.RoguePort;
 
-public abstract class GameLobbyState extends BasicGameState{
-	protected String message = "";
-	protected String background = "graphics/menu/mmbg.png";	//	Default is Main Menu!
-	protected String menuData = "data/menus/mm.txt";
-	protected Image bg;
-	protected List<TransitionButton> buttons;
-	private int id; //	Used for StateBasedGame
+public abstract class GameLobbyState extends MenuState{
 	protected RoguePort port;	//	The core of the lobby!
 	protected MenuGame game;
+	private List<String> playerNames;
 	
-	public GameLobbyState(int id, MenuGame game){
-		this.id = id;
+	public GameLobbyState(String bg, String md, int id, MenuGame game){
+		super(bg, md, id);
 		this.game = game;
 	}
 
-	@Override
-	public int getID() {
-		return id;
+	public List<String> getPlayerNames(){
+		return playerNames;
 	}
 
+	public void setPlayerNames(List<String> playerNames){
+		this.playerNames = playerNames;
+	}
+
+	@Override
+	public void render(GameContainer gc, StateBasedGame game, Graphics g)
+			throws SlickException {
+		super.render(gc, game, g);
+	}
 }

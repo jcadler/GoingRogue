@@ -5,30 +5,29 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
-import edu.brown.cs32.goingrogue.network.RogueServer;
-
 public class GameLobbyServer extends GameLobbyState {
-	public GameLobbyServer(int id, MenuGame game){
-		super(id, game);
+	
+	public GameLobbyServer(String bg, String md, int id, MenuGame game){
+		super(bg, md, id, game);
 	}
 
 	@Override
-	public void init(GameContainer gc, StateBasedGame game)
+	public void init(GameContainer gc, StateBasedGame gm)
 			throws SlickException {
+		super.init(gc, gm);
 		try{
-			port = new RogueServer("");
+			//port = new RogueServer(game.getUserName());
+			//port.start("dummy", game.getPortNumber());
 		}
 		catch(Exception e){
 			System.err.println(e.getMessage());
 		}
-
 	}
 
 	@Override
 	public void render(GameContainer gc, StateBasedGame game, Graphics g)
 			throws SlickException {
-		// TODO Auto-generated method stub
-
+		super.render(gc, game, g);
 	}
 
 	@Override

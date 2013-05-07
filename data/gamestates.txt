@@ -1,3 +1,5 @@
 ms	graphics/menu/mmbg.png	data/menus/mm.txt
 ms	graphics/menu/mmbg.png	data/menus/op.txt
 gp	0	0
+lc	graphics/menu/mmbg.png	data/menus/lc.txt
+ls	graphics/menu/mmbg.png	data/menus/ls.txt
