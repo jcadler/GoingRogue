@@ -21,12 +21,24 @@ import edu.brown.cs32.goingrogue.util.CreatureSize;
 public class Player extends Creature {
 
     private InputHandler handle;
+    
+    private int _xp;
+    private int _level;
+    private int _maxHealth;
+    
+    private int _initMaxHealth;
 
     public Player(Point2D.Double pos, double direction, String name,
             List<Attribute> attributes, CreatureStats stats, String sprite, CreatureSize size) {
         super(pos, direction, name, attributes, stats, sprite, size);
         handle = new InputHandler(this);
-    }
+        
+        _xp=0;
+        _level=1;
+        _maxHealth=this.getStats().getHealth();
+        
+        _initMaxHealth=_maxHealth;
+	}
 
     @Override
     public List<Action> getActionsWithUpdate(int delta) {
@@ -42,7 +54,27 @@ public class Player extends Creature {
     public boolean isItem() {
         return false;
     }
-
+    
+    public int getXP() {
+    	return _xp;
+    }
+    
+    public void incXP(int amt) {
+    	_xp+=amt;
+    	while(_xp>getNextLevelXP()) {
+    		_xp-=getNextLevelXP();
+    		_level++;
+    	}
+    }
+    
+    public int getNextLevelXP() {
+    	return 100*(_level*_level + _level - 1);
+    }
+    
+    public int getMaxHealth() {
+    	return _initMaxHealth+20*(_level-1);
+    }
+    
     public InputHandler getHandler() {
         return handle;
     }
