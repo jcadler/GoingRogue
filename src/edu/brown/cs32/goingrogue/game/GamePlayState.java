@@ -630,8 +630,8 @@ public class GamePlayState extends BasicGameState{
 		//Bars for separating elements
 		int bar=10;
 		
-		int invSpace=gc.getWidth()-bar-150; //The width for displaying inventory
-		int xpSpace=150; //The width for displaying xp
+		int invSpace=gc.getWidth()-bar-200; //The width for displaying inventory
+		int xpSpace=gc.getWidth()-bar-invSpace; //The width for displaying xp
 		
 		int invHorzSlots=3;
 		int invVertSlots=2;
@@ -717,15 +717,14 @@ public class GamePlayState extends BasicGameState{
 							vertSlot-lineSize*1);
 				
 				g.setColor(Attribute.DEFENSE_POTION.color);
-				g.drawString(""+attackPotions,
+				g.drawString(""+defensePotions,
 							horzSlot+(int)(slotSize/3.),
 							vertSlot-lineSize*1);
 				
 				g.setColor(Attribute.HEALTH_POTION.color);
-				g.drawString(""+attackPotions,
+				g.drawString(""+healthPotions,
 							horzSlot+(int)(2*slotSize/3.),
 							vertSlot-lineSize*1);
-				
 				continue;
 			}
 			
@@ -738,21 +737,30 @@ public class GamePlayState extends BasicGameState{
 		
 		g.setColor(Color.white);
 		
+		int vertSlot=gc.getHeight()-vertDisplacement;
+		
 		g.drawString("XP", 
 					gc.getWidth()-xpSpace+horzDisplacement,
 					gc.getHeight()-vertDisplacement-lineSize*2);
 		g.drawString(""+player.getXP()+"/"+player.getNextLevelXP(),
 				gc.getWidth()-xpSpace+horzDisplacement,
-				gc.getHeight()-vertDisplacement-lineSize);
+				vertSlot-lineSize*1);
 		
 		g.drawString("Level",
 				gc.getWidth()-xpSpace/2+horzDisplacement,
-				gc.getHeight()-vertDisplacement-lineSize*2);
+				vertSlot-lineSize*2);
 		g.drawString(""+player.getLevel(),
 				gc.getWidth()-xpSpace/2+horzDisplacement,
-				gc.getHeight()-vertDisplacement-lineSize);
+				vertSlot-lineSize*1);
 		
-// 		g.drawString("Floor", , y)
+		vertSlot-=2*lineSize+bar;
+		
+ 		g.drawString("Floor",
+ 				gc.getWidth()-xpSpace+horzDisplacement,
+ 				vertSlot-lineSize*2);
+ 		g.drawString(""+game.getFloor(),
+ 				gc.getWidth()-xpSpace+horzDisplacement,
+ 				vertSlot-lineSize);
 	}
 	
 	
