@@ -19,14 +19,9 @@ public class GameLobbyClient extends GameLobbyState {
 	public void init(GameContainer gc, StateBasedGame gm)
 			throws SlickException {
 		super.init(gc, gm);
-		try{
-			//port = new RogueClient(game.getUserName());
-			//	TODO: Configure host name
-			//port.start("", game.getPortNumber());
-		}
-		catch(Exception e){
-			System.err.println(e.getMessage());
-		}
+		inputFields.get(0).setText(game.getUserName());
+		inputFields.get(1).setText(game.getHostName());
+		inputFields.get(2).setText("" + game.getPortNumber());
 	}
 
 	@Override
@@ -43,13 +38,16 @@ public class GameLobbyClient extends GameLobbyState {
 			sumDelta = 0;
 			if(port != null){
 				this.setPlayerNames(port.getPlayerNames());
+				//System.out.println(getPlayerNames());
 				String msg = "";
 				if(getPlayerNames() != null){
 					for(String elem : getPlayerNames()){
 						msg += "\n" + elem;
 					}
-					msg = msg.substring(1);
+					if(msg.length() > 0)
+						msg = msg.substring(1);
 					textBox.setMsg(msg);
+					//System.out.println("MSG: " + msg);
 				}
 			}
 		}
@@ -58,6 +56,9 @@ public class GameLobbyClient extends GameLobbyState {
 	@Override
 	public void buttonAction(){
 		try{
+			if(port != null){
+				port.close();
+			}
 			game.setUserName(inputFields.get(0).getText());
 			game.setHostName(inputFields.get(1).getText());
 			//	Default port number
@@ -66,7 +67,7 @@ public class GameLobbyClient extends GameLobbyState {
 				pn = Integer.parseInt(inputFields.get(2).getText());
 			}
 			catch(Exception e){
-				System.err.println("Bad port number!");
+				System.err.println("Bad port number! Defaulting to 54242...");
 			}
 			game.setPortNumber(pn);
 			port = new RogueClient(game.getUserName());

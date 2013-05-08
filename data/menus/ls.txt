@@ -5,4 +5,4 @@ textfield	200	25	100	250
 textfield	200	25	100	300
 label	Player Name	dummy	100	225
 label	Port Number	dummy	100	275
-textbox	250	150	75	350	Waiting for you to start...
+textbox	250	150	75	350	Waiting for game start!

@@ -1,4 +1,4 @@
 ms	graphics/menu/mmbg.png	data/menus/mm.txt
 gp	0	0
-lc	graphics/menu/mmbg.png	data/menus/lc.txt
-ls	graphics/menu/mmbg.png	data/menus/ls.txt
+lc	graphics/menu/mlbg.png	data/menus/lc.txt
+ls	graphics/menu/mlbg.png	data/menus/ls.txt
