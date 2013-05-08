@@ -98,8 +98,11 @@ public class AICreature extends Creature {
     private Corridor getCreatureCorridor(Creature creature) {
         for (Room room : _rooms) {
             for (Corridor corridor : room.getCorridors()) {
-                
+                if (corridor.getRectangle().contains(creature.getPosition())) {
+                    return corridor;
+                }
             }
         }
+        return null;
     }
 }
