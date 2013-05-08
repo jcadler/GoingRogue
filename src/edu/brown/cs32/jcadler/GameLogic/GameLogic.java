@@ -173,17 +173,26 @@ public class GameLogic
         }
         for(Action a : actions)
         {
+            int count=0;
             for(Creature c : creatures)
             {
                 if(a.withinRange(c))
                 {
-                    Creature test = a.actOnClone(c);
+                    Creature test;
+                    if(!a.type().equals(ActionType.PICKUP))
+                        test = a.actOnClone(c);
+                    else
+                    {
+                        a.act(c);
+                        continue;
+                    }
                     if(crrntMap.isValid(test.getCenterPosition()) && !c.containsAttribute(Attribute.PLAYER))
                         a.act(c);
                     else if(c.containsAttribute(Attribute.PLAYER) && crrntMap.isValid(test.getPosition()))
                         a.act(c);
                 }
             }
+            System.out.println(count);
         }
         List<Creature> dead = new ArrayList<>();
         boolean exit = false;
