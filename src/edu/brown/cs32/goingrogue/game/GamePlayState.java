@@ -407,7 +407,6 @@ public class GamePlayState extends BasicGameState{
 
 		//TEST
 			if(!c.containsAttribute(Attribute.PLAYER)) {
-				System.out.println("Actions: "+actionNum);
 			}
 			
 			if(actionToAnimate==null ||
