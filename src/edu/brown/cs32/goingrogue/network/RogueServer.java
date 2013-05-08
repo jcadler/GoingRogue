@@ -76,14 +76,14 @@ public class RogueServer extends Listener implements RoguePort{
 			}
 			g = new NetworkedGameLogic(this, map, players, players.get(-1));
 			for(Map.Entry<Integer, Player> entry : players.entrySet()){
-				if(entry.getKey() < 0)
-					continue;
-				try{
-					NetworkedGameLogic ngl = new NetworkedGameLogic(null, (NetworkedGameLogic) g, entry.getValue());
-					net.sendToTCP(entry.getKey(), ngl);
-				}
-				catch(Exception e){
-					System.err.println(e.getMessage());
+				if(entry.getKey() >= 0){
+					try{
+						NetworkedGameLogic ngl = new NetworkedGameLogic(null, (NetworkedGameLogic) g, entry.getValue());
+						net.sendToTCP(entry.getKey(), ngl);
+					}
+					catch(Exception e){
+						System.err.println(e.getMessage());
+					}
 				}
 			}
 			//	Find the game state and give it the game logic, enter game!
@@ -98,10 +98,10 @@ public class RogueServer extends Listener implements RoguePort{
 			}
 		}
 		catch(Exception e){
-			
+
 		}
 	}
-	
+
 	public void start(String dummy, int port) throws Exception
 	{
 		//	TCP only, default buffer should be ok.

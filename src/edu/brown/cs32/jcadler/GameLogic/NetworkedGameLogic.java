@@ -30,7 +30,7 @@ public class NetworkedGameLogic extends GameLogic
         for(Player p : players.values()){
         	setPlayer(p);
         }
-    	selectPlayer(player);
+    	selectPlayer(pl);
         addCreatures(10, 4);
         this.port = port;
         port.addGame(this);
@@ -38,6 +38,7 @@ public class NetworkedGameLogic extends GameLogic
     }
     public NetworkedGameLogic(RoguePort port, NetworkedGameLogic base, Player pl) throws IOException{
     	super((LogicMap)base.getMap(), base.getCreatures(), pl);
+    	selectPlayer(pl);
         this.port = port;
         port.addGame(this);
         isServer = (port instanceof RogueServer);	//	SHOULD be false
