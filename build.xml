@@ -1,97 +1,74 @@
-<?xml version="1.0" encoding="utf-8"?>
-<project default="jar">
-  <basename property="project" file="${basedir}"/>
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- You may freely edit this file. See commented blocks below for -->
+<!-- some examples of how to customize the build. -->
+<!-- (If you delete it and reopen the project it will be recreated.) -->
+<!-- By default, only the Clean and Build commands use this build script. -->
+<!-- Commands such as Run, Debug, and Test only use this build script if -->
+<!-- the Compile on Save feature is turned off for the project. -->
+<!-- You can turn off the Compile on Save (or Deploy on Save) setting -->
+<!-- in the project's Project Properties dialog box.-->
+<project name="GoingRogue" default="default" basedir=".">
+    <description>Builds, tests, and runs the project GoingRogue.</description>
+    <import file="nbproject/build-impl.xml"/>
+    <!--
 
-  <property name="app.src" location="src"/>
+    There exist several targets which are by default empty and which can be 
+    used for execution of your tasks. These targets are usually executed 
+    before and after some main targets. They are: 
 
-  <property name="app.derived" location="derived"/>
-  <property name="derived.classes" location="${app.derived}/classes"/>
-  <property name="derived.jar" location="${app.derived}/${project}.jar"/>
-  <property name="derived.javadoc" location="${app.derived}/javadoc"/>
-  <property name="derived.student" location="${app.derived}/student/${project}"/>
+      -pre-init:                 called before initialization of project properties
+      -post-init:                called after initialization of project properties
+      -pre-compile:              called before javac compilation
+      -post-compile:             called after javac compilation
+      -pre-compile-single:       called before javac compilation of single file
+      -post-compile-single:      called after javac compilation of single file
+      -pre-compile-test:         called before javac compilation of JUnit tests
+      -post-compile-test:        called after javac compilation of JUnit tests
+      -pre-compile-test-single:  called before javac compilation of single JUnit test
+      -post-compile-test-single: called after javac compilation of single JUunit test
+      -pre-jar:                  called before JAR building
+      -post-jar:                 called after JAR building
+      -post-clean:               called after cleaning build products
 
-  <path id="class.path">
-    <fileset dir="lib">
-      <include name="**/*.jar"/>
-      <include name="**/*.zip"/>
-    </fileset>
-  </path>
+    (Targets beginning with '-' are not intended to be called on their own.)
 
-  <target name="compile">
-    <mkdir dir="${derived.classes}"/>
-    <javac srcdir="${app.src}" destdir="${derived.classes}" debug="true" includeantruntime="true">
-      <classpath refid="class.path"/>
-      <compilerarg value="-Xlint:all"/>
-      <compilerarg value="-g"/>
-    </javac>
-  </target>
+    Example of inserting an obfuscator after compilation could look like this:
 
-  <target name="jar" depends="compile">
-    <jar destfile="${derived.jar}" basedir="${derived.classes}" includes="**/*.class">
-      <manifest>
-	<attribute name="Class-Path" value="../lib/guava-14.0.1.jar ../lib/slick.jar ../lib/kryonet-2.18-all.jar ../lib/lwjgl-2.9.0/jar/lwjgl.jar ../lib/lwjgl-2.9.0/jar/jinput.jar ../lib/lwjgl-2.9.0/jar/lwjgl_util.jar ../lib/lwjgl-2.9.0/jar/lzma.jar" />
-	<attribute name="Main-Class" value="edu.brown.cs32.goingrogue.game.MenuGame" />
-      </manifest>
-    </jar>
-  </target>
+        <target name="-post-compile">
+            <obfuscate>
+                <fileset dir="${build.classes.dir}"/>
+            </obfuscate>
+        </target>
 
-  <target name="unit_test" depends="jar">
-    <junit>
-      <classpath refid="class.path"/>
-      <classpath>
-        <pathelement location="${derived.jar}"/>
-      </classpath>
-      <formatter type="brief" usefile="false"/>
-      <sysproperty key="java.awt.headless" value="true"/>
-      <test name="${testcase}" if="testcase"/>
-      <batchtest unless="testcase">
-        <fileset dir="${derived.classes}" includes="**/*Test.class"/>
-      </batchtest>
-    </junit>
-  </target>
+    For list of available properties check the imported 
+    nbproject/build-impl.xml file. 
 
-  <target name="student" depends="jar">
-    <copy todir="${derived.student}">
-      <fileset file="build.xml"/>
-    </copy>
-    <copy todir="${derived.student}/src">
-      <fileset dir="${app.src}">
-        <exclude name="**/staff/**"/>
-      </fileset>
-    </copy>
 
-    <copy todir="${derived.student}/bin">
-      <fileset dir="bin"/>
-    </copy>
-    <apply executable="chmod" parallel="true">
-      <arg value="+x"/>
-      <fileset dir="${derived.student}/bin"/>
-    </apply>
+    Another way to customize the build is by overriding existing main targets.
+    The targets of interest are: 
 
-    <copy todir="${derived.student}/lib">
-      <fileset dir="lib"/>
-    </copy>
-    <copy file="${derived.jar}" tofile="${derived.student}/lib/${project}-staff.jar"/>
-  </target>
+      -init-macrodef-javac:     defines macro for javac compilation
+      -init-macrodef-junit:     defines macro for junit execution
+      -init-macrodef-debug:     defines macro for class debugging
+      -init-macrodef-java:      defines macro for class execution
+      -do-jar-with-manifest:    JAR building (if you are using a manifest)
+      -do-jar-without-manifest: JAR building (if you are not using a manifest)
+      run:                      execution of project 
+      -javadoc-build:           Javadoc generation
+      test-report:              JUnit report generation
 
-  <target name="javadoc">
-    <javadoc sourcepath="src" destdir="${derived.javadoc}">
-      <classpath refid="class.path"/>
-    </javadoc>
-  </target>
+    An example of overriding the target for project execution could look like this:
 
-  <target name="clean">
-    <delete dir="${app.derived}"/>
-  </target>
+        <target name="run" depends="GoingRogue-impl.jar">
+            <exec dir="bin" executable="launcher.exe">
+                <arg file="${dist.jar}"/>
+            </exec>
+        </target>
 
-  <target name="system_test" depends="compile,jar">
-    <exec executable="python">
-	    <arg value="/course/cs032/bin/tester.py"/>
-      <arg value="-t150.0"/>
-      <arg value="-aTime:"/>
-      <arg value="./bacon-student.xml"/>
-      <arg value="bin/bacon"/>
-    </exec>
-  </target>
+    Notice that the overridden target depends on the jar target and not only on 
+    the compile target as the regular run target does. Again, for a list of available 
+    properties which you can use, check the target you are overriding in the
+    nbproject/build-impl.xml file. 
 
+    -->
 </project>

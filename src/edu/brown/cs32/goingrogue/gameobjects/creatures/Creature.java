@@ -185,6 +185,12 @@ public abstract class Creature implements Cloneable {
         double yVal = _pos.getY() + (_size.getHeight() / 2.0);
         return new Point2D.Double(xVal, yVal);
     }
+    
+    public void setCenterPosition(Point2D center) {
+        double xVal = center.getX() - (_size.getWidth() / 2.0);
+        double yVal = center.getY() - (_size.getHeight() / 2.0);
+        _pos = new Point2D.Double(xVal, yVal);
+    }
 
     public void incurDamage(Creature attacker) {
         CombatUtil.incurDamage(attacker, this);
