@@ -36,6 +36,7 @@ public class Inventory {
     }
 
     public void add(Item item) {
+        System.out.println("adding item");
         if (item.containsAttribute(WEAPON)) {
             if (_weapon != null) {
                 swap(item, _weapon);
@@ -165,9 +166,16 @@ public class Inventory {
     }
 
     private void swap(Item i1, Item i2) {
-        ItemStats temp = i1.getGridItem().getItemStats();
-        i2.getGridItem().setItemStats(temp);
-        i1.getGridItem().setItemStats(i2.getGridItem().getItemStats());
+        System.out.println("___");
+        System.out.println(i1.getGridItem().getName());
+        System.out.println(i2.getGridItem().getName());
+        System.out.println("|||");
+        ItemStats temp = i2.getGridItem().getItemStats();
+        String name = i2.getGridItem().getName();
+        i2.getGridItem().setItemStats(i1.getGridItem().getItemStats());
+        i2.getGridItem().setName(i1.getGridItem().getName());
+        i1.getGridItem().setItemStats(temp);
+        i1.getGridItem().setName(name);
         i1.getGridItem().setPickedUp(false);
         i2.getGridItem().setPickedUp(false);
     }

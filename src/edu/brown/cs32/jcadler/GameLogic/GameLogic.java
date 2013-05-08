@@ -8,12 +8,14 @@ import java.util.List;
 import java.util.Random;
 
 import edu.brown.cs32.goingrogue.gameobjects.actions.Action;
+import edu.brown.cs32.goingrogue.gameobjects.actions.ActionType;
 import edu.brown.cs32.goingrogue.gameobjects.creatures.Attribute;
 import edu.brown.cs32.goingrogue.gameobjects.creatures.Creature;
 import edu.brown.cs32.goingrogue.gameobjects.creatures.Player;
 import edu.brown.cs32.goingrogue.gameobjects.creatures.factories.AICreatureFactory;
 import edu.brown.cs32.goingrogue.gameobjects.creatures.factories.PlayerFactory;
 import edu.brown.cs32.goingrogue.gameobjects.items.factories.GridItemFactory;
+import edu.brown.cs32.goingrogue.gameobjects.creatures.util.XPCalculator;
 import edu.brown.cs32.goingrogue.map.RogueMap;
 import edu.brown.cs32.jcadler.GameLogic.RogueMap.LogicMap;
 import edu.brown.cs32.jcadler.GameLogic.RogueMap.Room;
@@ -55,7 +57,7 @@ public class GameLogic
         player = PlayerFactory.create(creatures,crrntMap.getRooms());
         player.setName("debug");
         setPlayer(player);
-        addCreatures(5,2);
+        addCreatures(0,10);
         level=0;
     }
     
@@ -71,26 +73,31 @@ public class GameLogic
     {
         Random r = new Random();
         List<Room> rooms = crrntMap.getRooms();
-        int numC = r.nextInt(maxCreatures)+1;
-        int numI = r.nextInt(maxItems);
+
         for(Room rm : rooms)
         {
+            int numC;
+            if(maxCreatures!=0)
+                numC = r.nextInt(maxCreatures);
+            else
+                numC=0;
+            int numI = r.nextInt(maxItems);
             if(rm.isValid(player.getCenterPosition()))
                 continue;
             for(int i=0;i<numC;i++)
             {
-                Creature add = AICreatureFactory.create(creatures,crrntMap.getRooms(),level);
-                add.setCenterPosition(new Point2D.Double(r.nextInt(rm.getWidth())+rm.getX(),
+                Creature addC = AICreatureFactory.create(creatures,crrntMap.getRooms(),level);
+                addC.setCenterPosition(new Point2D.Double(r.nextInt(rm.getWidth())+rm.getX(),
                                                          r.nextInt(rm.getHeight())+rm.getY()));
-                creatures.add(add);
+                creatures.add(addC);
             }
-            numC=r.nextInt(maxCreatures)+1;
             for(int i=0;i<numI;i++)
             {
-                Creature add = GridItemFactory.create(creatures,crrntMap.getRooms(),level);
-                add.setCenterPosition(new Point2D.Double(r.nextInt(rm.getWidth())+rm.getX(),
-                                                         r.nextInt(rm.getHeight())+rm.getY()));
-                creatures.add(add);
+                Creature addI = GridItemFactory.create(creatures,crrntMap.getRooms(),level);
+                Point2D p = new Point2D.Double(r.nextInt(rm.getWidth())+rm.getX(),
+                                                         r.nextInt(rm.getHeight())+rm.getY());
+                addI.setCenterPosition(p);
+                creatures.add(addI);
             }
         }
         
@@ -174,9 +181,7 @@ public class GameLogic
                     if(crrntMap.isValid(test.getCenterPosition()) && !c.containsAttribute(Attribute.PLAYER))
                         a.act(c);
                     else if(c.containsAttribute(Attribute.PLAYER) && crrntMap.isValid(test.getPosition()))
-                    {
                         a.act(c);
-                    }
                 }
             }
         }
@@ -188,6 +193,9 @@ public class GameLogic
             if(c.isDead())
             {
                 dead.add(c);
+                player.incXP(XPCalculator.getXP(c));
+                if(c.containsAttribute(Attribute.ITEM))
+                    System.out.println(c.getName());
                 if(!c.containsAttribute(Attribute.ITEM))
                 {
                     Creature item = GridItemFactory.create(creatures,crrntMap.getRooms(),level);
@@ -212,7 +220,7 @@ public class GameLogic
             creatures.clear();
             actions.clear();
             setPlayer(player);
-            addCreatures(5,2);
+            addCreatures(0,2);
             setRandomExit();
             level++;
         }
