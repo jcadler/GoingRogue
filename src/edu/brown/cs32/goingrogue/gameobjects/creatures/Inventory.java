@@ -2,11 +2,11 @@ package edu.brown.cs32.goingrogue.gameobjects.creatures;
 
 import edu.brown.cs32.goingrogue.gameobjects.actions.QuaffAction;
 import edu.brown.cs32.goingrogue.gameobjects.items.Item;
-import edu.brown.cs32.goingrogue.graphics.Text;
 
 import java.util.List;
 import static edu.brown.cs32.goingrogue.gameobjects.creatures.Attribute.*;
 import edu.brown.cs32.goingrogue.gameobjects.items.GridItem;
+import edu.brown.cs32.goingrogue.gameobjects.items.Potion;
 import java.util.ArrayList;
 
 /**
@@ -20,7 +20,7 @@ public class Inventory {
     private Item _shield;
     private Item _helmet;
     private Item _boots;
-    private List<Item> _potions;
+    private List<Potion> _potions;
     private Creature _creature;
     private final int MAX_NUM_POTIONS = 5;
 
@@ -62,7 +62,7 @@ public class Inventory {
             _boots = item;
         } else if (item.containsAttribute(POTION)) {
             if (_potions.size() < MAX_NUM_POTIONS) {
-                _potions.add(item);
+                _potions.add((Potion) item);
             } else {
                 _creature.addAction(new QuaffAction(item, _creature));
             }
