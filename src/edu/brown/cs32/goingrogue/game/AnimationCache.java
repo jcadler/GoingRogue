@@ -3,6 +3,7 @@ package edu.brown.cs32.goingrogue.game;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import edu.brown.cs32.goingrogue.gameobjects.actions.Action;
 import edu.brown.cs32.goingrogue.gameobjects.creatures.Creature;
@@ -41,10 +42,10 @@ public class AnimationCache {
 		}
 	}
 	
-	HashMap<Creature, AnimationData> cache;
+	ConcurrentHashMap<Creature, AnimationData> cache;
 	
 	public AnimationCache() {
-		cache=new HashMap<>();
+		cache=new ConcurrentHashMap<>();
 	}
 	
 	/** Adds a creature and its animation data to the cache
