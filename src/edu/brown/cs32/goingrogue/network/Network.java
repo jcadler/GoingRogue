@@ -1,6 +1,8 @@
 package edu.brown.cs32.goingrogue.network;
 
+import java.awt.Rectangle;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -73,6 +75,10 @@ public class Network {
 		k.register(List.class);
 		k.register(Point2D.class);
 		k.register(java.awt.geom.Point2D.Double.class);
+		k.register(Rectangle2D.class);
+		k.register(java.awt.geom.Rectangle2D.Double.class);
+		k.register(Rectangle.class);
+		k.register(java.awt.Rectangle.Double.class);
 		k.register(Attribute.class);
 		k.register(CreatureStats.class);
 		k.register(Stats.class);
