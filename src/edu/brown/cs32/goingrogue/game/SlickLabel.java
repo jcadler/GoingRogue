@@ -7,15 +7,23 @@ import org.newdawn.slick.gui.AbstractComponent;
 import org.newdawn.slick.gui.GUIContext;
 
 public class SlickLabel extends AbstractComponent{
-	private Font f;
-	private String msg;
-	private int x, y;
+	protected Font f;
+	protected String msg;
+	protected int x, y;
 	public SlickLabel(GUIContext gc, Font f, String msg, int x, int y){
 		super(gc);
 		this.f = f;
 		this.msg = msg;
 		this.x = x;
 		this.y = y;
+	}
+
+	public String getMsg(){
+		return msg;
+	}
+
+	public void setMsg(String msg){
+		this.msg = msg;
 	}
 
 	@Override

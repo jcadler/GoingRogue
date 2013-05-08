@@ -21,6 +21,7 @@ import org.newdawn.slick.state.transition.FadeOutTransition;
 public class MenuState extends BasicGameState{
 	protected String background = "graphics/menu/mmbg.png";	//	Default is Main Menu!
 	protected String menuData = "data/menus/mm.txt";
+	protected SlickTextBox textBox;
 	private Image bg;
 	private List<AbstractComponent> components;
 	protected List<TextField> inputFields;
@@ -66,30 +67,39 @@ public class MenuState extends BasicGameState{
 			String line = r.readLine();
 			while(line != null){
 				String[] next = line.split("\t");
-				if(next.length != 5)
+				if(next.length != 5 && !(next.length == 6 && next[0].equals("textbox")))
 					throw new Exception("Bad formatting in menu data: " + line + ", " + next.length);
 				int x = Integer.parseInt(next[3]);
 				int y = Integer.parseInt(next[4]);
 				AbstractComponent nextItem = null;
 				if(next[0].equals("button")){
 					Image i = new Image(next[1]).getScaledCopy(200, 100);
-					nextItem = new ActionButton(gc, i, x, y, game);
+					ActionButton a = new ActionButton(gc, i, x, y, game, this);
+					nextItem = a;
 					//	Manually create the proper ActionButtons in their required areas!
 				}
 				else if(next[0].equals("tbutton")){
 					int ns = Integer.parseInt(next[2]);
-					Image i = new Image(next[1]).getScaledCopy(200, 100);
-					nextItem = new TransitionButton(gc, i, x, y, from, to, ns, game);
+					Image i = new Image(next[1]).getScaledCopy(120, 60);
+					nextItem = new TransitionButton(gc, i, x, y, from, to, ns, game, this);
 				}
 				else if(next[0].equals("textfield")){
 					int width = Integer.parseInt(next[1]);
 					int height = Integer.parseInt(next[2]);
 					TextField t = new TextField(gc, font, x, y, width, height);
+					t.setAcceptingInput(true);
 					inputFields.add(t);
 					nextItem = t;
 				}
 				else if(next[0].equals("label")){
 					nextItem = new SlickLabel(gc, font, next[1], x, y);
+				}
+				else if(next[0].equals("textbox")){
+					String msg = next[5];
+					int width = Integer.parseInt(next[1]);
+					int height = Integer.parseInt(next[2]);
+					textBox = new SlickTextBox(gc, font, msg, x, y, width, height);
+					nextItem = textBox;
 				}
 				else{
 					throw new Exception("Bad formatting in menu data: " + line + ", " + next.length);
@@ -122,10 +132,20 @@ public class MenuState extends BasicGameState{
 		//	Doesn't really update. :/
 
 	}
+	
+	/** Clicking on an ActionButton calls this function **/
+	public void buttonAction(){
+	}
 
 	@Override
 	public int getID() {
 		return id;
 	}
 
+	@Override
+	public void leave(GameContainer gc, StateBasedGame gm){
+		for(AbstractComponent c : components){
+			
+		}
+	}
 }
