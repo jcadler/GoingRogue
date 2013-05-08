@@ -10,6 +10,7 @@ import edu.brown.cs32.goingrogue.gameobjects.actions.PickupAction;
 import edu.brown.cs32.goingrogue.gameobjects.actions.PickupRange;
 import edu.brown.cs32.goingrogue.gameobjects.actions.Action;
 import edu.brown.cs32.goingrogue.gameobjects.actions.ActionType;
+import edu.brown.cs32.goingrogue.gameobjects.actions.QuaffAction;
 import edu.brown.cs32.goingrogue.gameobjects.items.Item;
 import edu.brown.cs32.goingrogue.gameobjects.items.Potion;
 import edu.brown.cs32.goingrogue.util.CreatureSize;
@@ -89,11 +90,10 @@ public class Player extends Creature {
         public void pickUp() {
             addAction(new PickupAction(new PickupRange(player), player));
         }
-        
-        public void quaff(Item item) {
-            if (item.getGridItem().getAttributes().contains(Attribute.POTION)) {
-                Potion potion = (Potion) item;
-                potion.act(player);
+
+        public void quaff() {
+            if (getInventory().getNumPotions() > 0) {
+                addAction(new QuaffAction(getInventory().getPotion(0), player));
             }
         }
     }
