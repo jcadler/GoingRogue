@@ -13,9 +13,9 @@ import edu.brown.cs32.goingrogue.gameobjects.items.Potion;
 import java.util.ArrayList;
 
 /**
-*
-* @author Ben Weedon (bweedon)
-*/
+ *
+ * @author Ben Weedon (bweedon)
+ */
 public class Inventory {
 
     private Item _weapon;
@@ -39,17 +39,18 @@ public class Inventory {
 
     public void add(Item item) {
         if (item.containsAttribute(WEAPON)) {
-//            if (_weapon != null) {
-//                swap(item, _weapon);
-//            } else {
+            if (_weapon != null) {
+                swap(item, _weapon);
+            } else {
                 _weapon = item;
-//            }
+            }
         } else if (item.containsAttribute(ARMOUR)) {
-//            if (_armour != null) {
-//                swap(item, _armour);
-//            } else {
+            if (_armour != null) {
+                System.out.println("Armour: " + _armour);
+                swap(item, _armour);
+            } else {
                 _armour = item;
-//            }
+            }
         } else if (item.containsAttribute(SHIELD)) {
             if (_shield != null) {
                 swap(item, _shield);
@@ -57,17 +58,17 @@ public class Inventory {
                 _shield = item;
             }
         } else if (item.containsAttribute(HELMET)) {
-//            if (_helmet != null) {
-//                swap(item, _helmet);
-//            } else {
+            if (_helmet != null) {
+                swap(item, _helmet);
+            } else {
                 _helmet = item;
-//            }
+            }
         } else if (item.containsAttribute(BOOTS)) {
-//            if (_boots != null) {
-//                swap(item, _boots);
-//            } else {
+            if (_boots != null) {
+                swap(item, _boots);
+            } else {
                 _boots = item;
-//            }
+            }
         } else if (item.containsAttribute(POTION_TYPE)) {
             if (_potions.size() < MAX_NUM_POTIONS) {
                 _potions.add(makePotion(item));
@@ -88,11 +89,11 @@ public class Inventory {
     public Item getShield() {
         return _shield;
     }
-    
+
     public Item getHelmet() {
         return _helmet;
     }
-    
+
     public Item getBoots() {
         return _boots;
     }
@@ -164,7 +165,7 @@ public class Inventory {
         }
         return thingsToAdd;
     }
-    
+
     private void swap(Item i1, Item i2) {
         ItemStats temp = i1.getGridItem().getItemStats();
         i2.getGridItem().setItemStats(temp);
@@ -172,7 +173,7 @@ public class Inventory {
         i1.getGridItem().setPickedUp(false);
         i2.getGridItem().setPickedUp(false);
     }
-    
+
     private Potion makePotion(Item item) {
         Potion returnPotion = null;
         if (item.containsAttribute(HEALTH_POTION)) {
