@@ -15,6 +15,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
@@ -58,8 +59,11 @@ public class GamePlayState extends BasicGameState{
 	RogueMap map;
 	AnimationCache cache;
 	
+	String deathMessage;
+	
 	private int id; //Used for StateBasedGame
 
+	
 	public void setID(int id){
 		this.id = id;
 	}
@@ -99,6 +103,8 @@ public class GamePlayState extends BasicGameState{
 				return keysPressed.get(i1)-keysPressed.get(i2);
 			}
 		});
+		
+		deathMessage=DeathMessage.getRandomMessage();
 
 		//Initializes gameplay
 		try {
@@ -110,6 +116,16 @@ public class GamePlayState extends BasicGameState{
 			//Should not happen
 			e.printStackTrace();
 		}
+	}
+	
+	public GameLogic getGameLogic() {
+		return game;
+	}
+	
+	public void setGameLogic(GameLogic g) {
+		game=g;
+		player=game.getPlayer();
+		map=game.getMap();
 	}
 
 	public Player getPlayer() {
@@ -188,6 +204,20 @@ public class GamePlayState extends BasicGameState{
 	 * @param g The graphics component used to draw the game
 	 */
 	public void render(Graphics g) {
+		
+		g.setBackground(Color.black);
+		
+		if(player.isDead()) {
+			
+			org.newdawn.slick.Font f=g.getFont();
+			int width=f.getWidth(deathMessage);
+			g.setColor(Color.red);
+			g.drawString(deathMessage,
+						gc.getWidth()/2-width/2,
+						gc.getHeight()/2);
+			
+			return;
+		}
 		
 		Point2D center=player.getPosition();
 		
