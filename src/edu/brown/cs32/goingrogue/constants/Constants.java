@@ -17,5 +17,5 @@ public class Constants {
 		= new CreatureStats(100, 70, 100, 50, .01);
 	
 	//Default image rate for loaded animations
-	public static final int DEFAULT_IMAGE_RATE=10;
+	public static final int DEFAULT_IMAGE_RATE=5;
 }

@@ -2,7 +2,6 @@ package edu.brown.cs32.goingrogue.game;
 
 import static java.lang.Math.toDegrees;
 
-import java.awt.Font;
 import java.awt.geom.Point2D;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -29,6 +28,7 @@ import edu.brown.cs32.goingrogue.gameobjects.creatures.Attribute;
 import edu.brown.cs32.goingrogue.gameobjects.creatures.Creature;
 import edu.brown.cs32.goingrogue.gameobjects.creatures.Player;
 import edu.brown.cs32.goingrogue.gameobjects.items.Item;
+import edu.brown.cs32.goingrogue.gameobjects.items.Potion;
 import edu.brown.cs32.goingrogue.graphics.Animation;
 import edu.brown.cs32.goingrogue.graphics.GraphicsLoader;
 import edu.brown.cs32.goingrogue.graphics.GraphicsPaths;
@@ -637,6 +637,9 @@ public class GamePlayState extends BasicGameState{
 		int invHorzSlots=3;
 		int invVertSlots=2;
 		
+		int healthRectHeight=5;
+		int boundingRectHeight=vertDisplacement+invVertSlots*(2*lineSize+vertBar)-vertBar;
+		
 		//The number of potion types to display
 		int numPotions=3;
 		
@@ -651,46 +654,72 @@ public class GamePlayState extends BasicGameState{
 		titles[0][0]=new Text("Weapon", Color.white);
 		titles[1][0]=new Text("Armour", Color.white);
 		titles[2][0]=new Text("Shield", Color.white);
-		titles[0][1]=new Text("Shield", Color.white);
-		titles[1][1]=new Text("Shield", Color.white);
+		titles[0][1]=new Text("Helmet", Color.white);
+		titles[1][1]=new Text("Boots", Color.white);
 		titles[2][1]=new Text("Potions", Color.white);
 		
 		Item weapon=player.getInventory().getWeapon();
 		Item armour=player.getInventory().getArmour();
 		Item shield=player.getInventory().getShield();
 		Item helmet=player.getInventory().getHelmet();
-		Item helmet=player.getInventory().getBoots();
+		Item boots=player.getInventory().getBoots();
 		
-		items[0]= Text.getText(weapon);
-		items[1]= Text.getText(armour);
-		items[2]= Text.getText(shield);
-		items[3]= new Text(""+player.getInventory().getNumPotions(),
-							new Color(216, 65, 183));
+		List<Potion> potions = new ArrayList<>();
+		int attackPotions=0;
+		int defensePotions=0;
+		int healthPotions=0;
+		for(int i=0; i<player.getInventory().getNumPotions(); i++) {
+			Potion p=(Potion)player.getInventory().getPotion(i);
+			if(p.containsAttribute(Attribute.ATTACK_POTION)) {
+				attackPotions++;
+			} else if(p.containsAttribute(Attribute.DEFENSE_POTION)) {
+				defensePotions++;
+			} else if(p.containsAttribute(Attribute.HEALTH_POTION)) {
+				healthPotions++;
+			}
+		}
 		
-		
-		int ribbonRectHeight=5;
-		int boundingRectHeight=vertDisplacement+lineSize*2+ribbonRectHeight+8;
+		items[0][0]= Text.getText(weapon);
+		items[1][0]= Text.getText(armour);
+		items[2][0]= Text.getText(shield);
+		items[0][1]= Text.getText(helmet);
+		items[1][1]= Text.getText(boots);
+		Text attackPotionText= new Text(""+attackPotions, Attribute.ATTACK_POTION.color);
+		Text defensePotionText= new Text(""+attackPotions, Attribute.DEFENSE_POTION.color);
+		Text healthPotionText= new Text(""+attackPotions, Attribute.HEALTH_POTION.color);
 		
 		g.setColor(Color.black);
 		g.fill(new Rectangle(0, gc.getHeight()-boundingRectHeight, gc.getWidth(), boundingRectHeight));
 		
 		g.setColor(Color.red);
 		g.fill(new Rectangle(0,
-							gc.getHeight()-boundingRectHeight-ribbonRectHeight,
+							gc.getHeight()-boundingRectHeight-healthRectHeight,
 							gc.getWidth()*player.getHealth()/player.getMaxHealth(),
-							ribbonRectHeight));
+							healthRectHeight));
 		
-		for(int i=0; i<numItems; i++) {
+		for(int i=0; i<invHorzSlots; i++)
+		for(int j=0; j<invVertSlots; j++) {
 			
-			g.setColor(titles[i].getColor());
-			g.drawString(titles[i].getText(),
-							horzTextSlots[i]+horzDisplacement,
-							gc.getHeight()-vertDisplacement-lineSize*2);
+			//Handles potions
+			if(i==2 && j==1) {
+				continue;
+			}
 			
-			g.setColor(items[i].getColor());
-			g.drawString(items[i].getText(),
-					horzTextSlots[i]+horzDisplacement,
-					gc.getHeight()-vertDisplacement-lineSize);
+			int horzTextSlot=(i*invSpace)/invHorzSlots;
+			int vertTextSlot=gc.getHeight()-vertDisplacement;
+			for(int vertSlotIndex=j; vertSlotIndex<invVertSlots-1; vertSlotIndex++) {
+				vertTextSlot-=2*lineSize+vertBar;
+			}
+			
+			g.setColor(titles[i][j].getColor());
+			g.drawString(titles[i][j].getText(),
+							horzTextSlot+horzDisplacement,
+							vertTextSlot-lineSize*2);
+			
+			g.setColor(items[i][j].getColor());
+			g.drawString(items[i][j].getText(),
+					horzTextSlot+horzDisplacement,
+					vertTextSlot-lineSize*1);
 			
 			g.setColor(Color.white);
 			g.drawString("XP",

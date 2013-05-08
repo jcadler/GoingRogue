@@ -32,6 +32,11 @@ public class GraphicsLoader {
 	 * (Same as loadImageAt, but it automatically appends "1.png" to the end of the path for ease)
 	 */
 	public static Image loadImage(String path) throws SlickException {
+		
+		if(path=="null") {
+			throw new RuntimeException("Testing!");
+		}
+		
 		path+="1.png";
 		
 		return loadImageAt(path);
