@@ -17,7 +17,7 @@ import edu.brown.cs32.goingrogue.util.Text;
  * @author Ben Weedon (bweedon)
  */
 public class RandomDataUtil {
-	
+
     public static List<Attribute> randomCreatureAttributes(int playerLevel) {
         List<Attribute> attributes = new ArrayList<>();
         Random generator = new Random(System.currentTimeMillis());
@@ -107,14 +107,14 @@ public class RandomDataUtil {
                 break;
             case 3:
                 attributes.add(POTION_TYPE);
-                choice=generator.nextInt(3);
-                switch(choice) {
-                	case 1:
-                		attributes.add(ATTACK_POTION);
-                	case 2:
-                		attributes.add(DEFENSE_POTION);
-                	case 3:
-                		attributes.add(HEALTH_POTION);
+                choice = generator.nextInt(3);
+                switch (choice) {
+                    case 1:
+                        attributes.add(ATTACK_POTION);
+                    case 2:
+                        attributes.add(DEFENSE_POTION);
+                    case 3:
+                        attributes.add(HEALTH_POTION);
                 }
                 break;
             case 4:
@@ -177,8 +177,8 @@ public class RandomDataUtil {
     }
 
     public static String getItemName(List<Attribute> attributes) {
-    	
-    	return Text.getText(attributes).getText();
+
+        return Text.getText(attributes).getText();
     }
 
     public static String getSprite(List<Attribute> attributes) {
@@ -207,11 +207,11 @@ public class RandomDataUtil {
         } else if (attributes.contains(SHIELD)) {
             return SHIELD_SPRITE.path;
         } else if (attributes.contains(ATTACK_POTION)) {
-        	return ATTACK_POTION_SPRITE.path;
+            return ATTACK_POTION_SPRITE.path;
         } else if (attributes.contains(DEFENSE_POTION)) {
-        	return DEFENSE_POTION_SPRITE.path;
+            return DEFENSE_POTION_SPRITE.path;
         } else if (attributes.contains(HEALTH_POTION)) {
-        	return HEALTH_POTION_SPRITE.path;
+            return HEALTH_POTION_SPRITE.path;
         } else if (attributes.contains(HELMET)) {
             return HELMET_SPRITE.path;
         } else if (attributes.contains(BOOTS)) {

@@ -46,11 +46,11 @@ public class AICreature extends Creature {
         List<Action> returnActions = new ArrayList<>();
         Point2D targetPoint;
         //if (getCreatureRoom(closestCreature) != null) {
-            if (closestCreature != null) {
-                targetPoint = closestCreature.getPosition();
-            } else {
-                return new ArrayList<>();
-            }
+        if (closestCreature != null) {
+            targetPoint = closestCreature.getPosition();
+        } else {
+            return new ArrayList<>();
+        }
 //        } else {
 //            return new ArrayList<>();
 //        }
@@ -60,7 +60,7 @@ public class AICreature extends Creature {
 //            Point2D corridorEntrance = getEntrance(playerCorridor, creatureRoom);
 //            targetPoint = corridorEntrance;
 //        }
-        
+
         setDirection(getAngleFromTo(getPosition(), targetPoint));
         if (getPosition().distance(targetPoint) < DIST_TO_ATTACK) {
             returnActions.add(
@@ -115,12 +115,12 @@ public class AICreature extends Creature {
     }
 
     private Point2D getEntrance(Corridor corridor, Room room) {
-        
-    	int posInRoom;
-    	
-        Room r=corridor.getStart();
-        String id=r.getID();
-        String rid=room.getID();
+
+        int posInRoom;
+
+        Room r = corridor.getStart();
+        String id = r.getID();
+        String rid = room.getID();
         if (id.equals(rid)) {
             posInRoom = corridor.getPos1();
         } else if (corridor.getEnd().getID().equals(room.getID())) {
