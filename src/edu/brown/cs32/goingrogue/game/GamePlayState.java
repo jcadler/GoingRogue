@@ -178,13 +178,13 @@ public class GamePlayState extends BasicGameState{
 		Player p = getPlayer();
 		
 		for(int key: keyEventQueue) {
-			if(key==KeyCodes.W || key==KeyCodes.UP) p.getHandler().moveUp();
-			if(key==KeyCodes.S || key==KeyCodes.DOWN) p.getHandler().moveDown();
-			if(key==KeyCodes.A || key==KeyCodes.LEFT) p.getHandler().moveLeft();
-			if(key==KeyCodes.D || key==KeyCodes.RIGHT) p.getHandler().moveRight();
-			if(key==KeyCodes.SPACE) p.getHandler().attack();
-			if(key==KeyCodes.E) p.getHandler().pickUp();
-			if(key==KeyCodes.R); p.getHandler().quaff();
+			if(key==KeyCodes.W || key==KeyCodes.UP) p.moveUp();
+			if(key==KeyCodes.S || key==KeyCodes.DOWN) p.moveDown();
+			if(key==KeyCodes.A || key==KeyCodes.LEFT) p.moveLeft();
+			if(key==KeyCodes.D || key==KeyCodes.RIGHT) p.moveRight();
+			if(key==KeyCodes.SPACE) p.attack();
+			if(key==KeyCodes.E) p.pickUp();
+			if(key==KeyCodes.R); p.quaff();
 			if(key==KeyCodes.ESC) System.exit(0);
 			
 		}

@@ -19,6 +19,7 @@ public class DeathMessage {
 			messages.add("You are dead");
 			messages.add("You have died");
 			messages.add("You are death");
+			messages.add("You are died");
 			messages.add("All is death");
 			messages.add("...And that\'s the way the cookie crumbles");
 			messages.add("Dead is you");
@@ -31,6 +32,7 @@ public class DeathMessage {
 			messages.add("TODO insert brief life description");
 			messages.add("Y so emu");
 			messages.add("Ashes to ashes and dust to dust");
+			messages.add(":/");
 		}
 		
 		return messages.get((int)(Math.random()*messages.size()));
