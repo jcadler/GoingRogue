@@ -1,9 +1,12 @@
 package edu.brown.cs32.goingrogue.network;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import org.newdawn.slick.state.GameState;
 import org.newdawn.slick.state.StateBasedGame;
@@ -23,6 +26,7 @@ import edu.brown.cs32.goingrogue.gameobjects.creatures.factories.PlayerFactory;
 import edu.brown.cs32.jcadler.GameLogic.GameLogic;
 import edu.brown.cs32.jcadler.GameLogic.NetworkedGameLogic;
 import edu.brown.cs32.jcadler.GameLogic.RogueMap.LogicMap;
+import edu.brown.cs32.jcadler.GameLogic.RogueMap.MapReader;
 /** Basic networking for a host **/
 public class RogueServer extends Listener implements RoguePort{
 	private Server net;
@@ -67,55 +71,66 @@ public class RogueServer extends Listener implements RoguePort{
 
 	public void beginGame(){
 		try{
-			LogicMap map = LogicMap.getRandomMap();
+	        File folder = new File("Maps");
+	        File map;
+	        List<File> maps = Arrays.asList(folder.listFiles());
+	        if(maps.size()==1)
+	            map=maps.get(0);
+	        else
+	            map=maps.get((new Random()).nextInt(maps.size()));
+			System.out.println(map);
 			//	Initialize/ build players
 			for(Map.Entry<Integer, String> entry : lobby.entrySet()){
 				Player p = PlayerFactory.create(null, null);
 				p.setName(entry.getValue());
 				players.put(entry.getKey(), p);
 			}
-			g = new NetworkedGameLogic(this, map, players, players.get(-1));
+			LogicMap m = MapReader.readMap(map);
+			g = new NetworkedGameLogic(this, m, players, players.get(-1));
+			g.setMap(null);
 			for(Map.Entry<Integer, Player> entry : players.entrySet()){
 				if(entry.getKey() >= 0){
 					try{
 						NetworkedGameLogic ngl = new NetworkedGameLogic(null, (NetworkedGameLogic) g, entry.getValue());
 						net.sendToTCP(entry.getKey(), ngl);
+						net.sendToTCP(entry.getKey(), map);
 					}
 					catch(Exception e){
 						System.err.println(e.getMessage());
 					}
 				}
 			}
+			g.setMap(m);
+			System.err.println(((NetworkedGameLogic) g).getPort());
 			//	Find the game state and give it the game logic, enter game!
 			for(int it = 0; it < game.getStateCount(); it++){
 				GameState gs = game.getState(it);
 				if(gs instanceof GamePlayState){
 					//TODO:
-					//gs.setGameLogic(g);
+					((GamePlayState) gs).setGameLogic(g);
 					game.enterState(it, new FadeOutTransition(), new FadeInTransition());
 					return;
 				}
 			}
 		}
 		catch(Exception e){
-
+			System.err.println("Beginning game: " + e.getMessage());
 		}
 	}
 
 	public void start(String dummy, int port) throws Exception
 	{
+		players = new HashMap<>();
+		lobby = new HashMap<>();
+		//	Add the host to the lobby
+		lobby.put(-1, getName());
+		
 		//	TCP only, default buffer should be ok.
 		net = new Server();
 		net.start();
 		Network.register(net);
 		net.bind(port);
 		net.addListener(this);
-
-		players = new HashMap<>();
-		lobby = new HashMap<>();
-		//	Add the host to the lobby
-		lobby.put(-1, getName());
-		//	TODO: Be able to convert this lobby into an actual game, move entries to players.
 	}
 
 	public void updateClients(Object o){
@@ -182,6 +197,7 @@ public class RogueServer extends Listener implements RoguePort{
 		if(o instanceof Action){
 			if(g != null){
 				players.get(c.getID()).addAction((Action) o);
+				System.out.println("Got action from " + c.getID());
 			}
 		}
 		//	Players reporting their names, asking for lobby info, etc.

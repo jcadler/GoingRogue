@@ -8,6 +8,7 @@ public class CreatureStats extends Stats {
 	
 	int _maxHealth;
 	
+	public CreatureStats(){}
     public CreatureStats(double attack, double defense, int health, double accuracy, double speed) {
         super(attack, defense, health, accuracy, speed);
         

@@ -1,5 +1,6 @@
 package edu.brown.cs32.goingrogue.network;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,9 +16,12 @@ import com.esotericsoftware.kryonet.EndPoint;
 import com.esotericsoftware.kryonet.Listener;
 
 import edu.brown.cs32.goingrogue.game.GamePlayState;
+import edu.brown.cs32.goingrogue.gameobjects.actions.Action;
 import edu.brown.cs32.goingrogue.gameobjects.creatures.Creature;
 import edu.brown.cs32.jcadler.GameLogic.GameLogic;
 import edu.brown.cs32.jcadler.GameLogic.NetworkedGameLogic;
+import edu.brown.cs32.jcadler.GameLogic.RogueMap.LogicMap;
+import edu.brown.cs32.jcadler.GameLogic.RogueMap.MapReader;
 /** Basic networking for a non-host player **/
 public class RogueClient extends Listener implements RoguePort{
 	private Client net;
@@ -53,6 +57,8 @@ public class RogueClient extends Listener implements RoguePort{
 	}
 	/** Send action objects to the server! **/
 	public void send(Object o){
+		if(o instanceof Action)
+			System.out.println("Sending action!");
 		net.sendTCP(o);
 	}
 
@@ -123,10 +129,6 @@ public class RogueClient extends Listener implements RoguePort{
 					System.out.println(cmd[1]);
 					net.close();
 				}
-				else if(cmd[0].equals("map")){
-					//	TODO: Not actually a thing yet - manage later...
-					//	g.setMap(cmd[1]);
-				}
 				else if(cmd[0].equals("lobby")){
 					//System.out.println(o);
 					playerNames.clear();
@@ -139,21 +141,31 @@ public class RogueClient extends Listener implements RoguePort{
 
 			}
 		}
+		else if(o instanceof File){
+			if(g != null ){
+				try {
+					LogicMap m = MapReader.readMap((File) o);
+					g.setMap(m);
+				} catch (Exception e){
+					System.err.println("Map reading error: " + e.getMessage());
+				}
+			}
+			//	Find the game state and give it the game logic, enter game!
+			for(int it = 0; it < game.getStateCount(); it++){
+				GameState gs = game.getState(it);
+				if(gs instanceof GamePlayState){
+					//TODO:
+					((GamePlayState) gs).setGameLogic(g);
+					game.enterState(it, new FadeOutTransition(), new FadeInTransition());
+					return;
+				}
+			}
+		}
 		//	Let the games begin!
 		else if(o instanceof NetworkedGameLogic){
 			NetworkedGameLogic ngl = (NetworkedGameLogic) o;
 			try {
 				g = new NetworkedGameLogic(this, ngl, ngl.getPlayer());
-				//	Find the game state and give it the game logic, enter game!
-				for(int it = 0; it < game.getStateCount(); it++){
-					GameState gs = game.getState(it);
-					if(gs instanceof GamePlayState){
-						//TODO:
-						//gs.setGameLogic(g);
-						game.enterState(it, new FadeOutTransition(), new FadeInTransition());
-						return;
-					}
-				}
 			} catch (IOException e) {
 				System.err.println(e.getMessage());
 			}

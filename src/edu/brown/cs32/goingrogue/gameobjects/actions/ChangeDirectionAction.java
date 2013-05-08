@@ -12,6 +12,7 @@ public class ChangeDirectionAction extends Action {
 
     private double _direction;
     
+    public ChangeDirectionAction(){}
     public ChangeDirectionAction(Creature sourceCreature, double direction) {
         super(0, new ChangeDirectionRange(sourceCreature));
         _direction = direction;

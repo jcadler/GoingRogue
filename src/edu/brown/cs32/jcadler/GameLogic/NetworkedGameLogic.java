@@ -24,6 +24,10 @@ public class NetworkedGameLogic extends GameLogic
     private RoguePort port;	//	Networking aspect!
     private boolean isServer;	//	Is this a host player?
     
+    public NetworkedGameLogic() throws IOException{
+    	
+    }
+    
     public NetworkedGameLogic(RoguePort port, LogicMap map, HashMap<Integer, Player> players, Player pl) throws IOException
     {
         super(map, new ArrayList<Creature>(), pl);
@@ -31,7 +35,8 @@ public class NetworkedGameLogic extends GameLogic
         	setPlayer(p);
         }
     	selectPlayer(pl);
-        addCreatures(10, 4);
+        //addCreatures(10, 4);
+        this.port = port;
         if(port != null)
         	port.addGame(this);
         isServer = (port instanceof RogueServer);	//	SHOULD be true
@@ -54,14 +59,21 @@ public class NetworkedGameLogic extends GameLogic
 	}
 	public void update(int delta) throws CloneNotSupportedException,IOException
     {
-		if(isServer){
+		if(isServer && port != null){
+			if(creatures == null){
+				addCreatures(10, 5);
+				actions = new ArrayList<>();
+			}
 			((RogueServer) port).updateClients(creatures);
-			((RogueServer) port).updateClients(actions);
+			//((RogueServer) port).updateClients(actions);
 		}
-		else{
+		else if(port != null){
 			for(Action a : player.getActions()){
 				((RogueClient) port).send(a);
 			}
+		}
+		else{
+			System.out.println("HEADLESS");
 		}
         for(Action a : actions)
             a.decrementTimer(delta);

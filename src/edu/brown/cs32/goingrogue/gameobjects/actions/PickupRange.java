@@ -10,19 +10,22 @@ import java.util.Objects;
 public class PickupRange implements Range {
 
     private Creature _sourceCreature;
+    private boolean already;
     private final double PICKUP_RANGE = 1.0;
 
     public PickupRange(Creature sourceCreature) {
         _sourceCreature = sourceCreature;
+        already=false;
     }
 
     @Override
     public boolean inRange(Creature creature) {
-        if (!creature.isItem()) {
+        if (!creature.isItem() || already) {
             return false;
         }
         //return (_sourceCreature.getPosition().distance(creature.getPosition()) <= PICKUP_RANGE);
-        return _sourceCreature.getRectangle().intersects(creature.getRectangle());
+        already=_sourceCreature.getRectangle().intersects(creature.getRectangle());
+        return already;
     }
 
     @Override

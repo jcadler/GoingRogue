@@ -15,6 +15,7 @@ public class ItemStats extends Stats {
     private double _arcLength;
     private int _attackTimer;
     
+    public ItemStats(){}
     public ItemStats(double attack, double defense, int health, double accuracy,
             double speed, double reloadRate, double range, double arcLength, int attackTimer) {
         super(attack, defense, health, accuracy, speed);

@@ -20,6 +20,7 @@ public class MoveAction extends Action {
     private Creature _sourceCreature;
     private int _delta;
 
+    public MoveAction(){}
     public MoveAction(double direction, Creature creature, int delta) {
         super(0, new MoveRange(creature));
         

@@ -3,12 +3,14 @@ package edu.brown.cs32.goingrogue.network;
 import java.awt.Rectangle;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.EndPoint;
+import com.esotericsoftware.kryo.serializers.JavaSerializer;
 
 import edu.brown.cs32.goingrogue.gameobjects.actions.Action;
 import edu.brown.cs32.goingrogue.gameobjects.actions.ActionAnimation;
@@ -62,15 +64,15 @@ public class Network {
 		Kryo k = e.getKryo();
 		//	Register any and all classes being sent over the network!
 		//	Key Classes
+		k.register(File.class, new JavaSerializer());
 		k.register(RoguePort.class);
 		k.register(NetworkedGameLogic.class);
 		k.register(GameLogic.class);
 		k.register(ArrayList.class);
 		k.register(HashMap.class);
-		k.register(String.class);
 		k.register(Creature.class);
 		k.register(Player.class);
-		k.register(java.util.UUID.class);
+		k.register(java.util.UUID.class, new JavaSerializer());
 		//	Items in Creature
 		k.register(List.class);
 		k.register(Point2D.class);
@@ -113,10 +115,14 @@ public class Network {
 		k.register(Space.class);
 		k.register(Tile.class);
 		k.register(Wall.class);
+		k.register(Room.class);
 		k.register(Corridor.class);
+		//k.register(Room.class, new ReferenceFieldSerializer(k, Room.class));
+		//k.setSerializer(Room.class, new ReferenceFieldSerializer(k, Room.class));
+		//k.register(Corridor.class, new ReferenceFieldSerializer(k, Corridor.class));
+		//k.setSerializer(Corridor.class, new ReferenceFieldSerializer(k, Corridor.class));
 		k.register(LogicMap.class);
 		k.register(MapReader.class);
-		k.register(Room.class);
 		//	Classes in util???
 		k.register(CreatureSize.class);
 		k.register(IndexPair.class);
