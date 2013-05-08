@@ -1,8 +1,6 @@
 package edu.brown.cs32.goingrogue.game;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.URL;
+import java.net.Inet4Address;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -45,11 +43,7 @@ public class GameLobbyServer extends GameLobbyState {
 				msg = msg.substring(1);
 				try{
 					if(gameIP == null){
-						URL ipcheck = new URL("http://checkip.amazonaws.com/");
-						BufferedReader in = new BufferedReader(new InputStreamReader(ipcheck.openStream()));
-
-						gameIP = in.readLine();	//	fetch the IP!
-						in.close();
+						gameIP = Inet4Address.getLocalHost().getHostAddress();
 					}
 					String serverInfo = "Server: " + gameIP +"\n";
 					msg = serverInfo + msg;
