@@ -25,11 +25,27 @@ import edu.brown.cs32.jcadler.GameLogic.RogueMap.Room;
  */
 public class GameLogic 
 {
-    private LogicMap crrntMap;
-    private List<Creature> creatures;
-    private List<Action> actions;
-    private Player player;
-    private int level;
+    protected LogicMap crrntMap;
+    protected List<Creature> creatures;
+    protected List<Action> actions;
+    public void setCreatures(List<Creature> creatures) {
+		this.creatures = creatures;
+	}
+
+	public void setActions(List<Action> actions) {
+		this.actions = actions;
+	}
+
+	protected Player player;
+    protected int level;
+    protected Room last;
+    
+    public void selectPlayer(Player p){
+    	if(creatures.contains(p))
+    		player = p;
+    	else
+    		System.err.println("Trying to select non-present player!");
+    }
     
     public GameLogic() throws IOException
     {
@@ -40,11 +56,20 @@ public class GameLogic
         addCreatures(5,2);
         player = PlayerFactory.create(creatures,crrntMap.getRooms());
         player.setName("debug");
-        setPlayer();
+        setPlayer(player);
         level=0;
     }
     
-    private void addCreatures(int maxCreatures, int maxItems)
+    public GameLogic(LogicMap map, List<Creature> creatures, Player player){
+    	crrntMap = map;
+    	this.creatures = creatures;
+    	this.player = player;
+    	selectPlayer(player);
+        actions = new ArrayList<>();
+    	level = 0;
+    }
+    
+    protected void addCreatures(int maxCreatures, int maxItems)
     {
         Random r = new Random();
         List<Room> rooms = crrntMap.getRooms();
@@ -78,7 +103,7 @@ public class GameLogic
         
     }
     
-    private void setPlayer()
+    private void setPlayer(Player p)
     {
         Random r = new Random();
         List<Room> rooms = crrntMap.getRooms();
@@ -87,8 +112,8 @@ public class GameLogic
         {
             rm=rooms.get(r.nextInt(rooms.size()));
         }
-        player.setPosition(new Point2D.Double(rm.getX()+r.nextInt(rm.getWidth()),rm.getY()+r.nextInt(rm.getHeight())));
-        creatures.add(player);
+        p.setPosition(new Point2D.Double(rm.getX()+r.nextInt(rm.getWidth()),rm.getY()+r.nextInt(rm.getHeight())));
+        creatures.add(p);
     }
     
     private void setRandomExit()
@@ -194,7 +219,7 @@ public class GameLogic
             creatures.clear();
             actions.clear();
             addCreatures(5,2);
-            setPlayer();
+            setPlayer(player);
             setRandomExit();
             level++;
         }

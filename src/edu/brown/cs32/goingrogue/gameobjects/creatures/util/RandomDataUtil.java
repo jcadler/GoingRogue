@@ -10,13 +10,14 @@ import edu.brown.cs32.goingrogue.gameobjects.items.ItemStats;
 import static edu.brown.cs32.goingrogue.graphics.GraphicsPaths.*;
 import static edu.brown.cs32.goingrogue.gameobjects.creatures.util.RandomDataUtilHelper.*;
 import edu.brown.cs32.goingrogue.util.CreatureSize;
+import edu.brown.cs32.goingrogue.util.Text;
 
 /**
  *
  * @author Ben Weedon (bweedon)
  */
 public class RandomDataUtil {
-
+	
     public static List<Attribute> randomCreatureAttributes() {
         List<Attribute> attributes = new ArrayList<>();
         Random generator = new Random(System.currentTimeMillis());
@@ -97,7 +98,16 @@ public class RandomDataUtil {
                 attributes.add(SHIELD);
                 break;
             case 3:
-                attributes.add(POTION);
+                attributes.add(POTION_TYPE);
+                choice=generator.nextInt(3);
+                switch(choice) {
+                	case 1:
+                		attributes.add(ATTACK_POTION);
+                	case 2:
+                		attributes.add(DEFENSE_POTION);
+                	case 3:
+                		attributes.add(HEALTH_POTION);
+                }
                 break;
             case 4:
                 attributes.add(HELMET);
@@ -159,41 +169,8 @@ public class RandomDataUtil {
     }
 
     public static String getItemName(List<Attribute> attributes) {
-        String name = "";
-
-        if (attributes.contains(STEEL)) {
-            name += "Steel ";
-        } else if (attributes.contains(IRON)) {
-            name += "Iron ";
-        } else if (attributes.contains(BRONZE)) {
-            name += "Bronze ";
-        } else if (attributes.contains(WOOD)) {
-            name += "Wood ";
-        } else if (attributes.contains(MITHRIL)) {
-            name += "Mithril ";
-        }
-
-        if (attributes.contains(SWORD)) {
-            name += " Sword";
-        } else if (attributes.contains(AXE)) {
-            name += " Axe";
-        } else if (attributes.contains(WAR_HAMMER)) {
-            name += " War Hammer";
-        } else if (attributes.contains(SPEAR)) {
-            name += " Spear";
-        } else if (attributes.contains(ARMOUR)) {
-            name += " Armour";
-        } else if (attributes.contains(SHIELD)) {
-            name += " Shield";
-        } else if (attributes.contains(HELMET)) {
-            name += " Helmet";
-        } else if (attributes.contains(BOOTS)) {
-            name += " Boots";
-        } else if (attributes.contains(POTION)) {
-            name += " Potion";
-        }
-
-        return name;
+    	
+    	return Text.getText(attributes).getText();
     }
 
     public static String getSprite(List<Attribute> attributes) {
@@ -221,12 +198,16 @@ public class RandomDataUtil {
             return ARMOUR_SPRITE.path;
         } else if (attributes.contains(SHIELD)) {
             return SHIELD_SPRITE.path;
+        } else if (attributes.contains(ATTACK_POTION)) {
+        	return ATTACK_POTION_SPRITE.path;
+        } else if (attributes.contains(DEFENSE_POTION)) {
+        	return DEFENSE_POTION_SPRITE.path;
+        } else if (attributes.contains(HEALTH_POTION)) {
+        	return HEALTH_POTION_SPRITE.path;
         } else if (attributes.contains(HELMET)) {
             return HELMET_SPRITE.path;
         } else if (attributes.contains(BOOTS)) {
             return BOOTS_SPRITE.path;
-        } else if (attributes.contains(POTION)) {
-            return POTION_SPRITE.path;
         } else {
             return null; // TODO leave null here?
         }
@@ -267,7 +248,7 @@ public class RandomDataUtil {
             return getHelmetStats(attributes);
         } else if (attributes.contains(BOOTS)) {
             return getBootsStats(attributes);
-        } else if (attributes.contains(POTION)) {
+        } else if (attributes.contains(POTION_TYPE)) {
             return getPotionStats(attributes);
         } else {
             return null; // TODO OK to return null?

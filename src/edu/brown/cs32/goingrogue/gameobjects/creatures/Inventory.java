@@ -2,17 +2,20 @@ package edu.brown.cs32.goingrogue.gameobjects.creatures;
 
 import edu.brown.cs32.goingrogue.gameobjects.actions.QuaffAction;
 import edu.brown.cs32.goingrogue.gameobjects.items.Item;
-import edu.brown.cs32.goingrogue.graphics.Text;
 
 import java.util.List;
 import static edu.brown.cs32.goingrogue.gameobjects.creatures.Attribute.*;
+import edu.brown.cs32.goingrogue.gameobjects.items.AttackPotion;
+import edu.brown.cs32.goingrogue.gameobjects.items.DefensePotion;
 import edu.brown.cs32.goingrogue.gameobjects.items.GridItem;
+import edu.brown.cs32.goingrogue.gameobjects.items.HealthPotion;
+import edu.brown.cs32.goingrogue.gameobjects.items.Potion;
 import java.util.ArrayList;
 
 /**
- *
- * @author Ben Weedon (bweedon)
- */
+*
+* @author Ben Weedon (bweedon)
+*/
 public class Inventory {
 
     private Item _weapon;
@@ -20,7 +23,7 @@ public class Inventory {
     private Item _shield;
     private Item _helmet;
     private Item _boots;
-    private List<Item> _potions;
+    private List<Potion> _potions;
     private Creature _creature;
     private final int MAX_NUM_POTIONS = 5;
 
@@ -60,13 +63,13 @@ public class Inventory {
                 swap(item, _boots);
             }
             _boots = item;
-        } else if (item.containsAttribute(POTION)) {
+        } else if (item.containsAttribute(POTION_TYPE)) {
             if (_potions.size() < MAX_NUM_POTIONS) {
-                _potions.add(item);
+                _potions.add(makePotion(item));
             } else {
                 _creature.addAction(new QuaffAction(item, _creature));
             }
-        }        
+        }
     }
 
     public Item getWeapon() {
@@ -79,6 +82,14 @@ public class Inventory {
 
     public Item getShield() {
         return _shield;
+    }
+    
+    public Item getHelmet() {
+        return _helmet;
+    }
+    
+    public Item getBoots() {
+        return _boots;
     }
 
     public Item getPotion(int index) {
@@ -153,5 +164,17 @@ public class Inventory {
         GridItem temp = i1.getGridItem();
         i2.setGridItem(temp);
         i1.setGridItem(i2.getGridItem());
+    }
+    
+    private Potion makePotion(Item item) {
+        Potion returnPotion = null;
+        if (item.containsAttribute(HEALTH_POTION)) {
+            returnPotion = new HealthPotion(item.getGridItem());
+        } else if (item.containsAttribute(ATTACK_POTION)) {
+            returnPotion = new AttackPotion(item.getGridItem());
+        } else if (item.containsAttribute(DEFENSE_POTION)) {
+            returnPotion = new DefensePotion(item.getGridItem());
+        }
+        return returnPotion;
     }
 }

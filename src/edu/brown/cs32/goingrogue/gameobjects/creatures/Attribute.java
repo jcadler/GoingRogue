@@ -16,11 +16,15 @@ public enum Attribute {
     SHIELD("Shield", null, Type.ITEM),
     HELMET("Helmet", null, Type.ITEM),
     BOOTS("Boots", null, Type.ITEM),
-    POTION("Potion", null, Type.ITEM),
+    POTION_TYPE("", null, Type.ITEM),
     SWORD("Sword", null, Type.ITEM),
     AXE("Axe", null, Type.ITEM),
     WAR_HAMMER("Warhammer", null, Type.ITEM),
     SPEAR("Spear", null, Type.ITEM),
+    //types of potion
+    ATTACK_POTION("Attack Potion", new Color(38, 212, 58), Type.POTION),
+    DEFENSE_POTION("Defense Potion", new Color(255, 150, 0), Type.POTION),
+    HEALTH_POTION("Health Potion", Color.red, Type.POTION),
     // materials of items
     STEEL("Steel", Color.lightGray, Type.MATERIAL),
     IRON("Iron", Color.darkGray, Type.MATERIAL),
@@ -43,7 +47,7 @@ public enum Attribute {
     
     //Orders each of these attributes by type
     public static enum Type {
-    	IDENTIFIER, ITEM, MATERIAL, ELEMENT, CREATURE;
+    	IDENTIFIER, ITEM, MATERIAL, ELEMENT, CREATURE, POTION;
     }
     
     public final String text;

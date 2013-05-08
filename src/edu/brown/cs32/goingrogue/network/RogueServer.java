@@ -11,6 +11,7 @@ import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
 
 import edu.brown.cs32.goingrogue.gameobjects.actions.Action;
+import edu.brown.cs32.goingrogue.gameobjects.creatures.Creature;
 import edu.brown.cs32.goingrogue.gameobjects.creatures.Player;
 import edu.brown.cs32.jcadler.GameLogic.GameLogic;
 import edu.brown.cs32.jcadler.GameLogic.NetworkedGameLogic;
@@ -63,15 +64,14 @@ public class RogueServer extends Listener implements RoguePort{
 		//	TODO: Be able to convert this lobby into an actual game, move entries to players.
 	}
 
-	public void updateClients(){
+	public void updateClients(Object o){
 		//	DO NOT use net.sendToAllTCP(arg0)
 		//	iterate through players, send each one their snapshot (Entities in range for each player).
-		for(Map.Entry<Integer, Player> entry : players.entrySet())
-			updateClient(entry.getKey());
-	}
-
-	public void updateClient(int id){
-		//	TODO: Do it!
+		List<Creature> msg = g.getCreatures();//g.getCreatures(minX, minY, maxX, maxY)
+		for(Map.Entry<Integer, Player> entry : players.entrySet()){
+			if(entry.getKey() >= 0)
+				net.sendToTCP(entry.getKey(), msg);
+		}
 	}
 
 	public List<String> getPlayerNames(){
@@ -127,19 +127,14 @@ public class RogueServer extends Listener implements RoguePort{
 
 	@Override
 	public void received(Connection c, Object o){
-		/*if(!o instanceof Action){
-			System.err.println("Received non-Action object!");
-			return;
-		}*/
 		if(o instanceof Action){
-			//Action a = (Action) o;
-			//	TODO: Not actually a thing yet.
-			//	List<Action> acts = players.get(c.getID()).addAction(a);
+			if(g != null){
+				players.get(c.getID()).addAction((Action) o);
+			}
 		}
 		//	Players reporting their names, asking for lobby info, etc.
 		if(o instanceof String){
 			try{
-				//System.out.println(o);
 				String[] cmd = ((String) o).split("\t");
 				if(cmd[0].equals("name")){
 					synchronized(lobby){

@@ -32,11 +32,11 @@ import edu.brown.cs32.goingrogue.gameobjects.items.Item;
 import edu.brown.cs32.goingrogue.graphics.Animation;
 import edu.brown.cs32.goingrogue.graphics.GraphicsLoader;
 import edu.brown.cs32.goingrogue.graphics.GraphicsPaths;
-import edu.brown.cs32.goingrogue.graphics.Text;
 import edu.brown.cs32.goingrogue.map.RogueMap;
 import edu.brown.cs32.goingrogue.map.Space;
 import edu.brown.cs32.goingrogue.map.Tile;
 import edu.brown.cs32.goingrogue.map.Wall;
+import edu.brown.cs32.goingrogue.util.Text;
 import edu.brown.cs32.goingrogue.util.Util;
 import edu.brown.cs32.jcadler.GameLogic.GameLogic;
 
@@ -167,7 +167,7 @@ public class GamePlayState extends BasicGameState{
 			if(key==KeyCodes.D || key==KeyCodes.RIGHT) p.getHandler().moveRight();
 			if(key==KeyCodes.SPACE) p.getHandler().attack();
 			if(key==KeyCodes.E) p.getHandler().pickUp();
-			if(key==KeyCodes.R); //p.getHandler().quaff(p.);
+			if(key==KeyCodes.R); p.getHandler().quaff();
 			if(key==KeyCodes.ESC) System.exit(0);
 			
 		}

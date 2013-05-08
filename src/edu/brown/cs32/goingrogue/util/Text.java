@@ -1,4 +1,4 @@
-package edu.brown.cs32.goingrogue.graphics;
+package edu.brown.cs32.goingrogue.util;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,10 +44,11 @@ public class Text {
 		//Initializes the priorities list
 		if(typePriorities==null) {
 			typePriorities=new ArrayList<>();
-			typePriorities.add(type.MATERIAL);
-			typePriorities.add(type.ELEMENT);
-			typePriorities.add(type.ITEM);
-			typePriorities.add(type.CREATURE);
+			typePriorities.add(Type.MATERIAL);
+			typePriorities.add(Type.ELEMENT);
+			typePriorities.add(Type.ITEM);
+			typePriorities.add(Type.POTION);
+			typePriorities.add(Type.CREATURE);
 		}
 		
 		return typePriorities.indexOf(type);
@@ -64,8 +65,14 @@ public class Text {
 		
 		if(c==null) return new Text("", Color.white);
 		
-		List<Attribute> attsToDisplay=new ArrayList<>();
-		for(Attribute a: c.getAttributes()) {
+		return getText(c.getAttributes());
+	}
+	
+	public static Text getText(List<Attribute> attributes) {
+		List<Attribute> attsToDisplay = new ArrayList<>();
+		
+		for(int i=0; i<attributes.size(); i++) {
+			Attribute a=attributes.get(i);
 			int priority=getPriority(a.type);
 			if(!(priority==-1)) {
 				while(attsToDisplay.size()<=priority) attsToDisplay.add(null);
@@ -76,7 +83,9 @@ public class Text {
 		String text="";
 		Color color=Color.white;
 		for(Attribute a: attsToDisplay) if(a!=null) {
-			text+=a.text+" ";
+			if(!a.text.isEmpty()) {
+				text+=a.text+" ";
+			}
 			if(a.color!=null) {
 				color=a.color;
 			}

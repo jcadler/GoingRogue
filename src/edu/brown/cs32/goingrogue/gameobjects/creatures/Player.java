@@ -14,6 +14,7 @@ import edu.brown.cs32.goingrogue.gameobjects.actions.QuaffAction;
 import edu.brown.cs32.goingrogue.gameobjects.items.Item;
 import edu.brown.cs32.goingrogue.gameobjects.items.Potion;
 import edu.brown.cs32.goingrogue.util.CreatureSize;
+import edu.brown.cs32.goingrogue.util.Text;
 
 /**
  *
@@ -121,6 +122,7 @@ public class Player extends Creature {
 
         public void pickUp() {
             addAction(new PickupAction(new PickupRange(player), player));
+            System.out.println("Picked up something");
         }
 
         public void quaff() {

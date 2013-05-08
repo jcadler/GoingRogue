@@ -17,6 +17,7 @@ public class QuaffAction extends Action {
 
     public QuaffAction(Item item, Creature sourceCreature) {
         super(0, new QuaffRange(item, sourceCreature));
+        _type=ActionType.QUAFF;
     }
 
     @Override

@@ -21,7 +21,7 @@ public class QuaffRange implements Range {
 
     @Override
     public boolean inRange(Creature creature) {
-        return _item.getGridItem().getAttributes().contains(Attribute.POTION)
+        return _item.getGridItem().getAttributes().contains(Attribute.POTION_TYPE)
                 && creature.equals(_sourceCreature);
     }
 
