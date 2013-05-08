@@ -36,6 +36,8 @@ public class Inventory {
     }
 
     public void add(Item item) {
+        System.out.println("adding");
+        System.out.println(item.getGridItem().getName());
         if (item.containsAttribute(WEAPON)) {
             if (_weapon != null) {
                 swap(item, _weapon);
@@ -165,12 +167,19 @@ public class Inventory {
     }
 
     private void swap(Item i1, Item i2) {
+
         ItemStats temp = i2.getGridItem().getItemStats();
         String name = i2.getGridItem().getName();
+        List<Attribute> atts = i2.getGridItem().getAttributes();
+        String spritePath = i2.getGridItem().getSpritePath();
         i2.getGridItem().setItemStats(i1.getGridItem().getItemStats());
         i2.getGridItem().setName(i1.getGridItem().getName());
+        i2.getGridItem().setAttributes(i1.getGridItem().getAttributes());
+        i2.getGridItem().setSpritePath(i1.getGridItem().getSpritePath());
         i1.getGridItem().setItemStats(temp);
         i1.getGridItem().setName(name);
+        i1.getGridItem().setAttributes(atts);
+        i1.getGridItem().setSpritePath(spritePath);
         i1.getGridItem().setPickedUp(false);
         i2.getGridItem().setPickedUp(false);
     }

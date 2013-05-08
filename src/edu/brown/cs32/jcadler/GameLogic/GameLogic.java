@@ -9,6 +9,7 @@ import java.util.Random;
 
 import edu.brown.cs32.goingrogue.gameobjects.actions.Action;
 import edu.brown.cs32.goingrogue.gameobjects.actions.ActionType;
+import edu.brown.cs32.goingrogue.gameobjects.actions.ArcAttackAction;
 import edu.brown.cs32.goingrogue.gameobjects.creatures.Attribute;
 import edu.brown.cs32.goingrogue.gameobjects.creatures.Creature;
 import edu.brown.cs32.goingrogue.gameobjects.creatures.Player;
@@ -55,9 +56,9 @@ public class GameLogic
         actions = new ArrayList<>();
         setRandomExit();
         player = PlayerFactory.create(creatures,crrntMap.getRooms());
-        player.setName("debug");
+        player.setName("Player");
         setPlayer(player);
-        addCreatures(0,10);
+        addCreatures(5,2);
         level=0;
     }
     
@@ -179,7 +180,6 @@ public class GameLogic
         }
         for(Action a : actions)
         {
-            int count=0;
             for(Creature c : creatures)
             {
                 if(a.withinRange(c))
@@ -198,7 +198,6 @@ public class GameLogic
                         a.act(c);
                 }
             }
-            System.out.println(count);
         }
         List<Creature> dead = new ArrayList<>();
         boolean exit = false;
@@ -235,7 +234,7 @@ public class GameLogic
             creatures.clear();
             actions.clear();
             setPlayer(player);
-            addCreatures(0,2);
+            addCreatures(5,2);
             setRandomExit();
             level++;
         }

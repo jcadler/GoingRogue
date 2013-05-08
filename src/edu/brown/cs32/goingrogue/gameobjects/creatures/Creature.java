@@ -59,6 +59,11 @@ public abstract class Creature implements Cloneable {
     public List<Attribute> getAttributes() {
         return _attributes;
     }
+    
+    public void setAttributes(List<Attribute> l)
+    {
+        _attributes=l;
+    }
 
     public Point2D.Double getPosition() {
         return _pos;
