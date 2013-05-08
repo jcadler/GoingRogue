@@ -1,4 +1,4 @@
-tbutton	graphics/menu/op.png	1	600	80
-tbutton	graphics/menu/sg.png	2	600	190
-tbutton	graphics/menu/op.png	3	600	300
-tbutton	graphics/menu/op.png	4	600	410
+tbutton	graphics/menu/qs.png	1	600	75
+tbutton	graphics/menu/js.png	2	600	180
+tbutton	graphics/menu/hs.png	3	600	285
+button	graphics/menu/qg.png	0	80	465
