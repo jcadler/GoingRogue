@@ -44,22 +44,27 @@ public class AICreature extends Creature {
         Creature closestCreature = getClosestCreature();
 
         List<Action> returnActions = new ArrayList<>();
+        Point2D targetPoint;
         if (getCreatureRoom(closestCreature) != null) {
             if (closestCreature != null) {
-                setDirection(getAngleFromTo(getPosition(), closestCreature.getPosition()));
-                if (getPosition().distance(closestCreature.getPosition()) < DIST_TO_ATTACK) {
-                    returnActions.add(
-                            new ArcAttackAction(getDirection(), getWeaponRange(), getWeaponArcLength(),
-                            getWeaponAttackTimer(), this));
-                    return returnActions;
-                } else {
-                    returnActions.add(new MoveAction(getDirection(), this, delta));
-                    return returnActions;
-                }
+                targetPoint = closestCreature.getPosition();
+            } else {
+                return new ArrayList<>();
             }
         } else {
             Room creatureRoom = getCreatureRoom(this);
             Corridor playerCorridor = getCreatureCorridor(closestCreature);
+            Point2D corridorEntrance = getEntrance(playerCorridor, creatureRoom);
+            targetPoint = corridorEntrance;
+        }
+        
+        setDirection(getAngleFromTo(getPosition(), targetPoint));
+        if (getPosition().distance(targetPoint) < DIST_TO_ATTACK) {
+            returnActions.add(
+                    new ArcAttackAction(getDirection(), getWeaponRange(), getWeaponArcLength(),
+                    getWeaponAttackTimer(), this));
+        } else {
+            returnActions.add(new MoveAction(getDirection(), this, delta));
         }
 
         setActions(returnActions);
@@ -94,7 +99,7 @@ public class AICreature extends Creature {
         }
         return null;
     }
-    
+
     private Corridor getCreatureCorridor(Creature creature) {
         for (Room room : _rooms) {
             for (Corridor corridor : room.getCorridors()) {
@@ -104,5 +109,44 @@ public class AICreature extends Creature {
             }
         }
         return null;
+    }
+
+    private Point2D getEntrance(Corridor corridor, Room room) {
+        int posInRoom;
+        if (corridor.getStart().getID().equals(room.getID())) {
+            posInRoom = corridor.getPos1();
+        } else if (corridor.getEnd().getID().equals(room.getID())) {
+            posInRoom = corridor.getPos2();
+        } else {
+            posInRoom = -1000; // extreme value will make it easy to tell in debugging
+            // without having to throw an error
+        }
+
+        double xVal;
+        double yVal;
+        final double OFFSET_INTO_ROOM = 1.0;
+        switch (corridor.getDirection()) {
+            case 0:
+                xVal = room.getX() + posInRoom + (corridor.getWidth() / 2.0);
+                yVal = room.getY() + OFFSET_INTO_ROOM;
+                break;
+            case 1:
+                xVal = room.getX() + room.getWidth() - OFFSET_INTO_ROOM;
+                yVal = room.getY() + posInRoom + (corridor.getWidth() / 2.0);
+                break;
+            case 2:
+                xVal = room.getX() + posInRoom + (corridor.getWidth() / 2.0);
+                yVal = room.getY() + room.getHeight() - OFFSET_INTO_ROOM;
+                break;
+            case 3:
+                xVal = room.getX() + OFFSET_INTO_ROOM;
+                yVal = room.getY() + posInRoom + (corridor.getWidth() / 2.0);
+                break;
+            default:
+                xVal = -1000;
+                yVal = -1000; // for debugging, as seen above
+                break;
+        }
+        return new Point2D.Double(xVal, yVal);
     }
 }
