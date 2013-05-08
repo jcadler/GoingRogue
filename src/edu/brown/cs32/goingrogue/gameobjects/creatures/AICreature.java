@@ -86,7 +86,8 @@ public class AICreature extends Creature {
                     && (getPosition().distance(currCreaturePos)
                     < getPosition().distance(closestCreature.getPosition()))
                     && (!currCreature.equals(this))
-                    && (currCreature.getAttributes().contains(Attribute.PLAYER))) {
+                    && (currCreature.getAttributes().contains(Attribute.PLAYER))
+                    && inSameRoom(closestCreature, this)) {
                 closestCreature = currCreature;
             }
         }
@@ -156,5 +157,15 @@ public class AICreature extends Creature {
                 break;
         }
         return new Point2D.Double(xVal, yVal);
+    }
+    
+    private boolean inSameRoom(Creature c1, Creature c2) {
+        Room c1Room = getCreatureRoom(c1);
+        Room c2Room = getCreatureRoom(c2);
+        if ((c1Room == null) || (c2Room == null)) {
+            return false;
+        } else {
+            return c1Room.getID().equals(c2Room.getID());
+        }
     }
 }
