@@ -68,7 +68,6 @@ public class Network {
 		k.register(String.class);
 		k.register(Creature.class);
 		k.register(Player.class);
-		k.register(Player.InputHandler.class);
 		k.register(java.util.UUID.class);
 		//	Items in Creature
 		k.register(List.class);
