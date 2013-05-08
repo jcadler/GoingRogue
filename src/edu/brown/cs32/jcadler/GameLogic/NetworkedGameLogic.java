@@ -36,6 +36,7 @@ public class NetworkedGameLogic extends GameLogic
         }
     	selectPlayer(pl);
         //addCreatures(10, 4);
+        this.port = port;
         if(port != null)
         	port.addGame(this);
         isServer = (port instanceof RogueServer);	//	SHOULD be true
@@ -64,12 +65,15 @@ public class NetworkedGameLogic extends GameLogic
 				actions = new ArrayList<>();
 			}
 			((RogueServer) port).updateClients(creatures);
-			((RogueServer) port).updateClients(actions);
+			//((RogueServer) port).updateClients(actions);
 		}
 		else if(port != null){
 			for(Action a : player.getActions()){
 				((RogueClient) port).send(a);
 			}
+		}
+		else{
+			System.out.println("HEADLESS");
 		}
         for(Action a : actions)
             a.decrementTimer(delta);

@@ -101,6 +101,7 @@ public class RogueServer extends Listener implements RoguePort{
 				}
 			}
 			g.setMap(m);
+			System.err.println(((NetworkedGameLogic) g).getPort());
 			//	Find the game state and give it the game logic, enter game!
 			for(int it = 0; it < game.getStateCount(); it++){
 				GameState gs = game.getState(it);
