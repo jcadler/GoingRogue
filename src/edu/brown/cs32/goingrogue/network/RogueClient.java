@@ -9,6 +9,7 @@ import com.esotericsoftware.kryonet.EndPoint;
 import com.esotericsoftware.kryonet.Listener;
 
 import edu.brown.cs32.jcadler.GameLogic.GameLogic;
+import edu.brown.cs32.jcadler.GameLogic.NetworkedGameLogic;
 /** Basic networking for a non-host player **/
 public class RogueClient extends Listener implements RoguePort{
 	private Client net;
@@ -24,6 +25,9 @@ public class RogueClient extends Listener implements RoguePort{
 	}
 	public EndPoint getEndPoint(){
 		return net;
+	}
+	public void addGame(NetworkedGameLogic g){
+		this.g = g;
 	}
 	
 	public RogueClient(String name)
