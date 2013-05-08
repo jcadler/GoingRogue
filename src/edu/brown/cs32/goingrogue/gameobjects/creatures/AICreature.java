@@ -45,15 +45,15 @@ public class AICreature extends Creature {
 
         List<Action> returnActions = new ArrayList<>();
         Point2D targetPoint;
-        if (getCreatureRoom(closestCreature) != null) {
+        //if (getCreatureRoom(closestCreature) != null) {
             if (closestCreature != null) {
                 targetPoint = closestCreature.getPosition();
             } else {
                 return new ArrayList<>();
             }
-        } else {
-            return new ArrayList<>();
-        }
+//        } else {
+//            return new ArrayList<>();
+//        }
 //        else {
 //            Room creatureRoom = getCreatureRoom(this);
 //            Corridor playerCorridor = getCreatureCorridor(closestCreature);
