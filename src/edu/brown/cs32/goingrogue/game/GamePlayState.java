@@ -167,7 +167,7 @@ public class GamePlayState extends BasicGameState{
 			if(key==KeyCodes.D || key==KeyCodes.RIGHT) p.getHandler().moveRight();
 			if(key==KeyCodes.SPACE) p.getHandler().attack();
 			if(key==KeyCodes.E) p.getHandler().pickUp();
-			if(key==KeyCodes.R); //p.getHandler().quaff(p.);
+			if(key==KeyCodes.R); p.getHandler().quaff();
 			if(key==KeyCodes.ESC) System.exit(0);
 			
 		}

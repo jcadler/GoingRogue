@@ -12,13 +12,14 @@ import java.util.List;
  */
 public enum ActionType {
 	
-	MOVE, ATTACK, PICKUP, CHANGE_DIR;
+	MOVE, ATTACK, PICKUP, QUAFF, CHANGE_DIR;
 	
 	static List<ActionType> priorities=new ArrayList<>();
 	
 	static int getPriority(ActionType a) {
 		if(priorities.isEmpty()) {
 			priorities.add(CHANGE_DIR);
+			priorities.add(QUAFF);
 			priorities.add(PICKUP);
 			priorities.add(MOVE);
 			priorities.add(ATTACK);
