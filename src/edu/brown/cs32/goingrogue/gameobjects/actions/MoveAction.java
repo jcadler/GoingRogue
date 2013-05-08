@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Objects;
 
 import edu.brown.cs32.goingrogue.gameobjects.creatures.Creature;
-import edu.brown.cs32.goingrogue.util.Util;
 
 /**
  *
@@ -35,13 +34,14 @@ public class MoveAction extends Action {
         double xTranslation = _delta * (creature.getSpeed() * cos(_direction));
         double yTranslation = _delta * (creature.getSpeed() * sin(_direction));
         Point2D origPos = creature.getPosition();
-        creature.setPosition(new Point2D.Double(origPos.getX() + xTranslation, origPos.getY() + yTranslation));
+        creature.setPosition(new Point2D.Double(origPos.getX() + xTranslation,
+                origPos.getY() + yTranslation));
         	
     }
 
     @Override
     public List<ActionAnimation> getActionAnimations() {
-        String spritePath=(_sourceCreature.getSpritePath());
+        String spritePath= _sourceCreature.getSpritePath();
         Point2D.Double pos = _sourceCreature.getPosition();
         double angle = _sourceCreature.getDirection();
         List<ActionAnimation> list=new ArrayList<>();

@@ -10,10 +10,12 @@ import org.newdawn.slick.state.StateBasedGame;
 
 public class ActionButton extends MouseOverArea implements ComponentListener{
 	protected final StateBasedGame game;
+	protected final MenuState parent;
 	
-	public ActionButton(GUIContext gc, Image img, int x, int y, StateBasedGame game) {
+	public ActionButton(GUIContext gc, Image img, int x, int y, StateBasedGame game, MenuState parent) {
 		super(gc, img, x, y);
 		this.game = game;
+		this.parent = parent;
 		addListener(this);
 		setMouseOverColor(new Color(225, 225, 225));
 		setMouseDownColor(new Color(195, 195, 195));
@@ -30,5 +32,7 @@ public class ActionButton extends MouseOverArea implements ComponentListener{
 		}
 	}
 	
-	public void buttonAction(){}
+	public void buttonAction(){
+		parent.buttonAction();
+	}
 }

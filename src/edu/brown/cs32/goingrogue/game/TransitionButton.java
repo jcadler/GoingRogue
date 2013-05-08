@@ -12,8 +12,8 @@ public class TransitionButton extends ActionButton{
 	private final int nextState;
 	
 	public TransitionButton(GUIContext gc, Image img, int x, int y, Class<Transition> from,
-			Class<Transition> to, int nextState, StateBasedGame game) {
-		super(gc, img, x, y, game);
+			Class<Transition> to, int nextState, StateBasedGame game, MenuState parent) {
+		super(gc, img, x, y, game, parent);
 		this.from = from;
 		this.to = to;
 		this.nextState = nextState;
@@ -24,8 +24,9 @@ public class TransitionButton extends ActionButton{
 		try{
 			Transition f = from.newInstance();
 			Transition t = to.newInstance();
-			buttonAction();
+			//buttonAction();
 			game.enterState(nextState, f, t);
+			//game.getState(nextState).init(game.getContainer(), game);
 			game.getCurrentState().leave(game.getContainer(), game);
 		}
 		catch(Throwable e){
