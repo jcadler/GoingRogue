@@ -22,9 +22,14 @@ public class GameLobbyClient extends GameLobbyState {
 	public void init(GameContainer gc, StateBasedGame gm)
 			throws SlickException {
 		super.init(gc, gm);
+		if(components == null)
+			return;
 		inputFields.get(0).setText(game.getUserName());
+		inputFields.get(0).setCursorPos(game.getUserName().length());
 		inputFields.get(1).setText(game.getHostName());
+		inputFields.get(1).setCursorPos(game.getHostName().length());
 		inputFields.get(2).setText("" + game.getPortNumber());
+		inputFields.get(2).setCursorPos(("" + game.getPortNumber()).length());
 	}
 
 	@Override
@@ -49,6 +54,7 @@ public class GameLobbyClient extends GameLobbyState {
 					}
 					if(msg.length() > 0)
 						msg = msg.substring(1);
+					msg = "Server:\n" + msg;
 					textBox.setMsg(msg);
 					//System.out.println("MSG: " + msg);
 				}
