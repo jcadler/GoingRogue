@@ -64,7 +64,7 @@ public class GameLobbyServer extends GameLobbyState {
 	public void buttonAction(){
 		try{
 			if(port != null){
-				port.close();
+				((RogueServer) port).beginGame();
 			}
 			game.setUserName(inputFields.get(0).getText());
 			//	Default port number
@@ -76,7 +76,7 @@ public class GameLobbyServer extends GameLobbyState {
 				System.err.println("Bad port number! Defaulting to 54242...");
 			}
 			game.setPortNumber(pn);
-			port = new RogueServer(game.getUserName());
+			port = new RogueServer(game.getUserName(), game);
 			port.start("dummy", pn);
 		}
 		catch(Exception e){

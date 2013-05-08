@@ -69,7 +69,7 @@ public class RandomDataUtilHelper {
     }
 
     static ItemStats getSwordStats(List<Attribute> attributes) {
-        double attack = scaleToAttributes(randomDouble(60, 65), attributes, true);
+        double attack = scaleToAttributes(randomDouble(240, 260), attributes, true);
         double defense = scaleToAttributes(randomDouble(10, 15), attributes, true);
         int health = (int) scaleToAttributes(randomInt(0, 0), attributes, true);
         double accuracy = scaleToAttributes(randomDouble(5, 10), attributes, true);
@@ -84,7 +84,7 @@ public class RandomDataUtilHelper {
     }
 
     static ItemStats getAxeStats(List<Attribute> attributes) {
-        double attack = scaleToAttributes(randomDouble(70, 75), attributes, true);
+        double attack = scaleToAttributes(randomDouble(280, 300), attributes, true);
         double defense = scaleToAttributes(randomDouble(5, 10), attributes, true);
         int health = (int) scaleToAttributes(randomInt(0, 0), attributes, true);
         double accuracy = scaleToAttributes(randomDouble(2, 6), attributes, true);
@@ -99,10 +99,10 @@ public class RandomDataUtilHelper {
     }
 
     static ItemStats getWarHammerStats(List<Attribute> attributes) {
-        double attack = scaleToAttributes(randomDouble(65, 70), attributes, true);
+        double attack = scaleToAttributes(randomDouble(260, 280), attributes, true);
         double defense = scaleToAttributes(randomDouble(10, 15), attributes, true);
         int health = (int) scaleToAttributes(randomInt(0, 0), attributes, true);
-        double accuracy = scaleToAttributes(randomDouble(1, 5), attributes, true);
+        double accuracy = scaleToAttributes(randomDouble(25, 50), attributes, true);
         double speed = scaleToAttributes(randomDouble(10, 20), attributes, false);
         double reloadRate = scaleToAttributes(randomDouble(30, 35), attributes, false);
         double range = scaleToAttributes(randomDouble(0.25, 0.5), attributes, true);
@@ -114,7 +114,7 @@ public class RandomDataUtilHelper {
     }
 
     static ItemStats getSpearStats(List<Attribute> attributes) {
-        double attack = scaleToAttributes(randomDouble(55, 60), attributes, true);
+        double attack = scaleToAttributes(randomDouble(220, 240), attributes, true);
         double defense = scaleToAttributes(randomDouble(5, 10), attributes, true);
         int health = (int) scaleToAttributes(randomInt(0, 0), attributes, true);
         double accuracy = scaleToAttributes(randomDouble(20, 25), attributes, true);

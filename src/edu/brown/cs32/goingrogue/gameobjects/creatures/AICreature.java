@@ -20,7 +20,7 @@ public class AICreature extends Creature {
 
     private List<Creature> _creatures;
     private List<Room> _rooms;
-    private final double DIST_TO_ATTACK;
+    private final double DIST_TO_ATTACK = 0.5;
 
     public AICreature(Point2D.Double pos, double direction, String name, List<Attribute> attributes,
             CreatureStats stats, String spritePath, CreatureSize size, List<Creature> creatures,
@@ -28,7 +28,7 @@ public class AICreature extends Creature {
         super(pos, direction, name, attributes, stats, spritePath, size);
         _creatures = creatures;
         _rooms = rooms;
-        DIST_TO_ATTACK = getWeaponRange();
+        //DIST_TO_ATTACK = getWeaponRange();
 
         _shouldRotate = false;
         _shouldFlip = true;
@@ -45,24 +45,24 @@ public class AICreature extends Creature {
 
         List<Action> returnActions = new ArrayList<>();
         Point2D targetPoint;
-        if (getCreatureRoom(closestCreature) != null) {
-            if (closestCreature != null) {
-                targetPoint = closestCreature.getPosition();
-            } else {
-                return new ArrayList<>();
-            }
+        //if (getCreatureRoom(closestCreature) != null) {
+        if (closestCreature != null) {
+            targetPoint = closestCreature.getCenterPosition();
         } else {
             return new ArrayList<>();
         }
+//        } else {
+//            return new ArrayList<>();
+//        }
 //        else {
 //            Room creatureRoom = getCreatureRoom(this);
 //            Corridor playerCorridor = getCreatureCorridor(closestCreature);
 //            Point2D corridorEntrance = getEntrance(playerCorridor, creatureRoom);
 //            targetPoint = corridorEntrance;
 //        }
-        
-        setDirection(getAngleFromTo(getPosition(), targetPoint));
-        if (getPosition().distance(targetPoint) < DIST_TO_ATTACK) {
+
+        setDirection(getAngleFromTo(getCenterPosition(), targetPoint));
+        if (getCenterPosition().distance(targetPoint) < DIST_TO_ATTACK) {
             returnActions.add(
                     new ArcAttackAction(getDirection(), getWeaponRange(), getWeaponArcLength(),
                     getWeaponAttackTimer(), this));
@@ -78,25 +78,30 @@ public class AICreature extends Creature {
         Creature closestCreature = null;
         for (int i = 0; i < _creatures.size(); ++i) {
             Creature currCreature = _creatures.get(i);
-            Point2D currCreaturePos = currCreature.getPosition();
+            Point2D currCreaturePos = currCreature.getCenterPosition();
             if ((closestCreature == null) && (!currCreature.equals(this))
                     && (currCreature.getAttributes().contains(Attribute.PLAYER))) {
                 closestCreature = currCreature;
             } else if ((closestCreature != null)
-                    && (getPosition().distance(currCreaturePos)
-                    < getPosition().distance(closestCreature.getPosition()))
+                    && (getCenterPosition().distance(currCreaturePos)
+                    < getCenterPosition().distance(closestCreature.getCenterPosition()))
                     && (!currCreature.equals(this))
-                    && (currCreature.getAttributes().contains(Attribute.PLAYER))) {
+                    && (currCreature.getAttributes().contains(Attribute.PLAYER))
+                    && inSameRoom(closestCreature, this)) {
                 closestCreature = currCreature;
             }
         }
-        return closestCreature;
+        if (inSameRoom(closestCreature, this)) {
+            return closestCreature;
+        } else {
+            return null;
+        }
     }
 
     private Room getCreatureRoom(Creature creature) {
         for (Room room : _rooms) {
             Rectangle2D roomRec = new Rectangle2D.Double(room.getX(), room.getY(), room.getWidth(), room.getHeight());
-            if (roomRec.contains(creature.getPosition())) {
+            if (roomRec.contains(creature.getCenterPosition())) {
                 return room;
             }
         }
@@ -106,7 +111,7 @@ public class AICreature extends Creature {
     private Corridor getCreatureCorridor(Creature creature) {
         for (Room room : _rooms) {
             for (Corridor corridor : room.getCorridors()) {
-                if (corridor.getRectangle().contains(creature.getPosition())) {
+                if (corridor.getRectangle().contains(creature.getCenterPosition())) {
                     return corridor;
                 }
             }
@@ -115,12 +120,12 @@ public class AICreature extends Creature {
     }
 
     private Point2D getEntrance(Corridor corridor, Room room) {
-        
-    	int posInRoom;
-    	
-        Room r=corridor.getStart();
-        String id=r.getID();
-        String rid=room.getID();
+
+        int posInRoom;
+
+        Room r = corridor.getStart();
+        String id = r.getID();
+        String rid = room.getID();
         if (id.equals(rid)) {
             posInRoom = corridor.getPos1();
         } else if (corridor.getEnd().getID().equals(room.getID())) {
@@ -156,5 +161,15 @@ public class AICreature extends Creature {
                 break;
         }
         return new Point2D.Double(xVal, yVal);
+    }
+
+    private boolean inSameRoom(Creature c1, Creature c2) {
+        Room c1Room = getCreatureRoom(c1);
+        Room c2Room = getCreatureRoom(c2);
+        if ((c1Room == null) || (c2Room == null)) {
+            return false;
+        } else {
+            return c1Room.getID().equals(c2Room.getID());
+        }
     }
 }

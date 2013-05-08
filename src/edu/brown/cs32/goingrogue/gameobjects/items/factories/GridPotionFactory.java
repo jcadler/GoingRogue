@@ -12,12 +12,14 @@ import edu.brown.cs32.jcadler.GameLogic.RogueMap.Room;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  *
  * @author Ben Weedon (bweedon)
  */
 public class GridPotionFactory {
+
     public static GridItem create(List<Creature> creatures, List<Room> rooms) {
         List<Attribute> attributes = new ArrayList<>();
         attributes.add(Attribute.POTION_TYPE);
@@ -30,15 +32,19 @@ public class GridPotionFactory {
                 name, attributes, stats, sprite, size);
         return returnCreature;
     }
-    
+
     public static Attribute randomPotionType() {
-    	int rand=(int)(3*Math.random());
-    	switch(rand) {
-    		case 0: return Attribute.ATTACK_POTION;
-    		case 1: return Attribute.DEFENSE_POTION;
-    		case 2: return Attribute.HEALTH_POTION;
-    	}
-    	
-    	return Attribute.ATTACK_POTION;
+        Random generator = new Random(System.currentTimeMillis());
+        int rand = generator.nextInt(3);
+        switch (rand) {
+            case 0:
+                return Attribute.ATTACK_POTION;
+            case 1:
+                return Attribute.DEFENSE_POTION;
+            case 2:
+                return Attribute.HEALTH_POTION;
+        }
+
+        return Attribute.ATTACK_POTION;
     }
 }
