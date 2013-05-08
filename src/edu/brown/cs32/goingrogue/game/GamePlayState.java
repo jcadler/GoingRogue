@@ -407,7 +407,7 @@ public class GamePlayState extends BasicGameState{
 
 		//TEST
 			if(!c.containsAttribute(Attribute.PLAYER)) {
-				System.out.println("Actions: "+actionNum);
+//				System.out.println("Actions: "+actionNum);
 			}
 			
 			if(actionToAnimate==null ||
@@ -624,28 +624,42 @@ public class GamePlayState extends BasicGameState{
 		
 		int lineSize=20; //The spacing between each line
 		int horzDisplacement=10; //The displacement from the horizontal slot the text is in
-		int xpSpace=150; //The width for displaying xp
-		int invSpace=gc.getWidth()-xpSpace; //The width for displaying inventory
-		
 		int vertDisplacement=15; //The displacement from the bottom of the screen
-		int numItems=4;
 		
-		int[] horzTextSlots=new int[numItems];
-		for(int i=0; i<numItems; i++) {
-			horzTextSlots[i]=i*invSpace/numItems;
+		//The default width/height of horizontal/vertical space dividers
+		int horzBar=15;
+		int vertBar=15;
+		
+		int invSpace=(3*gc.getWidth())/4; //The width for displaying inventory
+		int xpSpace=gc.getWidth()-invSpace-horzBar; //The width for displaying xp/levels
+		
+		//The number of horizontal and vertical inventory slots
+		int invHorzSlots=3;
+		int invVertSlots=2;
+		
+		//The number of potion types to display
+		int numPotions=3;
+		
+		int[] horzInvTextSlots=new int[invHorzSlots];
+		for(int i=0; i<invHorzSlots; i++) {
+			horzInvTextSlots[i]=i*invSpace/invHorzSlots;
 		}
 		
-		Text[] titles=new Text[numItems];
-		Text[] items=new Text[numItems];
+		Text[][] titles=new Text[invHorzSlots][invVertSlots];
+		Text[][] items=new Text[invHorzSlots][invVertSlots];
 		
-		titles[0]=new Text("Weapon", Color.white);
-		titles[1]=new Text("Armour", Color.white);
-		titles[2]=new Text("Shield", Color.white);
-		titles[3]=new Text("Potions", Color.white);
+		titles[0][0]=new Text("Weapon", Color.white);
+		titles[1][0]=new Text("Armour", Color.white);
+		titles[2][0]=new Text("Shield", Color.white);
+		titles[0][1]=new Text("Shield", Color.white);
+		titles[1][1]=new Text("Shield", Color.white);
+		titles[2][1]=new Text("Potions", Color.white);
 		
 		Item weapon=player.getInventory().getWeapon();
 		Item armour=player.getInventory().getArmour();
 		Item shield=player.getInventory().getShield();
+		Item helmet=player.getInventory().getHelmet();
+		Item helmet=player.getInventory().getBoots();
 		
 		items[0]= Text.getText(weapon);
 		items[1]= Text.getText(armour);
