@@ -44,11 +44,13 @@ public class GameLobbyClient extends GameLobbyState {
 			if(port != null){
 				this.setPlayerNames(port.getPlayerNames());
 				String msg = "";
-				for(String elem : getPlayerNames()){
-					msg += "\n" + elem;
+				if(getPlayerNames() != null){
+					for(String elem : getPlayerNames()){
+						msg += "\n" + elem;
+					}
+					msg = msg.substring(1);
+					textBox.setMsg(msg);
 				}
-				msg = msg.substring(1);
-				textBox.setMsg(msg);
 			}
 		}
 	}
