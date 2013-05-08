@@ -56,10 +56,12 @@ public enum GraphicsPaths {
 		SPEAR_SPRITE("spear/", ITEMS),
 		ARMOUR_SPRITE("armor/", ITEMS),
 		SHIELD_SPRITE("shield/", ITEMS),
+		HELMET_SPRITE("helmet/", ITEMS),
+        BOOTS_SPRITE("boots/", ITEMS),
 		POTION_SPRITE("potion/", ITEMS),
-		ATTACK_POTION_SPRITE("attack/", POTION_SPRITE),
-		DEFENSE_POTION_SPRITE("defense/", POTION_SPRITE),
-		HEALTH_POTION_SPRITE("health/", POTION_SPRITE);
+			ATTACK_POTION_SPRITE("attack/", POTION_SPRITE),
+			DEFENSE_POTION_SPRITE("defense/", POTION_SPRITE),
+			HEALTH_POTION_SPRITE("health/", POTION_SPRITE);
 	
 	public final String path;
 	final GraphicsPaths superpath;

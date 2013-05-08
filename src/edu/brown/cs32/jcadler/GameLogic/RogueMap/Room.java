@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import edu.brown.cs32.goingrogue.map.Space;
 import edu.brown.cs32.goingrogue.map.Tile;
 import edu.brown.cs32.goingrogue.map.Wall;
-import edu.brown.cs32.goingrogue.util.IndexPair;
 
 /**
  *
@@ -99,7 +98,7 @@ public class Room implements Space
         return (int)room.getY();
     }
     
-    public boolean isValid(Point2D.Double p)
+    public boolean isValid(Point2D p)
     {
         if(room.contains(p))
             return true;

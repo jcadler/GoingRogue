@@ -43,7 +43,6 @@ public class MapReader
         for(Corridor c : cs)
         {
             boolean addStart=false;
-            boolean addEnd=false;
             for(Room r : rooms)
             {
                 if(r.getID().equals(c.getStart().getID()))
@@ -51,16 +50,9 @@ public class MapReader
                     r.addCorridor(c);
                     addStart=true;
                 }
-                else if(r.getID().equals(c.getEnd().getID()))
-                {
-                    r.addCorridor(c.flipped());
-                    addEnd=true;
-                }
             }
             if(!addStart)
                 throw new IllegalArgumentException("A corridor lacks a starting room");
-            if(!addEnd)
-                throw new IllegalArgumentException("A corridor lacks an ending room");
         }
         return new LogicMap(rooms);
     }

@@ -1,7 +1,6 @@
 package edu.brown.cs32.goingrogue.gameobjects.creatures;
 
 import edu.brown.cs32.goingrogue.gameobjects.actions.QuaffAction;
-import edu.brown.cs32.goingrogue.gameobjects.creatures.util.Text;
 import edu.brown.cs32.goingrogue.gameobjects.items.Item;
 
 import java.util.List;

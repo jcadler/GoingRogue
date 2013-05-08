@@ -4,9 +4,12 @@ import java.util.List;
 
 import com.esotericsoftware.kryonet.EndPoint;
 
+import edu.brown.cs32.jcadler.GameLogic.NetworkedGameLogic;
+
 public interface RoguePort{
 	public void start(String host, int port) throws Exception;
 	public void close();
+	public void addGame(NetworkedGameLogic g);
 	public String getName();
 	public void setName(String name);
 	public EndPoint getEndPoint();

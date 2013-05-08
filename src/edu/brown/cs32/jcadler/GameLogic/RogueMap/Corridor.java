@@ -87,7 +87,7 @@ public class Corridor implements Space
         return position2;
     }
     
-    public boolean isValid(Point2D.Double p)
+    public boolean isValid(Point2D p)
     {
         return rect.contains(p);
     }

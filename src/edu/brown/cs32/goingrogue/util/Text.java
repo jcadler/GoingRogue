@@ -1,4 +1,4 @@
-package edu.brown.cs32.goingrogue.gameobjects.creatures.util;
+package edu.brown.cs32.goingrogue.util;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,9 +68,11 @@ public class Text {
 		return getText(c.getAttributes());
 	}
 	
-	public static Text getText(List<Attribute> attsToDisplay) {
-		for(int i=0; i<attsToDisplay.size(); i++) {
-			Attribute a=attsToDisplay.get(i);
+	public static Text getText(List<Attribute> attributes) {
+		List<Attribute> attsToDisplay = new ArrayList<>();
+		
+		for(int i=0; i<attributes.size(); i++) {
+			Attribute a=attributes.get(i);
 			int priority=getPriority(a.type);
 			if(!(priority==-1)) {
 				while(attsToDisplay.size()<=priority) attsToDisplay.add(null);
