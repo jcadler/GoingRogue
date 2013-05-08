@@ -73,44 +73,47 @@ public class Player extends Creature {
     public int getMaxHealth() {
         return _initMaxHealth + 20 * (_level - 1);
     }
+    
+    
+    //Methods for interfacing with the keyboard
+    
+    public void moveUp() {
+        addAction(new MoveAction((3.0 * Math.PI) / 2.0, this, 1));
+        addAction(new ChangeDirectionAction(this, 0));
+    }
 
-        public void moveUp() {
-            addAction(new MoveAction((3.0 * Math.PI) / 2.0, this, 1));
-            addAction(new ChangeDirectionAction(this, 0));
-        }
+    public void moveRight() {
+        addAction(new MoveAction(0, this, 1));
+        addAction(new ChangeDirectionAction(this, Math.PI / 2.0));
+    }
 
-        public void moveRight() {
-            addAction(new MoveAction(0, this, 1));
-            addAction(new ChangeDirectionAction(this, Math.PI / 2.0));
-        }
+    public void moveDown() {
+        addAction(new MoveAction(Math.PI / 2.0, this, 1));
+        addAction(new ChangeDirectionAction(this, Math.PI));
+    }
 
-        public void moveDown() {
-            addAction(new MoveAction(Math.PI / 2.0, this, 1));
-            addAction(new ChangeDirectionAction(this, Math.PI));
-        }
+    public void moveLeft() {
+        addAction(new MoveAction(Math.PI, this, 1));
+        addAction(new ChangeDirectionAction(this, -Math.PI / 2.0));
+    }
 
-        public void moveLeft() {
-            addAction(new MoveAction(Math.PI, this, 1));
-            addAction(new ChangeDirectionAction(this, -Math.PI / 2.0));
+    public void attack() {
+        if (attack == null || attack.getTimer() <= 0) {
+            Action a = new ArcAttackAction(getDirection(), getWeaponRange(), getWeaponArcLength(),
+                    getWeaponAttackTimer(), Player.this);
+            attack = a;
+            addAction(a);
         }
+    }
 
-        public void attack() {
-            if (attack == null || attack.getTimer() <= 0) {
-                Action a = new ArcAttackAction(getDirection(), getWeaponRange(), getWeaponArcLength(),
-                        getWeaponAttackTimer(), Player.this);
-                attack = a;
-                addAction(a);
-            }
-        }
+    public void pickUp() {
+        addAction(new PickupAction(new PickupRange(this), this));
+        System.out.println("Picked up something");
+    }
 
-        public void pickUp() {
-            addAction(new PickupAction(new PickupRange(this), this));
-            System.out.println("Picked up something");
+    public void quaff() {
+        if (getInventory().getNumPotions() > 0) {
+            addAction(new QuaffAction(getInventory().getPotion(0), this));
         }
-
-        public void quaff() {
-            if (getInventory().getNumPotions() > 0) {
-                addAction(new QuaffAction(getInventory().getPotion(0), this));
-            }
-        }
+    }
 }

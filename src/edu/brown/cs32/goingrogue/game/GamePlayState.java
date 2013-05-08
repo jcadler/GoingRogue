@@ -52,7 +52,8 @@ public class GamePlayState extends BasicGameState{
 
 	ConcurrentHashMap<Integer, Integer> keysPressed;
 	PriorityQueue<Integer> keyEventQueue;
-
+	boolean justPickedUp;
+	
 	GameLogic game;
 	Player player;
 	RogueMap map;
@@ -103,6 +104,8 @@ public class GamePlayState extends BasicGameState{
 				return keysPressed.get(i1)-keysPressed.get(i2);
 			}
 		});
+		
+		justPickedUp=false;
 		
 		hudSize=0;
 		deathMessage=DeathMessage.getRandomMessage();
@@ -192,7 +195,10 @@ public class GamePlayState extends BasicGameState{
 			if(key==KeyCodes.A || key==KeyCodes.LEFT) p.moveLeft();
 			if(key==KeyCodes.D || key==KeyCodes.RIGHT) p.moveRight();
 			if(key==KeyCodes.SPACE) p.attack();
-			if(key==KeyCodes.E) p.pickUp();
+			if(key==KeyCodes.E) if(!justPickedUp){
+				p.pickUp();
+				justPickedUp=true;
+			}
 			if(key==KeyCodes.R); p.quaff();
 			if(key==KeyCodes.ESC) System.exit(0);
 			
@@ -701,9 +707,9 @@ public class GamePlayState extends BasicGameState{
 			Potion p=(Potion) player.getInventory().getPotion(i);
 			if(p.containsAttribute(Attribute.ATTACK_POTION)) {
 				attackPotions++;
-			} else if(p.containsAttribute(Attribute.ATTACK_POTION)) {
+			} else if(p.containsAttribute(Attribute.DEFENSE_POTION)) {
 				defensePotions++;
-			} else if(p.containsAttribute(Attribute.ATTACK_POTION)) {
+			} else if(p.containsAttribute(Attribute.HEALTH_POTION)) {
 				healthPotions++;
 			}
 		}
@@ -863,5 +869,7 @@ public class GamePlayState extends BasicGameState{
 	public void keyReleased(int key, char c) {
 		keysPressed.put(key, -1);
 		keyEventQueue.remove(key);
+		
+		if(key==KeyCodes.E) justPickedUp=false;
 	}
 }

@@ -53,7 +53,7 @@ public class RandomDataUtilHelper {
     static CreatureStats getSnakeStats(List<Attribute> attributes) {
         double attack = randomDouble(90, 100);
         double defense = randomDouble(30, 40);
-        int health = randomInt(5, 10);
+        int health = randomInt(10, 20);
         double accuracy = randomDouble(100, 120);
         double speed = randomDouble(0.004, 0.005);
         return new CreatureStats(attack, defense, health, accuracy, speed);
