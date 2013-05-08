@@ -91,7 +91,11 @@ public class AICreature extends Creature {
                 closestCreature = currCreature;
             }
         }
-        return closestCreature;
+        if (inSameRoom(closestCreature, this)) {
+            return closestCreature;
+        } else {
+            return null;
+        }
     }
 
     private Room getCreatureRoom(Creature creature) {
@@ -158,7 +162,7 @@ public class AICreature extends Creature {
         }
         return new Point2D.Double(xVal, yVal);
     }
-    
+
     private boolean inSameRoom(Creature c1, Creature c2) {
         Room c1Room = getCreatureRoom(c1);
         Room c2Room = getCreatureRoom(c2);
