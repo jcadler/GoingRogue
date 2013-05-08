@@ -86,7 +86,13 @@ public class GameLogic
                 continue;
             for(int i=0;i<numC;i++)
             {
-                Creature addC = AICreatureFactory.create(creatures,crrntMap.getRooms(),level);
+            	List<Creature> tgt = new ArrayList<>();
+            	for(Creature c : creatures){
+            		if(c instanceof Player){
+            			tgt.add(c);
+            		}
+            	}
+                Creature addC = AICreatureFactory.create(tgt,crrntMap.getRooms(),level);
                 addC.setCenterPosition(new Point2D.Double(r.nextInt(rm.getWidth())+rm.getX(),
                                                          r.nextInt(rm.getHeight())+rm.getY()));
                 creatures.add(addC);
