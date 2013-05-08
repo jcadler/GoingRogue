@@ -47,7 +47,7 @@ public class AICreature extends Creature {
         Point2D targetPoint;
         //if (getCreatureRoom(closestCreature) != null) {
         if (closestCreature != null) {
-            targetPoint = closestCreature.getPosition();
+            targetPoint = closestCreature.getCenterPosition();
         } else {
             return new ArrayList<>();
         }
@@ -61,8 +61,8 @@ public class AICreature extends Creature {
 //            targetPoint = corridorEntrance;
 //        }
 
-        setDirection(getAngleFromTo(getPosition(), targetPoint));
-        if (getPosition().distance(targetPoint) < DIST_TO_ATTACK) {
+        setDirection(getAngleFromTo(getCenterPosition(), targetPoint));
+        if (getCenterPosition().distance(targetPoint) < DIST_TO_ATTACK) {
             returnActions.add(
                     new ArcAttackAction(getDirection(), getWeaponRange(), getWeaponArcLength(),
                     getWeaponAttackTimer(), this));
@@ -78,13 +78,13 @@ public class AICreature extends Creature {
         Creature closestCreature = null;
         for (int i = 0; i < _creatures.size(); ++i) {
             Creature currCreature = _creatures.get(i);
-            Point2D currCreaturePos = currCreature.getPosition();
+            Point2D currCreaturePos = currCreature.getCenterPosition();
             if ((closestCreature == null) && (!currCreature.equals(this))
                     && (currCreature.getAttributes().contains(Attribute.PLAYER))) {
                 closestCreature = currCreature;
             } else if ((closestCreature != null)
-                    && (getPosition().distance(currCreaturePos)
-                    < getPosition().distance(closestCreature.getPosition()))
+                    && (getCenterPosition().distance(currCreaturePos)
+                    < getCenterPosition().distance(closestCreature.getCenterPosition()))
                     && (!currCreature.equals(this))
                     && (currCreature.getAttributes().contains(Attribute.PLAYER))
                     && inSameRoom(closestCreature, this)) {
@@ -101,7 +101,7 @@ public class AICreature extends Creature {
     private Room getCreatureRoom(Creature creature) {
         for (Room room : _rooms) {
             Rectangle2D roomRec = new Rectangle2D.Double(room.getX(), room.getY(), room.getWidth(), room.getHeight());
-            if (roomRec.contains(creature.getPosition())) {
+            if (roomRec.contains(creature.getCenterPosition())) {
                 return room;
             }
         }
@@ -111,7 +111,7 @@ public class AICreature extends Creature {
     private Corridor getCreatureCorridor(Creature creature) {
         for (Room room : _rooms) {
             for (Corridor corridor : room.getCorridors()) {
-                if (corridor.getRectangle().contains(creature.getPosition())) {
+                if (corridor.getRectangle().contains(creature.getCenterPosition())) {
                     return corridor;
                 }
             }
