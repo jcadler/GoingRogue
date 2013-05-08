@@ -21,7 +21,11 @@ public class XPCalculator {
 	 */
 	public static int getXP(Creature c) {
 		
-		if(c.containsAttribute(Attribute.PLAYER)) {
+		if(c.containsAttribute(Attribute.ITEM)) {
+			return 0;
+		}
+		
+		else if(c.containsAttribute(Attribute.PLAYER)) {
 			return getTotalPlayerXP((Player)c);
 		}
 		
