@@ -46,14 +46,14 @@ public class Inventory {
             }
         } else if (item.containsAttribute(ARMOUR)) {
             if (_armour != null) {
-                System.out.println("Armour: " + _armour);
+                System.out.println("Armour: " + _armour.getGridItem().getName());
                 swap(item, _armour);
             } else {
                 _armour = item;
             }
         } else if (item.containsAttribute(SHIELD)) {
             if (_shield != null) {
-                System.out.println("Shield: " + _armour);
+                System.out.println("Shield: " + _shield.getGridItem().getName());
                 swap(item, _shield);
             } else {
                 _shield = item;
@@ -66,7 +66,7 @@ public class Inventory {
             }
         } else if (item.containsAttribute(BOOTS)) {
             if (_boots != null) {
-                System.out.println("Boots: " + _armour);
+                System.out.println("Boots: " + _boots.getGridItem().getName());
                 swap(item, _boots);
             } else {
                 _boots = item;
