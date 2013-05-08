@@ -69,7 +69,7 @@ public class RandomDataUtil {
         Random generator = new Random(System.currentTimeMillis());
 
         // type of item
-        int choice = generator.nextInt(4);
+        int choice = generator.nextInt(6);
         switch (choice) {
             case 0:
                 attributes.add(WEAPON);
@@ -98,6 +98,12 @@ public class RandomDataUtil {
                 break;
             case 3:
                 attributes.add(POTION);
+                break;
+            case 4:
+                attributes.add(HELMET);
+                break;
+            case 5:
+                attributes.add(BOOTS);
                 break;
         }
 
@@ -179,6 +185,10 @@ public class RandomDataUtil {
             name += " Armour";
         } else if (attributes.contains(SHIELD)) {
             name += " Shield";
+        } else if (attributes.contains(HELMET)) {
+            name += " Helmet";
+        } else if (attributes.contains(BOOTS)) {
+            name += " Boots";
         } else if (attributes.contains(POTION)) {
             name += " Potion";
         }
@@ -211,6 +221,10 @@ public class RandomDataUtil {
             return ARMOUR_SPRITE.path;
         } else if (attributes.contains(SHIELD)) {
             return SHIELD_SPRITE.path;
+        } else if (attributes.contains(HELMET)) {
+            return HELMET_SPRITE.path;
+        } else if (attributes.contains(BOOTS)) {
+            return BOOTS_SPRITE.path;
         } else if (attributes.contains(POTION)) {
             return POTION_SPRITE.path;
         } else {
@@ -249,13 +263,17 @@ public class RandomDataUtil {
             return getArmourStats(attributes);
         } else if (attributes.contains(SHIELD)) {
             return getShieldStats(attributes);
+        } else if (attributes.contains(HELMET)) {
+            return getHelmetStats(attributes);
+        } else if (attributes.contains(BOOTS)) {
+            return getBootsStats(attributes);
         } else if (attributes.contains(POTION)) {
             return getPotionStats(attributes);
         } else {
             return null; // TODO OK to return null?
         }
     }
-    
+
     public static CreatureSize getCreatureSize(List<Attribute> attributes) {
         if (attributes.contains(EMU)) {
             return new CreatureSize(1.0, 1.0);

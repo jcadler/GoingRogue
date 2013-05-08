@@ -56,6 +56,8 @@ public enum GraphicsPaths {
 		SPEAR_SPRITE("spear/", ITEMS),
 		ARMOUR_SPRITE("armor/", ITEMS),
 		SHIELD_SPRITE("shield/", ITEMS),
+                HELMET_SPRITE("helmet/", ITEMS),
+                BOOTS_SPRITE("boots/", ITEMS),
 		POTION_SPRITE("potion/", ITEMS);
 	
 	public final String path;

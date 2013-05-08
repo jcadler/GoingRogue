@@ -14,6 +14,8 @@ public enum Attribute {
     WEAPON("Weapon", null, Type.IDENTIFIER),
     ARMOUR("Armour", null, Type.ITEM),
     SHIELD("Shield", null, Type.ITEM),
+    HELMET("Helmet", null, Type.ITEM),
+    BOOTS("Boots", null, Type.ITEM),
     POTION("Potion", null, Type.ITEM),
     SWORD("Sword", null, Type.ITEM),
     AXE("Axe", null, Type.ITEM),
