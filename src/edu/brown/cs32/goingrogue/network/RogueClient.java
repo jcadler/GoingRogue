@@ -8,6 +8,7 @@ import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.EndPoint;
 import com.esotericsoftware.kryonet.Listener;
 
+import edu.brown.cs32.goingrogue.gameobjects.creatures.Creature;
 import edu.brown.cs32.jcadler.GameLogic.GameLogic;
 import edu.brown.cs32.jcadler.GameLogic.NetworkedGameLogic;
 /** Basic networking for a non-host player **/
@@ -16,7 +17,7 @@ public class RogueClient extends Listener implements RoguePort{
 	private String name;
 	private List<String> playerNames = new ArrayList<>();;
 	GameLogic g = null;
-	
+
 	public String getName(){
 		return name;
 	}
@@ -29,7 +30,7 @@ public class RogueClient extends Listener implements RoguePort{
 	public void addGame(NetworkedGameLogic g){
 		this.g = g;
 	}
-	
+
 	public RogueClient(String name)
 	{
 		this.name = name;
@@ -44,7 +45,7 @@ public class RogueClient extends Listener implements RoguePort{
 	public void send(Object o){
 		net.sendTCP(o);
 	}
-	
+
 	public List<String> getPlayerNames(){
 		//	Update me please - next tick will provide accurate info.
 		net.sendTCP("lobby");
@@ -84,17 +85,25 @@ public class RogueClient extends Listener implements RoguePort{
 	public void connected(Connection c){
 		net.sendTCP("name\t" + name);
 	}
-	
+
 	@Override
 	public void disconnected(Connection c){
 		playerNames.clear();
 		playerNames.add("Disconnected from server!");
 	}
-	
+
+	@SuppressWarnings({"unchecked"})
 	@Override
 	public void received(Connection c, Object o){
 		if(o instanceof List){
-			//	g.setCreatures(o);	Need some way to set this in GameLogic
+			/*if(g != null){
+				if(((List) o).isEmpty() || ((List)o).get(0) instanceof Action){
+					g.setActions((List<Action>) o);
+				}
+				else{*/
+			g.setCreatures((List<Creature>) o);
+			//}
+			//}
 		}
 		if(o instanceof String){
 			try{
@@ -117,7 +126,7 @@ public class RogueClient extends Listener implements RoguePort{
 				}
 			}
 			catch(Exception e){
-				
+
 			}
 		}
 	}
