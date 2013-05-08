@@ -46,14 +46,12 @@ public class Inventory {
             }
         } else if (item.containsAttribute(ARMOUR)) {
             if (_armour != null) {
-                System.out.println("Armour: " + _armour.getGridItem().getName());
                 swap(item, _armour);
             } else {
                 _armour = item;
             }
         } else if (item.containsAttribute(SHIELD)) {
             if (_shield != null) {
-                System.out.println("Shield: " + _shield.getGridItem().getName());
                 swap(item, _shield);
             } else {
                 _shield = item;
@@ -66,7 +64,6 @@ public class Inventory {
             }
         } else if (item.containsAttribute(BOOTS)) {
             if (_boots != null) {
-                System.out.println("Boots: " + _boots.getGridItem().getName());
                 swap(item, _boots);
             } else {
                 _boots = item;
@@ -176,7 +173,7 @@ public class Inventory {
         i2.getGridItem().setPickedUp(false);
     }
 
-    private Potion makePotion(Item item) {
+    public static Potion makePotion(Item item) {
         Potion returnPotion = null;
         if (item.containsAttribute(HEALTH_POTION)) {
             returnPotion = new HealthPotion(item.getGridItem());
