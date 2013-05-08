@@ -2,6 +2,7 @@ package edu.brown.cs32.jcadler.GameLogic;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import edu.brown.cs32.goingrogue.gameobjects.actions.Action;
@@ -23,9 +24,13 @@ public class NetworkedGameLogic extends GameLogic
     private RoguePort port;	//	Networking aspect!
     private boolean isServer;	//	Is this a host player?
     
-    public NetworkedGameLogic(RoguePort port, LogicMap map, List<Creature> players, Player pl) throws IOException
+    public NetworkedGameLogic(RoguePort port, LogicMap map, HashMap<Integer, Player> players, Player pl) throws IOException
     {
-        super(map, players, pl);
+        super(map, new ArrayList<Creature>(), pl);
+        for(Player p : players.values()){
+        	setPlayer(p);
+        }
+    	selectPlayer(player);
         addCreatures(10, 4);
         this.port = port;
         port.addGame(this);
@@ -85,7 +90,6 @@ public class NetworkedGameLogic extends GameLogic
             }
         }
         List<Creature> dead = new ArrayList<>();
-        boolean exit = false;
         for(Creature c : creatures)
         {
             if(c.isDead())
@@ -102,8 +106,6 @@ public class NetworkedGameLogic extends GameLogic
                         last=r;
                         already=true;
                     }
-                    if(r.atExit(c.getPosition()))
-                        exit=true;
                 }
             }
         }

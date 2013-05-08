@@ -62,7 +62,6 @@ public class GameLogic
     public GameLogic(LogicMap map, List<Creature> creatures, Player player){
     	crrntMap = map;
     	this.creatures = creatures;
-    	this.player = player;
     	selectPlayer(player);
         actions = new ArrayList<>();
     	level = 0;
@@ -97,7 +96,7 @@ public class GameLogic
         
     }
     
-    private void setPlayer(Player p)
+    protected void setPlayer(Player p)
     {
         Random r = new Random();
         List<Room> rooms = crrntMap.getRooms();
