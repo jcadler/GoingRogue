@@ -53,6 +53,7 @@ public class Inventory {
             }
         } else if (item.containsAttribute(SHIELD)) {
             if (_shield != null) {
+                System.out.println("Shield: " + _armour);
                 swap(item, _shield);
             } else {
                 _shield = item;
@@ -65,6 +66,7 @@ public class Inventory {
             }
         } else if (item.containsAttribute(BOOTS)) {
             if (_boots != null) {
+                System.out.println("Boots: " + _armour);
                 swap(item, _boots);
             } else {
                 _boots = item;
