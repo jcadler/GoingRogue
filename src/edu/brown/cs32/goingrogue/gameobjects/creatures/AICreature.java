@@ -20,7 +20,7 @@ public class AICreature extends Creature {
 
     private List<Creature> _creatures;
     private List<Room> _rooms;
-    private final double DIST_TO_ATTACK;
+    private final double DIST_TO_ATTACK = 0.5;
 
     public AICreature(Point2D.Double pos, double direction, String name, List<Attribute> attributes,
             CreatureStats stats, String spritePath, CreatureSize size, List<Creature> creatures,
@@ -28,7 +28,7 @@ public class AICreature extends Creature {
         super(pos, direction, name, attributes, stats, spritePath, size);
         _creatures = creatures;
         _rooms = rooms;
-        DIST_TO_ATTACK = getWeaponRange();
+        //DIST_TO_ATTACK = getWeaponRange();
 
         _shouldRotate = false;
         _shouldFlip = true;
