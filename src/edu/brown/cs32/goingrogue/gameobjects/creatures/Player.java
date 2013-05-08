@@ -22,7 +22,7 @@ import edu.brown.cs32.goingrogue.util.Text;
  */
 public class Player extends Creature {
 
-    private InputHandler handle;
+    private Action attack;
     private int _xp;
     private int _level;
     private int _maxHealth;
@@ -31,7 +31,6 @@ public class Player extends Creature {
     public Player(Point2D.Double pos, double direction, String name,
             List<Attribute> attributes, CreatureStats stats, String sprite, CreatureSize size) {
         super(pos, direction, name, attributes, stats, sprite, size);
-        handle = new InputHandler(this);
 
         _xp = 0;
         _level = 1;
@@ -75,38 +74,24 @@ public class Player extends Creature {
         return _initMaxHealth + 20 * (_level - 1);
     }
 
-    public InputHandler getHandler() {
-        return handle;
-    }
-
-    public class InputHandler {
-
-        Player player;
-        Action attack;
-
-        InputHandler(Player p) {
-            player = p;
-            attack = null;
-        }
-
         public void moveUp() {
-            addAction(new MoveAction((3.0 * Math.PI) / 2.0, player, 1));
-            addAction(new ChangeDirectionAction(player, 0));
+            addAction(new MoveAction((3.0 * Math.PI) / 2.0, this, 1));
+            addAction(new ChangeDirectionAction(this, 0));
         }
 
         public void moveRight() {
-            addAction(new MoveAction(0, player, 1));
-            addAction(new ChangeDirectionAction(player, Math.PI / 2.0));
+            addAction(new MoveAction(0, this, 1));
+            addAction(new ChangeDirectionAction(this, Math.PI / 2.0));
         }
 
         public void moveDown() {
-            addAction(new MoveAction(Math.PI / 2.0, player, 1));
-            addAction(new ChangeDirectionAction(player, Math.PI));
+            addAction(new MoveAction(Math.PI / 2.0, this, 1));
+            addAction(new ChangeDirectionAction(this, Math.PI));
         }
 
         public void moveLeft() {
-            addAction(new MoveAction(Math.PI, player, 1));
-            addAction(new ChangeDirectionAction(player, -Math.PI / 2.0));
+            addAction(new MoveAction(Math.PI, this, 1));
+            addAction(new ChangeDirectionAction(this, -Math.PI / 2.0));
         }
 
         public void attack() {
@@ -119,14 +104,13 @@ public class Player extends Creature {
         }
 
         public void pickUp() {
-            addAction(new PickupAction(new PickupRange(player), player));
+            addAction(new PickupAction(new PickupRange(this), this));
             System.out.println("Picked up something");
         }
 
         public void quaff() {
             if (getInventory().getNumPotions() > 0) {
-                addAction(new QuaffAction(getInventory().getPotion(0), player));
+                addAction(new QuaffAction(getInventory().getPotion(0), this));
             }
         }
-    }
 }

@@ -68,10 +68,12 @@ public class Network {
 		k.register(String.class);
 		k.register(Creature.class);
 		k.register(Player.class);
+		k.register(Player.InputHandler.class);
 		k.register(java.util.UUID.class);
 		//	Items in Creature
 		k.register(List.class);
 		k.register(Point2D.class);
+		k.register(java.awt.geom.Point2D.Double.class);
 		k.register(Attribute.class);
 		k.register(CreatureStats.class);
 		k.register(Stats.class);
