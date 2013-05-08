@@ -149,10 +149,8 @@ public class MenuState extends BasicGameState{
 	@Override
 	public void enter(GameContainer gc, StateBasedGame gm){
 		try {
-			//components.clear();
-			//inputFields.clear();
-			//textBox = null;
-			//init(gc, gm);
+			if(components.isEmpty())
+				init(gc, gm);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
@@ -160,6 +158,8 @@ public class MenuState extends BasicGameState{
 
 	@Override
 	public void leave(GameContainer gc, StateBasedGame gm){
-
+		components.clear();
+		inputFields.clear();
+		textBox = null;
 	}
 }

@@ -1,5 +1,7 @@
 package edu.brown.cs32.goingrogue.game;
 
+import java.net.Inet4Address;
+
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
@@ -38,6 +40,13 @@ public class GameLobbyServer extends GameLobbyState {
 					msg += "\n" + elem;
 				}
 				msg = msg.substring(1);
+				try{
+					String serverInfo = "Server: " + Inet4Address.getLocalHost().getHostAddress() +"\n";
+					msg += serverInfo;
+				}
+				catch(Exception e){
+					msg += "Server: Unknown address!";
+				}
 				textBox.setMsg(msg);
 			}
 		}

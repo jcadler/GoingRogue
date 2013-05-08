@@ -1,5 +1,8 @@
 package edu.brown.cs32.goingrogue.game;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
@@ -74,6 +77,13 @@ public class GameLobbyClient extends GameLobbyState {
 			port.start(game.getHostName(), game.getPortNumber());
 		}
 		catch(Exception e){
+			if(port != null){
+				port.close();
+				port = null;
+			}
+			List<String> msg = new ArrayList<>();
+			msg.add("Failed to connect!");
+			setPlayerNames(msg);
 			System.err.println(e.getMessage());
 		}
 	}

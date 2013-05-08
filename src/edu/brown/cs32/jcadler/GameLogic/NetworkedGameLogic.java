@@ -2,20 +2,24 @@ package edu.brown.cs32.jcadler.GameLogic;
 
 import java.io.IOException;
 
+import edu.brown.cs32.goingrogue.network.RoguePort;
+import edu.brown.cs32.goingrogue.network.RogueServer;
+
 /**
  *
  * @author john
  */
 public class NetworkedGameLogic extends GameLogic
 {
-    private int roguePort;
-    private boolean server;
+    private RoguePort port;	//	Networking aspect!
+    private boolean isServer;	//	Is this a host player?
     
-    public NetworkedGameLogic(int port, boolean s) throws IOException
+    public NetworkedGameLogic(RoguePort port) throws IOException
     {
         super();
-        roguePort=port;
-        server=s;
+        this.port = port;
+        port.addGame(this);
+        isServer = (port instanceof RogueServer);
     }
     
     
