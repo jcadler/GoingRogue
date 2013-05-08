@@ -33,4 +33,12 @@ public abstract class GameLobbyState extends MenuState{
 			throws SlickException {
 		super.render(gc, game, g);
 	}
+	
+	@Override
+	public void leave(GameContainer gc, StateBasedGame game){
+		super.leave(gc, game);
+		if(port != null)
+			port.close();
+		port = null;
+	}
 }

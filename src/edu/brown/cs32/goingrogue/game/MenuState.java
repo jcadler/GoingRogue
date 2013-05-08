@@ -130,6 +130,9 @@ public class MenuState extends BasicGameState{
 	public void update(GameContainer gc, StateBasedGame game, int delta)
 			throws SlickException {
 		//	Doesn't really update. :/
+		if(!game.getCurrentState().equals(this)){
+			leave(gc, game);
+		}
 
 	}
 	
@@ -144,8 +147,6 @@ public class MenuState extends BasicGameState{
 
 	@Override
 	public void leave(GameContainer gc, StateBasedGame gm){
-		for(AbstractComponent c : components){
-			
-		}
+		//components.clear();
 	}
 }
