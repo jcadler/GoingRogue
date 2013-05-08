@@ -19,11 +19,12 @@ import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
 
 public class MenuState extends BasicGameState{
+	private boolean fakeInit = true;
 	protected String background = "graphics/menu/mmbg.png";	//	Default is Main Menu!
 	protected String menuData = "data/menus/mm.txt";
 	protected SlickTextBox textBox;
 	private Image bg;
-	private List<AbstractComponent> components;
+	protected List<AbstractComponent> components;
 	protected List<TextField> inputFields;
 	//private GameContainer gc;	//	Needed?
 
@@ -46,6 +47,10 @@ public class MenuState extends BasicGameState{
 	@Override
 	public void init(GameContainer gc, StateBasedGame game)
 			throws SlickException {
+		if(fakeInit){
+			fakeInit = false;
+			return;
+		}
 		try{
 			bg = new Image(background).getScaledCopy(gc.getWidth(), gc.getHeight());
 		}
@@ -149,7 +154,7 @@ public class MenuState extends BasicGameState{
 	@Override
 	public void enter(GameContainer gc, StateBasedGame gm){
 		try {
-			if(components.isEmpty())
+			if(components == null || components.isEmpty())
 				init(gc, gm);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
@@ -158,6 +163,9 @@ public class MenuState extends BasicGameState{
 
 	@Override
 	public void leave(GameContainer gc, StateBasedGame gm){
+		for(AbstractComponent c : components){
+			c.setLocation(1000, 800);
+		}
 		components.clear();
 		inputFields.clear();
 		textBox = null;

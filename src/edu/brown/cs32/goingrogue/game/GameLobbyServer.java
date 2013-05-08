@@ -20,8 +20,12 @@ public class GameLobbyServer extends GameLobbyState {
 	public void init(GameContainer gc, StateBasedGame gm)
 			throws SlickException {
 		super.init(gc, gm);
+		if(components == null)
+			return;
 		inputFields.get(0).setText(game.getUserName());
+		inputFields.get(0).setCursorPos(game.getUserName().length());
 		inputFields.get(1).setText("" + game.getPortNumber());
+		inputFields.get(1).setCursorPos(("" + game.getPortNumber()).length());
 	}
 
 	@Override

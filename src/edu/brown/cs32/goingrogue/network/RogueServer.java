@@ -13,15 +13,17 @@ import com.esotericsoftware.kryonet.Server;
 import edu.brown.cs32.goingrogue.gameobjects.actions.Action;
 import edu.brown.cs32.goingrogue.gameobjects.creatures.Creature;
 import edu.brown.cs32.goingrogue.gameobjects.creatures.Player;
+import edu.brown.cs32.goingrogue.gameobjects.creatures.factories.PlayerFactory;
 import edu.brown.cs32.jcadler.GameLogic.GameLogic;
 import edu.brown.cs32.jcadler.GameLogic.NetworkedGameLogic;
+import edu.brown.cs32.jcadler.GameLogic.RogueMap.LogicMap;
 /** Basic networking for a host **/
 public class RogueServer extends Listener implements RoguePort{
 	private Server net;
 	private String name = "";
 	private HashMap<Integer, Player> players;
 	//	No need (or way) to store the actual RogueClient - store mock RCs instead. 
-	private HashMap<Integer, LobbyEntry> lobby;
+	private HashMap<Integer, String> lobby;
 	GameLogic g = null;
 
 	public String getName()
@@ -38,7 +40,7 @@ public class RogueServer extends Listener implements RoguePort{
 	public void addGame(NetworkedGameLogic g){
 		this.g = g;
 	}
-	public HashMap<Integer, LobbyEntry> getLobby()
+	public HashMap<Integer, String> getLobby()
 	{
 		return lobby;
 	}
@@ -48,6 +50,21 @@ public class RogueServer extends Listener implements RoguePort{
 		this.name = name;
 	}
 
+	public void beginGame(){
+		try{
+			LogicMap map = LogicMap.getRandomMap();
+			List<Creature> creatures = new ArrayList<>();
+			for(Map.Entry<Integer, String> entry : lobby.entrySet()){
+				Player p = PlayerFactory.create(null, null);
+				p.setName(entry.getValue());
+				players.put(entry.getKey(), p);
+			}
+		}
+		catch(Exception e){
+			
+		}
+	}
+	
 	public void start(String dummy, int port) throws Exception
 	{
 		//	TCP only, default buffer should be ok.
@@ -60,7 +77,7 @@ public class RogueServer extends Listener implements RoguePort{
 		players = new HashMap<>();
 		lobby = new HashMap<>();
 		//	Add the host to the lobby
-		lobby.put(-1, new LobbyEntry(getName(), null));
+		lobby.put(-1, getName());
 		//	TODO: Be able to convert this lobby into an actual game, move entries to players.
 	}
 
@@ -85,8 +102,8 @@ public class RogueServer extends Listener implements RoguePort{
 		}
 		else{
 			synchronized(lobby){
-				for(LobbyEntry p : lobby.values()){
-					rv.add(p.name);
+				for(String p : lobby.values()){
+					rv.add(p);
 					//System.out.println("Adding: " + p.name);
 				}
 			}
@@ -110,9 +127,7 @@ public class RogueServer extends Listener implements RoguePort{
 			//	Command should disconnect the client.
 			net.sendToTCP(c.getID(), "dc\tGame is already in session!");
 		}
-
-		LobbyEntry e = new LobbyEntry("", c);
-		lobby.put(c.getID(), e);
+		lobby.put(c.getID(), "");
 		//	(Maybe) notify some log that a player has connected.
 		net.sendToTCP(c.getID(), "connected!");
 	}
@@ -139,7 +154,7 @@ public class RogueServer extends Listener implements RoguePort{
 				if(cmd[0].equals("name")){
 					synchronized(lobby){
 						if(lobby.containsKey(c.getID())){
-							lobby.get(c.getID()).name = cmd[1];
+							lobby.put(c.getID(), cmd[1]);
 						}
 					}
 					synchronized(players){
@@ -162,15 +177,5 @@ public class RogueServer extends Listener implements RoguePort{
 
 			}
 		}
-	}
-}
-
-class LobbyEntry{
-	public String name;
-	public Connection connection;
-
-	public LobbyEntry(String n, Connection c){
-		name = n;
-		connection = c;
 	}
 }
