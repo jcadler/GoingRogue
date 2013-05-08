@@ -99,6 +99,8 @@ public class MenuGame extends StateBasedGame
 		AppGameContainer app = new AppGameContainer(new MenuGame());
 		app.setDisplayMode(800, 600, false);
 		app.setSmoothDeltas(false);
+		app.setMinimumLogicUpdateInterval(20);
+//		app.setTargetFrameRate(60);
 		app.start();
 	}
 }
