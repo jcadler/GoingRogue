@@ -160,9 +160,6 @@ public class MenuState extends BasicGameState{
 
 	@Override
 	public void leave(GameContainer gc, StateBasedGame gm){
-		for(TextField c : inputFields){
-			System.out.println("Deactivating");
-			c.deactivate();
-		}
+
 	}
 }

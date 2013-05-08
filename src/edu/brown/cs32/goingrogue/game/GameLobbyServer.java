@@ -17,6 +17,8 @@ public class GameLobbyServer extends GameLobbyState {
 	public void init(GameContainer gc, StateBasedGame gm)
 			throws SlickException {
 		super.init(gc, gm);
+		inputFields.get(0).setText(game.getUserName());
+		inputFields.get(1).setText("" + game.getPortNumber());
 	}
 
 	@Override
@@ -44,6 +46,9 @@ public class GameLobbyServer extends GameLobbyState {
 	@Override
 	public void buttonAction(){
 		try{
+			if(port != null){
+				port.close();
+			}
 			game.setUserName(inputFields.get(0).getText());
 			//	Default port number
 			int pn = 54242;
@@ -51,7 +56,7 @@ public class GameLobbyServer extends GameLobbyState {
 				pn = Integer.parseInt(inputFields.get(1).getText());
 			}
 			catch(Exception e){
-				System.err.println("Bad port number!");
+				System.err.println("Bad port number! Defaulting to 54242...");
 			}
 			game.setPortNumber(pn);
 			port = new RogueServer(game.getUserName());
