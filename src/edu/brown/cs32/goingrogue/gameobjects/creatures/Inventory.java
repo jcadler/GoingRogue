@@ -66,9 +66,7 @@ public class Inventory {
             } else {
                 _creature.addAction(new QuaffAction(item, _creature));
             }
-        }
-        
-        System.out.println("Picked up a "+Text.getText(item).getText());
+        }        
     }
 
     public Item getWeapon() {
