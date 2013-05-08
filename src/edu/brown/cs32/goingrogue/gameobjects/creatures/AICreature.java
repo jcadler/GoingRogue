@@ -99,9 +99,12 @@ public class AICreature extends Creature {
     }
 
     private Room getCreatureRoom(Creature creature) {
+        if (creature == null) {
+            return null;
+        }
         for (Room room : _rooms) {
-            Rectangle2D roomRec = new Rectangle2D.Double(room.getX() - 0.5, room.getY() - 0.5,
-                    room.getWidth() + 0.5, room.getHeight() + 0.5);
+            Rectangle2D roomRec = new Rectangle2D.Double(room.getX(), room.getY(),
+                    room.getWidth(), room.getHeight());
             if (roomRec.contains(creature.getCenterPosition())) {
                 return room;
             }

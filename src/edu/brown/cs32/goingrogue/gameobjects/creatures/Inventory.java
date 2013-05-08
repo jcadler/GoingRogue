@@ -13,9 +13,9 @@ import edu.brown.cs32.goingrogue.gameobjects.items.Potion;
 import java.util.ArrayList;
 
 /**
-*
-* @author Ben Weedon (bweedon)
-*/
+ *
+ * @author Ben Weedon (bweedon)
+ */
 public class Inventory {
 
     private Item _weapon;
@@ -88,11 +88,11 @@ public class Inventory {
     public Item getShield() {
         return _shield;
     }
-    
+
     public Item getHelmet() {
         return _helmet;
     }
-    
+
     public Item getBoots() {
         return _boots;
     }
@@ -164,7 +164,7 @@ public class Inventory {
         }
         return thingsToAdd;
     }
-    
+
     private void swap(Item i1, Item i2) {
         ItemStats temp = i1.getGridItem().getItemStats();
         i2.getGridItem().setItemStats(temp);
@@ -172,8 +172,8 @@ public class Inventory {
         i1.getGridItem().setPickedUp(false);
         i2.getGridItem().setPickedUp(false);
     }
-    
-    private Potion makePotion(Item item) {
+
+    public static Potion makePotion(Item item) {
         Potion returnPotion = null;
         if (item.containsAttribute(HEALTH_POTION)) {
             returnPotion = new HealthPotion(item.getGridItem());
