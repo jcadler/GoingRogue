@@ -1,5 +1,6 @@
 package edu.brown.cs32.goingrogue.gameobjects.creatures;
 
+import edu.brown.cs32.goingrogue.gameobjects.actions.QuaffAction;
 import edu.brown.cs32.goingrogue.gameobjects.items.Item;
 import java.util.List;
 import static edu.brown.cs32.goingrogue.gameobjects.creatures.Attribute.*;
@@ -15,13 +16,15 @@ public class Inventory {
     private Item _armour;
     private Item _shield;
     private List<Item> _potions;
+    private Creature _creature;
     private final int MAX_NUM_POTIONS = 5;
 
-    public Inventory() {
+    public Inventory(Creature creature) {
         _weapon = null;
         _armour = null;
         _shield = null;
         _potions = new ArrayList<>();
+        _creature = creature;
     }
 
     public void add(Item item) {
@@ -34,6 +37,8 @@ public class Inventory {
         } else if (item.containsAttribute(POTION)) {
             if (_potions.size() < MAX_NUM_POTIONS) {
                 _potions.add(item);
+            } else {
+                _creature.addAction(new QuaffAction(item, _creature));
             }
         }
     }
