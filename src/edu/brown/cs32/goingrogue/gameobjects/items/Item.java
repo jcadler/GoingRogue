@@ -19,6 +19,10 @@ public class Item {
     	return _gridItem;
     }
     
+    public void setGridItem(GridItem gridItem) {
+        _gridItem = gridItem;
+    }
+    
     public boolean containsAttribute(Attribute attribute) {
         return _gridItem.containsAttribute(attribute);
     }

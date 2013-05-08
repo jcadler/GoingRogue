@@ -6,6 +6,7 @@ import edu.brown.cs32.goingrogue.graphics.Text;
 
 import java.util.List;
 import static edu.brown.cs32.goingrogue.gameobjects.creatures.Attribute.*;
+import edu.brown.cs32.goingrogue.gameobjects.items.GridItem;
 import java.util.ArrayList;
 
 /**
@@ -35,14 +36,29 @@ public class Inventory {
 
     public void add(Item item) {
         if (item.containsAttribute(WEAPON)) {
+            if (_weapon != null) {
+                swap(item, _weapon);
+            }
             _weapon = item;
         } else if (item.containsAttribute(ARMOUR)) {
+            if (_armour != null) {
+                swap(item, _armour);
+            }
             _armour = item;
         } else if (item.containsAttribute(SHIELD)) {
+            if (_shield != null) {
+                swap(item, _shield);
+            }
             _shield = item;
         } else if (item.containsAttribute(HELMET)) {
+            if (_helmet != null) {
+                swap(item, _helmet);
+            }
             _helmet = item;
         } else if (item.containsAttribute(BOOTS)) {
+            if (_boots != null) {
+                swap(item, _boots);
+            }
             _boots = item;
         } else if (item.containsAttribute(POTION)) {
             if (_potions.size() < MAX_NUM_POTIONS) {
@@ -133,5 +149,11 @@ public class Inventory {
             thingsToAdd.add(boots);
         }
         return thingsToAdd;
+    }
+    
+    private void swap(Item i1, Item i2) {
+        GridItem temp = i1.getGridItem();
+        i2.setGridItem(temp);
+        i1.setGridItem(i2.getGridItem());
     }
 }
