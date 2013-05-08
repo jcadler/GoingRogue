@@ -202,7 +202,7 @@ public class GamePlayState extends BasicGameState{
 				p.pickUp();
 				keysPressedOnce.put(KeyCodes.E, false);
 			}
-			if(key==KeyCodes.R) {
+			if(keysPressedOnce.get(KeyCodes.R)) {
 				p.quaff();
 				keysPressedOnce.put(KeyCodes.R, false);
 			}
@@ -798,19 +798,19 @@ public class GamePlayState extends BasicGameState{
 				gc.getWidth()-xpSpace+horzDisplacement,
 				vertSlot-lineSize*1);
 		
-		g.drawString("Level",
+		g.drawString("Floor",
 				gc.getWidth()-xpSpace/2+horzDisplacement,
 				vertSlot-lineSize*2);
-		g.drawString(""+player.getLevel(),
+		g.drawString(""+game.getFloor(),
 				gc.getWidth()-xpSpace/2+horzDisplacement,
 				vertSlot-lineSize*1);
 		
 		vertSlot-=2*lineSize+bar;
 		
- 		g.drawString("Floor",
+ 		g.drawString("Level",
  				gc.getWidth()-xpSpace+horzDisplacement,
  				vertSlot-lineSize*2);
- 		g.drawString(""+game.getFloor(),
+ 		g.drawString(""+player.getLevel(),
  				gc.getWidth()-xpSpace+horzDisplacement,
  				vertSlot-lineSize);
 	}
