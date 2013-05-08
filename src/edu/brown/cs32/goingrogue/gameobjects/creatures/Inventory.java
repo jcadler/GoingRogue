@@ -169,6 +169,8 @@ public class Inventory {
         ItemStats temp = i1.getGridItem().getItemStats();
         i2.getGridItem().setItemStats(temp);
         i1.getGridItem().setItemStats(i2.getGridItem().getItemStats());
+        i1.getGridItem().setPickedUp(false);
+        i2.getGridItem().setPickedUp(false);
     }
     
     private Potion makePotion(Item item) {

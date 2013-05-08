@@ -55,6 +55,10 @@ public class GridItem extends Creature {
     public void pickUp() {
         _pickedUp = true;
     }
+    
+    public void setPickedUp(boolean pickedUp) {
+        _pickedUp = pickedUp;
+    }
 
     @Override
     public int hashCode() {
