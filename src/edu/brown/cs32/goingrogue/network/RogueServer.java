@@ -5,11 +5,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.newdawn.slick.state.GameState;
+import org.newdawn.slick.state.StateBasedGame;
+import org.newdawn.slick.state.transition.FadeInTransition;
+import org.newdawn.slick.state.transition.FadeOutTransition;
+
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.EndPoint;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
 
+import edu.brown.cs32.goingrogue.game.GamePlayState;
 import edu.brown.cs32.goingrogue.gameobjects.actions.Action;
 import edu.brown.cs32.goingrogue.gameobjects.creatures.Creature;
 import edu.brown.cs32.goingrogue.gameobjects.creatures.Player;
@@ -24,6 +30,7 @@ public class RogueServer extends Listener implements RoguePort{
 	private HashMap<Integer, Player> players;
 	//	No need (or way) to store the actual RogueClient - store mock RCs instead. 
 	private HashMap<Integer, String> lobby;
+	private StateBasedGame game;
 	GameLogic g = null;
 
 	public String getName()
@@ -45,9 +52,17 @@ public class RogueServer extends Listener implements RoguePort{
 		return lobby;
 	}
 
-	public RogueServer(String name) throws Exception
+	public RogueServer(String name, StateBasedGame game)
 	{
 		this.name = name;
+		this.game = game;
+	}
+
+	public StateBasedGame getGame() {
+		return game;
+	}
+	public void setGame(StateBasedGame game) {
+		this.game = game;
 	}
 
 	public void beginGame(){
@@ -58,6 +73,28 @@ public class RogueServer extends Listener implements RoguePort{
 				Player p = PlayerFactory.create(null, null);
 				p.setName(entry.getValue());
 				players.put(entry.getKey(), p);
+			}
+			g = new NetworkedGameLogic(this, map, creatures, players.get(-1));
+			for(Map.Entry<Integer, Player> entry : players.entrySet()){
+				if(entry.getKey() < 0)
+					continue;
+				try{
+					NetworkedGameLogic ngl = new NetworkedGameLogic(null, (NetworkedGameLogic) g, entry.getValue());
+					net.sendToTCP(entry.getKey(), ngl);
+				}
+				catch(Exception e){
+					System.err.println(e.getMessage());
+				}
+			}
+			//	Find the game state and give it the game logic, enter game!
+			for(int it = 0; it < game.getStateCount(); it++){
+				GameState gs = game.getState(it);
+				if(gs instanceof GamePlayState){
+					//TODO:
+					//gs.setGameLogic(g);
+					game.enterState(it, new FadeOutTransition(), new FadeInTransition());
+					return;
+				}
 			}
 		}
 		catch(Exception e){

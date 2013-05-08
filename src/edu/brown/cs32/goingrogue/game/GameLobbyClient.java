@@ -79,7 +79,7 @@ public class GameLobbyClient extends GameLobbyState {
 				System.err.println("Bad port number! Defaulting to 54242...");
 			}
 			game.setPortNumber(pn);
-			port = new RogueClient(game.getUserName());
+			port = new RogueClient(game.getUserName(), game);
 			port.start(game.getHostName(), game.getPortNumber());
 		}
 		catch(Exception e){
