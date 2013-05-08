@@ -109,12 +109,15 @@ public class RandomDataUtil {
                 attributes.add(POTION_TYPE);
                 choice = generator.nextInt(3);
                 switch (choice) {
-                    case 1:
+                    case 0:
                         attributes.add(ATTACK_POTION);
-                    case 2:
+                        break;
+                    case 1:
                         attributes.add(DEFENSE_POTION);
-                    case 3:
+                        break;
+                    case 2:
                         attributes.add(HEALTH_POTION);
+                        break;
                 }
                 break;
             case 4:
