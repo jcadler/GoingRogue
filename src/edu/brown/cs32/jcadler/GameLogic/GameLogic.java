@@ -64,7 +64,7 @@ public class GameLogic
     public GameLogic(LogicMap map, List<Creature> creatures, Player player){
     	crrntMap = map;
     	this.creatures = creatures;
-    	selectPlayer(player);
+    	//selectPlayer(player);
         actions = new ArrayList<>();
     	level = 0;
     }

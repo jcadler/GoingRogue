@@ -90,7 +90,7 @@ public class GameLobbyClient extends GameLobbyState {
 			List<String> msg = new ArrayList<>();
 			msg.add("Failed to connect!");
 			setPlayerNames(msg);
-			System.err.println(e.getMessage());
+			System.err.println("Client: " + e.getMessage());
 		}
 	}
 }

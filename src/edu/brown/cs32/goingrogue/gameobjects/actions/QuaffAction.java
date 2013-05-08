@@ -1,7 +1,7 @@
 package edu.brown.cs32.goingrogue.gameobjects.actions;
 
-import edu.brown.cs32.goingrogue.gameobjects.creatures.Attribute;
 import edu.brown.cs32.goingrogue.gameobjects.creatures.Creature;
+import edu.brown.cs32.goingrogue.gameobjects.creatures.Inventory;
 import edu.brown.cs32.goingrogue.gameobjects.items.Item;
 import edu.brown.cs32.goingrogue.gameobjects.items.Potion;
 import java.util.ArrayList;
@@ -22,7 +22,7 @@ public class QuaffAction extends Action {
 
     @Override
     public void act(Creature creature) {
-        Potion potion = (Potion) ((QuaffRange) getRange()).getItem();
+        Potion potion = Inventory.makePotion(((QuaffRange) getRange()).getItem());
         potion.act(((QuaffRange) getRange()).getSourceCreature());
     }
 

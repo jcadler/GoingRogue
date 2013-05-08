@@ -69,7 +69,7 @@ public class GameLobbyServer extends GameLobbyState {
 		try{
 			if(port != null){
 				((RogueServer) port).beginGame();
-				return;
+				return; 
 			}
 			game.setUserName(inputFields.get(0).getText());
 			//	Default port number
@@ -85,7 +85,7 @@ public class GameLobbyServer extends GameLobbyState {
 			port.start("dummy", pn);
 		}
 		catch(Exception e){
-			System.err.println(e.getMessage());
+			System.err.println("Lobby: " + e.getMessage());
 		}
 	}
 }

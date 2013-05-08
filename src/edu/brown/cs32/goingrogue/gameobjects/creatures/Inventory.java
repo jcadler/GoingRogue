@@ -24,17 +24,15 @@ public class Inventory {
     private Item _helmet;
     private Item _boots;
     private List<Potion> _potions;
-    private Creature _creature;
     private final int MAX_NUM_POTIONS = 5;
 
-    public Inventory(Creature creature) {
+    public Inventory() {
         _weapon = null;
         _armour = null;
         _shield = null;
         _helmet = null;
         _boots = null;
         _potions = new ArrayList<>();
-        _creature = creature;
     }
 
     public void add(Item item) {
@@ -47,14 +45,12 @@ public class Inventory {
             }
         } else if (item.containsAttribute(ARMOUR)) {
             if (_armour != null) {
-                System.out.println("Armour: " + _armour.getGridItem().getName());
                 swap(item, _armour);
             } else {
                 _armour = item;
             }
         } else if (item.containsAttribute(SHIELD)) {
             if (_shield != null) {
-                System.out.println("Shield: " + _shield.getGridItem().getName());
                 swap(item, _shield);
             } else {
                 _shield = item;
@@ -67,7 +63,6 @@ public class Inventory {
             }
         } else if (item.containsAttribute(BOOTS)) {
             if (_boots != null) {
-                System.out.println("Boots: " + _boots.getGridItem().getName());
                 swap(item, _boots);
             } else {
                 _boots = item;
@@ -75,9 +70,10 @@ public class Inventory {
         } else if (item.containsAttribute(POTION_TYPE)) {
             if (_potions.size() < MAX_NUM_POTIONS) {
                 _potions.add(makePotion(item));
-            } else {
-                _creature.addAction(new QuaffAction(item, _creature));
             }
+//            else {
+//                _creature.addAction(new QuaffAction(item, _creature));
+//            }
         }
     }
 
@@ -184,7 +180,7 @@ public class Inventory {
         i2.getGridItem().setPickedUp(false);
     }
 
-    private Potion makePotion(Item item) {
+    public static Potion makePotion(Item item) {
         Potion returnPotion = null;
         if (item.containsAttribute(HEALTH_POTION)) {
             returnPotion = new HealthPotion(item.getGridItem());

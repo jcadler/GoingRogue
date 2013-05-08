@@ -2,7 +2,6 @@ package edu.brown.cs32.goingrogue.game;
 
 import static java.lang.Math.toDegrees;
 
-import java.awt.Font;
 import java.awt.geom.Point2D;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -29,6 +28,7 @@ import edu.brown.cs32.goingrogue.gameobjects.creatures.Attribute;
 import edu.brown.cs32.goingrogue.gameobjects.creatures.Creature;
 import edu.brown.cs32.goingrogue.gameobjects.creatures.Player;
 import edu.brown.cs32.goingrogue.gameobjects.items.Item;
+import edu.brown.cs32.goingrogue.gameobjects.items.Potion;
 import edu.brown.cs32.goingrogue.graphics.Animation;
 import edu.brown.cs32.goingrogue.graphics.GraphicsLoader;
 import edu.brown.cs32.goingrogue.graphics.GraphicsPaths;
@@ -36,6 +36,7 @@ import edu.brown.cs32.goingrogue.map.RogueMap;
 import edu.brown.cs32.goingrogue.map.Space;
 import edu.brown.cs32.goingrogue.map.Tile;
 import edu.brown.cs32.goingrogue.map.Wall;
+import edu.brown.cs32.goingrogue.util.IndexPair;
 import edu.brown.cs32.goingrogue.util.Text;
 import edu.brown.cs32.goingrogue.util.Util;
 import edu.brown.cs32.jcadler.GameLogic.GameLogic;
@@ -57,8 +58,12 @@ public class GamePlayState extends BasicGameState{
 	RogueMap map;
 	AnimationCache cache;
 	
+	int hudSize;
+	String deathMessage;
+	
 	private int id; //Used for StateBasedGame
 
+	
 	public void setID(int id){
 		this.id = id;
 	}
@@ -98,6 +103,9 @@ public class GamePlayState extends BasicGameState{
 				return keysPressed.get(i1)-keysPressed.get(i2);
 			}
 		});
+		
+		hudSize=0;
+		deathMessage=DeathMessage.getRandomMessage();
 
 		//Initializes gameplay
 		try {
@@ -110,21 +118,37 @@ public class GamePlayState extends BasicGameState{
 			e.printStackTrace();
 		}
 	}
+	
+	public GameLogic getGameLogic() {
+		return game;
+	}
+	
+	public void setGameLogic(GameLogic g) {
+		game=g;
+		player=game.getPlayer();
+		map=game.getMap();
+	}
 
 	public Player getPlayer() {
 		return player;
 	}
-
+	
+	public int[] getScreenCenter() {
+		return new int[]{gc.getWidth()/2, (gc.getHeight()-hudSize)/2};
+	}
+	
 	//Converts a point on the game map to a point on the screen
 	int[] gameToScreen(Point2D point, Point2D center) {
 
+		int[] screenCenter=getScreenCenter();
+		
 		//Offsets from the center of the screen
 		double xOffset=(point.getX()-center.getX());
 		double yOffset=(point.getY()-center.getY());
 
 		//Screen coords
-		int x=(int)(gc.getWidth()/2+xOffset*gameToScreenFactor);
-		int y=(int)(gc.getHeight()/2+yOffset*gameToScreenFactor);
+		int x=(int)(screenCenter[0]+xOffset*gameToScreenFactor);
+		int y=(int)(screenCenter[1]+yOffset*gameToScreenFactor);
 
 		return new int[]{x, y};
 	}
@@ -133,8 +157,10 @@ public class GamePlayState extends BasicGameState{
 	Point2D screenToGame(int[] point, Point2D center) {
 
 		//The screen center
-		int screenXCenter=gc.getWidth()/2;
-		int screenYCenter=gc.getHeight()/2;
+		int[] screenCenter=getScreenCenter();
+		
+		int screenXCenter=screenCenter[0];
+		int screenYCenter=screenCenter[1];
 
 		//Game coords
 		double x=(point[0]-screenXCenter)/gameToScreenFactor + center.getX();
@@ -161,13 +187,13 @@ public class GamePlayState extends BasicGameState{
 		Player p = getPlayer();
 		
 		for(int key: keyEventQueue) {
-			if(key==KeyCodes.W || key==KeyCodes.UP) p.getHandler().moveUp();
-			if(key==KeyCodes.S || key==KeyCodes.DOWN) p.getHandler().moveDown();
-			if(key==KeyCodes.A || key==KeyCodes.LEFT) p.getHandler().moveLeft();
-			if(key==KeyCodes.D || key==KeyCodes.RIGHT) p.getHandler().moveRight();
-			if(key==KeyCodes.SPACE) p.getHandler().attack();
-			if(key==KeyCodes.E) p.getHandler().pickUp();
-			if(key==KeyCodes.R); p.getHandler().quaff();
+			if(key==KeyCodes.W || key==KeyCodes.UP) p.moveUp();
+			if(key==KeyCodes.S || key==KeyCodes.DOWN) p.moveDown();
+			if(key==KeyCodes.A || key==KeyCodes.LEFT) p.moveLeft();
+			if(key==KeyCodes.D || key==KeyCodes.RIGHT) p.moveRight();
+			if(key==KeyCodes.SPACE) p.attack();
+			if(key==KeyCodes.E) p.pickUp();
+			if(key==KeyCodes.R); p.quaff();
 			if(key==KeyCodes.ESC) System.exit(0);
 			
 		}
@@ -188,10 +214,24 @@ public class GamePlayState extends BasicGameState{
 	 */
 	public void render(Graphics g) {
 		
+		g.setBackground(Color.black);
+		
+		if(player.isDead()) {
+			
+			org.newdawn.slick.Font f=g.getFont();
+			int width=f.getWidth(deathMessage);
+			g.setColor(Color.red);
+			g.drawString(deathMessage,
+						gc.getWidth()/2-width/2,
+						gc.getHeight()/2);
+			
+			return;
+		}
+		
 		Point2D center=player.getPosition();
 		
 		Point2D upperLeft=screenToGame(new int[]{0,0}, center);
-		Point2D lowerRight=screenToGame(new int[]{gc.getWidth(),gc.getHeight()}, center);
+		Point2D lowerRight=screenToGame(new int[]{gc.getWidth(),gc.getHeight()-hudSize}, center);
 		
 		//Draws the map
 		List<Space> spaces=map.getData((int)(upperLeft.getX()-2), (int)(upperLeft.getY()-2), (int)(lowerRight.getX()+2), (int)(lowerRight.getY()+2));
@@ -622,39 +662,65 @@ public class GamePlayState extends BasicGameState{
 	void drawHUD(Graphics g) {
 		
 		int lineSize=20; //The spacing between each line
+		
 		int horzDisplacement=10; //The displacement from the horizontal slot the text is in
-		int xpSpace=150; //The width for displaying xp
-		int invSpace=gc.getWidth()-xpSpace; //The width for displaying inventory
+		int vertDisplacement=15; //The displacement from the screen's bottom
 		
-		int vertDisplacement=15; //The displacement from the bottom of the screen
-		int numItems=4;
+		//Bars for separating elements
+		int bar=10;
 		
-		int[] horzTextSlots=new int[numItems];
-		for(int i=0; i<numItems; i++) {
-			horzTextSlots[i]=i*invSpace/numItems;
-		}
+		int invSpace=gc.getWidth()-bar-200; //The width for displaying inventory
+		int xpSpace=gc.getWidth()-bar-invSpace; //The width for displaying xp
 		
-		Text[] titles=new Text[numItems];
-		Text[] items=new Text[numItems];
+		int invHorzSlots=3;
+		int invVertSlots=2;
 		
-		titles[0]=new Text("Weapon", Color.white);
-		titles[1]=new Text("Armour", Color.white);
-		titles[2]=new Text("Shield", Color.white);
-		titles[3]=new Text("Potions", Color.white);
+		int xpHorzSlots=2;
+		int xpVertSlots=2;
+		
+		Text[][] titles=new Text[invHorzSlots][invVertSlots];
+		Text[][] items=new Text[invHorzSlots][invVertSlots];
+		
+		titles[0][0]=new Text("Weapon", Color.white);
+		titles[1][0]=new Text("Armour", Color.white);
+		titles[2][0]=new Text("Shield", Color.white);
+		titles[0][1]=new Text("Helmet", Color.white);
+		titles[1][1]=new Text("Boots", Color.white);
+		titles[2][1]=new Text("Potions", Color.white);
 		
 		Item weapon=player.getInventory().getWeapon();
 		Item armour=player.getInventory().getArmour();
 		Item shield=player.getInventory().getShield();
+		Item helmet=player.getInventory().getHelmet();
+		Item boots=player.getInventory().getBoots();
 		
-		items[0]= Text.getText(weapon);
-		items[1]= Text.getText(armour);
-		items[2]= Text.getText(shield);
-		items[3]= new Text(""+player.getInventory().getNumPotions(),
-							new Color(216, 65, 183));
+		int attackPotions=0;
+		int defensePotions=0;
+		int healthPotions=0;
+		for(int i=0; i<player.getInventory().getNumPotions(); i++) {
+			Potion p=(Potion) player.getInventory().getPotion(i);
+			if(p.containsAttribute(Attribute.ATTACK_POTION)) {
+				attackPotions++;
+			} else if(p.containsAttribute(Attribute.ATTACK_POTION)) {
+				defensePotions++;
+			} else if(p.containsAttribute(Attribute.ATTACK_POTION)) {
+				healthPotions++;
+			}
+		}
 		
+		items[0][0]= Text.getText(weapon);
+		items[1][0]= Text.getText(armour);
+		items[2][0]= Text.getText(shield);
+		items[0][1]= Text.getText(helmet);
+		items[1][1]= Text.getText(boots);
+		IndexPair potionSlot=new IndexPair(2, 1);
 		
 		int ribbonRectHeight=5;
-		int boundingRectHeight=vertDisplacement+lineSize*2+ribbonRectHeight+8;
+		int boundingRectHeight=vertDisplacement;
+		for(int i=0; i<Math.max(invVertSlots, xpVertSlots); i++) {
+			boundingRectHeight+=2*lineSize+bar;
+		}
+		hudSize=boundingRectHeight+ribbonRectHeight;
 		
 		g.setColor(Color.black);
 		g.fill(new Rectangle(0, gc.getHeight()-boundingRectHeight, gc.getWidth(), boundingRectHeight));
@@ -665,32 +731,76 @@ public class GamePlayState extends BasicGameState{
 							gc.getWidth()*player.getHealth()/player.getMaxHealth(),
 							ribbonRectHeight));
 		
-		for(int i=0; i<numItems; i++) {
+		for(int i=0; i<invHorzSlots; i++)
+		for(int j=0; j<invVertSlots; j++) {
 			
-			g.setColor(titles[i].getColor());
-			g.drawString(titles[i].getText(),
-							horzTextSlots[i]+horzDisplacement,
-							gc.getHeight()-vertDisplacement-lineSize*2);
+			int horzSlot=(i*invSpace)/invHorzSlots;
+			int vertSlot=gc.getHeight()-bar;
+			for(int vertIndex=j; vertIndex<invVertSlots-1; vertIndex++) {
+				vertSlot-=2*lineSize+bar;
+			}
 			
-			g.setColor(items[i].getColor());
-			g.drawString(items[i].getText(),
-					horzTextSlots[i]+horzDisplacement,
-					gc.getHeight()-vertDisplacement-lineSize);
+			//Displays the item title
+			g.setColor(titles[i][j].getColor()) ;
+			g.drawString(titles[i][j].getText(),
+					horzSlot,
+					vertSlot-lineSize*2);
 			
-			g.setColor(Color.white);
-			g.drawString("XP",
-						gc.getWidth()-xpSpace+horzDisplacement,
-						gc.getHeight()-vertDisplacement-lineSize*2);
-			g.drawString(""+player.getXP()+"/"+player.getNextLevelXP(),
-					gc.getWidth()-xpSpace+horzDisplacement,
-					gc.getHeight()-vertDisplacement-lineSize);
-			g.drawString("Level",
-					gc.getWidth()-xpSpace/2+horzDisplacement,
-					gc.getHeight()-vertDisplacement-lineSize*2);
-			g.drawString(""+player.getLevel(),
-					gc.getWidth()-xpSpace/2+horzDisplacement,
-					gc.getHeight()-vertDisplacement-lineSize);
+			//Handles potions
+			if(potionSlot.x==i && potionSlot.y==j) {
+				
+				int slotSize=invSpace/invHorzSlots;
+				
+				g.setColor(Attribute.ATTACK_POTION.color);
+				g.drawString(""+attackPotions,
+							horzSlot,
+							vertSlot-lineSize*1);
+				
+				g.setColor(Attribute.DEFENSE_POTION.color);
+				g.drawString(""+defensePotions,
+							horzSlot+(int)(slotSize/3.),
+							vertSlot-lineSize*1);
+				
+				g.setColor(Attribute.HEALTH_POTION.color);
+				g.drawString(""+healthPotions,
+							horzSlot+(int)(2*slotSize/3.),
+							vertSlot-lineSize*1);
+				continue;
+			}
+			
+			//Displays the item
+			g.setColor(items[i][j].getColor());
+			g.drawString(items[i][j].getText(),
+					horzSlot,
+					vertSlot-lineSize*1);
 		}
+		
+		g.setColor(Color.white);
+		
+		int vertSlot=gc.getHeight()-vertDisplacement;
+		
+		g.drawString("XP", 
+					gc.getWidth()-xpSpace+horzDisplacement,
+					gc.getHeight()-vertDisplacement-lineSize*2);
+		g.drawString(""+player.getXP()+"/"+player.getNextLevelXP(),
+				gc.getWidth()-xpSpace+horzDisplacement,
+				vertSlot-lineSize*1);
+		
+		g.drawString("Level",
+				gc.getWidth()-xpSpace/2+horzDisplacement,
+				vertSlot-lineSize*2);
+		g.drawString(""+player.getLevel(),
+				gc.getWidth()-xpSpace/2+horzDisplacement,
+				vertSlot-lineSize*1);
+		
+		vertSlot-=2*lineSize+bar;
+		
+ 		g.drawString("Floor",
+ 				gc.getWidth()-xpSpace+horzDisplacement,
+ 				vertSlot-lineSize*2);
+ 		g.drawString(""+game.getFloor(),
+ 				gc.getWidth()-xpSpace+horzDisplacement,
+ 				vertSlot-lineSize);
 	}
 	
 	
