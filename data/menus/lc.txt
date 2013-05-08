@@ -7,4 +7,4 @@ textfield	200	25	100	350
 label	Player Name	dummy	100	225
 label	Host Name	dummy	100	275
 label	Port Number	dummy	100	325
-textbox	250	150	75	400	Waiting for game...
+textbox	250	150	75	400	Waiting for game!

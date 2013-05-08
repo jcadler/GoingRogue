@@ -7,6 +7,8 @@ import edu.brown.cs32.goingrogue.gameobjects.creatures.CreatureStats;
 import java.awt.geom.Point2D;
 import java.util.List;
 import static edu.brown.cs32.goingrogue.gameobjects.creatures.util.RandomDataUtil.*;
+import edu.brown.cs32.goingrogue.gameobjects.items.Item;
+import edu.brown.cs32.goingrogue.gameobjects.items.factories.GridWeaponFactory;
 import edu.brown.cs32.goingrogue.util.CreatureSize;
 import edu.brown.cs32.jcadler.GameLogic.RogueMap.Room;
 
@@ -26,6 +28,7 @@ public class AICreatureFactory {
         AICreature returnCreature = new AICreature(new Point2D.Double(0.0, 0.0), direction, name,
                 attributes, stats, sprite, size, creatures, rooms);
         returnCreature.setShouldRotate(false);
+        returnCreature.addItem(new Item(GridWeaponFactory.create(creatures, rooms)));
         return returnCreature;
     }
 }

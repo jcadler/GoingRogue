@@ -1,5 +1,6 @@
 package edu.brown.cs32.goingrogue.game;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.Font;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;

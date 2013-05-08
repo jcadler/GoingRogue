@@ -1,5 +1,6 @@
 package edu.brown.cs32.goingrogue.network;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.esotericsoftware.kryonet.Client;
@@ -12,7 +13,7 @@ import edu.brown.cs32.jcadler.GameLogic.GameLogic;
 public class RogueClient extends Listener implements RoguePort{
 	private Client net;
 	private String name;
-	private List<String> playerNames;
+	private List<String> playerNames = new ArrayList<>();;
 	GameLogic g = null;
 	
 	public String getName(){
@@ -69,8 +70,10 @@ public class RogueClient extends Listener implements RoguePort{
 
 	@Override
 	public void close() {
-		if(net != null)
+		if(net != null){
 			net.stop();
+			net.close();
+		}
 	}
 
 	@Override
@@ -90,7 +93,6 @@ public class RogueClient extends Listener implements RoguePort{
 			//	g.setCreatures(o);	Need some way to set this in GameLogic
 		}
 		if(o instanceof String){
-			System.out.println(o);
 			try{
 				String[] cmd = ((String) o).split("\t");
 				if(cmd[0].equals("dc")){
@@ -103,9 +105,11 @@ public class RogueClient extends Listener implements RoguePort{
 					//	g.setMap(cmd[1]);
 				}
 				else if(cmd[0].equals("lobby")){
+					//System.out.println(o);
 					playerNames.clear();
 					for(int it = 1; it < cmd.length - 1; it++)
 						playerNames.add(cmd[it]);
+					playerNames.add(cmd[cmd.length - 1].substring(0, cmd[cmd.length - 1].length() - 1));
 				}
 			}
 			catch(Exception e){
