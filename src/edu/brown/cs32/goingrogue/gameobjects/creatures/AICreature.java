@@ -52,11 +52,14 @@ public class AICreature extends Creature {
                 return new ArrayList<>();
             }
         } else {
-            Room creatureRoom = getCreatureRoom(this);
-            Corridor playerCorridor = getCreatureCorridor(closestCreature);
-            Point2D corridorEntrance = getEntrance(playerCorridor, creatureRoom);
-            targetPoint = corridorEntrance;
+            return new ArrayList<>();
         }
+//        else {
+//            Room creatureRoom = getCreatureRoom(this);
+//            Corridor playerCorridor = getCreatureCorridor(closestCreature);
+//            Point2D corridorEntrance = getEntrance(playerCorridor, creatureRoom);
+//            targetPoint = corridorEntrance;
+//        }
         
         setDirection(getAngleFromTo(getPosition(), targetPoint));
         if (getPosition().distance(targetPoint) < DIST_TO_ATTACK) {

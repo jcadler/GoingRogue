@@ -1,11 +1,14 @@
 package edu.brown.cs32.goingrogue.gameobjects.actions;
 
 import edu.brown.cs32.goingrogue.gameobjects.creatures.AICreature;
+import edu.brown.cs32.goingrogue.gameobjects.creatures.Attribute;
 import edu.brown.cs32.goingrogue.gameobjects.creatures.Creature;
 import edu.brown.cs32.goingrogue.util.CreatureSize;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
+import java.util.List;
 import org.junit.Test;
 
 /**
@@ -16,12 +19,14 @@ public class ArcAttackRangeTest {
 
     @Test
     public void testInRange() {
+        List<Attribute> playerAtt = new ArrayList<>();
+        playerAtt.add(Attribute.PLAYER);
         Point2D.Double c1Pos = new Point2D.Double(0.0, 0.0);
         CreatureSize c1Size = new CreatureSize(1.0, 1.0);
-        Creature c1 = new AICreature(c1Pos, Math.PI / 2.0, "Bob", null, null, null, c1Size, null, null);
+        Creature c1 = new AICreature(c1Pos, Math.PI / 2.0, "Bob", playerAtt, null, null, c1Size, null, null);
         Point2D.Double c2Pos = new Point2D.Double(0.0, 1.0);
         CreatureSize c2Size = new CreatureSize(1.0, 1.0);
-        Creature c2 = new AICreature(c2Pos, (3.0 * Math.PI) / 2.0, "John", null, null, null, c2Size, null, null);
+        Creature c2 = new AICreature(c2Pos, (3.0 * Math.PI) / 2.0, "John", playerAtt, null, null, c2Size, null, null);
 
         boolean hit = false;
 

@@ -46,8 +46,8 @@ public class ArcAttackRange implements Range {
     	if (targetCreature.equals(_sourceCreature) || (STARTING_TIMER == 0)) {
             return false;
         }
-        if (_sourceCreature.getAttributes().contains(PLAYER)
-                && targetCreature.getAttributes().contains(PLAYER)) {
+        if (!_sourceCreature.getAttributes().contains(PLAYER)
+                && !targetCreature.getAttributes().contains(PLAYER)) {
             return false;
         }
         Point2D sourcePos = _sourceCreature.getCenterPosition();
