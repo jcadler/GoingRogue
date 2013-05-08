@@ -118,7 +118,7 @@ public class Corridor implements Space
         for(int i=0;i<rect.width;i++)
         {
             for(int j=0;j<rect.height;j++)
-                ret[i][j]=Tile.WATER;
+                ret[i][j]=Tile.GROUND;
         }
         return ret;
     }

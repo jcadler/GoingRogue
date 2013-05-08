@@ -79,7 +79,7 @@ public class GameLogic
         {
             for(int i=0;i<numC;i++)
             {
-                Creature add = AICreatureFactory.create(creatures,crrntMap.getRooms());
+                Creature add = AICreatureFactory.create(creatures,crrntMap.getRooms(),level);
                 add.setCenterPosition(new Point2D.Double(r.nextInt(rm.getWidth())+rm.getX(),
                                                          r.nextInt(rm.getHeight())+rm.getY()));
                 creatures.add(add);
