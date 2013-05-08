@@ -24,6 +24,10 @@ public class NetworkedGameLogic extends GameLogic
     private RoguePort port;	//	Networking aspect!
     private boolean isServer;	//	Is this a host player?
     
+    public NetworkedGameLogic() throws IOException{
+    	
+    }
+    
     public NetworkedGameLogic(RoguePort port, LogicMap map, HashMap<Integer, Player> players, Player pl) throws IOException
     {
         super(map, new ArrayList<Creature>(), pl);
@@ -31,7 +35,7 @@ public class NetworkedGameLogic extends GameLogic
         	setPlayer(p);
         }
     	selectPlayer(pl);
-        addCreatures(10, 4);
+        //addCreatures(10, 4);
         if(port != null)
         	port.addGame(this);
         isServer = (port instanceof RogueServer);	//	SHOULD be true

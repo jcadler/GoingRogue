@@ -8,6 +8,7 @@ import edu.brown.cs32.goingrogue.gameobjects.creatures.Creature;
  */
 public class HealthPotion extends Potion {
 
+	public HealthPotion(){}
     public HealthPotion(GridItem gridItem) {
         super(gridItem);
     }

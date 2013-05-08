@@ -16,6 +16,7 @@ public class ActionAnimation {
     private double _angle;
     private CreatureSize _size;
 
+    public ActionAnimation(){}
     public ActionAnimation(String spritePaths, Point2D.Double pos, double angle, CreatureSize size) {
         _spritePath = spritePaths;
         _pos = pos;

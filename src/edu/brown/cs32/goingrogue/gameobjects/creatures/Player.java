@@ -28,6 +28,7 @@ public class Player extends Creature {
     private int _maxHealth;
     private int _initMaxHealth;
 
+    public Player(){}
     public Player(Point2D.Double pos, double direction, String name,
             List<Attribute> attributes, CreatureStats stats, String sprite, CreatureSize size) {
         super(pos, direction, name, attributes, stats, sprite, size);

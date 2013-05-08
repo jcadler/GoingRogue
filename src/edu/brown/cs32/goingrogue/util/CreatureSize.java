@@ -9,6 +9,7 @@ public class CreatureSize {
     private double _width;
     private double _height;
 
+    public CreatureSize(){}
     public CreatureSize(double width, double height) {
         _width = width;
         _height = height;

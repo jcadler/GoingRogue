@@ -139,6 +139,9 @@ public class GameLogic
     {
         return crrntMap;
     }
+    public void setMap(LogicMap m){
+    	crrntMap = m;
+    }
     
     /** Gets all creatures
      */

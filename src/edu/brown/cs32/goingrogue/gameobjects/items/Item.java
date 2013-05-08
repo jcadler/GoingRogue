@@ -11,6 +11,7 @@ import java.awt.geom.Rectangle2D;
 public class Item {
     private GridItem _gridItem;
     
+    public Item(){}
     public Item(GridItem gridItem) {
         _gridItem = gridItem;
     }

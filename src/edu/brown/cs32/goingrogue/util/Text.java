@@ -20,6 +20,7 @@ public class Text {
 	String text;
 	Color color;
 	
+	public Text(){}
 	public Text(String t, Color c) {
 		text=t;
 		color=c;

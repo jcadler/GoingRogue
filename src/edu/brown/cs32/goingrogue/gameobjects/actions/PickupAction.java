@@ -15,6 +15,7 @@ public class PickupAction extends Action {
 
     private Creature _sourceCreature;
 
+    public PickupAction(){}
     public PickupAction(Range range, Creature sourceCreature) {
         super(0, range);
         _type = ActionType.PICKUP;

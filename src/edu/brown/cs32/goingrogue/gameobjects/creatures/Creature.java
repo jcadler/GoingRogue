@@ -1,15 +1,16 @@
 package edu.brown.cs32.goingrogue.gameobjects.creatures;
 
-import edu.brown.cs32.goingrogue.gameobjects.actions.Action;
-import edu.brown.cs32.goingrogue.gameobjects.creatures.util.CombatUtil;
-import edu.brown.cs32.goingrogue.gameobjects.items.Item;
-import edu.brown.cs32.goingrogue.util.CreatureSize;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.UUID;
+
+import edu.brown.cs32.goingrogue.constants.Constants;
+import edu.brown.cs32.goingrogue.gameobjects.actions.Action;
+import edu.brown.cs32.goingrogue.gameobjects.creatures.util.CombatUtil;
+import edu.brown.cs32.goingrogue.gameobjects.items.Item;
+import edu.brown.cs32.goingrogue.util.CreatureSize;
 
 /**
  *
@@ -20,7 +21,7 @@ public abstract class Creature implements Cloneable {
     private Point2D.Double _pos;
     private double _direction; // in radians
     private String _name;
-    private UUID _id;
+    private int _id;
     private List<Attribute> _attributes;
     private CreatureStats _stats;
     private String _spritePath;
@@ -35,7 +36,7 @@ public abstract class Creature implements Cloneable {
     protected boolean _shouldFlip;
     protected boolean _shouldRotate;
     
-
+    public Creature(){}
     public Creature(Point2D.Double pos, double direction, String name,
             List<Attribute> attributes, CreatureStats stats, String spritePath, CreatureSize size) {
         _pos = pos;
@@ -44,7 +45,7 @@ public abstract class Creature implements Cloneable {
         _shouldFlip=false;
         _shouldRotate=false;
         _name = name;
-        _id = UUID.randomUUID();
+        _id = Constants.getUID();
         _attributes = attributes;
         _stats = stats;
         _spritePath = spritePath;

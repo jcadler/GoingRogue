@@ -12,6 +12,7 @@ public abstract class Stats {
     private double _accuracy;
     private double _speed; // in units-per-movement
     
+    public Stats(){}
     public Stats(double attack, double defense, int health, double accuracy, double speed) {
         _attack = attack;
         _defense = defense;
