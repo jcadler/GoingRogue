@@ -52,7 +52,7 @@ public class GameLobbyServer extends GameLobbyState {
 						in.close();
 					}
 					String serverInfo = "Server: " + gameIP +"\n";
-					msg += serverInfo;
+					msg = serverInfo + msg;
 				}
 				catch(Exception e){
 					msg += "Server: Unknown address!";
