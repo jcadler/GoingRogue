@@ -39,17 +39,17 @@ public class Inventory {
 
     public void add(Item item) {
         if (item.containsAttribute(WEAPON)) {
-            if (_weapon != null) {
-                swap(item, _weapon);
-            } else {
+//            if (_weapon != null) {
+//                swap(item, _weapon);
+//            } else {
                 _weapon = item;
-            }
+//            }
         } else if (item.containsAttribute(ARMOUR)) {
-            if (_armour != null) {
-                swap(item, _armour);
-            } else {
+//            if (_armour != null) {
+//                swap(item, _armour);
+//            } else {
                 _armour = item;
-            }
+//            }
         } else if (item.containsAttribute(SHIELD)) {
             if (_shield != null) {
                 swap(item, _shield);
@@ -57,17 +57,17 @@ public class Inventory {
                 _shield = item;
             }
         } else if (item.containsAttribute(HELMET)) {
-            if (_helmet != null) {
-                swap(item, _helmet);
-            } else {
+//            if (_helmet != null) {
+//                swap(item, _helmet);
+//            } else {
                 _helmet = item;
-            }
+//            }
         } else if (item.containsAttribute(BOOTS)) {
-            if (_boots != null) {
-                swap(item, _boots);
-            } else {
+//            if (_boots != null) {
+//                swap(item, _boots);
+//            } else {
                 _boots = item;
-            }
+//            }
         } else if (item.containsAttribute(POTION_TYPE)) {
             if (_potions.size() < MAX_NUM_POTIONS) {
                 _potions.add(makePotion(item));
