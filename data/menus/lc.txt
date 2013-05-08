@@ -1,6 +1,6 @@
-tbutton	graphics/menu/mm.png	0	600	80
-tbutton	graphics/menu/sg.png	2	600	190
-button	graphics/menu/op.png	dummy	600	300
+tbutton	graphics/menu/mm.png	0	600	75
+tbutton	graphics/menu/qs.png	1	600	180
+button	graphics/menu/js.png	dummy	600	285
 textfield	200	25	100	250
 textfield	200	25	100	300
 textfield	200	25	100	350

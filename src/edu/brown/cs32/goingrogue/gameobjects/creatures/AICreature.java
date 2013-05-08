@@ -112,8 +112,13 @@ public class AICreature extends Creature {
     }
 
     private Point2D getEntrance(Corridor corridor, Room room) {
-        int posInRoom;
-        if (corridor.getStart().getID().equals(room.getID())) {
+        
+    	int posInRoom;
+    	
+        Room r=corridor.getStart();
+        String id=r.getID();
+        String rid=room.getID();
+        if (id.equals(rid)) {
             posInRoom = corridor.getPos1();
         } else if (corridor.getEnd().getID().equals(room.getID())) {
             posInRoom = corridor.getPos2();
