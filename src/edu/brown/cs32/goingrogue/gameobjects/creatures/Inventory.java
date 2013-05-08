@@ -71,9 +71,10 @@ public class Inventory {
         } else if (item.containsAttribute(POTION_TYPE)) {
             if (_potions.size() < MAX_NUM_POTIONS) {
                 _potions.add(makePotion(item));
-            } else {
-                _creature.addAction(new QuaffAction(item, _creature));
             }
+//            else {
+//                _creature.addAction(new QuaffAction(item, _creature));
+//            }
         }
     }
 
