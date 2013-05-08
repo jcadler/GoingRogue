@@ -68,13 +68,13 @@ public class RogueServer extends Listener implements RoguePort{
 	public void beginGame(){
 		try{
 			LogicMap map = LogicMap.getRandomMap();
-			List<Creature> creatures = new ArrayList<>();
+			//	Initialize/ build players
 			for(Map.Entry<Integer, String> entry : lobby.entrySet()){
 				Player p = PlayerFactory.create(null, null);
 				p.setName(entry.getValue());
 				players.put(entry.getKey(), p);
 			}
-			g = new NetworkedGameLogic(this, map, creatures, players.get(-1));
+			g = new NetworkedGameLogic(this, map, players, players.get(-1));
 			for(Map.Entry<Integer, Player> entry : players.entrySet()){
 				if(entry.getKey() < 0)
 					continue;

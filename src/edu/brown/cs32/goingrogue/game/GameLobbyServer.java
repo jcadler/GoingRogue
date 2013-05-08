@@ -10,6 +10,8 @@ import org.newdawn.slick.state.StateBasedGame;
 import edu.brown.cs32.goingrogue.network.RogueServer;
 
 public class GameLobbyServer extends GameLobbyState {
+	private int sumDelta = 0;
+	private int updateLimit = 500;
 	private String gameIP;
 	
 	public GameLobbyServer(String bg, String md, int id, MenuGame game){
@@ -37,7 +39,9 @@ public class GameLobbyServer extends GameLobbyState {
 	@Override
 	public void update(GameContainer gc, StateBasedGame game, int delta)
 			throws SlickException {
-		if(port != null){
+		sumDelta += delta;
+		if(port != null && sumDelta > updateLimit){
+			sumDelta = 0;
 			this.setPlayerNames(port.getPlayerNames());
 			String msg = "";
 			if(getPlayerNames() != null){
@@ -65,6 +69,7 @@ public class GameLobbyServer extends GameLobbyState {
 		try{
 			if(port != null){
 				((RogueServer) port).beginGame();
+				return;
 			}
 			game.setUserName(inputFields.get(0).getText());
 			//	Default port number
