@@ -24,17 +24,15 @@ public class Inventory {
     private Item _helmet;
     private Item _boots;
     private List<Potion> _potions;
-    private Creature _creature;
     private final int MAX_NUM_POTIONS = 5;
 
-    public Inventory(Creature creature) {
+    public Inventory() {
         _weapon = null;
         _armour = null;
         _shield = null;
         _helmet = null;
         _boots = null;
         _potions = new ArrayList<>();
-        _creature = creature;
     }
 
     public void add(Item item) {
@@ -71,9 +69,10 @@ public class Inventory {
         } else if (item.containsAttribute(POTION_TYPE)) {
             if (_potions.size() < MAX_NUM_POTIONS) {
                 _potions.add(makePotion(item));
-            } else {
-                _creature.addAction(new QuaffAction(item, _creature));
             }
+//            else {
+//                _creature.addAction(new QuaffAction(item, _creature));
+//            }
         }
     }
 

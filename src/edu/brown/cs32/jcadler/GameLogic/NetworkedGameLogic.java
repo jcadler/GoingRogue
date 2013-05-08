@@ -32,15 +32,16 @@ public class NetworkedGameLogic extends GameLogic
         }
     	selectPlayer(pl);
         addCreatures(10, 4);
-        this.port = port;
-        port.addGame(this);
+        if(port != null)
+        	port.addGame(this);
         isServer = (port instanceof RogueServer);	//	SHOULD be true
     }
     public NetworkedGameLogic(RoguePort port, NetworkedGameLogic base, Player pl) throws IOException{
     	super((LogicMap)base.getMap(), base.getCreatures(), pl);
     	selectPlayer(pl);
         this.port = port;
-        port.addGame(this);
+        if(port != null)
+        	port.addGame(this);
         isServer = (port instanceof RogueServer);	//	SHOULD be false
     }
 
