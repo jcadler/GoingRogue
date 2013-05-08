@@ -16,6 +16,7 @@ import com.esotericsoftware.kryonet.EndPoint;
 import com.esotericsoftware.kryonet.Listener;
 
 import edu.brown.cs32.goingrogue.game.GamePlayState;
+import edu.brown.cs32.goingrogue.gameobjects.actions.Action;
 import edu.brown.cs32.goingrogue.gameobjects.creatures.Creature;
 import edu.brown.cs32.jcadler.GameLogic.GameLogic;
 import edu.brown.cs32.jcadler.GameLogic.NetworkedGameLogic;
@@ -56,6 +57,8 @@ public class RogueClient extends Listener implements RoguePort{
 	}
 	/** Send action objects to the server! **/
 	public void send(Object o){
+		if(o instanceof Action)
+			System.out.println("Sending action!");
 		net.sendTCP(o);
 	}
 
@@ -126,10 +129,6 @@ public class RogueClient extends Listener implements RoguePort{
 					System.out.println(cmd[1]);
 					net.close();
 				}
-				else if(cmd[0].equals("map")){
-					//	TODO: Not actually a thing yet - manage later...
-					//	g.setMap(cmd[1]);
-				}
 				else if(cmd[0].equals("lobby")){
 					//System.out.println(o);
 					playerNames.clear();
@@ -156,7 +155,7 @@ public class RogueClient extends Listener implements RoguePort{
 				GameState gs = game.getState(it);
 				if(gs instanceof GamePlayState){
 					//TODO:
-					//gs.setGameLogic(g);
+					((GamePlayState) gs).setGameLogic(g);
 					game.enterState(it, new FadeOutTransition(), new FadeInTransition());
 					return;
 				}

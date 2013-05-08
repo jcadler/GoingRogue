@@ -58,11 +58,15 @@ public class NetworkedGameLogic extends GameLogic
 	}
 	public void update(int delta) throws CloneNotSupportedException,IOException
     {
-		if(isServer){
+		if(isServer && port != null){
+			if(creatures == null){
+				addCreatures(10, 5);
+				actions = new ArrayList<>();
+			}
 			((RogueServer) port).updateClients(creatures);
 			((RogueServer) port).updateClients(actions);
 		}
-		else{
+		else if(port != null){
 			for(Action a : player.getActions()){
 				((RogueClient) port).send(a);
 			}

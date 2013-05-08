@@ -106,7 +106,7 @@ public class RogueServer extends Listener implements RoguePort{
 				GameState gs = game.getState(it);
 				if(gs instanceof GamePlayState){
 					//TODO:
-					//gs.setGameLogic(g);
+					((GamePlayState) gs).setGameLogic(g);
 					game.enterState(it, new FadeOutTransition(), new FadeInTransition());
 					return;
 				}
@@ -196,6 +196,7 @@ public class RogueServer extends Listener implements RoguePort{
 		if(o instanceof Action){
 			if(g != null){
 				players.get(c.getID()).addAction((Action) o);
+				System.out.println("Got action from " + c.getID());
 			}
 		}
 		//	Players reporting their names, asking for lobby info, etc.
