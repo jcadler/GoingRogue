@@ -6,13 +6,10 @@ package edu.brown.cs32.goingrogue.gameobjects.creatures;
  */
 public class CreatureStats extends Stats {
 	
-	int _maxHealth;
-	
 	public CreatureStats(){}
     public CreatureStats(double attack, double defense, int health, double accuracy, double speed) {
         super(attack, defense, health, accuracy, speed);
         
-        _maxHealth=health;
     }
 
     public CreatureStats(Stats sourceStats) {

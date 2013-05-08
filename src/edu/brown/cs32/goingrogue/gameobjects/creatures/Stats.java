@@ -9,14 +9,17 @@ public abstract class Stats {
     private double _attack;
     private double _defense;
     private int _health;
+    private int _maxHealth;
     private double _accuracy;
     private double _speed; // in units-per-movement
+    
     
     public Stats(){}
     public Stats(double attack, double defense, int health, double accuracy, double speed) {
         _attack = attack;
         _defense = defense;
         _health = health;
+        _maxHealth = _health;
         _accuracy = accuracy;
         _speed = speed;
     }
@@ -47,6 +50,10 @@ public abstract class Stats {
     
     public void reduceHealth(int reduction) {
         _health -= reduction;
+    }
+    
+    public int getMaxHealth() {
+    	return _maxHealth;
     }
 
     public double getAccuracy() {

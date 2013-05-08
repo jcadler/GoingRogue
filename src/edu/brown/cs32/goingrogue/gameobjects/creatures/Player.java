@@ -24,7 +24,6 @@ public class Player extends Creature {
 
     private Action attack;
     private int _xp;
-    private int _level;
     private int _maxHealth;
     private int _initMaxHealth;
 
@@ -34,7 +33,6 @@ public class Player extends Creature {
         super(pos, direction, name, attributes, stats, sprite, size);
 
         _xp = 0;
-        _level = 1;
         _maxHealth = this.getStats().getHealth();
 
         _initMaxHealth = _maxHealth;
@@ -109,12 +107,12 @@ public class Player extends Creature {
 
     public void pickUp() {
         addAction(new PickupAction(new PickupRange(this), this));
-        System.out.println("Picked up something");
     }
 
     public void quaff() {
         if (getInventory().getNumPotions() > 0) {
             addAction(new QuaffAction(getInventory().getPotion(0), this));
+            getInventory().dropPotion(0);
         }
     }
 }

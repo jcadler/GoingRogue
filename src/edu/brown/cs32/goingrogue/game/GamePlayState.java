@@ -51,8 +51,9 @@ public class GamePlayState extends BasicGameState{
 	GameContainer gc;
 
 	ConcurrentHashMap<Integer, Integer> keysPressed;
+	ConcurrentHashMap<Integer, Boolean> keysPressedOnce;
 	PriorityQueue<Integer> keyEventQueue;
-	boolean justPickedUp;
+	
 	
 	GameLogic game;
 	Player player;
@@ -99,13 +100,15 @@ public class GamePlayState extends BasicGameState{
 		keysPressed.put(KeyCodes.SPACE, -1);
 		keysPressed.put(KeyCodes.ESC, -1);
 		
+		keysPressedOnce=new ConcurrentHashMap<>();
+		keysPressedOnce.put(KeyCodes.E, false);
+		keysPressedOnce.put(KeyCodes.R, false);
+		
 		keyEventQueue=new PriorityQueue<Integer>(10, new Comparator<Integer>(){
 			public int compare(Integer i1, Integer i2) {
 				return keysPressed.get(i1)-keysPressed.get(i2);
 			}
 		});
-		
-		justPickedUp=false;
 		
 		hudSize=0;
 		deathMessage=DeathMessage.getRandomMessage();
@@ -195,11 +198,14 @@ public class GamePlayState extends BasicGameState{
 			if(key==KeyCodes.A || key==KeyCodes.LEFT) p.moveLeft();
 			if(key==KeyCodes.D || key==KeyCodes.RIGHT) p.moveRight();
 			if(key==KeyCodes.SPACE) p.attack();
-			if(key==KeyCodes.E) if(!justPickedUp){
+			if(keysPressedOnce.get(KeyCodes.E)){
 				p.pickUp();
-				justPickedUp=true;
+				keysPressedOnce.put(KeyCodes.E, false);
 			}
-			if(key==KeyCodes.R); p.quaff();
+			if(key==KeyCodes.R) {
+				p.quaff();
+				keysPressedOnce.put(KeyCodes.R, false);
+			}
 			if(key==KeyCodes.ESC) System.exit(0);
 			
 		}
@@ -862,14 +868,14 @@ public class GamePlayState extends BasicGameState{
 	@Override
 	public void keyPressed(int key, char c) {
 		keysPressed.put(key, timeCount);
+		keysPressedOnce.put(key, true);
 		keyEventQueue.add(key);
 	}
 
 	@Override
 	public void keyReleased(int key, char c) {
 		keysPressed.put(key, -1);
+		keysPressedOnce.put(key, false);
 		keyEventQueue.remove(key);
-		
-		if(key==KeyCodes.E) justPickedUp=false;
 	}
 }

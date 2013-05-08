@@ -30,8 +30,12 @@ public class XPCalculator {
 		}
 		
 		else {
+			
+			double xpMult=1;
+			
 			Stats stats=c.getStats();
-			return (int)((stats.getHealth() + 
+			return (int)(xpMult*
+					(stats.getMaxHealth() + 
 					stats.getAttack() + 
 					stats.getDefense()) /
 					10.);

@@ -127,6 +127,19 @@ public class RandomDataUtilHelper {
         return new ItemStats(attack, defense, health, accuracy, speed, reloadRate,
                 range, arcLength, attackTimer);
     }
+    
+    static ItemStats getEmptyWeaponStats(List<Attribute> attributes) {
+    	double attack = 0;
+    	double defense = 0;
+    	int health=0;
+    	double accuracy = 0;
+    	double speed = 0;
+    	double reloadRate = 0;
+    	double range = 0;
+    	double arcLength = 0;
+    	int attackTimer = 0;
+    	return new ItemStats(attack, defense, health, accuracy, speed, reloadRate, range, arcLength, attackTimer);
+    }
 
     static ItemStats getArmourStats(List<Attribute> attributes) {
         double attack = scaleToAttributes(randomDouble(0, 0), attributes, true);

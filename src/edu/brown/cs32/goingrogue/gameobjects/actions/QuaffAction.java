@@ -14,17 +14,24 @@ import java.util.List;
 public class QuaffAction extends Action {
 
     Range _range;
-
+    
+  //  int numQuaffs;
+    
     public QuaffAction(){}
     public QuaffAction(Item item, Creature sourceCreature) {
         super(0, new QuaffRange(item, sourceCreature));
         _type=ActionType.QUAFF;
+        
+     //   numQuaffs=1;
     }
 
     @Override
     public void act(Creature creature) {
         Potion potion = Inventory.makePotion(((QuaffRange) getRange()).getItem());
         potion.act(((QuaffRange) getRange()).getSourceCreature());
+        
+       // if(numQuaffs==1) throw new RuntimeException("Testing!");
+       // numQuaffs++;
     }
 
     @Override
