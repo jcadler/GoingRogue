@@ -2,6 +2,8 @@ package edu.brown.cs32.goingrogue.gameobjects.creatures;
 
 import edu.brown.cs32.goingrogue.gameobjects.actions.QuaffAction;
 import edu.brown.cs32.goingrogue.gameobjects.items.Item;
+import edu.brown.cs32.goingrogue.graphics.Text;
+
 import java.util.List;
 import static edu.brown.cs32.goingrogue.gameobjects.creatures.Attribute.*;
 import java.util.ArrayList;
@@ -41,6 +43,8 @@ public class Inventory {
                 _creature.addAction(new QuaffAction(item, _creature));
             }
         }
+        
+        System.out.println("Picked up a "+Text.getText(item).getText());
     }
 
     public Item getWeapon() {

@@ -1,4 +1,4 @@
-tbutton	graphics/menu/op.png	1	500	50
-tbutton	graphics/menu/sg.png	2	500	200
-tbutton	graphics/menu/op.png	3	500	350
-tbutton	graphics/menu/op.png	4	500	500
+tbutton	graphics/menu/op.png	1	600	80
+tbutton	graphics/menu/sg.png	2	600	190
+tbutton	graphics/menu/op.png	3	600	300
+tbutton	graphics/menu/op.png	4	600	410

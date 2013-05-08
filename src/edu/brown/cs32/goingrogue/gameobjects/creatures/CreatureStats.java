@@ -13,4 +13,6 @@ public class CreatureStats extends Stats {
     public CreatureStats(Stats sourceStats) {
         super(sourceStats.getAttack(), sourceStats.getDefense(), sourceStats.getHealth(), sourceStats.getAccuracy(), sourceStats.getSpeed());
     }
+    
+    
 }

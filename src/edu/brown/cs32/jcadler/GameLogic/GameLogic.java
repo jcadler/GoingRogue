@@ -1,15 +1,13 @@
 package edu.brown.cs32.jcadler.GameLogic;
 
-import java.awt.Rectangle;
-import java.awt.geom.Rectangle2D;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 import edu.brown.cs32.goingrogue.gameobjects.actions.Action;
-import edu.brown.cs32.goingrogue.gameobjects.actions.ActionType;
 import edu.brown.cs32.goingrogue.gameobjects.creatures.Attribute;
 import edu.brown.cs32.goingrogue.gameobjects.creatures.Creature;
 import edu.brown.cs32.goingrogue.gameobjects.creatures.Player;
@@ -19,7 +17,6 @@ import edu.brown.cs32.goingrogue.gameobjects.items.factories.GridItemFactory;
 import edu.brown.cs32.goingrogue.map.RogueMap;
 import edu.brown.cs32.jcadler.GameLogic.RogueMap.LogicMap;
 import edu.brown.cs32.jcadler.GameLogic.RogueMap.Room;
-import java.util.jar.Attributes;
 
 /**
  *

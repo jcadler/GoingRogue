@@ -28,8 +28,17 @@ public class GameLobbyServer extends GameLobbyState {
 	@Override
 	public void update(GameContainer gc, StateBasedGame game, int delta)
 			throws SlickException {
-		// TODO Auto-generated method stub
-
+		if(port != null){
+			this.setPlayerNames(port.getPlayerNames());
+			String msg = "";
+			if(getPlayerNames() != null){
+				for(String elem : getPlayerNames()){
+					msg += "\n" + elem;
+				}
+				msg = msg.substring(1);
+				textBox.setMsg(msg);
+			}
+		}
 	}
 
 	@Override

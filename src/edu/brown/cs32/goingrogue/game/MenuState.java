@@ -73,7 +73,7 @@ public class MenuState extends BasicGameState{
 				int y = Integer.parseInt(next[4]);
 				AbstractComponent nextItem = null;
 				if(next[0].equals("button")){
-					Image i = new Image(next[1]).getScaledCopy(200, 100);
+					Image i = new Image(next[1]).getScaledCopy(120, 60);
 					ActionButton a = new ActionButton(gc, i, x, y, game, this);
 					nextItem = a;
 					//	Manually create the proper ActionButtons in their required areas!
@@ -143,6 +143,16 @@ public class MenuState extends BasicGameState{
 	@Override
 	public int getID() {
 		return id;
+	}
+
+	@Override
+	public void enter(GameContainer gc, StateBasedGame gm){
+		try {
+			//components.clear();
+			//init(gc, gm);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
 	}
 
 	@Override
