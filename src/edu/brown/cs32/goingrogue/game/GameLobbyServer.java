@@ -1,5 +1,9 @@
 package edu.brown.cs32.goingrogue.game;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.URL;
+
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
@@ -8,6 +12,7 @@ import org.newdawn.slick.state.StateBasedGame;
 import edu.brown.cs32.goingrogue.network.RogueServer;
 
 public class GameLobbyServer extends GameLobbyState {
+	private String gameIP;
 	
 	public GameLobbyServer(String bg, String md, int id, MenuGame game){
 		super(bg, md, id, game);
@@ -38,6 +43,20 @@ public class GameLobbyServer extends GameLobbyState {
 					msg += "\n" + elem;
 				}
 				msg = msg.substring(1);
+				try{
+					if(gameIP == null){
+						URL ipcheck = new URL("http://checkip.amazonaws.com/");
+						BufferedReader in = new BufferedReader(new InputStreamReader(ipcheck.openStream()));
+
+						gameIP = in.readLine();	//	fetch the IP!
+						in.close();
+					}
+					String serverInfo = "Server: " + gameIP +"\n";
+					msg = serverInfo + msg;
+				}
+				catch(Exception e){
+					msg += "Server: Unknown address!";
+				}
 				textBox.setMsg(msg);
 			}
 		}

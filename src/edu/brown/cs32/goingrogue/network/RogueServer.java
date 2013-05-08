@@ -13,6 +13,7 @@ import com.esotericsoftware.kryonet.Server;
 import edu.brown.cs32.goingrogue.gameobjects.actions.Action;
 import edu.brown.cs32.goingrogue.gameobjects.creatures.Player;
 import edu.brown.cs32.jcadler.GameLogic.GameLogic;
+import edu.brown.cs32.jcadler.GameLogic.NetworkedGameLogic;
 /** Basic networking for a host **/
 public class RogueServer extends Listener implements RoguePort{
 	private Server net;
@@ -32,6 +33,9 @@ public class RogueServer extends Listener implements RoguePort{
 	}
 	public EndPoint getEndPoint(){
 		return net;
+	}
+	public void addGame(NetworkedGameLogic g){
+		this.g = g;
 	}
 	public HashMap<Integer, LobbyEntry> getLobby()
 	{
