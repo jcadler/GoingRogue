@@ -24,17 +24,15 @@ public class Inventory {
     private Item _helmet;
     private Item _boots;
     private List<Potion> _potions;
-    private Creature _creature;
     private final int MAX_NUM_POTIONS = 5;
 
-    public Inventory(Creature creature) {
+    public Inventory() {
         _weapon = null;
         _armour = null;
         _shield = null;
         _helmet = null;
         _boots = null;
         _potions = new ArrayList<>();
-        _creature = creature;
     }
 
     public void add(Item item) {
