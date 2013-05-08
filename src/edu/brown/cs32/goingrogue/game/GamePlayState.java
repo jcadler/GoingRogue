@@ -15,7 +15,6 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
@@ -59,6 +58,7 @@ public class GamePlayState extends BasicGameState{
 	RogueMap map;
 	AnimationCache cache;
 	
+	int hudSize;
 	String deathMessage;
 	
 	private int id; //Used for StateBasedGame
@@ -104,6 +104,7 @@ public class GamePlayState extends BasicGameState{
 			}
 		});
 		
+		hudSize=0;
 		deathMessage=DeathMessage.getRandomMessage();
 
 		//Initializes gameplay
@@ -131,17 +132,23 @@ public class GamePlayState extends BasicGameState{
 	public Player getPlayer() {
 		return player;
 	}
-
+	
+	public int[] getScreenCenter() {
+		return new int[]{gc.getWidth()/2, (gc.getHeight()-hudSize)/2};
+	}
+	
 	//Converts a point on the game map to a point on the screen
 	int[] gameToScreen(Point2D point, Point2D center) {
 
+		int[] screenCenter=getScreenCenter();
+		
 		//Offsets from the center of the screen
 		double xOffset=(point.getX()-center.getX());
 		double yOffset=(point.getY()-center.getY());
 
 		//Screen coords
-		int x=(int)(gc.getWidth()/2+xOffset*gameToScreenFactor);
-		int y=(int)(gc.getHeight()/2+yOffset*gameToScreenFactor);
+		int x=(int)(screenCenter[0]+xOffset*gameToScreenFactor);
+		int y=(int)(screenCenter[1]+yOffset*gameToScreenFactor);
 
 		return new int[]{x, y};
 	}
@@ -150,8 +157,10 @@ public class GamePlayState extends BasicGameState{
 	Point2D screenToGame(int[] point, Point2D center) {
 
 		//The screen center
-		int screenXCenter=gc.getWidth()/2;
-		int screenYCenter=gc.getHeight()/2;
+		int[] screenCenter=getScreenCenter();
+		
+		int screenXCenter=screenCenter[0];
+		int screenYCenter=screenCenter[1];
 
 		//Game coords
 		double x=(point[0]-screenXCenter)/gameToScreenFactor + center.getX();
@@ -222,7 +231,7 @@ public class GamePlayState extends BasicGameState{
 		Point2D center=player.getPosition();
 		
 		Point2D upperLeft=screenToGame(new int[]{0,0}, center);
-		Point2D lowerRight=screenToGame(new int[]{gc.getWidth(),gc.getHeight()}, center);
+		Point2D lowerRight=screenToGame(new int[]{gc.getWidth(),gc.getHeight()-hudSize}, center);
 		
 		//Draws the map
 		List<Space> spaces=map.getData((int)(upperLeft.getX()-2), (int)(upperLeft.getY()-2), (int)(lowerRight.getX()+2), (int)(lowerRight.getY()+2));
@@ -711,6 +720,7 @@ public class GamePlayState extends BasicGameState{
 		for(int i=0; i<Math.max(invVertSlots, xpVertSlots); i++) {
 			boundingRectHeight+=2*lineSize+bar;
 		}
+		hudSize=boundingRectHeight+ribbonRectHeight;
 		
 		g.setColor(Color.black);
 		g.fill(new Rectangle(0, gc.getHeight()-boundingRectHeight, gc.getWidth(), boundingRectHeight));
