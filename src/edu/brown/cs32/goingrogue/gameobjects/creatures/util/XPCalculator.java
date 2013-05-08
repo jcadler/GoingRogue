@@ -11,18 +11,38 @@ import edu.brown.cs32.goingrogue.gameobjects.creatures.Stats;
  */
 public class XPCalculator {
 	
+	/** Returns the XP required to pass to the next level from the specified level
+	 */
+	public static int getNextLevelXP(int level) {
+		return 100*(level*level + level - 1);
+	}
+	
+	/** Returns the XP to be gained from killing a creature
+	 */
 	public static int getXP(Creature c) {
 		
 		if(c.containsAttribute(Attribute.PLAYER)) {
-			Player p=(Player)c;
-			return p.getXP();
+			return getTotalPlayerXP((Player)c);
 		}
 		
 		else {
 			Stats stats=c.getStats();
-			return (int)(stats.getHealth() + 
+			return (int)((stats.getHealth() + 
 					stats.getAttack() + 
-					stats.getDefense());
+					stats.getDefense()) /
+					10.);
 		}
+	}
+	
+	static int getTotalPlayerXP(Player p) {
+		int level=p.getLevel();
+		
+		int xp=p.getXP();
+		while(level>0) {
+			level--;
+			xp+=getNextLevelXP(level);
+		}
+		
+		return xp;
 	}
 }

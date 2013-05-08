@@ -204,6 +204,6 @@ public class RandomDataUtilHelper {
 
     //Returns an attack timer for an object of given speed
     static int getAttackTimer(double speed) {
-        return (int) (20 * (50 + speed));
+        return (int) (10 * (50 + speed));
     }
 }

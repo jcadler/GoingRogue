@@ -16,7 +16,7 @@ import edu.brown.cs32.goingrogue.util.CreatureSize;
  * @author Ben Weedon (bweedon)
  */
 public class RandomDataUtil {
-
+	
     public static List<Attribute> randomCreatureAttributes() {
         List<Attribute> attributes = new ArrayList<>();
         Random generator = new Random(System.currentTimeMillis());
