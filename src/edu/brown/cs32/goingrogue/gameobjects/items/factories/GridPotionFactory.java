@@ -20,7 +20,8 @@ import java.util.List;
 public class GridPotionFactory {
     public static GridItem create(List<Creature> creatures, List<Room> rooms) {
         List<Attribute> attributes = new ArrayList<>();
-        attributes.add(Attribute.POTION);
+        attributes.add(Attribute.POTION_TYPE);
+        attributes.add(randomPotionType());
         String name = getItemName(attributes);
         String sprite = getSprite(attributes);
         ItemStats stats = randomItemStats(attributes);
@@ -28,5 +29,16 @@ public class GridPotionFactory {
         GridItem returnCreature = new GridItem(new Point2D.Double(0.0, 0.0),
                 name, attributes, stats, sprite, size);
         return returnCreature;
+    }
+    
+    public static Attribute randomPotionType() {
+    	int rand=(int)(3*Math.random());
+    	switch(rand) {
+    		case 0: return Attribute.ATTACK_POTION;
+    		case 1: return Attribute.DEFENSE_POTION;
+    		case 2: return Attribute.HEALTH_POTION;
+    	}
+    	
+    	return Attribute.ATTACK_POTION;
     }
 }

@@ -1,8 +1,8 @@
 package edu.brown.cs32.goingrogue.gameobjects.creatures;
 
 import edu.brown.cs32.goingrogue.gameobjects.actions.QuaffAction;
+import edu.brown.cs32.goingrogue.gameobjects.creatures.util.Text;
 import edu.brown.cs32.goingrogue.gameobjects.items.Item;
-import edu.brown.cs32.goingrogue.graphics.Text;
 
 import java.util.List;
 import static edu.brown.cs32.goingrogue.gameobjects.creatures.Attribute.*;
@@ -36,15 +36,13 @@ public class Inventory {
             _armour = item;
         } else if (item.containsAttribute(SHIELD)) {
             _shield = item;
-        } else if (item.containsAttribute(POTION)) {
+        } else if (item.containsAttribute(POTION_TYPE)) {
             if (_potions.size() < MAX_NUM_POTIONS) {
                 _potions.add(item);
             } else {
                 _creature.addAction(new QuaffAction(item, _creature));
             }
         }
-        
-        System.out.println("Picked up a "+Text.getText(item).getText());
     }
 
     public Item getWeapon() {
