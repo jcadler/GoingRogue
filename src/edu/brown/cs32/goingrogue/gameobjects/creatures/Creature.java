@@ -49,7 +49,7 @@ public abstract class Creature implements Cloneable {
         _stats = stats;
         _spritePath = spritePath;
         _size = size;
-        _inventory = new Inventory();
+        _inventory = new Inventory(this);
         _actions = new ArrayList<>();
         _level = 1;
 

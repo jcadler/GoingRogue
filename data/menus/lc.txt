@@ -1,10 +1,10 @@
-tbutton	graphics/menu/mm.png	0	500	50
-tbutton	graphics/menu/sg.png	2	500	200
-button	graphics/menu/op.png	dummy	500	350
+tbutton	graphics/menu/mm.png	0	600	80
+tbutton	graphics/menu/sg.png	2	600	190
+button	graphics/menu/op.png	dummy	600	300
 textfield	200	25	100	250
 textfield	200	25	100	300
 textfield	200	25	100	350
 label	Player Name	dummy	100	225
 label	Host Name	dummy	100	275
 label	Port Number	dummy	100	325
-textbox	250	150	75	400	Waiting for players...
+textbox	250	150	75	400	Waiting for game...

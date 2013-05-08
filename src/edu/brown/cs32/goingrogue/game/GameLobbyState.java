@@ -37,8 +37,9 @@ public abstract class GameLobbyState extends MenuState{
 	@Override
 	public void leave(GameContainer gc, StateBasedGame game){
 		super.leave(gc, game);
-		if(port != null)
+		if(port != null){
 			port.close();
+		}
 		port = null;
 	}
 }
