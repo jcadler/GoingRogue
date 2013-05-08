@@ -7,8 +7,8 @@ import java.util.List;
 import static edu.brown.cs32.goingrogue.gameobjects.creatures.Attribute.*;
 import edu.brown.cs32.goingrogue.gameobjects.items.AttackPotion;
 import edu.brown.cs32.goingrogue.gameobjects.items.DefensePotion;
-import edu.brown.cs32.goingrogue.gameobjects.items.GridItem;
 import edu.brown.cs32.goingrogue.gameobjects.items.HealthPotion;
+import edu.brown.cs32.goingrogue.gameobjects.items.ItemStats;
 import edu.brown.cs32.goingrogue.gameobjects.items.Potion;
 import java.util.ArrayList;
 
@@ -41,28 +41,33 @@ public class Inventory {
         if (item.containsAttribute(WEAPON)) {
             if (_weapon != null) {
                 swap(item, _weapon);
+            } else {
+                _weapon = item;
             }
-            _weapon = item;
         } else if (item.containsAttribute(ARMOUR)) {
             if (_armour != null) {
                 swap(item, _armour);
+            } else {
+                _armour = item;
             }
-            _armour = item;
         } else if (item.containsAttribute(SHIELD)) {
             if (_shield != null) {
                 swap(item, _shield);
+            } else {
+                _shield = item;
             }
-            _shield = item;
         } else if (item.containsAttribute(HELMET)) {
             if (_helmet != null) {
                 swap(item, _helmet);
+            } else {
+                _helmet = item;
             }
-            _helmet = item;
         } else if (item.containsAttribute(BOOTS)) {
             if (_boots != null) {
                 swap(item, _boots);
+            } else {
+                _boots = item;
             }
-            _boots = item;
         } else if (item.containsAttribute(POTION_TYPE)) {
             if (_potions.size() < MAX_NUM_POTIONS) {
                 _potions.add(makePotion(item));
@@ -161,9 +166,11 @@ public class Inventory {
     }
     
     private void swap(Item i1, Item i2) {
-        GridItem temp = i1.getGridItem();
-        i2.setGridItem(temp);
-        i1.setGridItem(i2.getGridItem());
+        ItemStats temp = i1.getGridItem().getItemStats();
+        i2.getGridItem().setItemStats(temp);
+        i1.getGridItem().setItemStats(i2.getGridItem().getItemStats());
+        i1.getGridItem().setPickedUp(false);
+        i2.getGridItem().setPickedUp(false);
     }
     
     private Potion makePotion(Item item) {

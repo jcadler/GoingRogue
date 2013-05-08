@@ -69,7 +69,7 @@ public class RandomDataUtilHelper {
     }
 
     static ItemStats getSwordStats(List<Attribute> attributes) {
-        double attack = scaleToAttributes(randomDouble(20, 25), attributes, true);
+        double attack = scaleToAttributes(randomDouble(60, 65), attributes, true);
         double defense = scaleToAttributes(randomDouble(10, 15), attributes, true);
         int health = (int) scaleToAttributes(randomInt(0, 0), attributes, true);
         double accuracy = scaleToAttributes(randomDouble(5, 10), attributes, true);
@@ -84,7 +84,7 @@ public class RandomDataUtilHelper {
     }
 
     static ItemStats getAxeStats(List<Attribute> attributes) {
-        double attack = scaleToAttributes(randomDouble(30, 35), attributes, true);
+        double attack = scaleToAttributes(randomDouble(70, 75), attributes, true);
         double defense = scaleToAttributes(randomDouble(5, 10), attributes, true);
         int health = (int) scaleToAttributes(randomInt(0, 0), attributes, true);
         double accuracy = scaleToAttributes(randomDouble(2, 6), attributes, true);
@@ -99,7 +99,7 @@ public class RandomDataUtilHelper {
     }
 
     static ItemStats getWarHammerStats(List<Attribute> attributes) {
-        double attack = scaleToAttributes(randomDouble(25, 30), attributes, true);
+        double attack = scaleToAttributes(randomDouble(65, 70), attributes, true);
         double defense = scaleToAttributes(randomDouble(10, 15), attributes, true);
         int health = (int) scaleToAttributes(randomInt(0, 0), attributes, true);
         double accuracy = scaleToAttributes(randomDouble(1, 5), attributes, true);
@@ -114,7 +114,7 @@ public class RandomDataUtilHelper {
     }
 
     static ItemStats getSpearStats(List<Attribute> attributes) {
-        double attack = scaleToAttributes(randomDouble(30, 35), attributes, true);
+        double attack = scaleToAttributes(randomDouble(55, 60), attributes, true);
         double defense = scaleToAttributes(randomDouble(5, 10), attributes, true);
         int health = (int) scaleToAttributes(randomInt(0, 0), attributes, true);
         double accuracy = scaleToAttributes(randomDouble(20, 25), attributes, true);

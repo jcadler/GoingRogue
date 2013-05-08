@@ -3,6 +3,7 @@ package edu.brown.cs32.goingrogue.gameobjects.items;
 import edu.brown.cs32.goingrogue.gameobjects.creatures.Attribute;
 import edu.brown.cs32.goingrogue.gameobjects.creatures.Creature;
 import edu.brown.cs32.goingrogue.gameobjects.creatures.CreatureStats;
+import edu.brown.cs32.goingrogue.gameobjects.creatures.Stats;
 import edu.brown.cs32.goingrogue.util.CreatureSize;
 import java.awt.geom.Point2D;
 import java.util.List;
@@ -54,6 +55,10 @@ public class GridItem extends Creature {
     public void pickUp() {
         _pickedUp = true;
     }
+    
+    public void setPickedUp(boolean pickedUp) {
+        _pickedUp = pickedUp;
+    }
 
     @Override
     public int hashCode() {
@@ -79,5 +84,9 @@ public class GridItem extends Creature {
             return false;
         }
         return true;
+    }
+    
+    public void setItemStats(ItemStats stats) {
+        _stats = stats;
     }
 }

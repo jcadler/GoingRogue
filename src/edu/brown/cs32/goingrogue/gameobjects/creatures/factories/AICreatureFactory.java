@@ -18,9 +18,9 @@ import edu.brown.cs32.jcadler.GameLogic.RogueMap.Room;
  */
 public class AICreatureFactory {
 
-    public static AICreature create(List<Creature> creatures, List<Room> rooms) {
+    public static AICreature create(List<Creature> creatures, List<Room> rooms, int playerLevel) {
         double direction = Math.PI / 2.0;
-        List<Attribute> attributes = randomCreatureAttributes();
+        List<Attribute> attributes = randomCreatureAttributes(playerLevel);
         String name = getCreatureName(attributes);
         String sprite = getSprite(attributes);
         CreatureStats stats = randomCreatureStats(attributes);

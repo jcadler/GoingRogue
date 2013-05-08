@@ -16,7 +16,7 @@ import java.util.List;
  */
 public class GridItemFactory {
 
-    public static GridItem create(List<Creature> creatures, List<Room> rooms) {
+    public static GridItem create(List<Creature> creatures, List<Room> rooms, int playerLevel) {
         List<Attribute> attributes = randomItemAttributes();
         String name = getItemName(attributes);
         String sprite = getSprite(attributes);

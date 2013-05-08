@@ -18,7 +18,7 @@ import edu.brown.cs32.goingrogue.util.Text;
  */
 public class RandomDataUtil {
 	
-    public static List<Attribute> randomCreatureAttributes() {
+    public static List<Attribute> randomCreatureAttributes(int playerLevel) {
         List<Attribute> attributes = new ArrayList<>();
         Random generator = new Random(System.currentTimeMillis());
 
@@ -40,25 +40,33 @@ public class RandomDataUtil {
         }
 
         // type of monster
-        choice = generator.nextInt(6);
+        if (playerLevel <= 2) {
+            choice = generator.nextInt(3);
+        } else if (playerLevel == 3) {
+            choice = generator.nextInt(4);
+        } else if (playerLevel == 4) {
+            choice = generator.nextInt(5);
+        } else if (playerLevel >= 5) {
+            choice = generator.nextInt(6);
+        }
         switch (choice) {
             case 0:
                 attributes.add(EMU);
                 break;
             case 1:
-                attributes.add(DRAGON);
-                break;
-            case 2:
-                attributes.add(HOB_GOBLIN);
-                break;
-            case 3:
-                attributes.add(GIANT);
-                break;
-            case 4:
                 attributes.add(SNAKE);
                 break;
-            case 5:
+            case 2:
                 attributes.add(DOG);
+                break;
+            case 3:
+                attributes.add(HOB_GOBLIN);
+                break;
+            case 4:
+                attributes.add(GIANT);
+                break;
+            case 5:
+                attributes.add(DRAGON);
                 break;
         }
         return attributes;

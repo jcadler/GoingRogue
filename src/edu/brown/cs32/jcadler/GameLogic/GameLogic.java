@@ -79,7 +79,7 @@ public class GameLogic
         {
             for(int i=0;i<numC;i++)
             {
-                Creature add = AICreatureFactory.create(creatures,crrntMap.getRooms());
+                Creature add = AICreatureFactory.create(creatures,crrntMap.getRooms(),level);
                 add.setCenterPosition(new Point2D.Double(r.nextInt(rm.getWidth())+rm.getX(),
                                                          r.nextInt(rm.getHeight())+rm.getY()));
                 creatures.add(add);
@@ -155,6 +155,11 @@ public class GameLogic
     	return boundedCreatures;
     }
     
+    public int getFloor()
+    {
+        return level;
+    }
+    
     public void update(int delta) throws CloneNotSupportedException,IOException
     {
         for(Action a : actions)
@@ -184,27 +189,29 @@ public class GameLogic
         }
         List<Creature> dead = new ArrayList<>();
         boolean exit = false;
+        List<Creature> items = new ArrayList<>();
         for(Creature c : creatures)
         {
             if(c.isDead())
+            {
                 dead.add(c);
+                if(!c.containsAttribute(Attribute.ITEM))
+                {
+                    Creature item = GridItemFactory.create(creatures,crrntMap.getRooms());
+                    item.setCenterPosition(c.getCenterPosition());
+                    items.add(item);
+                }
+            }
             if(c.containsAttribute(Attribute.PLAYER))
             {
-                boolean already=false;
                 for(Room r : crrntMap.getRooms())
                 {
-                    if((r.isValid(c.getPosition()) && (last==null || !r.getID().equals(last.getID())))
-                       && !already)
-                    {
-                        System.out.println(r.getID());
-                        last=r;
-                        already=true;
-                    }
                     if(r.atExit(c.getPosition()))
                         exit=true;
                 }
             }
         }
+        creatures.addAll(items);
         creatures.removeAll(dead);
         if(exit)
         {

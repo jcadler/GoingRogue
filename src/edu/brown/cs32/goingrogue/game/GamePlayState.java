@@ -36,6 +36,7 @@ import edu.brown.cs32.goingrogue.map.RogueMap;
 import edu.brown.cs32.goingrogue.map.Space;
 import edu.brown.cs32.goingrogue.map.Tile;
 import edu.brown.cs32.goingrogue.map.Wall;
+import edu.brown.cs32.goingrogue.util.IndexPair;
 import edu.brown.cs32.goingrogue.util.Text;
 import edu.brown.cs32.goingrogue.util.Util;
 import edu.brown.cs32.jcadler.GameLogic.GameLogic;
@@ -407,7 +408,6 @@ public class GamePlayState extends BasicGameState{
 
 		//TEST
 			if(!c.containsAttribute(Attribute.PLAYER)) {
-//				System.out.println("Actions: "+actionNum);
 			}
 			
 			if(actionToAnimate==null ||
@@ -623,30 +623,21 @@ public class GamePlayState extends BasicGameState{
 	void drawHUD(Graphics g) {
 		
 		int lineSize=20; //The spacing between each line
+		
 		int horzDisplacement=10; //The displacement from the horizontal slot the text is in
-		int vertDisplacement=15; //The displacement from the bottom of the screen
+		int vertDisplacement=15; //The displacement from the screen's bottom
 		
-		//The default width/height of horizontal/vertical space dividers
-		int horzBar=15;
-		int vertBar=15;
+		//Bars for separating elements
+		int bar=10;
 		
-		int invSpace=(3*gc.getWidth())/4; //The width for displaying inventory
-		int xpSpace=gc.getWidth()-invSpace-horzBar; //The width for displaying xp/levels
+		int invSpace=gc.getWidth()-bar-150; //The width for displaying inventory
+		int xpSpace=150; //The width for displaying xp
 		
-		//The number of horizontal and vertical inventory slots
 		int invHorzSlots=3;
 		int invVertSlots=2;
 		
-		int healthRectHeight=5;
-		int boundingRectHeight=vertDisplacement+invVertSlots*(2*lineSize+vertBar)-vertBar;
-		
-		//The number of potion types to display
-		int numPotions=3;
-		
-		int[] horzInvTextSlots=new int[invHorzSlots];
-		for(int i=0; i<invHorzSlots; i++) {
-			horzInvTextSlots[i]=i*invSpace/invHorzSlots;
-		}
+		int xpHorzSlots=2;
+		int xpVertSlots=2;
 		
 		Text[][] titles=new Text[invHorzSlots][invVertSlots];
 		Text[][] items=new Text[invHorzSlots][invVertSlots];
@@ -664,17 +655,16 @@ public class GamePlayState extends BasicGameState{
 		Item helmet=player.getInventory().getHelmet();
 		Item boots=player.getInventory().getBoots();
 		
-		List<Potion> potions = new ArrayList<>();
 		int attackPotions=0;
 		int defensePotions=0;
 		int healthPotions=0;
 		for(int i=0; i<player.getInventory().getNumPotions(); i++) {
-			Potion p=(Potion)player.getInventory().getPotion(i);
+			Potion p=(Potion) player.getInventory().getPotion(i);
 			if(p.containsAttribute(Attribute.ATTACK_POTION)) {
 				attackPotions++;
-			} else if(p.containsAttribute(Attribute.DEFENSE_POTION)) {
+			} else if(p.containsAttribute(Attribute.ATTACK_POTION)) {
 				defensePotions++;
-			} else if(p.containsAttribute(Attribute.HEALTH_POTION)) {
+			} else if(p.containsAttribute(Attribute.ATTACK_POTION)) {
 				healthPotions++;
 			}
 		}
@@ -684,44 +674,51 @@ public class GamePlayState extends BasicGameState{
 		items[2][0]= Text.getText(shield);
 		items[0][1]= Text.getText(helmet);
 		items[1][1]= Text.getText(boots);
-		Text attackPotionText= new Text(""+attackPotions, Attribute.ATTACK_POTION.color);
-		Text defensePotionText= new Text(""+attackPotions, Attribute.DEFENSE_POTION.color);
-		Text healthPotionText= new Text(""+attackPotions, Attribute.HEALTH_POTION.color);
+		IndexPair potionSlot=new IndexPair(2, 1);
+		
+		int ribbonRectHeight=5;
+		int boundingRectHeight=vertDisplacement;
+		for(int i=0; i<Math.max(invVertSlots, xpVertSlots); i++) {
+			boundingRectHeight+=2*lineSize+bar;
+		}
 		
 		g.setColor(Color.black);
 		g.fill(new Rectangle(0, gc.getHeight()-boundingRectHeight, gc.getWidth(), boundingRectHeight));
 		
 		g.setColor(Color.red);
 		g.fill(new Rectangle(0,
-							gc.getHeight()-boundingRectHeight-healthRectHeight,
+							gc.getHeight()-boundingRectHeight-ribbonRectHeight,
 							gc.getWidth()*player.getHealth()/player.getMaxHealth(),
-							healthRectHeight));
+							ribbonRectHeight));
 		
 		for(int i=0; i<invHorzSlots; i++)
 		for(int j=0; j<invVertSlots; j++) {
 			
-			//Handles potions
-			if(i==2 && j==1) {
-				continue;
+			int horzSlot=(i*invSpace)/invHorzSlots;
+			int vertSlot=gc.getHeight()-bar;
+			for(int vertIndex=j; vertIndex<invVertSlots; vertIndex++) {
+				vertSlot-=2*lineSize+bar;
 			}
 			
-			int horzTextSlot=(i*invSpace)/invHorzSlots;
-			int vertTextSlot=gc.getHeight()-vertDisplacement;
-			for(int vertSlotIndex=j; vertSlotIndex<invVertSlots-1; vertSlotIndex++) {
-				vertTextSlot-=2*lineSize+vertBar;
+			//Handles potions
+			if(potionSlot.x==i && potionSlot.y==j) {
+				
+				continue;
 			}
 			
 			g.setColor(titles[i][j].getColor());
 			g.drawString(titles[i][j].getText(),
-							horzTextSlot+horzDisplacement,
-							vertTextSlot-lineSize*2);
+					horzSlot,
+					vertSlot-lineSize*2);
 			
-			g.setColor(items[i][j].getColor());
+			g.setColor(titles[i][j].getColor());
 			g.drawString(items[i][j].getText(),
-					horzTextSlot+horzDisplacement,
-					vertTextSlot-lineSize*1);
+					horzSlot,
+					vertSlot-lineSize*1);
 			
-			g.setColor(Color.white);
+			
+			
+/*			g.setColor(Color.white);
 			g.drawString("XP",
 						gc.getWidth()-xpSpace+horzDisplacement,
 						gc.getHeight()-vertDisplacement-lineSize*2);
@@ -734,7 +731,7 @@ public class GamePlayState extends BasicGameState{
 			g.drawString(""+player.getLevel(),
 					gc.getWidth()-xpSpace/2+horzDisplacement,
 					gc.getHeight()-vertDisplacement-lineSize);
-		}
+*/		}
 	}
 	
 	
