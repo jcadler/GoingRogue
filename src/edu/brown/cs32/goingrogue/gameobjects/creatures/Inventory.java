@@ -83,6 +83,14 @@ public class Inventory {
     public Item getShield() {
         return _shield;
     }
+    
+    public Item getHelmet() {
+        return _helmet;
+    }
+    
+    public Item getBoots() {
+        return _boots;
+    }
 
     public Item getPotion(int index) {
         return _potions.get(index);
