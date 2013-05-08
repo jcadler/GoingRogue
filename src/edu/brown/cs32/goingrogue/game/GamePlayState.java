@@ -696,42 +696,63 @@ public class GamePlayState extends BasicGameState{
 			
 			int horzSlot=(i*invSpace)/invHorzSlots;
 			int vertSlot=gc.getHeight()-bar;
-			for(int vertIndex=j; vertIndex<invVertSlots; vertIndex++) {
+			for(int vertIndex=j; vertIndex<invVertSlots-1; vertIndex++) {
 				vertSlot-=2*lineSize+bar;
 			}
 			
-			//Handles potions
-			if(potionSlot.x==i && potionSlot.y==j) {
-				
-				continue;
-			}
-			
-			g.setColor(titles[i][j].getColor());
+			//Displays the item title
+			g.setColor(titles[i][j].getColor()) ;
 			g.drawString(titles[i][j].getText(),
 					horzSlot,
 					vertSlot-lineSize*2);
 			
-			g.setColor(titles[i][j].getColor());
+			//Handles potions
+			if(potionSlot.x==i && potionSlot.y==j) {
+				
+				int slotSize=invSpace/invHorzSlots;
+				
+				g.setColor(Attribute.ATTACK_POTION.color);
+				g.drawString(""+attackPotions,
+							horzSlot,
+							vertSlot-lineSize*1);
+				
+				g.setColor(Attribute.DEFENSE_POTION.color);
+				g.drawString(""+attackPotions,
+							horzSlot+(int)(slotSize/3.),
+							vertSlot-lineSize*1);
+				
+				g.setColor(Attribute.HEALTH_POTION.color);
+				g.drawString(""+attackPotions,
+							horzSlot+(int)(2*slotSize/3.),
+							vertSlot-lineSize*1);
+				
+				continue;
+			}
+			
+			//Displays the item
+			g.setColor(items[i][j].getColor());
 			g.drawString(items[i][j].getText(),
 					horzSlot,
 					vertSlot-lineSize*1);
-			
-			
-			
-/*			g.setColor(Color.white);
-			g.drawString("XP",
-						gc.getWidth()-xpSpace+horzDisplacement,
-						gc.getHeight()-vertDisplacement-lineSize*2);
-			g.drawString(""+player.getXP()+"/"+player.getNextLevelXP(),
+		}
+		
+		g.setColor(Color.white);
+		
+		g.drawString("XP", 
 					gc.getWidth()-xpSpace+horzDisplacement,
-					gc.getHeight()-vertDisplacement-lineSize);
-			g.drawString("Level",
-					gc.getWidth()-xpSpace/2+horzDisplacement,
 					gc.getHeight()-vertDisplacement-lineSize*2);
-			g.drawString(""+player.getLevel(),
-					gc.getWidth()-xpSpace/2+horzDisplacement,
-					gc.getHeight()-vertDisplacement-lineSize);
-*/		}
+		g.drawString(""+player.getXP()+"/"+player.getNextLevelXP(),
+				gc.getWidth()-xpSpace+horzDisplacement,
+				gc.getHeight()-vertDisplacement-lineSize);
+		
+		g.drawString("Level",
+				gc.getWidth()-xpSpace/2+horzDisplacement,
+				gc.getHeight()-vertDisplacement-lineSize*2);
+		g.drawString(""+player.getLevel(),
+				gc.getWidth()-xpSpace/2+horzDisplacement,
+				gc.getHeight()-vertDisplacement-lineSize);
+		
+// 		g.drawString("Floor", , y)
 	}
 	
 	
