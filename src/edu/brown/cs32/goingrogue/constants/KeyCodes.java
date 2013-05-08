@@ -1,4 +1,4 @@
-package edu.brown.cs32.goingrogue.util;
+package edu.brown.cs32.goingrogue.constants;
 
 /** A class of constants containing the key codes that can be entered
  * 
@@ -10,6 +10,7 @@ public class KeyCodes {
 	public static final int Q=16;
 	public static final int W=17;
 	public static final int E=18;
+	public static final int R=19;
 	public static final int P=25;
 	public static final int A=30;
 	public static final int S=31;

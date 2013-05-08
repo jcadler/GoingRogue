@@ -27,7 +27,6 @@ public class TransitionButton extends ActionButton{
 			//buttonAction();
 			game.enterState(nextState, f, t);
 			//game.getState(nextState).init(game.getContainer(), game);
-			game.getCurrentState().leave(game.getContainer(), game);
 		}
 		catch(Throwable e){
 			//	SHOULD NOT HAPPEN

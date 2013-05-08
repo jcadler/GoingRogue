@@ -1,6 +1,5 @@
 package edu.brown.cs32.goingrogue.network;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.esotericsoftware.kryonet.Client;
@@ -52,8 +51,19 @@ public class RogueClient extends Listener implements RoguePort{
 		//	TCP only, default buffer should be ok.
 		net = new Client();
 		net.start();
-		net.connect(3000, host, port);
 		Network.register(net);
+		final String h = host;
+		final int p = port;
+		new Thread(){
+			public void run(){
+				try{
+					net.connect(3000, h, p);
+				}
+				catch(Exception e){
+					System.err.println(e.getMessage());
+				}
+			}
+		}.start();
 		net.addListener(this);
 	}
 
@@ -70,7 +80,8 @@ public class RogueClient extends Listener implements RoguePort{
 	
 	@Override
 	public void disconnected(Connection c){
-		
+		playerNames.clear();
+		playerNames.add("Disconnected from server!");
 	}
 	
 	@Override
@@ -79,6 +90,7 @@ public class RogueClient extends Listener implements RoguePort{
 			//	g.setCreatures(o);	Need some way to set this in GameLogic
 		}
 		if(o instanceof String){
+			System.out.println(o);
 			try{
 				String[] cmd = ((String) o).split("\t");
 				if(cmd[0].equals("dc")){
@@ -89,6 +101,11 @@ public class RogueClient extends Listener implements RoguePort{
 				else if(cmd[0].equals("map")){
 					//	TODO: Not actually a thing yet - manage later...
 					//	g.setMap(cmd[1]);
+				}
+				else if(cmd[0].equals("lobby")){
+					playerNames.clear();
+					for(int it = 1; it < cmd.length - 1; it++)
+						playerNames.add(cmd[it]);
 				}
 			}
 			catch(Exception e){

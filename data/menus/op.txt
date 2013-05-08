@@ -1,2 +1,2 @@
-tbutton	graphics/menu/mm.png	0	500	50
-tbutton	graphics/menu/sg.png	2	500	200
+tbutton	graphics/menu/mm.png	0	600	20
+tbutton	graphics/menu/sg.png	2	600	190

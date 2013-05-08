@@ -54,6 +54,9 @@ public class Text {
 	}
 	
 	public static Text getText(Item i) {
+		
+		if(i==null) return new Text("", Color.white);
+		
 		return getText(i.getGridItem());
 	}
 	

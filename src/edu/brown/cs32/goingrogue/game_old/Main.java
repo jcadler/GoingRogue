@@ -8,8 +8,8 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 
+import edu.brown.cs32.goingrogue.constants.KeyCodes;
 import edu.brown.cs32.goingrogue.gameobjects.creatures.Player;
-import edu.brown.cs32.goingrogue.util.KeyCodes;
 
 /**
  * @author Dominic Adams

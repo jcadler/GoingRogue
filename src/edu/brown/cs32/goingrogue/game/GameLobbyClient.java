@@ -9,7 +9,7 @@ import edu.brown.cs32.goingrogue.network.RogueClient;
 
 public class GameLobbyClient extends GameLobbyState {
 	private int sumDelta = 0;
-	private int updateLimit = 500;
+	private int updateLimit = 1500;
 
 	public GameLobbyClient(String bg, String md, int id, MenuGame game){
 		super(bg, md, id, game);
