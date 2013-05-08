@@ -128,6 +128,7 @@ public class RogueServer extends Listener implements RoguePort{
 		//	Players reporting their names, asking for lobby info, etc.
 		if(o instanceof String){
 			try{
+				System.out.println(o);
 				String[] cmd = ((String) o).split("\t");
 				if(cmd[0].equals("name")){
 					if(lobby.containsKey(c.getID())){

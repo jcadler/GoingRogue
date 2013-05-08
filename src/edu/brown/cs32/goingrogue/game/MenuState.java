@@ -138,6 +138,7 @@ public class MenuState extends BasicGameState{
 	
 	/** Clicking on an ActionButton calls this function **/
 	public void buttonAction(){
+		System.exit(0);
 	}
 
 	@Override
@@ -149,6 +150,8 @@ public class MenuState extends BasicGameState{
 	public void enter(GameContainer gc, StateBasedGame gm){
 		try {
 			//components.clear();
+			//inputFields.clear();
+			//textBox = null;
 			//init(gc, gm);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
@@ -157,6 +160,9 @@ public class MenuState extends BasicGameState{
 
 	@Override
 	public void leave(GameContainer gc, StateBasedGame gm){
-		//components.clear();
+		for(TextField c : inputFields){
+			System.out.println("Deactivating");
+			c.deactivate();
+		}
 	}
 }
