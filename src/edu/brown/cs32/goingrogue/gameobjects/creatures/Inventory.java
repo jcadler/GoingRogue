@@ -17,6 +17,8 @@ public class Inventory {
     private Item _weapon;
     private Item _armour;
     private Item _shield;
+    private Item _helmet;
+    private Item _boots;
     private List<Item> _potions;
     private Creature _creature;
     private final int MAX_NUM_POTIONS = 5;
@@ -25,6 +27,8 @@ public class Inventory {
         _weapon = null;
         _armour = null;
         _shield = null;
+        _helmet = null;
+        _boots = null;
         _potions = new ArrayList<>();
         _creature = creature;
     }
@@ -36,6 +40,10 @@ public class Inventory {
             _armour = item;
         } else if (item.containsAttribute(SHIELD)) {
             _shield = item;
+        } else if (item.containsAttribute(HELMET)) {
+            _helmet = item;
+        } else if (item.containsAttribute(BOOTS)) {
+            _boots = item;
         } else if (item.containsAttribute(POTION)) {
             if (_potions.size() < MAX_NUM_POTIONS) {
                 _potions.add(item);
@@ -72,7 +80,7 @@ public class Inventory {
     }
 
     public double getAttackSum() {
-        List<Item> thingsToAdd = getThingsToAdd(_weapon, _armour, _shield);
+        List<Item> thingsToAdd = getThingsToAdd(_weapon, _armour, _shield, _helmet, _boots);
         double sum = 0.0;
         for (Item currItem : thingsToAdd) {
             sum += currItem.getStats().getAttack();
@@ -81,7 +89,7 @@ public class Inventory {
     }
 
     public double getDefenseSum() {
-        List<Item> thingsToAdd = getThingsToAdd(_weapon, _armour, _shield);
+        List<Item> thingsToAdd = getThingsToAdd(_weapon, _armour, _shield, _helmet, _boots);
         double sum = 0.0;
         for (Item currItem : thingsToAdd) {
             sum += currItem.getStats().getDefense();
@@ -90,7 +98,7 @@ public class Inventory {
     }
 
     public double getAccuracySum() {
-        List<Item> thingsToAdd = getThingsToAdd(_weapon, _armour, _shield);
+        List<Item> thingsToAdd = getThingsToAdd(_weapon, _armour, _shield, _helmet, _boots);
         double sum = 0.0;
         for (Item currItem : thingsToAdd) {
             sum += currItem.getStats().getAccuracy();
@@ -99,7 +107,7 @@ public class Inventory {
     }
 
     public double getSpeedSum() {
-        List<Item> thingsToAdd = getThingsToAdd(_weapon, _armour, _shield);
+        List<Item> thingsToAdd = getThingsToAdd(_weapon, _armour, _shield, _helmet, _boots);
         double sum = 0.0;
         for (Item currItem : thingsToAdd) {
             sum += currItem.getStats().getSpeed();
@@ -107,7 +115,7 @@ public class Inventory {
         return sum;
     }
 
-    private List<Item> getThingsToAdd(Item weapon, Item armour, Item shield) {
+    private List<Item> getThingsToAdd(Item weapon, Item armour, Item shield, Item helmet, Item boots) {
         List<Item> thingsToAdd = new ArrayList<>();
         if (weapon != null) {
             thingsToAdd.add(weapon);
@@ -117,6 +125,12 @@ public class Inventory {
         }
         if (shield != null) {
             thingsToAdd.add(shield);
+        }
+        if (helmet != null) {
+            thingsToAdd.add(helmet);
+        }
+        if (boots != null) {
+            thingsToAdd.add(boots);
         }
         return thingsToAdd;
     }

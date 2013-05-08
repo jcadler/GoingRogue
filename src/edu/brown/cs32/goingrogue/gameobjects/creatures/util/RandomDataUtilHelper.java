@@ -155,6 +155,34 @@ public class RandomDataUtilHelper {
         return new ItemStats(attack, defense, health, accuracy, speed, reloadRate,
                 range, arcLength, attackTimer);
     }
+    
+    static ItemStats getHelmetStats(List<Attribute> attributes) {
+        double attack = scaleToAttributes(randomDouble(0, 0), attributes, true);
+        double defense = scaleToAttributes(randomDouble(25, 30), attributes, true);
+        int health = (int) scaleToAttributes(randomInt(0, 0), attributes, true);
+        double accuracy = scaleToAttributes(randomDouble(0, 0), attributes, true);
+        double speed = scaleToAttributes(randomDouble(5, 10), attributes, false);
+        double reloadRate = scaleToAttributes(randomDouble(0, 0), attributes, false);
+        double range = 0.0;
+        double arcLength = 0.0;
+        int attackTimer = 0;
+        return new ItemStats(attack, defense, health, accuracy, speed, reloadRate,
+                range, arcLength, attackTimer);
+    }
+    
+    static ItemStats getBootsStats(List<Attribute> attributes) {
+        double attack = scaleToAttributes(randomDouble(0, 0), attributes, true);
+        double defense = scaleToAttributes(randomDouble(3, 7), attributes, true);
+        int health = (int) scaleToAttributes(randomInt(0, 0), attributes, true);
+        double accuracy = scaleToAttributes(randomDouble(0, 0), attributes, true);
+        double speed = scaleToAttributes(randomDouble(0, 0), attributes, false);
+        double reloadRate = scaleToAttributes(randomDouble(0, 0), attributes, false);
+        double range = 0.0;
+        double arcLength = 0.0;
+        int attackTimer = 0;
+        return new ItemStats(attack, defense, health, accuracy, speed, reloadRate,
+                range, arcLength, attackTimer);
+    }
 
     static ItemStats getPotionStats(List<Attribute> attributes) {
         double attack = scaleToAttributes(randomDouble(0, 0), attributes, true);
