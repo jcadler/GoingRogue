@@ -86,7 +86,13 @@ public class GameLogic
                 continue;
             for(int i=0;i<numC;i++)
             {
-                Creature addC = AICreatureFactory.create(creatures,crrntMap.getRooms(),level);
+            	List<Creature> tgt = new ArrayList<>();
+            	for(Creature c : creatures){
+            		if(c instanceof Player){
+            			tgt.add(c);
+            		}
+            	}
+                Creature addC = AICreatureFactory.create(tgt,crrntMap.getRooms(),level);
                 addC.setCenterPosition(new Point2D.Double(r.nextInt(rm.getWidth())+rm.getX(),
                                                          r.nextInt(rm.getHeight())+rm.getY()));
                 creatures.add(addC);
@@ -173,17 +179,26 @@ public class GameLogic
         }
         for(Action a : actions)
         {
+            int count=0;
             for(Creature c : creatures)
             {
                 if(a.withinRange(c))
                 {
-                    Creature test = a.actOnClone(c);
+                    Creature test;
+                    if(!a.type().equals(ActionType.PICKUP))
+                        test = a.actOnClone(c);
+                    else
+                    {
+                        a.act(c);
+                        continue;
+                    }
                     if(crrntMap.isValid(test.getCenterPosition()) && !c.containsAttribute(Attribute.PLAYER))
                         a.act(c);
                     else if(c.containsAttribute(Attribute.PLAYER) && crrntMap.isValid(test.getPosition()))
                         a.act(c);
                 }
             }
+            System.out.println(count);
         }
         List<Creature> dead = new ArrayList<>();
         boolean exit = false;
