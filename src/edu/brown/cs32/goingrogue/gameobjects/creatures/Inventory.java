@@ -5,18 +5,25 @@ import edu.brown.cs32.goingrogue.gameobjects.items.Item;
 
 import java.util.List;
 import static edu.brown.cs32.goingrogue.gameobjects.creatures.Attribute.*;
+import edu.brown.cs32.goingrogue.gameobjects.items.AttackPotion;
+import edu.brown.cs32.goingrogue.gameobjects.items.DefensePotion;
+import edu.brown.cs32.goingrogue.gameobjects.items.GridItem;
+import edu.brown.cs32.goingrogue.gameobjects.items.HealthPotion;
+import edu.brown.cs32.goingrogue.gameobjects.items.Potion;
 import java.util.ArrayList;
 
 /**
- *
- * @author Ben Weedon (bweedon)
- */
+*
+* @author Ben Weedon (bweedon)
+*/
 public class Inventory {
 
     private Item _weapon;
     private Item _armour;
     private Item _shield;
-    private List<Item> _potions;
+    private Item _helmet;
+    private Item _boots;
+    private List<Potion> _potions;
     private Creature _creature;
     private final int MAX_NUM_POTIONS = 5;
 
@@ -24,20 +31,41 @@ public class Inventory {
         _weapon = null;
         _armour = null;
         _shield = null;
+        _helmet = null;
+        _boots = null;
         _potions = new ArrayList<>();
         _creature = creature;
     }
 
     public void add(Item item) {
         if (item.containsAttribute(WEAPON)) {
+            if (_weapon != null) {
+                swap(item, _weapon);
+            }
             _weapon = item;
         } else if (item.containsAttribute(ARMOUR)) {
+            if (_armour != null) {
+                swap(item, _armour);
+            }
             _armour = item;
         } else if (item.containsAttribute(SHIELD)) {
+            if (_shield != null) {
+                swap(item, _shield);
+            }
             _shield = item;
+        } else if (item.containsAttribute(HELMET)) {
+            if (_helmet != null) {
+                swap(item, _helmet);
+            }
+            _helmet = item;
+        } else if (item.containsAttribute(BOOTS)) {
+            if (_boots != null) {
+                swap(item, _boots);
+            }
+            _boots = item;
         } else if (item.containsAttribute(POTION_TYPE)) {
             if (_potions.size() < MAX_NUM_POTIONS) {
-                _potions.add(item);
+                _potions.add(makePotion(item));
             } else {
                 _creature.addAction(new QuaffAction(item, _creature));
             }
@@ -69,7 +97,7 @@ public class Inventory {
     }
 
     public double getAttackSum() {
-        List<Item> thingsToAdd = getThingsToAdd(_weapon, _armour, _shield);
+        List<Item> thingsToAdd = getThingsToAdd(_weapon, _armour, _shield, _helmet, _boots);
         double sum = 0.0;
         for (Item currItem : thingsToAdd) {
             sum += currItem.getStats().getAttack();
@@ -78,7 +106,7 @@ public class Inventory {
     }
 
     public double getDefenseSum() {
-        List<Item> thingsToAdd = getThingsToAdd(_weapon, _armour, _shield);
+        List<Item> thingsToAdd = getThingsToAdd(_weapon, _armour, _shield, _helmet, _boots);
         double sum = 0.0;
         for (Item currItem : thingsToAdd) {
             sum += currItem.getStats().getDefense();
@@ -87,7 +115,7 @@ public class Inventory {
     }
 
     public double getAccuracySum() {
-        List<Item> thingsToAdd = getThingsToAdd(_weapon, _armour, _shield);
+        List<Item> thingsToAdd = getThingsToAdd(_weapon, _armour, _shield, _helmet, _boots);
         double sum = 0.0;
         for (Item currItem : thingsToAdd) {
             sum += currItem.getStats().getAccuracy();
@@ -96,7 +124,7 @@ public class Inventory {
     }
 
     public double getSpeedSum() {
-        List<Item> thingsToAdd = getThingsToAdd(_weapon, _armour, _shield);
+        List<Item> thingsToAdd = getThingsToAdd(_weapon, _armour, _shield, _helmet, _boots);
         double sum = 0.0;
         for (Item currItem : thingsToAdd) {
             sum += currItem.getStats().getSpeed();
@@ -104,7 +132,7 @@ public class Inventory {
         return sum;
     }
 
-    private List<Item> getThingsToAdd(Item weapon, Item armour, Item shield) {
+    private List<Item> getThingsToAdd(Item weapon, Item armour, Item shield, Item helmet, Item boots) {
         List<Item> thingsToAdd = new ArrayList<>();
         if (weapon != null) {
             thingsToAdd.add(weapon);
@@ -115,6 +143,30 @@ public class Inventory {
         if (shield != null) {
             thingsToAdd.add(shield);
         }
+        if (helmet != null) {
+            thingsToAdd.add(helmet);
+        }
+        if (boots != null) {
+            thingsToAdd.add(boots);
+        }
         return thingsToAdd;
+    }
+    
+    private void swap(Item i1, Item i2) {
+        GridItem temp = i1.getGridItem();
+        i2.setGridItem(temp);
+        i1.setGridItem(i2.getGridItem());
+    }
+    
+    private Potion makePotion(Item item) {
+        Potion returnPotion = null;
+        if (item.containsAttribute(HEALTH_POTION)) {
+            returnPotion = new HealthPotion(item.getGridItem());
+        } else if (item.containsAttribute(ATTACK_POTION)) {
+            returnPotion = new AttackPotion(item.getGridItem());
+        } else if (item.containsAttribute(DEFENSE_POTION)) {
+            returnPotion = new DefensePotion(item.getGridItem());
+        }
+        return returnPotion;
     }
 }
