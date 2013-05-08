@@ -9,5 +9,6 @@ Corridor	red	blue	1	2	2,2
 Corridor	blue	green	2	2	8,2
 Corridor	green	yellow	2	2	2,2
 Corridor	yellow	indigo	3	2	6,2
-Corridor	indigo	turn	1	2	4,0
+Corridor	indigo	turn	0	2	4,0
 Corridor	turn	orange	3	2	0,10
+Corridor	orange	red	0	2	2,2

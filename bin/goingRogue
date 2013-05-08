@@ -1,6 +1,0 @@
-#!/bin/bash
-cp -r Maps ./derived/
-cp -r graphics ./derived/
-cp -r data ./derived/
-cd ./derived
-java -Djava.library.path=../lib/lwjgl-2.9.0/native/linux -jar GoingRogue.jar

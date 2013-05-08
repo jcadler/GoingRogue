@@ -37,7 +37,7 @@ public class LogicMap implements RogueMap
         return MapReader.readMap(map);
     }
     
-    public boolean isValid(Point2D.Double p)
+    public boolean isValid(Point2D p)
     {
         for(Room r : rooms)
         {

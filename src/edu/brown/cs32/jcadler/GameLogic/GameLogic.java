@@ -1,6 +1,5 @@
 package edu.brown.cs32.jcadler.GameLogic;
 
-import java.awt.Rectangle;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.Point2D;
 import java.io.IOException;
@@ -9,17 +8,16 @@ import java.util.List;
 import java.util.Random;
 
 import edu.brown.cs32.goingrogue.gameobjects.actions.Action;
-import edu.brown.cs32.goingrogue.gameobjects.actions.ActionType;
 import edu.brown.cs32.goingrogue.gameobjects.creatures.Attribute;
 import edu.brown.cs32.goingrogue.gameobjects.creatures.Creature;
 import edu.brown.cs32.goingrogue.gameobjects.creatures.Player;
 import edu.brown.cs32.goingrogue.gameobjects.creatures.factories.AICreatureFactory;
 import edu.brown.cs32.goingrogue.gameobjects.creatures.factories.PlayerFactory;
 import edu.brown.cs32.goingrogue.gameobjects.items.factories.GridItemFactory;
+import edu.brown.cs32.goingrogue.gameobjects.items.factories.GridPotionFactory;
 import edu.brown.cs32.goingrogue.map.RogueMap;
 import edu.brown.cs32.jcadler.GameLogic.RogueMap.LogicMap;
 import edu.brown.cs32.jcadler.GameLogic.RogueMap.Room;
-import java.util.jar.Attributes;
 
 /**
  *
@@ -37,33 +35,48 @@ public class GameLogic
     public GameLogic() throws IOException
     {
         crrntMap = LogicMap.getRandomMap();
-        Random r = new Random();
-        int numCreatures = 10; //r.nextInt(10)+1;
         creatures = new ArrayList<>();
         actions = new ArrayList<>();
         setRandomExit();
-        addCreatures(numCreatures);
+        addCreatures(5,2);
         player = PlayerFactory.create(creatures,crrntMap.getRooms());
         player.setName("debug");
         setPlayer();
-        creatures.add(player);
         level=0;
     }
     
-    private void addCreatures(int numCreatures)
+    private void addCreatures(int maxCreatures, int maxItems)
     {
         Random r = new Random();
         List<Room> rooms = crrntMap.getRooms();
-        for(int i=0;i<numCreatures;i++)
+        int numC = r.nextInt(maxCreatures)+1;
+        int numI = r.nextInt(maxItems);
+        for(Room rm : rooms)
         {
-            Creature put = AICreatureFactory.create(creatures,crrntMap.getRooms());
-            Room rm = rooms.get(r.nextInt(rooms.size()));
-            put.setPosition(new Point2D.Double(rm.getX()+r.nextInt(rm.getWidth()),rm.getY()+r.nextInt(rm.getHeight())));
-            creatures.add(put);
-            put = GridItemFactory.create(creatures,crrntMap.getRooms());
-            put.setPosition(new Point2D.Double(rm.getX()+r.nextInt(rm.getWidth()),rm.getY()+r.nextInt(rm.getHeight())));
-            creatures.add(put);
+            for(int i=0;i<numC;i++)
+            {
+                Creature add = AICreatureFactory.create(creatures,crrntMap.getRooms());
+                add.setCenterPosition(new Point2D.Double(r.nextInt(rm.getWidth())+rm.getX(),
+                                                         r.nextInt(rm.getHeight())+rm.getY()));
+                creatures.add(add);
+            }
+            numC=r.nextInt(maxCreatures)+1;
+            for(int i=0;i<numI;i++)
+            {
+                Creature add = GridItemFactory.create(creatures,crrntMap.getRooms());
+                add.setCenterPosition(new Point2D.Double(r.nextInt(rm.getWidth())+rm.getX(),
+                                                         r.nextInt(rm.getHeight())+rm.getY()));
+                creatures.add(add);
+            }
+            for(int i=0;i<10;i++)
+            {
+                Creature add = GridPotionFactory.create(creatures,crrntMap.getRooms());
+                add.setCenterPosition(new Point2D.Double(r.nextInt(rm.getWidth())+rm.getX(),
+                                                         r.nextInt(rm.getHeight())+rm.getY()));
+                creatures.add(add);
+            }
         }
+        
     }
     
     private void setPlayer()
@@ -136,7 +149,9 @@ public class GameLogic
                 if(a.withinRange(c))
                 {
                     Creature test = a.actOnClone(c);
-                    if(crrntMap.isValid(test.getPosition()))
+                    if(crrntMap.isValid(test.getCenterPosition()) && !c.containsAttribute(Attribute.PLAYER))
+                        a.act(c);
+                    else if(c.containsAttribute(Attribute.PLAYER) && crrntMap.isValid(test.getPosition()))
                     {
                         a.act(c);
                     }
@@ -170,10 +185,9 @@ public class GameLogic
         if(exit)
         {
             crrntMap.newLevel();
-            Random r = new Random();
             creatures.clear();
             actions.clear();
-            addCreatures(r.nextInt(3)+1);
+            addCreatures(5,2);
             setPlayer();
             setRandomExit();
             level++;
