@@ -2,6 +2,7 @@ package edu.brown.cs32.goingrogue.game;
 
 import static java.lang.Math.toDegrees;
 
+import java.awt.Font;
 import java.awt.geom.Point2D;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -20,6 +21,7 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 import edu.brown.cs32.goingrogue.constants.Constants;
+import edu.brown.cs32.goingrogue.constants.KeyCodes;
 import edu.brown.cs32.goingrogue.gameobjects.actions.Action;
 import edu.brown.cs32.goingrogue.gameobjects.actions.ActionAnimation;
 import edu.brown.cs32.goingrogue.gameobjects.actions.ActionType;
@@ -35,7 +37,6 @@ import edu.brown.cs32.goingrogue.map.RogueMap;
 import edu.brown.cs32.goingrogue.map.Space;
 import edu.brown.cs32.goingrogue.map.Tile;
 import edu.brown.cs32.goingrogue.map.Wall;
-import edu.brown.cs32.goingrogue.util.KeyCodes;
 import edu.brown.cs32.goingrogue.util.Util;
 import edu.brown.cs32.jcadler.GameLogic.GameLogic;
 
@@ -55,7 +56,7 @@ public class GamePlayState extends BasicGameState{
 	Player player;
 	RogueMap map;
 	AnimationCache cache;
-
+	
 	private int id; //Used for StateBasedGame
 
 	public void setID(int id){
@@ -166,7 +167,9 @@ public class GamePlayState extends BasicGameState{
 			if(key==KeyCodes.D || key==KeyCodes.RIGHT) p.getHandler().moveRight();
 			if(key==KeyCodes.SPACE) p.getHandler().attack();
 			if(key==KeyCodes.E) p.getHandler().pickUp();
+			if(key==KeyCodes.R) p.getHandler().usePotion();
 			if(key==KeyCodes.ESC) System.exit(0);
+			
 		}
 		
 		timeCount+=delta;
@@ -184,6 +187,7 @@ public class GamePlayState extends BasicGameState{
 	 * @param g The graphics component used to draw the game
 	 */
 	public void render(Graphics g) {
+		
 		Point2D center=player.getPosition();
 		
 		Point2D upperLeft=screenToGame(new int[]{0,0}, center);
@@ -620,13 +624,15 @@ public class GamePlayState extends BasicGameState{
 		
 		int lineSize=20; //The spacing between each line
 		int horzDisplacement=10; //The displacement from the horizontal slot the text is in
-		int horzSpace=gc.getWidth()-150; //The total space for all text items
+		int xpSpace=150; //The width for displaying xp
+		int invSpace=gc.getWidth()-xpSpace; //The width for displaying inventory
+		
 		int vertDisplacement=15; //The displacement from the bottom of the screen
 		int numItems=4;
 		
 		int[] horzTextSlots=new int[numItems];
 		for(int i=0; i<numItems; i++) {
-			horzTextSlots[i]=i*horzSpace/numItems;
+			horzTextSlots[i]=i*invSpace/numItems;
 		}
 		
 		Text[] titles=new Text[numItems];
@@ -638,8 +644,8 @@ public class GamePlayState extends BasicGameState{
 		titles[3]=new Text("Potions", Color.white);
 		
 		Item weapon=player.getInventory().getWeapon();
-		Item armour=player.getInventory().getWeapon();
-		Item shield=player.getInventory().getWeapon();
+		Item armour=player.getInventory().getArmour();
+		Item shield=player.getInventory().getShield();
 		
 		items[0]= Text.getText(weapon);
 		items[1]= Text.getText(armour);
@@ -648,29 +654,42 @@ public class GamePlayState extends BasicGameState{
 							new Color(216, 65, 183));
 		
 		
-		int boundingRectHeight=vertDisplacement+lineSize*2+8;
+		int ribbonRectHeight=5;
+		int boundingRectHeight=vertDisplacement+lineSize*2+ribbonRectHeight+8;
 		
 		g.setColor(Color.black);
 		g.fill(new Rectangle(0, gc.getHeight()-boundingRectHeight, gc.getWidth(), boundingRectHeight));
 		
-		int ribbonRectHeight=5;
-		
 		g.setColor(Color.red);
 		g.fill(new Rectangle(0,
 							gc.getHeight()-boundingRectHeight-ribbonRectHeight,
-							gc.getWidth(),
+							gc.getWidth()*player.getHealth()/player.getMaxHealth(),
 							ribbonRectHeight));
 		
 		for(int i=0; i<numItems; i++) {
+			
 			g.setColor(titles[i].getColor());
 			g.drawString(titles[i].getText(),
 							horzTextSlots[i]+horzDisplacement,
 							gc.getHeight()-vertDisplacement-lineSize*2);
 			
-			//g.setColor(titles[i].getColor());
 			g.setColor(items[i].getColor());
 			g.drawString(items[i].getText(),
 					horzTextSlots[i]+horzDisplacement,
+					gc.getHeight()-vertDisplacement-lineSize);
+			
+			g.setColor(Color.white);
+			g.drawString("XP",
+						gc.getWidth()-xpSpace+horzDisplacement,
+						gc.getHeight()-vertDisplacement-lineSize*2);
+			g.drawString(""+player.getXP()+"/"+player.getNextLevelXP(),
+					gc.getWidth()-xpSpace+horzDisplacement,
+					gc.getHeight()-vertDisplacement-lineSize);
+			g.drawString("Level",
+					gc.getWidth()-xpSpace/2+horzDisplacement,
+					gc.getHeight()-vertDisplacement-lineSize*2);
+			g.drawString(""+player.getLevel(),
+					gc.getWidth()-xpSpace/2+horzDisplacement,
 					gc.getHeight()-vertDisplacement-lineSize);
 		}
 	}

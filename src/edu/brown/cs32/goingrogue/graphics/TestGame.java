@@ -103,7 +103,7 @@ public class TestGame extends BasicGame
 		
 		if(!animDrawn) {
 			GraphicsLoader.setFilterType(Image.FILTER_NEAREST);
-			anim=GraphicsLoader.load(GraphicsPaths.POTION_SPRITE.path);
+			anim=GraphicsLoader.loadMove(GraphicsPaths.SLIME_SPRITE.path);
 			animDrawn=true;
 		}
 		
@@ -115,9 +115,8 @@ public class TestGame extends BasicGame
 			a.updateWithReset(renderDelta);
 			Image image=a.getCurrentFrame().copy();
 			image.setCenterOfRotation(20, 20);
-			image.rotate((float)Math.PI);
 			
-			image.draw(xList.get(i), yList.get(i), 40, 40);
+			image.draw(xList.get(i), yList.get(i), 60, 60);
 			
 			Rectangle animBounds = new Rectangle(xList.get(i), yList.get(i), 40, 40);
 			
