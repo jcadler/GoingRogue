@@ -19,7 +19,7 @@ public class RandomDataUtilHelper {
         double defense = randomDouble(100, 125);
         int health = randomInt(30, 40);
         double accuracy = randomDouble(75, 100);
-        double speed = randomDouble(0.005, 0.006);
+        double speed = randomDouble(0.004, 0.005);
         return new CreatureStats(attack, defense, health, accuracy, speed);
     }
 
