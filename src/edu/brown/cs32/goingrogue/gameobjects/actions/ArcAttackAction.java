@@ -17,7 +17,7 @@ public class ArcAttackAction extends Action {
     private Creature _sourceCreature;
     List<Creature> _actedOn;
     private double _direction;
-    private final double KNOCKBACK_DIST = 3.0;
+    private final double KNOCKBACK_DIST = 1.0;
 
     public ArcAttackAction(){}
     public ArcAttackAction(double direction, double distance, double arcLength, int timer, Creature sourceCreature) {
