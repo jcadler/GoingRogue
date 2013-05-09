@@ -28,7 +28,7 @@ public class DeathMessage {
 			messages.add("NoR4U");
 			messages.add("All your base are belong to us");
 			messages.add("Why so death");
-			messages.add("ERROR player has died, revert to menu");
+			//messages.add("ERROR player has died, revert to menu");
 			messages.add("TODO insert brief life description");
 			messages.add("Y so emu");
 			messages.add("Ashes to ashes, dust to dust");

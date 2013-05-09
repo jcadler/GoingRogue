@@ -49,6 +49,9 @@ public class NetworkedGameLogic extends GameLogic
         	port.addGame(this);
         isServer = (port instanceof RogueServer);	//	SHOULD be false
     }
+    public void end(){
+    	port.close();
+    }
 
 	public RoguePort getPort() {
 		return port;

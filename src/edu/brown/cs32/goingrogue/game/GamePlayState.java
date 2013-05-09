@@ -18,6 +18,8 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
+import org.newdawn.slick.state.transition.FadeInTransition;
+import org.newdawn.slick.state.transition.FadeOutTransition;
 
 import edu.brown.cs32.goingrogue.constants.Constants;
 import edu.brown.cs32.goingrogue.constants.KeyCodes;
@@ -81,8 +83,10 @@ public class GamePlayState extends BasicGameState{
 		this.gc=gc;
 		this.id = id;
 	}
-
-	public void init(){
+	@Override
+	public void init(GameContainer gc, StateBasedGame gm)
+			throws SlickException {
+		this.gc = gc;
 		//g=null; //Set up by init() method
 		timeCount=0;
 
@@ -189,7 +193,10 @@ public class GamePlayState extends BasicGameState{
 	 * 
 	 * @param delta The amount of time since the last game update
 	 */
-	public void update(int delta) {
+
+	@Override
+	public void update(GameContainer gc, StateBasedGame gm, int delta)
+			throws SlickException {
 		Player p = getPlayer();
 		
 		for(int key: keyEventQueue) {
@@ -197,7 +204,15 @@ public class GamePlayState extends BasicGameState{
 			if(key==KeyCodes.S || key==KeyCodes.DOWN) p.moveDown();
 			if(key==KeyCodes.A || key==KeyCodes.LEFT) p.moveLeft();
 			if(key==KeyCodes.D || key==KeyCodes.RIGHT) p.moveRight();
-			if(key==KeyCodes.SPACE) p.attack();
+			if(key==KeyCodes.SPACE){
+				if(!p.isDead())
+					p.attack();
+				else{
+					game.end();
+					//	Exit and go to the main menu.
+					gm.enterState(0, new FadeOutTransition(), new FadeInTransition());
+				}
+			}
 			if(keysPressedOnce.get(KeyCodes.E)){
 				p.pickUp();
 				keysPressedOnce.put(KeyCodes.E, false);
@@ -224,8 +239,10 @@ public class GamePlayState extends BasicGameState{
 	 * 
 	 * @param g The graphics component used to draw the game
 	 */
-	public void render(Graphics g) {
-		
+
+	@Override
+	public void render(GameContainer gc, StateBasedGame gm, Graphics g)
+			throws SlickException {
 		g.setBackground(Color.black);
 		
 		if(player.isDead()) {
@@ -813,30 +830,6 @@ public class GamePlayState extends BasicGameState{
  		g.drawString(""+player.getLevel(),
  				gc.getWidth()-xpSpace+horzDisplacement,
  				vertSlot-lineSize);
-	}
-	
-	
-	
-
-	@Override
-	public void init(GameContainer gc, StateBasedGame gm)
-			throws SlickException {
-		this.gc = gc;
-		init();
-	}
-
-	@Override
-	public void render(GameContainer gc, StateBasedGame gm, Graphics g)
-			throws SlickException {
-		render(g);
-
-	}
-
-	@Override
-	public void update(GameContainer gc, StateBasedGame gm, int delta)
-			throws SlickException {
-		update(delta);
-
 	}
 
 	@Override

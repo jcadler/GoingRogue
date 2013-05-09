@@ -130,6 +130,9 @@ public class GameLogic
         rooms.get(r.nextInt(rooms.size())).setExit();
     }
     
+    public void end(){
+    }
+    
     public Player getPlayer()
     {
         return player;
