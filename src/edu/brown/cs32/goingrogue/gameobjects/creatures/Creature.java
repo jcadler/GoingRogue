@@ -1,5 +1,6 @@
 package edu.brown.cs32.goingrogue.gameobjects.creatures;
 
+import com.rits.cloning.Cloner;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
@@ -30,21 +31,21 @@ public abstract class Creature implements Cloneable {
     private List<Action> _actions;
     //Used to ensure existence of a single unique hash code
     private int _hashCode;
-    
     protected int _level;
-    
     protected boolean _left;
     protected boolean _shouldFlip;
     protected boolean _shouldRotate;
-    
-    public Creature(){}
+
+    public Creature() {
+    }
+
     public Creature(Point2D.Double pos, double direction, String name,
             List<Attribute> attributes, CreatureStats stats, String spritePath, CreatureSize size) {
         _pos = pos;
         _direction = direction;
         _left = false;
-        _shouldFlip=false;
-        _shouldRotate=false;
+        _shouldFlip = false;
+        _shouldRotate = false;
         _name = name;
         _id = Constants.getUID();
         _attributes = attributes;
@@ -61,10 +62,9 @@ public abstract class Creature implements Cloneable {
     public List<Attribute> getAttributes() {
         return _attributes;
     }
-    
-    public void setAttributes(List<Attribute> l)
-    {
-        _attributes=l;
+
+    public void setAttributes(List<Attribute> l) {
+        _attributes = l;
     }
 
     public Point2D.Double getPosition() {
@@ -82,31 +82,31 @@ public abstract class Creature implements Cloneable {
     public void setDirection(double direction) {
         _direction = direction;
     }
-    
+
     public boolean isLeft() {
-    	return _left;
+        return _left;
     }
-    
+
     public void setLeft(boolean left) {
-    	_left=left;
+        _left = left;
     }
-    
+
     public boolean shouldFlip() {
-    	return _shouldFlip;
+        return _shouldFlip;
     }
-    
+
     public void setShouldFlip(boolean shouldFlip) {
-    	_shouldFlip=shouldFlip;
+        _shouldFlip = shouldFlip;
     }
-    
+
     public boolean shouldRotate() {
-    	return _shouldRotate;
+        return _shouldRotate;
     }
-    
+
     public void setShouldRotate(boolean shouldRotate) {
-    	_shouldRotate=shouldRotate;
+        _shouldRotate = shouldRotate;
     }
-    
+
     public String getSpritePath() {
         return _spritePath;
     }
@@ -148,7 +148,8 @@ public abstract class Creature implements Cloneable {
     }
 
     public Creature createNewInstance() throws CloneNotSupportedException {
-        return (Creature) clone();
+        Cloner cloner = new Cloner();
+        return cloner.deepClone(this);
     }
 
     public int getHealth() {
@@ -192,7 +193,7 @@ public abstract class Creature implements Cloneable {
         double yVal = _pos.getY() + (_size.getHeight() / 2.0);
         return new Point2D.Double(xVal, yVal);
     }
-    
+
     public void setCenterPosition(Point2D center) {
         double xVal = center.getX() - (_size.getWidth() / 2.0);
         double yVal = center.getY() - (_size.getHeight() / 2.0);
@@ -218,8 +219,7 @@ public abstract class Creature implements Cloneable {
     public void decrementLevel() {
         --_level;
     }
-    
-        
+
     public List<Action> getActionsWithUpdate(int delta) {
         return getActions();
     }
@@ -227,7 +227,7 @@ public abstract class Creature implements Cloneable {
     public List<Action> getActions() {
         return _actions;
     }
-    
+
     protected void setActions(List<Action> actions) {
         _actions = actions;
     }
