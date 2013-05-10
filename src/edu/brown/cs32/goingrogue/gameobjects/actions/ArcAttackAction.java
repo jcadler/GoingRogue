@@ -34,7 +34,6 @@ public class ArcAttackAction extends Action {
     @Override
     public void act(Creature creature) {
         if (!_actedOn.contains(creature)) {
-            System.out.println("in here!!!");
             creature.incurDamage(_sourceCreature);
             double[] newPos = Util.polarToRectangular(KNOCKBACK_DIST, _direction);
             newPos[0] += creature.getPosition().getX();

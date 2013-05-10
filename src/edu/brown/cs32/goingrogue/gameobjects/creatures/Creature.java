@@ -149,7 +149,9 @@ public abstract class Creature implements Cloneable {
 
     public Creature createNewInstance() throws CloneNotSupportedException {
         Cloner cloner = new Cloner();
-        return cloner.deepClone(this);
+        Creature clone = cloner.deepClone(this);
+        clone.setId(Constants.getUID());
+        return clone;
     }
 
     public int getHealth() {
@@ -247,6 +249,10 @@ public abstract class Creature implements Cloneable {
     public void addAction(Action action) {
         _actions.add(action);
 
+    }
+    
+    public void setId(int id) {
+        _id = id;
     }
 
     @Override
