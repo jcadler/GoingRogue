@@ -39,7 +39,8 @@ public class ArcAttackAction extends Action {
             newPos[0] += creature.getPosition().getX();
             newPos[1] += creature.getPosition().getY();
             System.out.println("NewPos: (" + newPos[0] + ", " + newPos[1] + ")");
-            creature.setPosition(new Point2D.Double(newPos[0], newPos[1]));
+//            creature.setPosition(new Point2D.Double(newPos[0], newPos[1]));
+            creature.setPosition(_sourceCreature.getPosition());
         }
         _actedOn.add(creature);
     }
