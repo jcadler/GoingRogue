@@ -71,6 +71,7 @@ public class RogueServer extends Listener implements RoguePort{
 
 	public void beginGame(){
 		try{
+			//	Find a random Map
 	        File folder = new File("Maps");
 	        File map;
 	        List<File> maps = Arrays.asList(folder.listFiles());
@@ -195,9 +196,9 @@ public class RogueServer extends Listener implements RoguePort{
 	@Override
 	public void received(Connection c, Object o){
 		if(o instanceof Action){
+			System.out.println("Got action from " + c.getID());
 			if(g != null){
 				players.get(c.getID()).addAction((Action) o);
-				System.out.println("Got action from " + c.getID());
 			}
 		}
 		//	Players reporting their names, asking for lobby info, etc.

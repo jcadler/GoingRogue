@@ -149,26 +149,28 @@ public class RogueClient extends Listener implements RoguePort{
 				} catch (Exception e){
 					System.err.println("Map reading error: " + e.getMessage());
 				}
-			}
-			//	Find the game state and give it the game logic, enter game!
-			for(int it = 0; it < game.getStateCount(); it++){
-				GameState gs = game.getState(it);
-				if(gs instanceof GamePlayState){
-					//TODO:
-					((GamePlayState) gs).setGameLogic(g);
-					game.enterState(it, new FadeOutTransition(), new FadeInTransition());
-					return;
+				//	Find the game state and give it the game logic, enter game!
+				for(int it = 0; it < game.getStateCount(); it++){
+					GameState gs = game.getState(it);
+					if(gs instanceof GamePlayState){
+						//	Start the game, now that you've found it!
+						((GamePlayState) gs).setGameLogic(g);
+						game.enterState(it, new FadeOutTransition(), new FadeInTransition());
+						return;
+					}
 				}
 			}
 		}
 		//	Let the games begin!
 		else if(o instanceof NetworkedGameLogic){
 			NetworkedGameLogic ngl = (NetworkedGameLogic) o;
-			try {
+			ngl.setPort(this);
+			g = ngl;
+			/*try {
 				g = new NetworkedGameLogic(this, ngl, ngl.getPlayer());
 			} catch (IOException e) {
 				System.err.println(e.getMessage());
-			}
+			}*/
 		}
 	}
 }
