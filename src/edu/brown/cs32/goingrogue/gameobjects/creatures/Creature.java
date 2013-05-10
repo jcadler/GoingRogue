@@ -148,7 +148,7 @@ public abstract class Creature implements Cloneable {
     }
 
     public Creature createNewInstance() throws CloneNotSupportedException {
-        return (Creature) super.clone(); // TODO is call to super.clone() OK?
+        return (Creature) clone();
     }
 
     public int getHealth() {
