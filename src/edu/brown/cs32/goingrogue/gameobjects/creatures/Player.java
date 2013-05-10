@@ -75,22 +75,22 @@ public class Player extends Creature {
     
     public void moveUp() {
         addAction(new MoveAction((3.0 * Math.PI) / 2.0, this, 1));
-        addAction(new ChangeDirectionAction(this, 0));
+        addAction(new ChangeDirectionAction(this, (3.0 * Math.PI) / 2.0));
     }
 
     public void moveRight() {
         addAction(new MoveAction(0, this, 1));
-        addAction(new ChangeDirectionAction(this, Math.PI / 2.0));
+        addAction(new ChangeDirectionAction(this, 0));
     }
 
     public void moveDown() {
         addAction(new MoveAction(Math.PI / 2.0, this, 1));
-        addAction(new ChangeDirectionAction(this, Math.PI));
+        addAction(new ChangeDirectionAction(this, Math.PI / 2.0));
     }
 
     public void moveLeft() {
         addAction(new MoveAction(Math.PI, this, 1));
-        addAction(new ChangeDirectionAction(this, -Math.PI / 2.0));
+        addAction(new ChangeDirectionAction(this, Math.PI));
     }
 
     public void attack() {
