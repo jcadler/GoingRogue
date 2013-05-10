@@ -19,9 +19,9 @@ public class Constants {
 	//Default image rate for loaded animations
 	public static final int DEFAULT_IMAGE_RATE=5;
 	
-	private static int uid = 0;
-	public static int getUID(){
-		int rv = uid;
+	private static long uid = 0;
+	public static long getUID(){
+		long rv = uid;
 		uid++;
 		return rv;
 	}

@@ -9,9 +9,11 @@ import java.util.Objects;
 
 import edu.brown.cs32.goingrogue.constants.Constants;
 import edu.brown.cs32.goingrogue.gameobjects.actions.Action;
+import edu.brown.cs32.goingrogue.gameobjects.creatures.Attribute;
 import edu.brown.cs32.goingrogue.gameobjects.creatures.util.CombatUtil;
 import edu.brown.cs32.goingrogue.gameobjects.items.Item;
 import edu.brown.cs32.goingrogue.util.CreatureSize;
+import java.util.List;
 
 /**
  *
@@ -22,7 +24,7 @@ public abstract class Creature implements Cloneable {
     private Point2D.Double _pos;
     private double _direction; // in radians
     private String _name;
-    private int _id;
+    private long _id;
     private List<Attribute> _attributes;
     private CreatureStats _stats;
     private String _spritePath;
@@ -148,11 +150,12 @@ public abstract class Creature implements Cloneable {
     }
 
     public Creature createNewInstance() throws CloneNotSupportedException {
-//        Cloner cloner = new Cloner();
-//        Creature clone = cloner.deepClone(this);
-//        clone.setId(Constants.getUID());
-//        return clone;
-        return (Creature) clone();
+        Cloner cloner = new Cloner();
+        cloner.registerConstant(_attributes);
+        cloner.registerConstant(_actions);
+        Creature clone = cloner.deepClone(this);
+        clone.setId(Constants.getUID());
+        return clone;
     }
 
     public int getHealth() {
@@ -252,7 +255,7 @@ public abstract class Creature implements Cloneable {
 
     }
     
-    public void setId(int id) {
+    public void setId(long id) {
         _id = id;
     }
 
