@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.Font;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -126,6 +127,7 @@ public class MenuState extends BasicGameState{
 			throws SlickException {
 		//	Draw background
 		g.drawImage(bg, 0f, 0f);
+		g.setColor(Color.white);
 		for(AbstractComponent c : components){
 			c.render(gc, g);
 		}

@@ -121,6 +121,7 @@ public class GamePlayState extends BasicGameState{
 		try {
 			game = new GameLogic();
 			player=game.getPlayer();
+			System.out.println("HADERP " + player.getHealth());
 			map=game.getMap();
 			cache=new AnimationCache();
 		} catch(IOException e) {
@@ -135,7 +136,7 @@ public class GamePlayState extends BasicGameState{
 	
 	public void setGameLogic(GameLogic g) {
 		game=g;
-		player=game.getPlayer();
+		player = g.getPlayer();
 		map=game.getMap();
 	}
 
@@ -221,7 +222,11 @@ public class GamePlayState extends BasicGameState{
 				p.quaff();
 				keysPressedOnce.put(KeyCodes.R, false);
 			}
-			if(key==KeyCodes.ESC) System.exit(0);
+			if(key==KeyCodes.ESC){
+				game.end();
+				//	Exit and go to the main menu.
+				gm.enterState(0, new FadeOutTransition(), new FadeInTransition());
+			}
 			
 		}
 		
@@ -246,7 +251,6 @@ public class GamePlayState extends BasicGameState{
 		g.setBackground(Color.black);
 		
 		if(player.isDead()) {
-			
 			org.newdawn.slick.Font f=g.getFont();
 			int width=f.getWidth(deathMessage);
 			g.setColor(Color.red);
@@ -835,6 +839,22 @@ public class GamePlayState extends BasicGameState{
 	@Override
 	public int getID() {
 		return id;
+	}
+
+	@Override
+	public void enter(GameContainer gc, StateBasedGame gm){
+		try {
+			System.out.println("Entering...");
+			init(gc, gm);
+		} catch (Exception e) {
+			System.err.println("Reinitialization: " + e.getMessage());
+		}
+	}
+
+	@Override
+	public void leave(GameContainer gc, StateBasedGame gm){
+		player = null;
+		game = null;
 	}
 
 	@Override
