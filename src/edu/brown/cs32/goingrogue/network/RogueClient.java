@@ -154,8 +154,8 @@ public class RogueClient extends Listener implements RoguePort{
 					GameState gs = game.getState(it);
 					if(gs instanceof GamePlayState){
 						//	Start the game, now that you've found it!
-						((GamePlayState) gs).setGameLogic(g);
 						game.enterState(it, new FadeOutTransition(), new FadeInTransition());
+						((GamePlayState) gs).setNextGameLogic(g);
 						return;
 					}
 				}

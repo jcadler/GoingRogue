@@ -55,7 +55,7 @@ public class GameLogic
         creatures = new ArrayList<>();
         actions = new ArrayList<>();
         setRandomExit();
-        player = PlayerFactory.create(creatures,crrntMap.getRooms());
+        player = PlayerFactory.create(null, null);//creatures,crrntMap.getRooms());
         player.setName("Player");
         setPlayer(player);
         addCreatures(5,2);

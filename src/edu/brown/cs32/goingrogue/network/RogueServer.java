@@ -87,7 +87,7 @@ public class RogueServer extends Listener implements RoguePort{
 				players.put(entry.getKey(), p);
 			}
 			LogicMap m = MapReader.readMap(map);
-			g = new NetworkedGameLogic(this, m, players, players.get(-1));
+			g = new NetworkedGameLogic(this, m, players, players.get(-1), true);
 			g.setMap(null);
 			for(Map.Entry<Integer, Player> entry : players.entrySet()){
 				if(entry.getKey() >= 0){
@@ -108,7 +108,7 @@ public class RogueServer extends Listener implements RoguePort{
 				GameState gs = game.getState(it);
 				if(gs instanceof GamePlayState){
 					//TODO:
-					((GamePlayState) gs).setGameLogic(g);
+					((GamePlayState) gs).setNextGameLogic(g);
 					game.enterState(it, new FadeOutTransition(), new FadeInTransition());
 					return;
 				}

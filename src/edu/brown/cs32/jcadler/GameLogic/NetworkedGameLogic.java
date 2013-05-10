@@ -28,7 +28,7 @@ public class NetworkedGameLogic extends GameLogic
     	
     }
     
-    public NetworkedGameLogic(RoguePort port, LogicMap map, HashMap<Integer, Player> players, Player pl) throws IOException
+    public NetworkedGameLogic(RoguePort port, LogicMap map, HashMap<Integer, Player> players, Player pl, boolean serv) throws IOException
     {
         super(map, new ArrayList<Creature>(), pl);
         for(Player p : players.values()){
@@ -39,7 +39,7 @@ public class NetworkedGameLogic extends GameLogic
         this.port = port;
         if(port != null)
         	port.addGame(this);
-        isServer = (port instanceof RogueServer);	//	SHOULD be true
+        isServer = serv;//(port instanceof RogueServer);	//	SHOULD be true
     }
     public NetworkedGameLogic(RoguePort port, NetworkedGameLogic base, Player pl) throws IOException{
     	super((LogicMap)base.getMap(), base.getCreatures(), pl);
@@ -47,7 +47,7 @@ public class NetworkedGameLogic extends GameLogic
         this.port = port;
         if(port != null)
         	port.addGame(this);
-        isServer = (port instanceof RogueServer);	//	SHOULD be false
+        isServer = false;//(port instanceof RogueServer);	//	SHOULD be false
     }
     public void end(){
     	port.close();
