@@ -11,10 +11,7 @@ import edu.brown.cs32.goingrogue.gameobjects.actions.PickupRange;
 import edu.brown.cs32.goingrogue.gameobjects.actions.Action;
 import edu.brown.cs32.goingrogue.gameobjects.actions.ActionType;
 import edu.brown.cs32.goingrogue.gameobjects.actions.QuaffAction;
-import edu.brown.cs32.goingrogue.gameobjects.items.Item;
-import edu.brown.cs32.goingrogue.gameobjects.items.Potion;
 import edu.brown.cs32.goingrogue.util.CreatureSize;
-import edu.brown.cs32.goingrogue.util.Text;
 
 /**
  *
@@ -98,7 +95,7 @@ public class Player extends Creature {
 
     public void attack() {
         if (attack == null || attack.getTimer() <= 0) {
-            Action a = new ArcAttackAction(getDirection(), getWeaponRange(), getWeaponArcLength(),
+            Action a = new ArcAttackAction(getDirection() + (Math.PI / 2.0), getWeaponRange(), getWeaponArcLength(),
                     getWeaponAttackTimer(), Player.this);
             attack = a;
             addAction(a);
