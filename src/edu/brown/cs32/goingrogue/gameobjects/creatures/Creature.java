@@ -148,10 +148,11 @@ public abstract class Creature implements Cloneable {
     }
 
     public Creature createNewInstance() throws CloneNotSupportedException {
-        Cloner cloner = new Cloner();
-        Creature clone = cloner.deepClone(this);
-        clone.setId(Constants.getUID());
-        return clone;
+//        Cloner cloner = new Cloner();
+//        Creature clone = cloner.deepClone(this);
+//        clone.setId(Constants.getUID());
+//        return clone;
+        return (Creature) clone();
     }
 
     public int getHealth() {

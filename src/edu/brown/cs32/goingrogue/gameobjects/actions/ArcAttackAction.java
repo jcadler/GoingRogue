@@ -33,15 +33,15 @@ public class ArcAttackAction extends Action {
 
     @Override
     public void act(Creature creature) {
-        if (!_actedOn.contains(creature)) {
+//        if (!_actedOn.contains(creature)) {
             creature.incurDamage(_sourceCreature);
             double[] newPos = Util.polarToRectangular(KNOCKBACK_DIST, _direction);
             System.out.println(_direction);
             newPos[0] += creature.getPosition().getX();
             newPos[1] += creature.getPosition().getY();
             creature.setPosition(new Point2D.Double(newPos[0], newPos[1]));
-        }
-        _actedOn.add(creature);
+//        }
+//        _actedOn.add(creature);
     }
 
     @Override
