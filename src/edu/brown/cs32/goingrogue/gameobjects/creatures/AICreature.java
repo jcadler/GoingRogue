@@ -63,11 +63,11 @@ public class AICreature extends Creature {
 
         setDirection(getAngleFromTo(getCenterPosition(), targetPoint));
         if (getCenterPosition().distance(targetPoint) < DIST_TO_ATTACK) {
-//            returnActions.add(
-//                    new ArcAttackAction(getDirection(), getWeaponRange(), getWeaponArcLength(),
-//                    getWeaponAttackTimer(), this));
+            returnActions.add(
+                    new ArcAttackAction(getDirection(), getWeaponRange(), getWeaponArcLength(),
+                    getWeaponAttackTimer(), this));
         } else {
-//            returnActions.add(new MoveAction(getDirection(), this, delta));
+            returnActions.add(new MoveAction(getDirection(), this, delta));
         }
 
         setActions(returnActions);
