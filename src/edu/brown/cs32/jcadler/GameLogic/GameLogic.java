@@ -27,12 +27,19 @@ import edu.brown.cs32.jcadler.GameLogic.RogueMap.Room;
  */
 public class GameLogic 
 {
+	private boolean gameWon = false;
     protected LogicMap crrntMap;
     protected List<Creature> creatures;
     protected List<Action> actions;
     public void setCreatures(List<Creature> creatures) {
 		this.creatures = creatures;
 	}
+    public boolean isWon(){
+    	return gameWon;
+    }
+    public void winButton(){
+    	gameWon = true;
+    }
 
 	public void setActions(List<Action> actions) {
 		this.actions = actions;

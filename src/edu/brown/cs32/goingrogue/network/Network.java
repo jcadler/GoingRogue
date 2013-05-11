@@ -9,9 +9,9 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.esotericsoftware.kryo.Kryo;
-import com.esotericsoftware.kryonet.EndPoint;
-import com.esotericsoftware.kryo.serializers.JavaSerializer;
 import com.esotericsoftware.kryo.serializers.FieldSerializer;
+import com.esotericsoftware.kryo.serializers.JavaSerializer;
+import com.esotericsoftware.kryonet.EndPoint;
 
 import edu.brown.cs32.goingrogue.gameobjects.actions.Action;
 import edu.brown.cs32.goingrogue.gameobjects.actions.ActionAnimation;
@@ -20,6 +20,7 @@ import edu.brown.cs32.goingrogue.gameobjects.actions.ArcAttackAction;
 import edu.brown.cs32.goingrogue.gameobjects.actions.ArcAttackRange;
 import edu.brown.cs32.goingrogue.gameobjects.actions.ChangeDirectionAction;
 import edu.brown.cs32.goingrogue.gameobjects.actions.ChangeDirectionRange;
+import edu.brown.cs32.goingrogue.gameobjects.actions.KnockBackAction;
 import edu.brown.cs32.goingrogue.gameobjects.actions.MoveAction;
 import edu.brown.cs32.goingrogue.gameobjects.actions.MoveRange;
 import edu.brown.cs32.goingrogue.gameobjects.actions.PickupAction;
@@ -104,6 +105,7 @@ public class Network {
 		k.register(MoveRange.class);
 		k.register(PickupAction.class);
 		k.register(PickupRange.class);
+		k.register(KnockBackAction.class);	
 		k.register(RangeUtil.class);
 		//	Classes in Items
 		k.register(GridItem.class);

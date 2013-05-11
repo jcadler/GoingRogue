@@ -57,8 +57,10 @@ public class RogueClient extends Listener implements RoguePort{
 	}
 	/** Send action objects to the server! **/
 	public void send(Object o){
-		if(o instanceof Action)
-			System.out.println("Sending action: " + isOpen());
+		if(o instanceof Action){
+			//System.out.println("Sending action: " + isOpen());
+			//return;
+		}
 		net.sendTCP(o);
 	}
 
@@ -111,6 +113,11 @@ public class RogueClient extends Listener implements RoguePort{
 	public void disconnected(Connection c){
 		playerNames.clear();
 		playerNames.add("Disconnected from server!");
+		//	In a multiplayer game? Go to main menu.
+		if(g != null){
+			g = null;
+			game.enterState(0, new FadeOutTransition(), new FadeInTransition());
+		}
 	}
 
 	@SuppressWarnings({"unchecked"})
@@ -141,6 +148,8 @@ public class RogueClient extends Listener implements RoguePort{
 						playerNames.add(cmd[it]);
 					playerNames.add(cmd[cmd.length - 1].substring(0, cmd[cmd.length - 1].length() - 1));
 				}
+				else if(cmd[0].equals("win"))
+					g.winButton();
 			}
 			catch(Exception e){
 

@@ -63,6 +63,24 @@ public class RogueServer extends Listener implements RoguePort{
 		this.name = name;
 		this.game = game;
 	}
+	
+	public void checkWin(){
+		int playersAlive = 0;
+		int lastWinner = -1;
+		for(Map.Entry<Integer, Player> e : players.entrySet()){
+			if(!e.getValue().isDead()){
+				playersAlive++;
+				lastWinner = e.getKey();
+			}
+		}
+		if(playersAlive <= 1){
+			//	LAST MAN STANDING CONGRATS
+			if(lastWinner == -1)
+				g.winButton();
+			else
+				net.sendToTCP(lastWinner, "win");
+		}
+	}
 
 	public StateBasedGame getGame() {
 		return game;

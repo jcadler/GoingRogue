@@ -218,7 +218,7 @@ public class GamePlayState extends BasicGameState{
 			if(key==KeyCodes.A || key==KeyCodes.LEFT) p.moveLeft();
 			if(key==KeyCodes.D || key==KeyCodes.RIGHT) p.moveRight();
 			if(key==KeyCodes.SPACE){
-				if(!p.isDead())
+				if(!p.isDead() && !game.isWon())
 					p.attack();
 				else{
 					game.end();
@@ -267,6 +267,17 @@ public class GamePlayState extends BasicGameState{
 			int width=f.getWidth(deathMessage);
 			g.setColor(Color.red);
 			g.drawString(deathMessage,
+					gc.getWidth()/2-width/2,
+					gc.getHeight()/2);
+
+			return;
+		}
+		if(game.isWon()){
+			org.newdawn.slick.Font f=g.getFont();
+			String winMessage = "A WINRAR IS YOU";
+			int width=f.getWidth(winMessage);
+			g.setColor(Color.green);
+			g.drawString(winMessage,
 					gc.getWidth()/2-width/2,
 					gc.getHeight()/2);
 
@@ -871,6 +882,7 @@ public class GamePlayState extends BasicGameState{
 
 	@Override
 	public void leave(GameContainer gc, StateBasedGame gm){
+		game.end();
 		//player = null;
 		//game = null;
 	}
