@@ -1,16 +1,16 @@
 package edu.brown.cs32.jcadler.GameLogic.RogueMap;
 
-import java.io.File;
+import java.awt.Point;
 import java.io.BufferedReader;
-import java.io.InputStreamReader;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.List;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Map;
-import java.util.HashMap;
 import java.util.Arrays;
-import java.awt.Point;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -40,6 +40,7 @@ public class MapReader
                     throw new IllegalArgumentException("Map file is malformatted");
             }
         }
+        read.close();
         for(Corridor c : cs)
         {
             boolean addStart=false;

@@ -1,9 +1,6 @@
 package edu.brown.cs32.goingrogue.map;
 
 import java.awt.Point;
-import java.util.List;
-
-import edu.brown.cs32.goingrogue.util.IndexPair;
 
 /** An interface detailing the necessary components of a space (corridor, room, etc) in the game
  * 

@@ -1,7 +1,6 @@
 package edu.brown.cs32.goingrogue.gameobjects.creatures.util;
 
 import edu.brown.cs32.goingrogue.gameobjects.creatures.Creature;
-import edu.brown.cs32.goingrogue.gameobjects.creatures.CreatureStats;
 import edu.brown.cs32.goingrogue.gameobjects.creatures.Inventory;
 import edu.brown.cs32.goingrogue.gameobjects.creatures.Stats;
 

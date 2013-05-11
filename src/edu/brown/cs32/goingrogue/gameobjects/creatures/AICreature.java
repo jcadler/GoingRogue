@@ -112,7 +112,8 @@ public class AICreature extends Creature {
         return null;
     }
 
-    private Corridor getCreatureCorridor(Creature creature) {
+    @SuppressWarnings("unused")
+	private Corridor getCreatureCorridor(Creature creature) {
         for (Room room : _rooms) {
             for (Corridor corridor : room.getCorridors()) {
                 if (corridor.getRectangle().contains(creature.getCenterPosition())) {
@@ -123,7 +124,8 @@ public class AICreature extends Creature {
         return null;
     }
 
-    private Point2D getEntrance(Corridor corridor, Room room) {
+    @SuppressWarnings("unused")
+	private Point2D getEntrance(Corridor corridor, Room room) {
 
         int posInRoom;
 

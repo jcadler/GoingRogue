@@ -1,19 +1,18 @@
 package edu.brown.cs32.goingrogue.gameobjects.creatures;
 
-import com.rits.cloning.Cloner;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import com.rits.cloning.Cloner;
+
 import edu.brown.cs32.goingrogue.constants.Constants;
 import edu.brown.cs32.goingrogue.gameobjects.actions.Action;
-import edu.brown.cs32.goingrogue.gameobjects.creatures.Attribute;
 import edu.brown.cs32.goingrogue.gameobjects.creatures.util.CombatUtil;
 import edu.brown.cs32.goingrogue.gameobjects.items.Item;
 import edu.brown.cs32.goingrogue.util.CreatureSize;
-import java.util.List;
 
 /**
  *
@@ -32,7 +31,7 @@ public abstract class Creature implements Cloneable {
     private Inventory _inventory;
     private List<Action> _actions;
     //Used to ensure existence of a single unique hash code
-    private int _hashCode;
+    //private int _hashCode;
     protected int _level;
     protected boolean _left;
     protected boolean _shouldFlip;
@@ -58,7 +57,7 @@ public abstract class Creature implements Cloneable {
         _actions = new ArrayList<>();
         _level = 1;
 
-        _hashCode = -1;
+        //_hashCode = -1;
     }
 
     public List<Attribute> getAttributes() {

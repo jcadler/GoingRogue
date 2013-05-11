@@ -50,6 +50,7 @@ public class NetworkedGameLogic extends GameLogic
         isServer = false;//(port instanceof RogueServer);	//	SHOULD be false
     }
     public void end(){
+    	//System.err.println("YYYYYYY");
     	port.close();
     }
 
@@ -62,6 +63,9 @@ public class NetworkedGameLogic extends GameLogic
 	}
 	public void update(int delta) throws CloneNotSupportedException,IOException
     {
+		if(port != null){
+			System.out.println("Port status: " + port.isOpen());
+		}
 		if(isServer && port != null){
 			if(creatures == null){
 				addCreatures(10, 5);
@@ -74,9 +78,6 @@ public class NetworkedGameLogic extends GameLogic
 			for(Action a : player.getActions()){
 				((RogueClient) port).send(a);
 			}
-		}
-		else{
-			System.out.println("HEADLESS");
 		}
         for(Action a : actions)
             a.decrementTimer(delta);

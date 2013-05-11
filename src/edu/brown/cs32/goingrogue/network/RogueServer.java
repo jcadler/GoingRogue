@@ -18,6 +18,7 @@ import com.esotericsoftware.kryonet.EndPoint;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
 
+import edu.brown.cs32.goingrogue.game.GameLobbyState;
 import edu.brown.cs32.goingrogue.game.GamePlayState;
 import edu.brown.cs32.goingrogue.gameobjects.actions.Action;
 import edu.brown.cs32.goingrogue.gameobjects.creatures.Creature;
@@ -30,6 +31,7 @@ import edu.brown.cs32.jcadler.GameLogic.RogueMap.MapReader;
 /** Basic networking for a host **/
 public class RogueServer extends Listener implements RoguePort{
 	private Server net;
+	private boolean isOpen = false;
 	private String name = "";
 	private HashMap<Integer, Player> players;
 	//	No need (or way) to store the actual RogueClient - store mock RCs instead. 
@@ -109,6 +111,7 @@ public class RogueServer extends Listener implements RoguePort{
 				if(gs instanceof GamePlayState){
 					//TODO:
 					((GamePlayState) gs).setNextGameLogic(g);
+					((GameLobbyState) game.getCurrentState()).setEnteringGame(true);
 					game.enterState(it, new FadeOutTransition(), new FadeInTransition());
 					return;
 				}
@@ -132,6 +135,7 @@ public class RogueServer extends Listener implements RoguePort{
 		Network.register(net);
 		net.bind(port);
 		net.addListener(this);
+		isOpen = true;
 	}
 
 	public void updateClients(Object o){
@@ -163,12 +167,18 @@ public class RogueServer extends Listener implements RoguePort{
 		}
 		return rv;
 	}
+	
+	public boolean isOpen(){
+		return isOpen;
+	}
 
 	@Override
 	public void close(){
+		System.err.println("Y U DO THAT");
 		if(net != null){
 			net.stop();
 			net.close();
+			isOpen = false;
 		}
 	}
 
@@ -195,6 +205,7 @@ public class RogueServer extends Listener implements RoguePort{
 
 	@Override
 	public void received(Connection c, Object o){
+		System.out.println(o);
 		if(o instanceof Action){
 			System.out.println("Got action from " + c.getID());
 			if(g != null){

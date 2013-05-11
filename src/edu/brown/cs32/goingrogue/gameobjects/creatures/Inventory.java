@@ -1,16 +1,24 @@
 package edu.brown.cs32.goingrogue.gameobjects.creatures;
 
-import edu.brown.cs32.goingrogue.gameobjects.actions.QuaffAction;
-import edu.brown.cs32.goingrogue.gameobjects.items.Item;
+import static edu.brown.cs32.goingrogue.gameobjects.creatures.Attribute.ARMOUR;
+import static edu.brown.cs32.goingrogue.gameobjects.creatures.Attribute.ATTACK_POTION;
+import static edu.brown.cs32.goingrogue.gameobjects.creatures.Attribute.BOOTS;
+import static edu.brown.cs32.goingrogue.gameobjects.creatures.Attribute.DEFENSE_POTION;
+import static edu.brown.cs32.goingrogue.gameobjects.creatures.Attribute.HEALTH_POTION;
+import static edu.brown.cs32.goingrogue.gameobjects.creatures.Attribute.HELMET;
+import static edu.brown.cs32.goingrogue.gameobjects.creatures.Attribute.POTION_TYPE;
+import static edu.brown.cs32.goingrogue.gameobjects.creatures.Attribute.SHIELD;
+import static edu.brown.cs32.goingrogue.gameobjects.creatures.Attribute.WEAPON;
 
+import java.util.ArrayList;
 import java.util.List;
-import static edu.brown.cs32.goingrogue.gameobjects.creatures.Attribute.*;
+
 import edu.brown.cs32.goingrogue.gameobjects.items.AttackPotion;
 import edu.brown.cs32.goingrogue.gameobjects.items.DefensePotion;
 import edu.brown.cs32.goingrogue.gameobjects.items.HealthPotion;
+import edu.brown.cs32.goingrogue.gameobjects.items.Item;
 import edu.brown.cs32.goingrogue.gameobjects.items.ItemStats;
 import edu.brown.cs32.goingrogue.gameobjects.items.Potion;
-import java.util.ArrayList;
 
 /**
  *

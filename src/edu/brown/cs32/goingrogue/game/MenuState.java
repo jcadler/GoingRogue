@@ -165,11 +165,13 @@ public class MenuState extends BasicGameState{
 
 	@Override
 	public void leave(GameContainer gc, StateBasedGame gm){
+		//System.err.println("Closing down shop.");
 		for(AbstractComponent c : components){
 			c.setLocation(1000, 800);
 		}
 		components.clear();
 		inputFields.clear();
 		textBox = null;
+		//System.err.println("We're fine, closing down shop.");
 	}
 }

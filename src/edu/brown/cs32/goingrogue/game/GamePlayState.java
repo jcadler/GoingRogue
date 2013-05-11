@@ -483,11 +483,11 @@ public class GamePlayState extends BasicGameState{
 		Action actionToAnimate=null;
 		List<Action> actions=c.getActions();
 
-		int actionNum=0;
+		//int actionNum=0;
 
 		for(Action a: actions) {				
 
-			actionNum++;
+			//actionNum++;
 
 			//TEST
 			if(!c.containsAttribute(Attribute.PLAYER)) {
@@ -719,7 +719,7 @@ public class GamePlayState extends BasicGameState{
 		int invHorzSlots=3;
 		int invVertSlots=2;
 
-		int xpHorzSlots=2;
+		//int xpHorzSlots=2;
 		int xpVertSlots=2;
 
 		Text[][] titles=new Text[invHorzSlots][invVertSlots];

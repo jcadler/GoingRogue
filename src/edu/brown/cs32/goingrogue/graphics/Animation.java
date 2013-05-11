@@ -3,7 +3,6 @@ package edu.brown.cs32.goingrogue.graphics;
 import java.util.Arrays;
 
 import org.newdawn.slick.Image;
-import org.newdawn.slick.SlickException;
 
 /** A class that stores an array of images and is able to update, display and pause like a Slick2D
  * animation. Offers more customizability and control than a Slick2D Animation -- needed because

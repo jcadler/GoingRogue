@@ -1,7 +1,6 @@
 package edu.brown.cs32.goingrogue.network;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +14,7 @@ import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.EndPoint;
 import com.esotericsoftware.kryonet.Listener;
 
+import edu.brown.cs32.goingrogue.game.GameLobbyState;
 import edu.brown.cs32.goingrogue.game.GamePlayState;
 import edu.brown.cs32.goingrogue.gameobjects.actions.Action;
 import edu.brown.cs32.goingrogue.gameobjects.creatures.Creature;
@@ -58,13 +58,13 @@ public class RogueClient extends Listener implements RoguePort{
 	/** Send action objects to the server! **/
 	public void send(Object o){
 		if(o instanceof Action)
-			System.out.println("Sending action!");
+			System.out.println("Sending action: " + isOpen());
 		net.sendTCP(o);
 	}
 
 	public List<String> getPlayerNames(){
 		//	Update me please - next tick will provide accurate info.
-		net.sendTCP("lobby");
+		send("lobby");
 		return playerNames;
 	}
 
@@ -88,9 +88,14 @@ public class RogueClient extends Listener implements RoguePort{
 		}.start();
 		net.addListener(this);
 	}
+	
+	public boolean isOpen(){
+		return net.isConnected();
+	}
 
 	@Override
 	public void close() {
+		System.err.println("Y U DO THAT");
 		if(net != null){
 			net.stop();
 			net.close();
@@ -99,7 +104,7 @@ public class RogueClient extends Listener implements RoguePort{
 
 	@Override
 	public void connected(Connection c){
-		net.sendTCP("name\t" + name);
+		send("name\t" + name);
 	}
 
 	@Override
@@ -127,7 +132,7 @@ public class RogueClient extends Listener implements RoguePort{
 				if(cmd[0].equals("dc")){
 					//	Print reason for disconnection
 					System.out.println(cmd[1]);
-					net.close();
+					close();
 				}
 				else if(cmd[0].equals("lobby")){
 					//System.out.println(o);
@@ -154,6 +159,7 @@ public class RogueClient extends Listener implements RoguePort{
 					GameState gs = game.getState(it);
 					if(gs instanceof GamePlayState){
 						//	Start the game, now that you've found it!
+						((GameLobbyState) game.getCurrentState()).setEnteringGame(true);
 						game.enterState(it, new FadeOutTransition(), new FadeInTransition());
 						((GamePlayState) gs).setNextGameLogic(g);
 						return;

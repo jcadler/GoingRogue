@@ -3,7 +3,6 @@ package edu.brown.cs32.goingrogue.gameobjects.actions;
 import edu.brown.cs32.goingrogue.gameobjects.creatures.Attribute;
 import edu.brown.cs32.goingrogue.gameobjects.creatures.Creature;
 import edu.brown.cs32.goingrogue.gameobjects.items.Item;
-import edu.brown.cs32.goingrogue.gameobjects.items.Potion;
 
 /**
  *
