@@ -156,6 +156,12 @@ public abstract class Creature implements Cloneable {
         clone.setId(Constants.getUID());
         return clone;
     }
+    
+    public Creature createShadowInstance() {
+    	Point2D.Double pos = new Point2D.Double(_pos.getX(), _pos.getY());
+    	Creature clone = new Player(pos, _direction, _name, _attributes, _stats, _spritePath, _size);
+    	return clone;
+    }
 
     public int getHealth() {
         return _stats.getHealth();

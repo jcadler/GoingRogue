@@ -8,7 +8,8 @@ import java.util.List;
 import java.util.Random;
 
 import edu.brown.cs32.goingrogue.gameobjects.actions.Action;
-import edu.brown.cs32.goingrogue.gameobjects.actions.ActionType;
+import edu.brown.cs32.goingrogue.gameobjects.actions.ChangeDirectionAction;
+import edu.brown.cs32.goingrogue.gameobjects.actions.MoveAction;
 import edu.brown.cs32.goingrogue.gameobjects.creatures.Attribute;
 import edu.brown.cs32.goingrogue.gameobjects.creatures.Creature;
 import edu.brown.cs32.goingrogue.gameobjects.creatures.Player;
@@ -190,17 +191,18 @@ public class GameLogic
                 if(a.withinRange(c))
                 {
                     Creature test;
-                    if(!a.type().equals(ActionType.PICKUP))
+                    if(a instanceof MoveAction || a instanceof ChangeDirectionAction){	//!a.type().equals(ActionType.PICKUP))
                         test = a.actOnClone(c);
+	                    if(crrntMap.isValid(test.getCenterPosition()) && !c.containsAttribute(Attribute.PLAYER))
+	                        a.act(c);
+	                    else if(c.containsAttribute(Attribute.PLAYER) && crrntMap.isValid(test.getPosition()))
+	                        a.act(c);
+                    }
                     else
                     {
                         a.act(c);
                         continue;
                     }
-                    if(crrntMap.isValid(test.getCenterPosition()) && !c.containsAttribute(Attribute.PLAYER))
-                        a.act(c);
-                    else if(c.containsAttribute(Attribute.PLAYER) && crrntMap.isValid(test.getPosition()))
-                        a.act(c);
                 }
             }
         }

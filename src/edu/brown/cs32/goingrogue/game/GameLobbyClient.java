@@ -65,6 +65,10 @@ public class GameLobbyClient extends GameLobbyState {
 	@Override
 	public void buttonAction(){
 		try{
+			if(port != null){
+				port.close();
+				port = null;
+			}
 			game.setUserName(inputFields.get(0).getText());
 			game.setHostName(inputFields.get(1).getText());
 			//	Default port number

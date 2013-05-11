@@ -26,6 +26,7 @@ import edu.brown.cs32.goingrogue.constants.KeyCodes;
 import edu.brown.cs32.goingrogue.gameobjects.actions.Action;
 import edu.brown.cs32.goingrogue.gameobjects.actions.ActionAnimation;
 import edu.brown.cs32.goingrogue.gameobjects.actions.ActionType;
+import edu.brown.cs32.goingrogue.gameobjects.actions.KnockBackAction;
 import edu.brown.cs32.goingrogue.gameobjects.creatures.Attribute;
 import edu.brown.cs32.goingrogue.gameobjects.creatures.Creature;
 import edu.brown.cs32.goingrogue.gameobjects.creatures.Player;
@@ -501,7 +502,7 @@ public class GamePlayState extends BasicGameState{
 		}
 
 		//No action
-		if(actionToAnimate==null || actionToAnimate.getActionAnimations().size()==0) {
+		if(actionToAnimate==null || actionToAnimate.getActionAnimations().size()==0 || actionToAnimate instanceof KnockBackAction) {
 			try {
 
 				//TEST
@@ -611,14 +612,20 @@ public class GamePlayState extends BasicGameState{
 					//Creates a new animation and adds it to the cache
 					if(actionToAnimate.type()==ActionType.MOVE) anim=GraphicsLoader.loadMove(actionAnimations.get(0).getSpritePath());
 					else if(actionToAnimate.type()==ActionType.PICKUP) anim=GraphicsLoader.load(actionAnimations.get(0).getSpritePath());
-					setDuration(anim, actionToAnimate.getTimer());
+					
+					if(!(actionToAnimate instanceof KnockBackAction)){
+						setDuration(anim, actionToAnimate.getTimer());
 
-					List<Animation> animList=new ArrayList<>();
-					animList.add(anim);
-					cache.add(c, actionToAnimate, animList);
+						List<Animation> animList=new ArrayList<>();
+						animList.add(anim);
+						cache.add(c, actionToAnimate, animList);
+					}
 				}
 
-				images=new Image[]{anim.getCurrentFrame()};
+				if(!(actionToAnimate instanceof KnockBackAction))
+					images=new Image[]{anim.getCurrentFrame()};
+				else
+					images = new Image[]{};
 			}
 
 			//Scales, centers, rotates and draws the current images

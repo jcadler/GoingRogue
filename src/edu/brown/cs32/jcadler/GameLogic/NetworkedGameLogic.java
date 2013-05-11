@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 
 import edu.brown.cs32.goingrogue.gameobjects.actions.Action;
+import edu.brown.cs32.goingrogue.gameobjects.actions.ChangeDirectionAction;
+import edu.brown.cs32.goingrogue.gameobjects.actions.MoveAction;
 import edu.brown.cs32.goingrogue.gameobjects.creatures.Attribute;
 import edu.brown.cs32.goingrogue.gameobjects.creatures.Creature;
 import edu.brown.cs32.goingrogue.gameobjects.creatures.Player;
@@ -97,10 +99,14 @@ public class NetworkedGameLogic extends GameLogic
                 	if(c.equals(player)){
                 		
                 	}
-                    Creature test = a.actOnClone(c);
-                    if(crrntMap.isValid(test.getCenterPosition()) && !c.containsAttribute(Attribute.PLAYER))
+                	boolean goodAction = true;
+                	if(a instanceof MoveAction || a instanceof ChangeDirectionAction){
+                		Creature test = a.actOnClone(c);
+                		goodAction = crrntMap.isValid(test.getCenterPosition());
+                	}
+                    if(goodAction && !c.containsAttribute(Attribute.PLAYER))
                         a.act(c);
-                    else if(c.containsAttribute(Attribute.PLAYER) && crrntMap.isValid(test.getPosition()))
+                    else if(c.containsAttribute(Attribute.PLAYER) && goodAction)
                     {
                         a.act(c);
                     }

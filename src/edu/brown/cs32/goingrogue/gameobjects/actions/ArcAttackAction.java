@@ -1,12 +1,13 @@
 package edu.brown.cs32.goingrogue.gameobjects.actions;
 
-import edu.brown.cs32.goingrogue.gameobjects.creatures.Creature;
-import edu.brown.cs32.goingrogue.util.Util;
-
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
+import edu.brown.cs32.goingrogue.gameobjects.creatures.Creature;
+import edu.brown.cs32.goingrogue.gameobjects.items.GridItem;
+import edu.brown.cs32.goingrogue.util.Util;
 
 /**
  *
@@ -39,7 +40,11 @@ public class ArcAttackAction extends Action {
             System.out.println(_direction);
             newPos[0] += creature.getPosition().getX();
             newPos[1] += creature.getPosition().getY();
-            creature.setPosition(new Point2D.Double(newPos[0], newPos[1]));
+            if(!(creature instanceof GridItem)){
+	            Action knockback = new KnockBackAction(_direction, creature, (int)KNOCKBACK_DIST);
+	            //creature.setPosition(new Point2D.Double(newPos[0], newPos[1]));
+	            creature.addAction(knockback);
+            }
         }
         _actedOn.add(creature);
     }

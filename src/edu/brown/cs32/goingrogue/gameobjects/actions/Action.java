@@ -27,7 +27,7 @@ public abstract class Action {
     }
 
     public Creature actOnClone(Creature creature) throws CloneNotSupportedException {
-        Creature clone = creature.createNewInstance();
+        Creature clone = creature.createShadowInstance();
         act(clone);
         return clone;
     }

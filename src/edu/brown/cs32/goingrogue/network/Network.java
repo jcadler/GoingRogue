@@ -11,6 +11,7 @@ import java.util.List;
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.EndPoint;
 import com.esotericsoftware.kryo.serializers.JavaSerializer;
+import com.esotericsoftware.kryo.serializers.FieldSerializer;
 
 import edu.brown.cs32.goingrogue.gameobjects.actions.Action;
 import edu.brown.cs32.goingrogue.gameobjects.actions.ActionAnimation;
@@ -64,6 +65,7 @@ public class Network {
 		Kryo k = e.getKryo();
 		//	Register any and all classes being sent over the network!
 		//	Key Classes
+		k.setDefaultSerializer(FieldSerializer.class);
 		k.register(File.class, new JavaSerializer());
 		k.register(RoguePort.class);
 		k.register(NetworkedGameLogic.class);
